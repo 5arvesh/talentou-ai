@@ -182,9 +182,9 @@ export function JDPreviewPanel() {
     }, 500);
   };
 
-  const isComplete = stages.jobDetails.completed && 
-                     stages.skillsResponsibilities.completed && 
-                     stages.interviewerNomination.completed;
+  const isComplete = stages.jobDetails.completed &&
+                     stages.skillsResponsibilities.completed &&
+                     stages.interviewSetup.completed;
 
   // Mock company data - would come from TA Plan context
   const companyInfo = {

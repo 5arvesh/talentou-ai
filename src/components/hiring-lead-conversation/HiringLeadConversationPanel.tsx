@@ -2,7 +2,7 @@ import React from 'react';
 import { useHiringLeadConversation } from '@/context/HiringLeadConversationContext';
 import { JobDetailsForm } from './panel-stages/JobDetailsForm';
 import { SkillsResponsibilitiesPanel } from './panel-stages/SkillsResponsibilitiesPanel';
-import { InterviewerNominationPanel } from './panel-stages/InterviewerNominationPanel';
+import { InterviewSetupPanel } from './panel-stages/InterviewSetupPanel';
 import { JDPreviewPanel } from './panel-stages/JDPreviewPanel';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -11,7 +11,7 @@ import { Check } from 'lucide-react';
 const sections = [
   { id: 0, title: 'Job Details', key: 'jobDetails' as const, component: JobDetailsForm },
   { id: 1, title: 'Skills & Responsibilities', key: 'skillsResponsibilities' as const, component: SkillsResponsibilitiesPanel },
-  { id: 2, title: 'Interviewer Nomination', key: 'interviewerNomination' as const, component: InterviewerNominationPanel },
+  { id: 2, title: 'Interview Setup', key: 'interviewSetup' as const, component: InterviewSetupPanel },
   { id: 3, title: 'View Job Description', key: 'viewJD' as const, component: JDPreviewPanel },
 ];
 
@@ -44,10 +44,8 @@ export function HiringLeadConversationPanel() {
       case 1: // Skills & Responsibilities
         return jobDetails.keySkills.length > 0 &&
                jobDetails.responsibilities.length > 0;
-      case 2: // Interviewer Nomination
-        return jobDetails.interviewerType === 'self' || 
-               jobDetails.existingInterviewerName.trim() !== '' || 
-               jobDetails.nominatedEmail.trim() !== '';
+      case 2: // Interview Setup — always completable
+        return true;
       case 3: // View JD (always complete if we get here)
         return true;
       default:
@@ -87,7 +85,7 @@ export function HiringLeadConversationPanel() {
       addChatMessage({
         id: Date.now(),
         sender: 'ai',
-        content: "Perfect! Now let's choose who will conduct the interviews for this position.",
+        content: "Perfect! Now let's set up the interview structure for this position.",
         name: 'Talentou AI',
         stageIndex: 2
       });
@@ -103,20 +101,9 @@ export function HiringLeadConversationPanel() {
         stageIndex: 3
       });
       
-      completeStage('interviewerNomination');
+      completeStage('interviewSetup');
       setCurrentStage(3);
     }
-  };
-
-  const handleCreatePosition = () => {
-    addChatMessage({
-      id: Date.now(),
-      sender: 'ai',
-      content: "Congratulations! Your position has been created successfully. The interviewer will be notified and you can start receiving candidates!",
-      name: 'Talentou AI',
-      stageIndex: 2
-    });
-    completeStage('interviewerNomination');
   };
 
   return (

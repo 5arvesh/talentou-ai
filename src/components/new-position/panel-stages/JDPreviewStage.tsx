@@ -112,20 +112,11 @@ export function JDPreviewStage() {
 
             {/* Team Info */}
             <Card className="p-4 bg-muted/20 border-dashed">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <User className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Hiring Lead</p>
-                    <p className="font-medium text-foreground">{jobDetails.hiringLead}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <User className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Interviewer</p>
-                    <p className="font-medium text-foreground">{jobDetails.interviewerName}</p>
-                  </div>
+              <div className="flex items-center gap-3">
+                <User className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Hiring Lead</p>
+                  <p className="font-medium text-foreground">{jobDetails.hiringLead}</p>
                 </div>
               </div>
             </Card>

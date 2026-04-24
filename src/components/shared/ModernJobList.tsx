@@ -24,7 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-export type RoleType = "ta-leader" | "recruiter" | "hiring-lead" | "interviewer";
+export type RoleType = "ta-leader" | "recruiter" | "hiring-lead";
 
 export interface JobItem {
   id: string | number;
@@ -84,21 +84,18 @@ const DEFAULT_COLUMNS: Record<RoleType, string[]> = {
   "ta-leader": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings"],
   "recruiter": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings"],
   "hiring-lead": ["id", "jobRole", "experience", "status", "applicants", "openings"],
-  "interviewer": ["id", "jobRole", "status"]
 };
 
 const DROPDOWN_FIELDS: Record<RoleType, string[]> = {
   "ta-leader": ["recruiter", "hiringLead", "budget", "daysOpen"],
-  "recruiter": ["hiringLead", "interviewer", "budget", "newApplicants"],
-  "hiring-lead": ["recruiter", "interviewer", "budget", "daysOpen"],
-  "interviewer": ["hiringLead", "recruiter", "budget"]
+  "recruiter": ["hiringLead", "budget", "newApplicants"],
+  "hiring-lead": ["recruiter", "budget", "daysOpen"],
 };
 
 const FILTER_COLUMNS_AVAILABLE: Record<RoleType, string[]> = {
-  "ta-leader": [...DEFAULT_COLUMNS["ta-leader"], ...DROPDOWN_FIELDS["ta-leader"], "project", "skills", "interviewer"],
-  "recruiter": [...DEFAULT_COLUMNS["recruiter"], ...DROPDOWN_FIELDS["recruiter"], "project", "skills", "interviewer", "location"],
+  "ta-leader": [...DEFAULT_COLUMNS["ta-leader"], ...DROPDOWN_FIELDS["ta-leader"], "project", "skills"],
+  "recruiter": [...DEFAULT_COLUMNS["recruiter"], ...DROPDOWN_FIELDS["recruiter"], "project", "skills", "location"],
   "hiring-lead": [...DEFAULT_COLUMNS["hiring-lead"], ...DROPDOWN_FIELDS["hiring-lead"], "project", "skills", "location"],
-  "interviewer": [...DEFAULT_COLUMNS["interviewer"], ...DROPDOWN_FIELDS["interviewer"], "project", "skills", "location"],
 };
 
 export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListProps) {
@@ -206,13 +203,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         if (role === "ta-leader") navigate(`/sales-plan/candidates?jobRole=${encodedRole}`);
         else if (role === "recruiter") navigate(`/ta-associate/candidates?jobId=${job.id}`);
         else if (role === "hiring-lead") navigate(`/hiring-lead/candidates?jobRole=${encodedRole}`);
-        else if (role === "interviewer") navigate(`/interviewer/candidates?jobRole=${encodedRole}`);
         break;
       case "view-jd":
         if (role === "ta-leader") navigate(`/sales-plan/jd/${job.id}`);
         else if (role === "recruiter") navigate(`/ta-associate/jd/${job.id}`);
         else if (role === "hiring-lead") navigate(`/hiring-lead/jd/${job.id}`);
-        else if (role === "interviewer") navigate(`/interviewer/jd/${job.id}`);
         break;
       case "edit-jd":
         navigate(`/hiring-lead/jd/${job.id}/edit`);

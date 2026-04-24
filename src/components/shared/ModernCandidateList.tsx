@@ -55,6 +55,9 @@ interface ModernCandidateListProps {
   candidates: CandidateItem[];
   title?: string;
   onAction?: (action: string, candidate: CandidateItem) => void;
+  selectedIds?: Set<string | number>;
+  onSelectionChange?: (id: string | number, selected: boolean) => void;
+  onSelectAll?: (selected: boolean, visibleIds: Array<string | number>) => void;
 }
 
 type ColumnDef = {
@@ -78,7 +81,7 @@ const ALL_COLUMNS: ColumnDef[] = [
 
 const DEFAULT_COLUMNS = ["name", "yearsOfExperience", "skills", "roleFitScore", "status"];
 
-export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction }: ModernCandidateListProps) {
+export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction, selectedIds, onSelectionChange, onSelectAll }: ModernCandidateListProps) {
   const navigate = useNavigate();
   const [globalSearch, setGlobalSearch] = useState("");
   const [visibleColumns, setVisibleColumns] = useState<string[]>(DEFAULT_COLUMNS);
@@ -235,7 +238,6 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
         if (role === "ta-leader") navigate(`/sales-plan/candidate-profile/${candidate.id}`);
         else if (role === "recruiter") navigate(`/ta-associate/candidate-profile/${candidate.id}`);
         else if (role === "hiring-lead") navigate(`/hiring-lead/candidate-profile/${candidate.id}`);
-        else if (role === "interviewer") navigate(`/interviewer/candidate-profile/${candidate.id}`);
         break;
       case "schedule-interview":
         break;
@@ -509,6 +511,15 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           <Table className="w-full min-w-max">
             <TableHeader>
               <TableRow className="bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 border-b-0">
+                {onSelectionChange && (
+                  <TableHead className="w-10 pl-4 pb-3 pt-4">
+                    <Checkbox
+                      checked={processedCandidates.length > 0 && processedCandidates.every(c => selectedIds?.has(c.id))}
+                      onCheckedChange={(checked) => onSelectAll?.(!!checked, processedCandidates.map(c => c.id))}
+                      className="border-white data-[state=checked]:bg-white data-[state=checked]:text-[#503afd]"
+                    />
+                  </TableHead>
+                )}
                 {visibleColumns.map(colId => {
                   const colDef = ALL_COLUMNS.find(c => c.id === colId);
                   if (!colDef) return null;
@@ -534,14 +545,23 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                   const isActuallyNew = candidate.isNew && !viewedCandidates.has(candidate.id);
 
                   return (
-                    <TableRow 
-                      key={candidate.id} 
+                    <TableRow
+                      key={candidate.id}
                       className={cn(
                         "group hover:bg-gray-50/60 transition-colors border-b border-gray-50 cursor-pointer",
-                        isActuallyNew ? "bg-[#e5f5ff]" : ""
+                        isActuallyNew ? "bg-[#e5f5ff]" : "",
+                        selectedIds?.has(candidate.id) ? "bg-purple-50/40" : ""
                       )}
                       onClick={() => handleActionClick("view-profile", candidate)}
                     >
+                      {onSelectionChange && (
+                        <TableCell className="pl-4 py-3" onClick={(e) => e.stopPropagation()}>
+                          <Checkbox
+                            checked={selectedIds?.has(candidate.id) ?? false}
+                            onCheckedChange={(checked) => onSelectionChange(candidate.id, !!checked)}
+                          />
+                        </TableCell>
+                      )}
                       {visibleColumns.map(colId => {
                         const value = getFieldValue(candidate, colId);
                         

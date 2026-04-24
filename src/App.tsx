@@ -73,11 +73,6 @@ import CandidatesPageWrapper_TALeader from "./pages/CandidatesPageWrapper_TALead
 import CandidateCreationPage from "./pages/CandidateCreationPage";
 import CandidatesPageWrapper_SalesPlan from "./pages/CandidatesPageWrapper_SalesPlan";
 import CandidateProfilePage from "./pages/CandidateProfilePage";
-import InterviewerJobsPage from "./pages/InterviewerJobsPage";
-import InterviewerHomePage from "./pages/InterviewerHomePage";
-import InterviewerQuestionnaireChat from "./pages/InterviewerQuestionnaireChat";
-import InterviewerCandidatesPage from "./pages/InterviewerCandidatesPage";
-import InterviewRecordingPage from "./pages/InterviewRecordingPage";
 import HRHomePage from "./pages/hr/HRHomePage";
 import HRTemplatesPage from "./pages/hr/HRTemplatesPage";
 import HRCandidatesPage from "./pages/hr/HRCandidatesPage";
@@ -214,13 +209,6 @@ const App = () => (
                 <Route path="/template" element={<Index contentType="template" />} />
                 <Route path="/company-detail/:id" element={<Index contentType="company-detail" />} />
                 <Route path="/contact-detail/:id" element={<Index contentType="contact-detail" />} />
-                
-                {/* Interviewer Routes */}
-                <Route path="/interviewer/home" element={<InterviewerHomePage />} />
-                <Route path="/interviewer/jobs" element={<InterviewerJobsPage />} />
-                <Route path="/interviewer/questionnaire/create" element={<InterviewerQuestionnaireChat />} />
-                <Route path="/interviewer/candidates" element={<InterviewerCandidatesPage />} />
-                <Route path="/interviewer/candidates/recording" element={<InterviewRecordingPage />} />
                 
                 {/* HR Routes */}
           <Route path="/hr/home" element={<HRHomePage />} />

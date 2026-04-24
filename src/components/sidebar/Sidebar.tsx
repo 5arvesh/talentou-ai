@@ -67,8 +67,6 @@ export function Sidebar({ className }: SidebarProps) {
         return "/ta-associate-plan";
       case "hiring-lead":
         return "/hiring-lead-plan/home";
-      case "interviewer":
-        return "/interviewer/home";
       default:
         return "/sales-plan";
     }
@@ -81,8 +79,6 @@ export function Sidebar({ className }: SidebarProps) {
         return "/hiring-lead";
       case "ta-associate":
         return "/ta-associate";
-      case "interviewer":
-        return "/interviewer";
       default:
         return "/sales-plan";
     }
@@ -151,14 +147,13 @@ export function Sidebar({ className }: SidebarProps) {
 
           <NavItem
             icon={<LayoutDashboard size={20} />}
-            label={userRole === "interviewer" ? "Home" : userRole === "hiring-lead" ? "Home" : "TA Plan"}
+            label={userRole === "hiring-lead" ? "Home" : "TA Plan"}
             to={getTAPlanRoute()}
             collapsed={collapsed}
             active={
               location.pathname.includes("/sales-plan") ||
               location.pathname.includes("/ta-associate-plan") ||
               location.pathname.includes("/hiring-lead-plan") ||
-              location.pathname.includes("/interviewer/home") ||
               location.pathname.includes("/message") ||
               location.pathname.includes("/market") ||
               location.pathname.includes("/media") ||
@@ -184,7 +179,7 @@ export function Sidebar({ className }: SidebarProps) {
               label="Jobs"
               to={`${getBaseRoute()}/jobs`}
               collapsed={collapsed}
-              active={location.pathname.includes("/job-list") || (userRole === "interviewer" && location.pathname.includes("/jobs"))}
+              active={location.pathname.includes("/job-list") || location.pathname.includes("/jobs")}
             />
             <NavItem
               icon={<Users size={20} />}
@@ -195,15 +190,13 @@ export function Sidebar({ className }: SidebarProps) {
             />
           
 
-          {userRole !== "interviewer" && (
-            <NavItem
-              icon={<MessageCircle size={20} />}
-              label="Dashboard"
-              to={userRole === "ta-associate" ? "/ta-associate/dashboard" : "/sales-plan/dashboard"}
-              collapsed={collapsed}
-              active={userRole === "ta-associate" ? location.pathname === "/ta-associate/dashboard" : location.pathname === "/sales-plan/dashboard"}
-            />
-          )}
+          <NavItem
+            icon={<MessageCircle size={20} />}
+            label="Dashboard"
+            to={userRole === "ta-associate" ? "/ta-associate/dashboard" : "/sales-plan/dashboard"}
+            collapsed={collapsed}
+            active={userRole === "ta-associate" ? location.pathname === "/ta-associate/dashboard" : location.pathname === "/sales-plan/dashboard"}
+          />
           {/* {userRole === "ta-associate" && (
             <>
               <NavItem

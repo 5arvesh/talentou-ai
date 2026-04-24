@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 const sections = [
   { id: 0, title: 'Job Details', number: 1, key: 'jobDetails' as const },
   { id: 1, title: 'Skills & Responsibilities', number: 2, key: 'skillsResponsibilities' as const },
-  { id: 2, title: 'Interviewer Nomination', number: 3, key: 'interviewerNomination' as const },
+  { id: 2, title: 'Interview Setup', number: 3, key: 'interviewSetup' as const },
   { id: 3, title: 'View Job Description', number: 4, key: 'viewJD' as const },
 ];
 interface HiringLeadConversationProgressProps {

@@ -36,7 +36,7 @@ export interface JobDetails {
   desiredSkills: string[];
   responsibilities: string[];
   preferredQualifications: string[];
-  interviewerName: string;
+  behavioralQuestionsEnabled: boolean;
   hiringLead: string;
   project: string;
 }
@@ -64,7 +64,7 @@ export const mockJobDetails: JobDetails = {
     "Experience with agile methodologies",
     "Strong problem-solving skills"
   ],
-  interviewerName: "Ramachandran",
+  behavioralQuestionsEnabled: false,
   hiringLead: "Ananthan",
   project: "Amgen"
 };

@@ -12,6 +12,21 @@ interface ConversationStage {
   completed: boolean;
 }
 
+export interface TechnicalQuestion {
+  id: string;
+  text: string;
+  answerKey: string;
+  estimatedMinutes: number;
+  type: 'scenario' | 'factual';
+  source: 'ai' | 'manual';
+}
+
+export interface InterviewSetup {
+  technicalQuestions: TechnicalQuestion[];
+  totalDurationMins: number;
+  allowBehavioralQuestions: boolean;
+}
+
 interface JobDetails {
   // Stage 1: Basic Job Details
   title: string;
@@ -23,20 +38,12 @@ interface JobDetails {
   minExperience: string;
   maxBudget: string;
   sampleProfiles: string[];
-  
+
   // Stage 2: AI Generated Skills & Responsibilities
   keySkills: string[];
   desiredSkills: string[];
   preferredQualifications: string[];
   responsibilities: string[];
-  
-  // Stage 3: Interviewer Nomination
-  interviewerType: 'self' | 'existing' | 'nominate';
-  nominatedEmail?: string;
-  nominatedName?: string;
-  existingInterviewerId?: string;
-  existingInterviewerName?: string;
-  existingInterviewerEmail?: string;
 }
 
 interface HiringLeadConversationContextType {
@@ -45,15 +52,17 @@ interface HiringLeadConversationContextType {
   stages: {
     jobDetails: ConversationStage;
     skillsResponsibilities: ConversationStage;
-    interviewerNomination: ConversationStage;
+    interviewSetup: ConversationStage;
     viewJD: ConversationStage;
   };
   jobDetails: JobDetails;
+  interviewSetup: InterviewSetup;
   progressPercentage: number;
   addChatMessage: (message: Message) => void;
   setCurrentStage: (stage: number) => void;
-  completeStage: (stage: 'jobDetails' | 'skillsResponsibilities' | 'interviewerNomination' | 'viewJD') => void;
+  completeStage: (stage: 'jobDetails' | 'skillsResponsibilities' | 'interviewSetup' | 'viewJD') => void;
   updateJobDetails: (details: Partial<JobDetails>) => void;
+  updateInterviewSetup: (updates: Partial<InterviewSetup>) => void;
 }
 
 const HiringLeadConversationContext = createContext<HiringLeadConversationContextType | undefined>(undefined);
@@ -64,7 +73,7 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
   const [stages, setStages] = useState({
     jobDetails: { completed: false },
     skillsResponsibilities: { completed: false },
-    interviewerNomination: { completed: false },
+    interviewSetup: { completed: false },
     viewJD: { completed: false }
   });
   const [jobDetails, setJobDetails] = useState<JobDetails>({
@@ -78,27 +87,24 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     minExperience: '',
     maxBudget: '',
     sampleProfiles: [],
-    
+
     // Stage 2
-      keySkills: [],
-      desiredSkills: [],
-      preferredQualifications: [],
-      responsibilities: [],
-    
-    // Stage 3
-    interviewerType: 'self',
-    nominatedEmail: '',
-    nominatedName: '',
-    existingInterviewerId: '',
-    existingInterviewerName: '',
-    existingInterviewerEmail: ''
+    keySkills: [],
+    desiredSkills: [],
+    preferredQualifications: [],
+    responsibilities: [],
+  });
+  const [interviewSetup, setInterviewSetup] = useState<InterviewSetup>({
+    technicalQuestions: [],
+    totalDurationMins: 15,
+    allowBehavioralQuestions: false,
   });
 
   const addChatMessage = (message: Message) => {
     setChatMessages(prev => [...prev, message]);
   };
 
-  const completeStage = (stage: 'jobDetails' | 'skillsResponsibilities' | 'interviewerNomination' | 'viewJD') => {
+  const completeStage = (stage: 'jobDetails' | 'skillsResponsibilities' | 'interviewSetup' | 'viewJD') => {
     setStages(prev => ({
       ...prev,
       [stage]: { completed: true }
@@ -107,6 +113,10 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
 
   const updateJobDetails = (details: Partial<JobDetails>) => {
     setJobDetails(prev => ({ ...prev, ...details }));
+  };
+
+  const updateInterviewSetup = (updates: Partial<InterviewSetup>) => {
+    setInterviewSetup(prev => ({ ...prev, ...updates }));
   };
 
   const completedStages = Object.values(stages).filter(s => s.completed).length;
@@ -119,11 +129,13 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
         currentStage,
         stages,
         jobDetails,
+        interviewSetup,
         progressPercentage,
         addChatMessage,
         setCurrentStage,
         completeStage,
-        updateJobDetails
+        updateJobDetails,
+        updateInterviewSetup,
       }}
     >
       {children}

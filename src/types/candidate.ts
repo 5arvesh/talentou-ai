@@ -13,7 +13,7 @@ export interface Candidate {
   status: string;
   statusTooltip: string;
   hiringLead: string;
-  interviewer: string;
+  interviewer?: string;
 }
 
 export interface ParsedCVData {

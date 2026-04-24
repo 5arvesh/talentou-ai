@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useNewPosition, existingRecruiters, getRecruiterJobs } from '@/context/NewPositionContext';
 
@@ -219,7 +219,25 @@ export function RecruiterAssignmentStage() {
           {selectedRecruiter && (
             <div className="mt-8 space-y-4 border-t border-border pt-6">
               <h3 className="text-lg font-bold text-[#7800D3]">{selectedRecruiter.name}'s Jobs & Priorities</h3>
-              
+
+              {jobDetails.behavioralQuestionsEnabled && (
+                <Card className="p-4 bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+                  <div className="flex items-start gap-3">
+                    <Info className="h-5 w-5 text-blue-500 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                        Behavioral Questions Required
+                      </p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        The hiring lead enabled behavioral questions for this role. The assigned
+                        recruiter will be notified that behavioral questions must be created before
+                        scheduling any interviews.
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
               {highPriorityCount > 2 && (
                 <Card className="p-4 bg-amber-50 border-amber-200">
                   <div className="flex items-start gap-3">

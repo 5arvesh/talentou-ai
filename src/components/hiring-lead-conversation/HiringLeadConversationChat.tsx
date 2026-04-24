@@ -19,9 +19,9 @@ const stageSuggestions = {
     "What about soft skills?",
   ],
   2: [
-    "Can I assign multiple interviewers?",
-    "What happens after I create the position?",
-    "How do I change the interviewer later?",
+    "How does AI generate questions?",
+    "What is the default interview duration?",
+    "Can I add behavioral questions?",
   ],
 };
 
@@ -89,18 +89,18 @@ export function HiringLeadConversationChat({ scrollToStageRef }: HiringLeadConve
         } else if (lowerMessage.includes('soft skills')) {
           aiResponse = "Soft skills can be added as either Required or Preferred Skills. Common ones include 'Communication', 'Leadership', 'Team Collaboration', and 'Problem Solving'.";
         } else {
-          aiResponse = "The skills and responsibilities have been generated based on your job details. Feel free to edit, add, or remove any items. When you're satisfied, click 'Next' to choose the interviewer.";
+          aiResponse = "The skills and responsibilities have been generated based on your job details. Feel free to edit, add, or remove any items. When you're satisfied, click 'Next' to set up the interview structure.";
         }
         break;
-      case 2: // Interviewer Nomination
-        if (lowerMessage.includes('multiple') || lowerMessage.includes('interviewers')) {
-          aiResponse = "Currently, you can assign one primary interviewer per position. However, you can update this later from the job settings if you need to add more interviewers to the panel.";
-        } else if (lowerMessage.includes('after') || lowerMessage.includes('happens') || lowerMessage.includes('next')) {
-          aiResponse = "Once you create the position, it will be published and visible to your recruitment team. The assigned interviewer will receive a notification and can start reviewing candidates as they come in.";
-        } else if (lowerMessage.includes('change') || lowerMessage.includes('later')) {
-          aiResponse = "Yes, you can change the interviewer anytime from the job settings page. Just navigate to the position and click 'Edit Interviewer' to make changes.";
+      case 2: // Interview Setup
+        if (lowerMessage.includes('ai') || lowerMessage.includes('generate') || lowerMessage.includes('questions')) {
+          aiResponse = "AI generates technical questions tailored to the job role and required skills. Scenario-based questions estimate ~4 mins each, while factual questions estimate ~2 mins. You can edit, delete, or add your own questions manually.";
+        } else if (lowerMessage.includes('duration') || lowerMessage.includes('time') || lowerMessage.includes('default')) {
+          aiResponse = "The default interview duration is 15 minutes, but you can adjust it from 1 to 120 minutes. The time is split across Technical → Behavioral → AI Dynamic sections, in priority order.";
+        } else if (lowerMessage.includes('behavioral') || lowerMessage.includes('recruiter')) {
+          aiResponse = "If you enable the behavioral questions toggle, the recruiter assigned to this role will be able to add behavioral questions per candidate before scheduling their interview. The time budget is allocated from the remaining time after technical questions.";
         } else {
-          aiResponse = "Please choose whether you'll conduct the interviews yourself or nominate someone else. If nominating, just enter their email address and we'll send them an invitation!";
+          aiResponse = "In this step you can add technical questions (AI-generated or manual), set the total interview duration, and decide whether to allow the recruiter to add behavioral questions for candidates.";
         }
         break;
       default:

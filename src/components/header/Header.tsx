@@ -83,8 +83,7 @@ export function Header() {
     location.pathname.includes('/ta-associate-plan') || 
     location.pathname.includes('/ta-associate/jd') || 
     location.pathname.includes('/hiring-lead-plan') || 
-    location.pathname.includes('/hiring-lead/conversation') ||
-    location.pathname.includes('/interviewer/questionnaire');
+    location.pathname.includes('/hiring-lead/conversation');
 
   return (
     <header className="w-full bg-white border-b border-gray-200 py-1.5 px-6 res-1200:py-1 res:1200:px-3 res-1400:py-1.5 res-1600:py-1.5">

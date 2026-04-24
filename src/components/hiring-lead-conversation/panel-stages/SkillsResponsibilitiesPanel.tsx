@@ -359,7 +359,7 @@ export function SkillsResponsibilitiesPanel() {
           disabled={jobDetails.keySkills.length === 0 || jobDetails.responsibilities.length === 0}
           className="w-full h-12 text-base font-semibold bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Next: Choose Interviewer
+          Next: Set Up Interview
         </Button>
       </div>
     </div>

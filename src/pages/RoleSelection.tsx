@@ -23,8 +23,6 @@ export function RoleSelection() {
         userName = "Roney Soloman";
       } else if (selectedRole === "hiring-lead") {
         userName = "Sarah Johnson";
-      } else if (selectedRole === "interviewer") {
-        userName = "Alex Martinez";
       } else if (selectedRole === "hr") {
         userName = "Himanshi";
       } else if (selectedRole === "super-admin") {
@@ -41,8 +39,6 @@ export function RoleSelection() {
         navigate("/sales-plan");
       } else if (selectedRole === "hiring-lead") {
         navigate("/hiring-lead-plan/dashboard");
-      } else if (selectedRole === "interviewer") {
-        navigate("/interviewer/home");
       } else if (selectedRole === "hr") {
         navigate("/hr/home");
       } else if (selectedRole === "super-admin") {
@@ -92,16 +88,7 @@ export function RoleSelection() {
               Hiring Lead
             </Button>
 
-            <Button 
-              onClick={() => handleRoleSelect("interviewer")}
-              style={selectedRole === "interviewer" ? { backgroundColor: "#4ead3b", color: "black" } : {}}
-              className={`h-12 border res-1200:h-8 res-1200:text-xs ${selectedRole === "interviewer" ? "" : "bg-white text-gray-700 border-gray-300"}`}
-              variant={selectedRole === "interviewer" ? undefined : "outline"}
-            >
-              Interviewer
-            </Button>
-
-            <Button 
+            <Button
               onClick={() => handleRoleSelect("hr")}
               style={selectedRole === "hr" ? { backgroundColor: "#4ead3b", color: "black" } : {}}
               className={`h-12 border res-1200:h-8 res-1200:text-xs ${selectedRole === "hr" ? "" : "bg-white text-gray-700 border-gray-300"}`}
