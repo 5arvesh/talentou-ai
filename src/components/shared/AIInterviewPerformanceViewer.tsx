@@ -281,77 +281,116 @@ export function AIInterviewPerformanceViewer({ role }: Props) {
           </div>
 
           {/* Controls bar */}
-          <div className="bg-white border-t border-gray-100 px-5 pt-4 pb-3 shrink-0">
+          <div className="bg-[#0f0f0f] border-t border-white/8 px-4 pt-3 pb-3 shrink-0">
 
-            {/* ── Timeline with flag markers ── */}
-            <div className="relative w-full mb-1">
-              {/* Flag markers row — sits above the slider */}
-              <div className="relative h-7 w-full pointer-events-none mb-0.5">
-                {importantMoments.map((m, i) => {
-                  const pct = duration > 0 ? (m.startTime / duration) * 100 : 0;
-                  const color = getSeverityColor(m.severity);
-                  return (
-                    <Tooltip key={i}>
-                      <TooltipTrigger asChild>
-                        <button
-                          className="absolute bottom-0 -translate-x-1/2 flex flex-col items-center pointer-events-auto group"
-                          style={{ left: `${pct}%` }}
-                          onClick={() => handleSeek(m.startTime)}
-                        >
-                          {/* Time label */}
-                          <span
-                            className="text-[9px] font-mono font-semibold leading-none mb-0.5 group-hover:opacity-100 opacity-80 transition-opacity"
-                            style={{ color }}
-                          >
-                            {formatTime(m.startTime)}
-                          </span>
-                          {/* Tick line */}
-                          <div
-                            className="w-px h-2.5"
-                            style={{ backgroundColor: color }}
-                          />
-                          {/* Dot */}
-                          <div
-                            className="w-2.5 h-2.5 rounded-full border-2 border-white shadow-sm -mt-px"
-                            style={{ backgroundColor: color }}
-                          />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="text-xs max-w-[160px]">
-                        <div className="flex items-center gap-1.5">
-                          <span style={{ color }}>{getMomentIcon(m.type)}</span>
-                          <span className="font-medium">{m.description}</span>
-                        </div>
-                        <p className="text-gray-400 text-[10px] mt-0.5">Click to jump to {formatTime(m.startTime)}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  );
-                })}
-              </div>
+            {/* ── YouTube-style chapter timeline ── */}
+            {(() => {
+              // Build chapters from AI questions in transcript
+              const aiTurns = liveTranscript.filter(e => e.speaker === "ai");
+              const chapters = aiTurns.map((e, i) => ({
+                startTime: e.startTime,
+                endTime: i + 1 < aiTurns.length ? aiTurns[i + 1].startTime : duration,
+                label: e.content.length > 60 ? e.content.slice(0, 57) + "…" : e.content,
+              }));
 
-              {/* Seek slider */}
-              <Slider
-                value={[currentTime]}
-                max={duration || 100}
-                step={1}
-                onValueChange={(v) => handleSeek(v[0])}
-                className="w-full"
-              />
-            </div>
+              return (
+                <div className="mb-2.5">
+                  {/* Chapter label for current position */}
+                  {(() => {
+                    const cur = chapters.findLast(c => currentTime >= c.startTime);
+                    return cur ? (
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <span className="text-[10px] text-white/40 font-mono">{formatTime(currentTime)}</span>
+                        <span className="text-[10px] text-white/60 truncate max-w-xs">{cur.label}</span>
+                      </div>
+                    ) : null;
+                  })()}
+
+                  {/* Segmented progress bar */}
+                  <div className="relative group">
+                    {/* Chapter segments */}
+                    <div className="flex items-center gap-0.5 w-full h-1 group-hover:h-2.5 transition-all duration-150 cursor-pointer"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const pct = (e.clientX - rect.left) / rect.width;
+                        handleSeek(Math.round(pct * duration));
+                      }}
+                    >
+                      {chapters.map((ch, i) => {
+                        const segWidth = ((ch.endTime - ch.startTime) / duration) * 100;
+                        const segProgress = Math.min(1, Math.max(0,
+                          (currentTime - ch.startTime) / (ch.endTime - ch.startTime)
+                        ));
+                        return (
+                          <Tooltip key={i}>
+                            <TooltipTrigger asChild>
+                              <div
+                                className="relative h-full rounded-full overflow-hidden bg-white/20 flex-shrink-0"
+                                style={{ width: `${segWidth}%` }}
+                              >
+                                <div
+                                  className="absolute inset-y-0 left-0 bg-white rounded-full transition-none"
+                                  style={{ width: `${segProgress * 100}%` }}
+                                />
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="text-xs max-w-[220px] bg-gray-900 border-gray-700">
+                              <p className="font-medium text-white">{formatTime(ch.startTime)}</p>
+                              <p className="text-gray-400 mt-0.5 leading-relaxed">{ch.label}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+
+                    {/* Proctoring event markers — sit on top of the bar */}
+                    <div className="absolute inset-x-0 -top-1 pointer-events-none">
+                      {importantMoments.map((m, i) => {
+                        const pct = duration > 0 ? (m.startTime / duration) * 100 : 0;
+                        const color = getSeverityColor(m.severity);
+                        return (
+                          <Tooltip key={i}>
+                            <TooltipTrigger asChild>
+                              <button
+                                className="absolute -translate-x-1/2 pointer-events-auto"
+                                style={{ left: `${pct}%` }}
+                                onClick={() => handleSeek(m.startTime)}
+                              >
+                                <div
+                                  className="w-2 h-2 rounded-full border border-black/30 shadow-sm hover:scale-125 transition-transform"
+                                  style={{ backgroundColor: color }}
+                                />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="text-xs max-w-[160px] bg-gray-900 border-gray-700">
+                              <div className="flex items-center gap-1.5 mb-0.5">
+                                <span style={{ color }}>{getMomentIcon(m.type)}</span>
+                                <span className="font-medium text-white">{m.description}</span>
+                              </div>
+                              <p className="text-gray-400 text-[10px]">{formatTime(m.startTime)}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Time display */}
-            <div className="flex justify-between text-xs text-gray-400 mt-1 mb-2.5 px-0.5">
+            <div className="flex justify-between text-[11px] text-white/40 font-mono mb-2.5 px-0.5">
               <span>{formatTime(currentTime)}</span>
               <span>{formatTime(duration)}</span>
             </div>
 
             {/* Playback controls + volume */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-0.5">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-gray-500 hover:text-gray-900"
+                  className="h-8 w-8 text-white/60 hover:text-white hover:bg-white/10"
                   onClick={() => handleSeek(Math.max(0, currentTime - 10))}
                 >
                   <SkipBack className="h-4 w-4" />
@@ -359,7 +398,7 @@ export function AIInterviewPerformanceViewer({ role }: Props) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-9 w-9 text-gray-900"
+                  className="h-10 w-10 text-white hover:bg-white/10 rounded-full"
                   onClick={handlePlayPause}
                 >
                   {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
@@ -367,21 +406,29 @@ export function AIInterviewPerformanceViewer({ role }: Props) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-gray-500 hover:text-gray-900"
+                  className="h-8 w-8 text-white/60 hover:text-white hover:bg-white/10"
                   onClick={() => handleSeek(Math.min(duration, currentTime + 10))}
                 >
                   <SkipForward className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="flex items-center gap-2">
-                <Volume2 className="h-4 w-4 text-gray-400" />
-                <Slider
-                  value={volume}
-                  max={100}
-                  step={1}
-                  onValueChange={setVolume}
-                  className="w-24"
-                />
+              {/* Proctoring event legend */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 text-[10px] text-white/40">
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500 inline-block" />Critical</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />Warning</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />Info</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Volume2 className="h-3.5 w-3.5 text-white/50" />
+                  <Slider
+                    value={volume}
+                    max={100}
+                    step={1}
+                    onValueChange={setVolume}
+                    className="w-20"
+                  />
+                </div>
               </div>
             </div>
           </div>

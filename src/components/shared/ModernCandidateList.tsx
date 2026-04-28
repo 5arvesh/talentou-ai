@@ -362,27 +362,34 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
     <TooltipProvider>
       <div className="p-8 max-w-full mx-auto space-y-6 animate-in fade-in duration-500 overflow-x-hidden">
         
-        {/* Top Header Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
-            <p className="text-gray-500 mt-1">Manage all candidates sourced or applied to open positions.</p>
+        {/* Top Header Section — title + inline filters + action */}
+        <div className="flex items-center gap-3 flex-wrap xl:flex-nowrap">
+          {/* Title */}
+          <div className="shrink-0">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">{title}</h1>
+            <p className="text-gray-500 text-sm mt-0.5">Manage all candidates sourced or applied to open positions.</p>
           </div>
-          <div className="flex items-center gap-3">
-            <Button className="bg-[#4EAD3B] hover:bg-[#3e8a2f] text-white">
-              <Plus className="h-4 w-4 mr-2" /> Add Candidate
-            </Button>
-          </div>
-        </div>
 
-        {/* Filters Bar */}
-        <div className="flex flex-col lg:flex-row items-center gap-4 bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
-          <div className="flex items-center gap-3 flex-wrap lg:flex-nowrap grow">
-            
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700">Job:</span>
+          {/* Inline filter bar — grows to fill space between title and button */}
+          <div className="flex items-center gap-2 flex-1 min-w-0 bg-white border border-gray-200 rounded-lg px-3 h-11 shadow-sm">
+            {/* Search */}
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 pointer-events-none" />
+              <Input
+                placeholder="Search by name, skills, or email..."
+                value={globalSearch}
+                onChange={(e) => setGlobalSearch(e.target.value)}
+                className="pl-8 border-0 shadow-none h-9 text-sm focus-visible:ring-0 bg-transparent"
+              />
+            </div>
+
+            <div className="h-5 w-px bg-gray-200 shrink-0" />
+
+            {/* Job filter */}
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-xs font-medium text-gray-500 whitespace-nowrap">Job</span>
               <Select value={selectedJob} onValueChange={setSelectedJob}>
-                <SelectTrigger className="w-48 bg-white border-none shadow-none focus:ring-0 text-gray-900 h-9">
+                <SelectTrigger className="border-0 shadow-none h-8 text-sm focus:ring-0 text-gray-700 w-[130px] pl-1">
                   <SelectValue placeholder="All Jobs" />
                 </SelectTrigger>
                 <SelectContent>
@@ -394,12 +401,13 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
               </Select>
             </div>
 
-            <div className="h-6 w-px bg-gray-200 hidden lg:block"></div>
+            <div className="h-5 w-px bg-gray-200 shrink-0" />
 
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700">Status:</span>
+            {/* Status filter */}
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-xs font-medium text-gray-500 whitespace-nowrap">Status</span>
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                <SelectTrigger className="w-40 bg-white border-none shadow-none focus:ring-0 text-gray-900 h-9">
+                <SelectTrigger className="border-0 shadow-none h-8 text-sm focus:ring-0 text-gray-700 w-[130px] pl-1">
                   <SelectValue placeholder="All Statuses" />
                 </SelectTrigger>
                 <SelectContent>
@@ -411,12 +419,13 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
               </Select>
             </div>
 
-            <div className="h-6 w-px bg-gray-200 hidden lg:block"></div>
+            <div className="h-5 w-px bg-gray-200 shrink-0" />
 
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700">Sort by:</span>
+            {/* Sort */}
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-xs font-medium text-gray-500 whitespace-nowrap">Sort</span>
               <Select value={globalSort} onValueChange={setGlobalSort}>
-                <SelectTrigger className="w-40 bg-white border-none shadow-none focus:ring-0 text-gray-900 h-9">
+                <SelectTrigger className="border-0 shadow-none h-8 text-sm focus:ring-0 text-gray-700 w-[120px] pl-1">
                   <SelectValue placeholder="Match Score" />
                 </SelectTrigger>
                 <SelectContent>
@@ -426,84 +435,71 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                 </SelectContent>
               </Select>
             </div>
-            
-            <div className="h-6 w-px bg-gray-200 hidden lg:block"></div>
-          </div>
-          
-          <div className="flex items-center gap-3 w-full lg:w-auto">
-              <Popover 
-                open={isColumnFilterOpen} 
-                onOpenChange={(open) => {
-                  if (open) setTempVisibleColumns(visibleColumns);
-                  setIsColumnFilterOpen(open);
-                }}
-              >
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="bg-white border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm ml-2">
-                    <ListFilter className="mr-2 h-4 w-4" /> Columns
+
+            <div className="h-5 w-px bg-gray-200 shrink-0" />
+
+            {/* Columns popover */}
+            <Popover
+              open={isColumnFilterOpen}
+              onOpenChange={(open) => {
+                if (open) setTempVisibleColumns(visibleColumns);
+                setIsColumnFilterOpen(open);
+              }}
+            >
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 px-2.5 text-xs text-gray-600 hover:text-[#7800D4] hover:bg-[#7800D4]/8 shrink-0 gap-1.5">
+                  <ListFilter className="h-3.5 w-3.5" /> Columns
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-56 p-3 rounded-xl shadow-lg border-gray-100">
+                <div className="text-sm font-semibold text-gray-700 mb-3">Toggle Columns</div>
+                <div className="flex items-center space-x-2 mb-3 pb-3 border-b border-gray-100">
+                  <Checkbox
+                    id="select-all-candidates"
+                    checked={tempVisibleColumns.length === ALL_COLUMNS.length}
+                    onCheckedChange={(checked) => {
+                      if (checked) setTempVisibleColumns(ALL_COLUMNS.map(c => c.id));
+                      else setTempVisibleColumns([]);
+                    }}
+                  />
+                  <label htmlFor="select-all-candidates" className="text-sm font-medium leading-none cursor-pointer">
+                    Select All
+                  </label>
+                </div>
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                  {ALL_COLUMNS.map(col => (
+                    <div key={col.id} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`col-cand-${col.id}`}
+                        checked={tempVisibleColumns.includes(col.id)}
+                        onCheckedChange={(checked) => {
+                          if (checked) setTempVisibleColumns([...tempVisibleColumns, col.id]);
+                          else setTempVisibleColumns(tempVisibleColumns.filter(c => c !== col.id));
+                        }}
+                      />
+                      <label htmlFor={`col-cand-${col.id}`} className="text-sm leading-none cursor-pointer">
+                        {col.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-3 border-t border-gray-100">
+                  <Button
+                    size="sm"
+                    className="bg-[#7800D3] hover:bg-[#7800D3]/90 text-white w-full rounded-md"
+                    onClick={() => { setVisibleColumns(tempVisibleColumns); setIsColumnFilterOpen(false); }}
+                  >
+                    Apply
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="w-56 p-3 rounded-xl shadow-lg border-gray-100">
-                  <div className="text-sm font-semibold text-gray-700 mb-3">
-                    Toggle Columns
-                  </div>
-                  
-                  <div className="flex items-center space-x-2 mb-3 pb-3 border-b border-gray-100">
-                    <Checkbox 
-                      id="select-all-candidates" 
-                      checked={tempVisibleColumns.length === ALL_COLUMNS.length}
-                      onCheckedChange={(checked) => {
-                        if (checked) setTempVisibleColumns(ALL_COLUMNS.map(c => c.id));
-                        else setTempVisibleColumns([]);
-                      }}
-                    />
-                    <label htmlFor="select-all-candidates" className="text-sm font-medium leading-none cursor-pointer">
-                      Select All
-                    </label>
-                  </div>
-
-                  <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
-                    {ALL_COLUMNS.map(col => (
-                      <div key={col.id} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`col-cand-${col.id}`}
-                          checked={tempVisibleColumns.includes(col.id)}
-                          onCheckedChange={(checked) => {
-                            if (checked) setTempVisibleColumns([...tempVisibleColumns, col.id]);
-                            else setTempVisibleColumns(tempVisibleColumns.filter(c => c !== col.id));
-                          }}
-                        />
-                        <label htmlFor={`col-cand-${col.id}`} className="text-sm leading-none cursor-pointer">
-                          {col.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end">
-                     <Button 
-                       size="sm" 
-                       className="bg-[#7800D3] hover:bg-[#7800D3]/90 text-white w-full rounded-md"
-                       onClick={() => {
-                         setVisibleColumns(tempVisibleColumns);
-                         setIsColumnFilterOpen(false);
-                       }}
-                     >
-                       Apply
-                     </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
-
-            <div className="relative w-full lg:w-72">
-              <Input
-                placeholder="Search by name, skills, or email..."
-                value={globalSearch}
-                onChange={(e) => setGlobalSearch(e.target.value)}
-                className="pl-4 pr-10 h-10 bg-white border-gray-200 shadow-sm focus-visible:ring-[#7800D4]"
-              />
-            </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
+
+          {/* Add Candidate button */}
+          <Button className="bg-[#4EAD3B] hover:bg-[#3e8a2f] text-white shrink-0">
+            <Plus className="h-4 w-4 mr-2" /> Add Candidate
+          </Button>
         </div>
 
         {/* Main Table Content */}

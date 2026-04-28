@@ -201,6 +201,8 @@ const App = () => (
                 <Route path="/assign-sdrs" element={<TAPlan />} />
                 <Route path="/success" element={<Success />} />
                 <Route path="/sales-plan/candidate-profile/:candidateId" element={<CandidateProfilePage />} />
+                <Route path="/hiring-lead/candidate-profile/:candidateId" element={<CandidateProfilePage />} />
+                <Route path="/ta-associate/candidate-profile/:candidateId" element={<CandidateProfilePage />} />
                 <Route path="/database-builder" element={<Index contentType="database-builder" />} />
                 <Route path="/chat" element={<Index contentType="chat" />} />
                 <Route path="/company-list"element={<Index contentType="company-list" />} />

@@ -12,19 +12,20 @@ interface ConversationStage {
   completed: boolean;
 }
 
-export interface TechnicalQuestion {
+export interface CoreQuestion {
   id: string;
   text: string;
   answerKey: string;
   estimatedMinutes: number;
-  type: 'scenario' | 'factual';
+  type: 'scenario' | 'knowledge';
   source: 'ai' | 'manual';
 }
 
 export interface InterviewSetup {
-  technicalQuestions: TechnicalQuestion[];
+  coreQuestions: CoreQuestion[];
   totalDurationMins: number;
-  allowBehavioralQuestions: boolean;
+  includeAIQuestions: boolean;
+  allowRecruiterQuestions: boolean;
 }
 
 interface JobDetails {
@@ -95,9 +96,10 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     responsibilities: [],
   });
   const [interviewSetup, setInterviewSetup] = useState<InterviewSetup>({
-    technicalQuestions: [],
+    coreQuestions: [],
     totalDurationMins: 15,
-    allowBehavioralQuestions: false,
+    includeAIQuestions: true,
+    allowRecruiterQuestions: true,
   });
 
   const addChatMessage = (message: Message) => {
