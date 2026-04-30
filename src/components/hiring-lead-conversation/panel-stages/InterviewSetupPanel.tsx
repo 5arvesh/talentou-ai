@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Switch } from '@/components/ui/switch';
 import {
   AlertTriangle,
   Bot,
@@ -23,7 +22,7 @@ import {
   ListChecks,
   Sparkles,
   MessageSquarePlus,
-  UserCheck,
+  ClipboardList,
 } from 'lucide-react';
 
 export function InterviewSetupPanel() {
@@ -41,6 +40,10 @@ export function InterviewSetupPanel() {
   const [manualType, setManualType] = useState<'scenario' | 'knowledge'>('scenario');
   const [openAnswerKeys, setOpenAnswerKeys] = useState<Set<string>>(new Set());
 
+  const [isAddingScreening, setIsAddingScreening] = useState(false);
+  const [screeningText, setScreeningText] = useState('');
+  const [screeningType, setScreeningType] = useState<'text' | 'yesno'>('text');
+
   const coreMins = interviewSetup.coreQuestions.reduce((s, q) => s + q.estimatedMinutes, 0);
   const remainingMins = Math.max(0, interviewSetup.totalDurationMins - coreMins);
   const isOverBudget = coreMins > interviewSetup.totalDurationMins;
@@ -50,7 +53,6 @@ export function InterviewSetupPanel() {
     : 0;
   const remainingBarPct = 100 - coreBarPct;
 
-  const showRecruiter = interviewSetup.allowRecruiterQuestions;
   const showAI = interviewSetup.includeAIQuestions;
 
   const handleGenerateWithAI = () => {
@@ -107,6 +109,21 @@ export function InterviewSetupPanel() {
     });
   };
 
+  const handleAddScreening = () => {
+    if (!screeningText.trim()) return;
+    const q = { id: `sq-${Date.now()}`, text: screeningText.trim(), type: screeningType };
+    updateInterviewSetup({ screeningQuestions: [...interviewSetup.screeningQuestions, q] });
+    setScreeningText('');
+    setScreeningType('text');
+    setIsAddingScreening(false);
+  };
+
+  const handleDeleteScreening = (id: string) => {
+    updateInterviewSetup({
+      screeningQuestions: interviewSetup.screeningQuestions.filter((q) => q.id !== id),
+    });
+  };
+
   const toggleAnswerKey = (id: string) => {
     const next = new Set(openAnswerKeys);
     if (next.has(id)) next.delete(id);
@@ -136,7 +153,7 @@ export function InterviewSetupPanel() {
           Choose how the interview will be structured for candidates
         </p>
         <div className="grid grid-cols-2 gap-3">
-          {/* AI-Assisted */}
+          {/* AI Assisted */}
           <button
             type="button"
             onClick={() => updateInterviewSetup({ includeAIQuestions: true })}
@@ -155,14 +172,14 @@ export function InterviewSetupPanel() {
               <Sparkles className={`h-5 w-5 ${interviewSetup.includeAIQuestions ? 'text-[#7800D3]' : 'text-muted-foreground'}`} />
             </div>
             <p className={`text-sm font-semibold mb-1 ${interviewSetup.includeAIQuestions ? 'text-[#7800D3]' : 'text-foreground'}`}>
-              AI-Assisted
+              AI Assisted
             </p>
             <p className="text-xs text-muted-foreground leading-snug">
-              Your questions + recruiter follow-ups + AI fills any remaining time
+              AI helps structure the interview with guided question planning and adaptive follow-ups.
             </p>
           </button>
 
-          {/* Structured */}
+          {/* Manual Setup */}
           <button
             type="button"
             onClick={() => updateInterviewSetup({ includeAIQuestions: false })}
@@ -181,20 +198,20 @@ export function InterviewSetupPanel() {
               <ListChecks className={`h-5 w-5 ${!interviewSetup.includeAIQuestions ? 'text-slate-600' : 'text-muted-foreground'}`} />
             </div>
             <p className={`text-sm font-semibold mb-1 ${!interviewSetup.includeAIQuestions ? 'text-slate-700' : 'text-foreground'}`}>
-              Fully Structured
+              Manual Setup
             </p>
             <p className="text-xs text-muted-foreground leading-snug">
-              Only your questions and recruiter follow-ups — no AI involvement
+              Build and manage the interview flow yourself with full control.
             </p>
           </button>
         </div>
       </Card>
 
-      {/* Section B: Core Questions */}
+      {/* Section B: Preset Questions */}
       <Card className="p-5 border border-border">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#6474a9]">Core Questions</h3>
+            <h3 className="text-base font-semibold text-[#6474a9]">Preset Questions</h3>
             {interviewSetup.coreQuestions.length > 0 && (
               <Badge variant="secondary" className="text-xs font-normal">
                 {interviewSetup.coreQuestions.length} question{interviewSetup.coreQuestions.length !== 1 ? 's' : ''} · {coreMins} min
@@ -363,7 +380,111 @@ export function InterviewSetupPanel() {
         </div>
       </Card>
 
-      {/* Section C: Interview Duration + Time Allocation */}
+      {/* Section C: Screening Questions */}
+      <Card className="p-5 border border-border">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-2">
+            <h3 className="text-base font-semibold text-[#6474a9]">Screening Questions</h3>
+            {interviewSetup.screeningQuestions.length > 0 && (
+              <Badge variant="secondary" className="text-xs font-normal">
+                {interviewSetup.screeningQuestions.length} question{interviewSetup.screeningQuestions.length !== 1 ? 's' : ''}
+              </Badge>
+            )}
+          </div>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => setIsAddingScreening(true)}
+            className="text-xs"
+            disabled={isAddingScreening}
+          >
+            <Plus className="h-3 w-3 mr-1" />
+            Add Question
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground mb-4">
+          Candidates answer these when applying. Use them to pre-screen before the interview.
+        </p>
+
+        {interviewSetup.screeningQuestions.length === 0 && !isAddingScreening && (
+          <div className="flex flex-col items-center gap-2 py-6 text-muted-foreground">
+            <ClipboardList className="h-7 w-7 opacity-30" />
+            <p className="text-sm">No screening questions yet — add some to pre-screen applicants</p>
+          </div>
+        )}
+
+        <div className="space-y-2">
+          {interviewSetup.screeningQuestions.map((q) => (
+            <div key={q.id} className="flex items-center gap-2 p-3 bg-muted/20 rounded-lg border border-border/60">
+              <p className="flex-1 text-sm">{q.text}</p>
+              <Badge variant="outline" className="text-xs shrink-0">
+                {q.type === 'yesno' ? 'Yes / No' : 'Text'}
+              </Badge>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-muted-foreground hover:text-red-500 shrink-0"
+                onClick={() => handleDeleteScreening(q.id)}
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+          ))}
+
+          {isAddingScreening && (
+            <Card className="p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
+              <div className="space-y-3">
+                <Textarea
+                  placeholder="Enter screening question..."
+                  value={screeningText}
+                  onChange={(e) => setScreeningText(e.target.value)}
+                  rows={2}
+                  className="text-sm resize-none"
+                />
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Answer type</p>
+                  <RadioGroup
+                    value={screeningType}
+                    onValueChange={(v) => setScreeningType(v as 'text' | 'yesno')}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="text" id="sq-text" />
+                      <Label htmlFor="sq-text" className="text-sm cursor-pointer">Text response</Label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="yesno" id="sq-yesno" />
+                      <Label htmlFor="sq-yesno" className="text-sm cursor-pointer">Yes / No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={handleAddScreening}
+                    className="bg-[#7800D3] hover:bg-[#6600bb] text-white"
+                  >
+                    Add Question
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => { setIsAddingScreening(false); setScreeningText(''); }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          )}
+        </div>
+      </Card>
+
+      {/* Section D: Interview Duration + Time Allocation */}
       <Card className="p-5 border border-border">
         <h3 className="text-base font-semibold text-[#6474a9] mb-4">Interview Duration</h3>
 
@@ -421,31 +542,13 @@ export function InterviewSetupPanel() {
                   style={{ width: `${coreBarPct}%` }}
                 />
               )}
-              {remainingMins > 0 && showRecruiter && showAI && (
-                <>
-                  <div
-                    className="bg-teal-400 transition-all duration-300"
-                    style={{ width: `${remainingBarPct * 0.55}%` }}
-                  />
-                  <div
-                    className="bg-purple-300 rounded-r-full transition-all duration-300"
-                    style={{ width: `${remainingBarPct * 0.45}%` }}
-                  />
-                </>
-              )}
-              {remainingMins > 0 && showRecruiter && !showAI && (
+              {remainingMins > 0 && showAI && (
                 <div
-                  className="bg-teal-400 rounded-r-full transition-all duration-300"
+                  className="bg-purple-400 rounded-r-full transition-all duration-300"
                   style={{ width: `${remainingBarPct}%` }}
                 />
               )}
-              {remainingMins > 0 && !showRecruiter && showAI && (
-                <div
-                  className="bg-purple-300 rounded-r-full transition-all duration-300"
-                  style={{ width: `${remainingBarPct}%` }}
-                />
-              )}
-              {remainingMins > 0 && !showRecruiter && !showAI && (
+              {remainingMins > 0 && !showAI && (
                 <div
                   className="bg-muted/60 rounded-r-full transition-all duration-300"
                   style={{ width: `${remainingBarPct}%` }}
@@ -454,10 +557,19 @@ export function InterviewSetupPanel() {
               {coreMins === 0 && <div className="flex-1 bg-muted/40 rounded-full" />}
             </div>
             <div className="flex items-center gap-4 mt-2 text-[10px] flex-wrap">
-              <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-full bg-blue-500" />Core Questions</span>
-              {showRecruiter && <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-full bg-teal-400" />Recruiter Questions</span>}
-              {showAI && <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-full bg-purple-300" />AI Adaptive</span>}
-              {!showRecruiter && !showAI && <span className="text-muted-foreground">Unused time</span>}
+              <span className="flex items-center gap-1">
+                <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
+                Preset Questions
+              </span>
+              {showAI && (
+                <span className="flex items-center gap-1">
+                  <span className="inline-block w-2 h-2 rounded-full bg-purple-400" />
+                  Adaptive AI
+                </span>
+              )}
+              {!showAI && remainingMins > 0 && (
+                <span className="text-muted-foreground">Unused time</span>
+              )}
             </div>
           </div>
         )}
@@ -465,23 +577,14 @@ export function InterviewSetupPanel() {
         {/* Text breakdown */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm bg-muted/30 rounded-lg px-4 py-3">
           <span>
-            <span className="text-muted-foreground text-xs">Core </span>
+            <span className="text-muted-foreground text-xs">Preset </span>
             <span className="font-semibold text-blue-600">{coreMins} min</span>
           </span>
-          {showRecruiter && (
-            <>
-              <span className="text-muted-foreground/50">|</span>
-              <span>
-                <span className="text-muted-foreground text-xs">Recruiter </span>
-                <span className="font-semibold text-teal-600">up to {remainingMins} min</span>
-              </span>
-            </>
-          )}
           {showAI && (
             <>
               <span className="text-muted-foreground/50">|</span>
               <span>
-                <span className="text-muted-foreground text-xs">AI Adaptive </span>
+                <span className="text-muted-foreground text-xs">Adaptive AI </span>
                 <span className="font-semibold text-purple-500 italic text-xs">fills rest</span>
               </span>
             </>
@@ -495,46 +598,19 @@ export function InterviewSetupPanel() {
 
         {/* Priority note */}
         <p className="mt-2 text-xs text-muted-foreground px-1">
-          {[showAI && 'AI Adaptive', showRecruiter && 'Recruiter', 'Core'].filter(Boolean).reverse().join(' → ')}
-          {' '}— questions play in this priority order.
+          {showAI
+            ? 'Preset Questions play first — Adaptive AI fills whatever time remains.'
+            : 'Only your Preset Questions will be asked in the interview.'}
         </p>
 
         {isOverBudget && (
           <div className="mt-3 flex items-start gap-2 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3">
             <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5 shrink-0" />
             <p className="text-sm text-yellow-800">
-              Core questions exceed the total interview duration. Increase the time limit or remove some questions.
+              Preset questions exceed the total interview duration. Increase the time limit or remove some questions.
             </p>
           </div>
         )}
-      </Card>
-
-      {/* Section D: Recruiter Questions toggle */}
-      <Card className="p-5 border border-border">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 p-2 rounded-lg bg-teal-50">
-              <UserCheck className="h-4 w-4 text-teal-600" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-foreground">Allow Recruiter Questions</h3>
-              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                When enabled, recruiters can add their own questions per candidate before scheduling.
-                These play after your Core Questions, using any remaining time.
-              </p>
-              {interviewSetup.allowRecruiterQuestions && remainingMins > 0 && (
-                <p className="mt-2 text-xs text-teal-600 font-medium">
-                  Recruiters get up to {remainingMins} min after your Core Questions.
-                </p>
-              )}
-            </div>
-          </div>
-          <Switch
-            checked={interviewSetup.allowRecruiterQuestions}
-            onCheckedChange={(checked) => updateInterviewSetup({ allowRecruiterQuestions: checked })}
-            className="shrink-0 mt-0.5"
-          />
-        </div>
       </Card>
 
       {/* Action Button */}

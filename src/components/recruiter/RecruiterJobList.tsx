@@ -10,7 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Eye, Filter, Search, ChevronDown, ChevronUp, FilePlus, Link } from "lucide-react";
+import { Eye, Filter, Search, ChevronDown, ChevronUp, FilePlus, Link, Globe } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
@@ -37,6 +38,13 @@ export function RecruiterJobList() {
   const [selectAll, setSelectAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+
+  const [careersEnabled, setCareersEnabled] = useState<Record<number, boolean>>({});
+
+  const isCareerEnabled = (job: { id: number; status: string }) => {
+    if (job.id in careersEnabled) return careersEnabled[job.id];
+    return job.status === 'Active';
+  };
 
   const [filters, setFilters] = useState({
     jobRole: "",
@@ -391,6 +399,12 @@ export function RecruiterJobList() {
                 <TableHead className="text-black">Expected Start Date</TableHead>
                 <TableHead className="text-black">Hiring Lead</TableHead>
                 <TableHead className="text-black">Interviewer</TableHead>
+                <TableHead className="text-black">
+                  <div className="flex items-center gap-1.5">
+                    <Globe className="h-3.5 w-3.5 text-gray-500" />
+                    Careers
+                  </div>
+                </TableHead>
                 <TableHead className="text-center text-black">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -446,6 +460,24 @@ export function RecruiterJobList() {
                     <TableCell className="p-2">{job.hiringLead}</TableCell>
                     <TableCell className="p-2">{job.recruiter}</TableCell>
                     <TableCell className="p-2">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="inline-flex">
+                            <Switch
+                              checked={isCareerEnabled(job)}
+                              onCheckedChange={(checked) =>
+                                setCareersEnabled(prev => ({ ...prev, [job.id]: checked }))
+                              }
+                              className="data-[state=checked]:bg-green-500 scale-90"
+                            />
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Visible on careers page</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TableCell>
+                    <TableCell className="p-2">
                       <div className="flex justify-center gap-2">
                         <Button 
                           variant="outline" 
@@ -471,7 +503,7 @@ export function RecruiterJobList() {
                   </TableRow>
                   {expandedRows.has(job.id) && (
                     <TableRow className="w-12">
-                        <TableCell colSpan={9} className="p-0">
+                        <TableCell colSpan={10} className="p-0">
                           <div className="bg-gray-50 pl-20 pr-4 py-4 border-t">
                             <div className="grid grid-cols-3 gap-4">
                               <div>

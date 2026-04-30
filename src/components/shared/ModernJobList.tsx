@@ -12,7 +12,8 @@ import {
   Copy,
   ArrowDownAZ,
   ArrowUpZA,
-  ListFilter
+  ListFilter,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -108,6 +111,12 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
   
   const [columnFilters, setColumnFilters] = useState<Record<string, string[]>>({});
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc'|'desc' } | null>(null);
+  const [careersEnabled, setCareersEnabled] = useState<Record<string | number, boolean>>({});
+
+  const isCareerEnabled = (job: JobItem) => {
+    if (job.id in careersEnabled) return careersEnabled[job.id];
+    return job.status.toLowerCase() === 'active';
+  };
 
   const getFieldValue = (job: JobItem, field: string): string => {
     if (field === 'id') return String(job.id);
@@ -422,13 +431,21 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                   </TableHead>
                 );
               })}
+              {role === "recruiter" && (
+                <TableHead className="whitespace-nowrap pb-3 pt-4 text-white font-semibold text-left">
+                  <div className="flex items-center gap-1.5">
+                    <Globe className="h-3.5 w-3.5 opacity-80" />
+                    Careers
+                  </div>
+                </TableHead>
+              )}
               <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-white">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {processedJobs.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={visibleColumns.length + 2} className="h-32 text-center text-gray-500">
+                <TableCell colSpan={visibleColumns.length + (role === "recruiter" ? 3 : 2)} className="h-32 text-center text-gray-500">
                   No jobs found matching your criteria.
                 </TableCell>
               </TableRow>
@@ -477,6 +494,28 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                       );
                     })}
                     
+                    {role === "recruiter" && (
+                      <TableCell className="py-3" onClick={(e) => e.stopPropagation()}>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <div className="inline-flex">
+                                <Switch
+                                  checked={isCareerEnabled(job)}
+                                  onCheckedChange={(checked) =>
+                                    setCareersEnabled(prev => ({ ...prev, [job.id]: checked }))
+                                  }
+                                  className="data-[state=checked]:bg-[#4EAD3B] scale-90"
+                                />
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent side="top">
+                              <p>Visible on careers page</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </TableCell>
+                    )}
                     <TableCell className="text-right pr-4 py-3" onClick={(e) => e.stopPropagation()}>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -525,7 +564,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                   
                   {expandedJobs.has(job.id) && (
                     <TableRow className="bg-gray-50/40 border-b border-gray-100/50 hover:bg-gray-50/40">
-                      <TableCell colSpan={visibleColumns.length + 2} className="p-0 border-0">
+                      <TableCell colSpan={visibleColumns.length + (role === "recruiter" ? 3 : 2)} className="p-0 border-0">
                         <div className="py-4 px-12 animate-in slide-in-from-top-2 duration-300">
                           <div className="flex items-center gap-12 bg-white rounded-xl shadow-sm border border-gray-100 p-5 overflow-x-auto custom-scrollbar">
                             {(DROPDOWN_FIELDS[role] || DROPDOWN_FIELDS["ta-leader"]).map(fieldId => {

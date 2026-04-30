@@ -7,12 +7,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { 
-  ArrowLeft, User, MapPin, Code, GraduationCap, FileText, Award, Briefcase, 
-  Calendar, Mail, Phone, Linkedin, Download, 
+import {
+  ArrowLeft, User, MapPin, Code, GraduationCap, FileText, Award, Briefcase,
+  Calendar, Mail, Phone, Linkedin, Download,
   Building2, DollarSign, MessageSquare, Sparkles, ChevronDown, ChevronUp,
-  ClipboardList, ChevronLeft, ChevronRight, Search, Eye
+  ClipboardList, ChevronLeft, ChevronRight, Search, Eye, MoreHorizontal,
+  UserCheck, XCircle
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Input } from "@/components/ui/input";
@@ -242,6 +250,55 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       yearsOfExperience: 5
     },
     {
+      id: 6,
+      name: "Sivabharath H",
+      email: "sivabharath.h@example.com",
+      phone: "+91 98765 43210",
+      linkedinProfile: "https://linkedin.com/in/sivabharath",
+      skill: "Premiere Pro, After Effects, DaVinci Resolve",
+      status: "Applied",
+      statusTooltip: "Candidate has submitted their application",
+      recruiter: "Priya Kumar",
+      hiringLead: "Ananthan M",
+      role: "Video Editor",
+      interviewScheduledDate: "",
+      interviewCompletedDate: "",
+      location: "Karur, Tamil Nadu, 639001",
+      firstName: "Sivabharath",
+      lastName: "H",
+      bestTimeToCall: "10:00 AM - 6:00 PM",
+      currentLocation: "Karur, Tamil Nadu",
+      preferredWorkLocation: "Hybrid",
+      keySkills: ["Adobe Premiere Pro", "After Effects", "DaVinci Resolve", "Color Grading", "Motion Graphics"],
+      desiredSkills: ["Storytelling", "Creativity", "Attention to Detail"],
+      education: [
+        { year: "2019 - 2023", institution: "B.Sc Visual Communication at Bharathidasan University", location: "Tiruchirappalli, Tamil Nadu" },
+        { year: "2017 - 2019", institution: "Govt. Higher Secondary School", location: "Karur, Tamil Nadu" }
+      ],
+      workExperience: [
+        { years: "2023 - now", position: "Video Editor", company: "Digital Wave Studios", duration: "1 year 5 months", location: "Chennai, Tamil Nadu" },
+        { years: "2022 - 2023", position: "Video Editing Intern", company: "Pixel Media", duration: "6 months", location: "Coimbatore, Tamil Nadu" }
+      ],
+      certifications: [
+        { name: "Adobe Certified Professional – Premiere Pro", issuer: "Adobe", year: "2023" }
+      ],
+      awards: [],
+      resumeUrl: "/path/to/sivabharath_resume.pdf",
+      earliestJoiningDate: "2024-04-01",
+      currentCTC: "₹4,20,000",
+      expectedCTC: "₹6,00,000 - ₹7,50,000",
+      jobFitScore: 82,
+      jobFitReason: "Strong match on core video editing tools — Premiere Pro and After Effects are exact requirements. Color grading experience is a strong plus. 1.5 years of direct experience fits the 1-3 year requirement window.",
+      interviewScore: null,
+      interviewReason: null,
+      screeningResponses: [
+        { question: "Are you willing to relocate or work remotely?", answer: "Open to hybrid — can come to office 2-3 days a week." },
+        { question: "Notice period?", answer: "30 days" },
+        { question: "Do you have experience editing long-form content (>30 min)?", answer: "Yes, edited multiple short films and YouTube series averaging 45 minutes per episode." }
+      ],
+      yearsOfExperience: 1.5
+    },
+    {
       id: 5,
       name: "Sarah Wilson",
       email: "sarah.wilson@email.com",
@@ -293,23 +350,29 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
     c.role.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const candidate = allCandidates.find(c => c.id === parseInt(candidateId || "0"));
+  const parsedId = parseInt(candidateId || "0");
+  const candidate = parsedId > 0
+    ? (allCandidates.find(c => c.id === parsedId) ?? allCandidates[(parsedId - 1) % allCandidates.length])
+    : undefined;
 
   if (!candidate) {
     return (
-      <div className="h-[calc(100vh-64px)] p-6 bg-white flex items-center justify-center">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="h-[calc(100vh-64px)] bg-white flex items-center justify-center">
+        <div className="text-center max-w-sm px-6">
+          <div className="h-16 w-16 rounded-full bg-[#7800D3]/10 flex items-center justify-center mx-auto mb-5">
+            <User className="h-8 w-8 text-[#7800D3]/50" />
+          </div>
+          <h2 className="text-xl font-semibold text-[#7800D3] mb-2">We couldn't load this profile</h2>
+          <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+            The candidate profile you're looking for may have been removed or is no longer available.
+          </p>
           <Button
-            variant="outline"
             onClick={() => navigate(`${basePath}/candidates`)}
-            className="mb-6 hover:bg-[#7800D3] hover:text-white"
+            className="bg-[#7800D3] hover:bg-[#7800D3]/90 text-white gap-2"
           >
-            <ArrowLeft size={16} className="mr-2" />
+            <ArrowLeft size={16} />
             Back to Candidates
           </Button>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-[#7800D3]">Candidate Not Found</h1>
-          </div>
         </div>
       </div>
     );
@@ -423,9 +486,8 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       </ResizableHandle>
 
       <ResizablePanel defaultSize={80} minSize={50} className="bg-background flex flex-col h-[calc(100vh-64px)]">
-        <div className="flex-1 overflow-y-auto">
-          {/* Header with Talentou Branding */}
-          <div className="bg-white border-b border-[#7800D3]/20 shadow-sm relative overflow-hidden">
+          {/* Sticky Header */}
+          <div className="bg-white border-b border-[#7800D3]/20 shadow-sm relative overflow-hidden sticky top-0 z-20 shrink-0">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#7800D3]/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
             <div className="max-w-7xl mx-auto px-6 py-6 relative z-10">
               <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center">
@@ -527,26 +589,42 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
               )}
             </div>
 
-            {/* Quick Actions */}
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="gap-2 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10">
-                <Mail className="h-4 w-4" />
-                Email
-              </Button>
-              <Button variant="outline" size="sm" className="gap-2 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10">
-                <Phone className="h-4 w-4" />
-                Call
-              </Button>
-              <Button variant="outline" size="sm" className="gap-2 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10">
+            {/* Action Bar */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button size="sm" className="gap-2 bg-[#7800D3] hover:bg-[#7800D3]/90 text-white shadow-sm">
                 <Calendar className="h-4 w-4" />
-                Schedule
+                Schedule Interview
               </Button>
+              <Button size="sm" variant="outline" className="gap-2 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10">
+                <UserCheck className="h-4 w-4" />
+                Move to Next Stage
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="sm" variant="outline" className="border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10 px-2">
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-44">
+                  <DropdownMenuItem className="gap-2 cursor-pointer">
+                    <Mail className="h-4 w-4" /> Send Email
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2 cursor-pointer">
+                    <Phone className="h-4 w-4" /> Call Candidate
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="gap-2 cursor-pointer text-red-600 focus:text-red-600">
+                    <XCircle className="h-4 w-4" /> Reject Candidate
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto">
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Main Content */}
@@ -607,10 +685,10 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                   </CardHeader>
                   <CardContent className="p-0 space-y-4">
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-2 block">Key Skills</label>
+                      <label className="text-xs font-medium text-muted-foreground mb-2 block">Must Have</label>
                       <div className="flex flex-wrap gap-2">
                         {candidate.keySkills.map((skill, index) => (
-                          <Badge key={index} variant="secondary" className="px-3 py-1">
+                          <Badge key={index} className="px-3 py-1 bg-purple-100 text-purple-700 border border-purple-200 hover:bg-purple-100 font-normal">
                             {skill}
                           </Badge>
                         ))}
@@ -942,8 +1020,8 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
             </Card>
           </div>
         </div>
-          </div>
-        </div>
+      </div>
+      </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   );

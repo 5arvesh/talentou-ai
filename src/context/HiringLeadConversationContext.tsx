@@ -21,8 +21,15 @@ export interface CoreQuestion {
   source: 'ai' | 'manual';
 }
 
+export interface ScreeningQuestion {
+  id: string;
+  text: string;
+  type: 'text' | 'yesno';
+}
+
 export interface InterviewSetup {
   coreQuestions: CoreQuestion[];
+  screeningQuestions: ScreeningQuestion[];
   totalDurationMins: number;
   includeAIQuestions: boolean;
   allowRecruiterQuestions: boolean;
@@ -97,6 +104,7 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
   });
   const [interviewSetup, setInterviewSetup] = useState<InterviewSetup>({
     coreQuestions: [],
+    screeningQuestions: [],
     totalDurationMins: 15,
     includeAIQuestions: true,
     allowRecruiterQuestions: true,
