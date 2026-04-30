@@ -2,6 +2,7 @@ import React from 'react';
 import { useHiringLeadConversation } from '@/context/HiringLeadConversationContext';
 import { JobDetailsForm } from './panel-stages/JobDetailsForm';
 import { SkillsResponsibilitiesPanel } from './panel-stages/SkillsResponsibilitiesPanel';
+import { ScreeningQuestionsPanel } from './panel-stages/ScreeningQuestionsPanel';
 import { InterviewSetupPanel } from './panel-stages/InterviewSetupPanel';
 import { JDPreviewPanel } from './panel-stages/JDPreviewPanel';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,8 +12,9 @@ import { Check } from 'lucide-react';
 const sections = [
   { id: 0, title: 'Job Details', key: 'jobDetails' as const, component: JobDetailsForm },
   { id: 1, title: 'Skills & Responsibilities', key: 'skillsResponsibilities' as const, component: SkillsResponsibilitiesPanel },
-  { id: 2, title: 'Interview Setup', key: 'interviewSetup' as const, component: InterviewSetupPanel },
-  { id: 3, title: 'View Job Description', key: 'viewJD' as const, component: JDPreviewPanel },
+  { id: 2, title: 'Screening Questions', key: 'screeningSetup' as const, component: ScreeningQuestionsPanel },
+  { id: 3, title: 'Interview Setup', key: 'interviewSetup' as const, component: InterviewSetupPanel },
+  { id: 4, title: 'View Job Description', key: 'viewJD' as const, component: JDPreviewPanel },
 ];
 
 export function HiringLeadConversationPanel() {
@@ -34,19 +36,21 @@ export function HiringLeadConversationPanel() {
   // Check if all required fields are filled for current stage
   const isCurrentStageComplete = () => {
     switch (currentStage) {
-      case 0: // Job Details
+      case 0:
         return jobDetails.title.trim() !== '' &&
                jobDetails.location.trim() !== '' &&
                jobDetails.startDate.trim() !== '' &&
                jobDetails.maxBudget.trim() !== '' &&
                jobDetails.minExperience.trim() !== '' &&
                jobDetails.sampleProfiles.length > 0;
-      case 1: // Skills & Responsibilities
+      case 1:
         return jobDetails.keySkills.length > 0 &&
                jobDetails.responsibilities.length > 0;
-      case 2: // Interview Setup — always completable
+      case 2: // Screening Questions — optional, always completable
         return true;
-      case 3: // View JD (always complete if we get here)
+      case 3: // Interview Setup — always completable
+        return true;
+      case 4: // View JD
         return true;
       default:
         return false;
@@ -55,22 +59,16 @@ export function HiringLeadConversationPanel() {
 
   const handleNextStage = () => {
     if (currentStage === 0) {
-      // Generate skills & responsibilities
-      const generatedKeySkills = ['React', 'TypeScript', 'Node.js', 'REST APIs'];
-      const generatedDesiredSkills = ['AWS', 'Docker', 'Kubernetes', 'GraphQL'];
-      const generatedResponsibilities = [
-        'Design and develop scalable web applications',
-        'Collaborate with cross-functional teams',
-        'Write clean, maintainable code',
-        'Participate in code reviews'
-      ];
-
       updateJobDetails({
-        keySkills: generatedKeySkills,
-        desiredSkills: generatedDesiredSkills,
-        responsibilities: generatedResponsibilities
+        keySkills: ['React', 'TypeScript', 'Node.js', 'REST APIs'],
+        desiredSkills: ['AWS', 'Docker', 'Kubernetes', 'GraphQL'],
+        responsibilities: [
+          'Design and develop scalable web applications',
+          'Collaborate with cross-functional teams',
+          'Write clean, maintainable code',
+          'Participate in code reviews'
+        ]
       });
-
       addChatMessage({
         id: Date.now(),
         sender: 'ai',
@@ -78,31 +76,38 @@ export function HiringLeadConversationPanel() {
         name: 'Talentou AI',
         stageIndex: 1
       });
-      
       completeStage('jobDetails');
       setCurrentStage(1);
     } else if (currentStage === 1) {
       addChatMessage({
         id: Date.now(),
         sender: 'ai',
-        content: "Perfect! Now let's set up the interview structure for this position.",
+        content: "Perfect! Now let's add any pre-application screening questions for candidates. These are optional — you can skip to continue.",
         name: 'Talentou AI',
         stageIndex: 2
       });
-      
       completeStage('skillsResponsibilities');
       setCurrentStage(2);
     } else if (currentStage === 2) {
       addChatMessage({
         id: Date.now(),
         sender: 'ai',
-        content: "Excellent! I've generated a complete Job Description based on your inputs. Please review it in the panel on the right.",
+        content: "Got it! Now let's set up the interview — add your preset questions, choose AI assistance, and set the duration.",
         name: 'Talentou AI',
         stageIndex: 3
       });
-      
-      completeStage('interviewSetup');
+      completeStage('screeningSetup');
       setCurrentStage(3);
+    } else if (currentStage === 3) {
+      addChatMessage({
+        id: Date.now(),
+        sender: 'ai',
+        content: "Excellent! I've generated a complete Job Description based on your inputs. Please review it in the panel on the right.",
+        name: 'Talentou AI',
+        stageIndex: 4
+      });
+      completeStage('interviewSetup');
+      setCurrentStage(4);
     }
   };
 

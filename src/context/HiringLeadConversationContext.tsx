@@ -60,6 +60,7 @@ interface HiringLeadConversationContextType {
   stages: {
     jobDetails: ConversationStage;
     skillsResponsibilities: ConversationStage;
+    screeningSetup: ConversationStage;
     interviewSetup: ConversationStage;
     viewJD: ConversationStage;
   };
@@ -68,7 +69,7 @@ interface HiringLeadConversationContextType {
   progressPercentage: number;
   addChatMessage: (message: Message) => void;
   setCurrentStage: (stage: number) => void;
-  completeStage: (stage: 'jobDetails' | 'skillsResponsibilities' | 'interviewSetup' | 'viewJD') => void;
+  completeStage: (stage: 'jobDetails' | 'skillsResponsibilities' | 'screeningSetup' | 'interviewSetup' | 'viewJD') => void;
   updateJobDetails: (details: Partial<JobDetails>) => void;
   updateInterviewSetup: (updates: Partial<InterviewSetup>) => void;
 }
@@ -81,6 +82,7 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
   const [stages, setStages] = useState({
     jobDetails: { completed: false },
     skillsResponsibilities: { completed: false },
+    screeningSetup: { completed: false },
     interviewSetup: { completed: false },
     viewJD: { completed: false }
   });
@@ -130,7 +132,7 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
   };
 
   const completedStages = Object.values(stages).filter(s => s.completed).length;
-  const progressPercentage = (completedStages / 4) * 100;
+  const progressPercentage = (completedStages / 5) * 100;
 
   return (
     <HiringLeadConversationContext.Provider

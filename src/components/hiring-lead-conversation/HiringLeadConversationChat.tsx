@@ -19,9 +19,14 @@ const stageSuggestions = {
     "What about soft skills?",
   ],
   2: [
+    "What are screening questions?",
+    "Can I skip screening questions?",
+    "What answer types can I use?",
+  ],
+  3: [
     "How does AI generate questions?",
     "What is the default interview duration?",
-    "Can I add behavioral questions?",
+    "What is the difference between AI Assisted and Manual?",
   ],
 };
 
@@ -92,15 +97,26 @@ export function HiringLeadConversationChat({ scrollToStageRef }: HiringLeadConve
           aiResponse = "The skills and responsibilities have been generated based on your job details. Feel free to edit, add, or remove any items. When you're satisfied, click 'Next' to set up the interview structure.";
         }
         break;
-      case 2: // Interview Setup
-        if (lowerMessage.includes('ai') || lowerMessage.includes('generate') || lowerMessage.includes('questions')) {
-          aiResponse = "AI generates technical questions tailored to the job role and required skills. Scenario-based questions estimate ~4 mins each, while factual questions estimate ~2 mins. You can edit, delete, or add your own questions manually.";
-        } else if (lowerMessage.includes('duration') || lowerMessage.includes('time') || lowerMessage.includes('default')) {
-          aiResponse = "The default interview duration is 15 minutes, but you can adjust it from 1 to 120 minutes. The time is split across Technical → Behavioral → AI Dynamic sections, in priority order.";
-        } else if (lowerMessage.includes('behavioral') || lowerMessage.includes('recruiter')) {
-          aiResponse = "If you enable the behavioral questions toggle, the recruiter assigned to this role will be able to add behavioral questions per candidate before scheduling their interview. The time budget is allocated from the remaining time after technical questions.";
+      case 2: // Screening Questions
+        if (lowerMessage.includes('what') && lowerMessage.includes('screening')) {
+          aiResponse = "Screening questions are short questions candidates answer when they apply for the position — before the actual interview. They help you filter candidates early. Examples: 'Do you have experience with React?' (Yes/No) or 'Describe your experience with cloud platforms.' (Text).";
+        } else if (lowerMessage.includes('skip') || lowerMessage.includes('optional')) {
+          aiResponse = "Screening questions are completely optional! If you don't need to pre-screen candidates, simply click 'Next: Interview Setup' to continue without adding any.";
+        } else if (lowerMessage.includes('answer') || lowerMessage.includes('type')) {
+          aiResponse = "You can choose between two answer types: 'Text response' for open-ended answers, or 'Yes / No' for simple binary questions. Yes/No questions are great for checking minimum requirements.";
         } else {
-          aiResponse = "In this step you can add technical questions (AI-generated or manual), set the total interview duration, and decide whether to allow the recruiter to add behavioral questions for candidates.";
+          aiResponse = "Here you can add pre-application screening questions. These are optional — candidates answer them when they apply. Click 'Next: Interview Setup' to continue whenever you're ready.";
+        }
+        break;
+      case 3: // Interview Setup
+        if (lowerMessage.includes('ai') || lowerMessage.includes('generate') || lowerMessage.includes('questions')) {
+          aiResponse = "In AI Assisted mode, you can use 'Generate with AI' to get preset questions tailored to the role. Scenario-based questions estimate ~4 mins, Knowledge questions ~2 mins. You can edit, delete, or add your own manually.";
+        } else if (lowerMessage.includes('duration') || lowerMessage.includes('time') || lowerMessage.includes('default')) {
+          aiResponse = "The default interview duration is 15 minutes, adjustable from 1 to 120 minutes. In AI Assisted mode, your Preset Questions play first and Adaptive AI fills whatever time remains.";
+        } else if (lowerMessage.includes('difference') || lowerMessage.includes('manual') || lowerMessage.includes('assisted')) {
+          aiResponse = "AI Assisted mode adds Adaptive AI questions to fill any time remaining after your Preset Questions — great for deeper exploration. Manual Setup plays only your Preset Questions with no AI involvement.";
+        } else {
+          aiResponse = "In this step you set the interview mode (AI Assisted or Manual), add your Preset Questions, and configure the total duration. Click 'Next: Review Job Description' when ready.";
         }
         break;
       default:

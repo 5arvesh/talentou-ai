@@ -9,12 +9,13 @@ import {
   FileText,
   Edit,
   Link as LinkIcon,
-  Copy,
   ArrowDownAZ,
   ArrowUpZA,
   ListFilter,
-  Globe
+  Globe,
+  ClipboardList
 } from "lucide-react";
+import { RecruiterScreeningDrawer } from "@/components/recruiter/RecruiterScreeningDrawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -112,10 +113,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
   const [columnFilters, setColumnFilters] = useState<Record<string, string[]>>({});
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc'|'desc' } | null>(null);
   const [careersEnabled, setCareersEnabled] = useState<Record<string | number, boolean>>({});
+  const [screeningDrawerJob, setScreeningDrawerJob] = useState<JobItem | null>(null);
 
   const isCareerEnabled = (job: JobItem) => {
     if (job.id in careersEnabled) return careersEnabled[job.id];
-    return job.status.toLowerCase() === 'active';
+    return false;
   };
 
   const getFieldValue = (job: JobItem, field: string): string => {
@@ -551,9 +553,12 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                                 <LinkIcon className="mr-2 h-4 w-4 opacity-70" />
                                 Generate JD Link
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleAction("copy-jd-link", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
-                                <Copy className="mr-2 h-4 w-4 opacity-70" />
-                                Copy JD Link
+                              <DropdownMenuItem
+                                onClick={(e) => { e.stopPropagation(); setScreeningDrawerJob(job); }}
+                                className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2"
+                              >
+                                <ClipboardList className="mr-2 h-4 w-4 opacity-70" />
+                                Screening Questions
                               </DropdownMenuItem>
                             </>
                           )}
@@ -592,6 +597,12 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
           </TableBody>
         </Table>
       </div>
+
+      <RecruiterScreeningDrawer
+        isOpen={!!screeningDrawerJob}
+        onClose={() => setScreeningDrawerJob(null)}
+        jobRole={screeningDrawerJob?.jobRole ?? ""}
+      />
 
       <style dangerouslySetInnerHTML={{__html: `
         .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }

@@ -22,7 +22,6 @@ import {
   ListChecks,
   Sparkles,
   MessageSquarePlus,
-  ClipboardList,
 } from 'lucide-react';
 
 export function InterviewSetupPanel() {
@@ -40,9 +39,6 @@ export function InterviewSetupPanel() {
   const [manualType, setManualType] = useState<'scenario' | 'knowledge'>('scenario');
   const [openAnswerKeys, setOpenAnswerKeys] = useState<Set<string>>(new Set());
 
-  const [isAddingScreening, setIsAddingScreening] = useState(false);
-  const [screeningText, setScreeningText] = useState('');
-  const [screeningType, setScreeningType] = useState<'text' | 'yesno'>('text');
 
   const coreMins = interviewSetup.coreQuestions.reduce((s, q) => s + q.estimatedMinutes, 0);
   const remainingMins = Math.max(0, interviewSetup.totalDurationMins - coreMins);
@@ -109,21 +105,6 @@ export function InterviewSetupPanel() {
     });
   };
 
-  const handleAddScreening = () => {
-    if (!screeningText.trim()) return;
-    const q = { id: `sq-${Date.now()}`, text: screeningText.trim(), type: screeningType };
-    updateInterviewSetup({ screeningQuestions: [...interviewSetup.screeningQuestions, q] });
-    setScreeningText('');
-    setScreeningType('text');
-    setIsAddingScreening(false);
-  };
-
-  const handleDeleteScreening = (id: string) => {
-    updateInterviewSetup({
-      screeningQuestions: interviewSetup.screeningQuestions.filter((q) => q.id !== id),
-    });
-  };
-
   const toggleAnswerKey = (id: string) => {
     const next = new Set(openAnswerKeys);
     if (next.has(id)) next.delete(id);
@@ -138,10 +119,10 @@ export function InterviewSetupPanel() {
       content:
         "Excellent! I've generated a complete Job Description based on your inputs. Please review it in the panel on the right.",
       name: 'Talentou AI',
-      stageIndex: 3,
+      stageIndex: 4,
     });
     completeStage('interviewSetup');
-    setCurrentStage(3);
+    setCurrentStage(4);
   };
 
   return (
@@ -380,111 +361,7 @@ export function InterviewSetupPanel() {
         </div>
       </Card>
 
-      {/* Section C: Screening Questions */}
-      <Card className="p-5 border border-border">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#6474a9]">Screening Questions</h3>
-            {interviewSetup.screeningQuestions.length > 0 && (
-              <Badge variant="secondary" className="text-xs font-normal">
-                {interviewSetup.screeningQuestions.length} question{interviewSetup.screeningQuestions.length !== 1 ? 's' : ''}
-              </Badge>
-            )}
-          </div>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={() => setIsAddingScreening(true)}
-            className="text-xs"
-            disabled={isAddingScreening}
-          >
-            <Plus className="h-3 w-3 mr-1" />
-            Add Question
-          </Button>
-        </div>
-        <p className="text-xs text-muted-foreground mb-4">
-          Candidates answer these when applying. Use them to pre-screen before the interview.
-        </p>
-
-        {interviewSetup.screeningQuestions.length === 0 && !isAddingScreening && (
-          <div className="flex flex-col items-center gap-2 py-6 text-muted-foreground">
-            <ClipboardList className="h-7 w-7 opacity-30" />
-            <p className="text-sm">No screening questions yet — add some to pre-screen applicants</p>
-          </div>
-        )}
-
-        <div className="space-y-2">
-          {interviewSetup.screeningQuestions.map((q) => (
-            <div key={q.id} className="flex items-center gap-2 p-3 bg-muted/20 rounded-lg border border-border/60">
-              <p className="flex-1 text-sm">{q.text}</p>
-              <Badge variant="outline" className="text-xs shrink-0">
-                {q.type === 'yesno' ? 'Yes / No' : 'Text'}
-              </Badge>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 text-muted-foreground hover:text-red-500 shrink-0"
-                onClick={() => handleDeleteScreening(q.id)}
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
-            </div>
-          ))}
-
-          {isAddingScreening && (
-            <Card className="p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
-              <div className="space-y-3">
-                <Textarea
-                  placeholder="Enter screening question..."
-                  value={screeningText}
-                  onChange={(e) => setScreeningText(e.target.value)}
-                  rows={2}
-                  className="text-sm resize-none"
-                />
-                <div>
-                  <p className="text-xs text-muted-foreground mb-2">Answer type</p>
-                  <RadioGroup
-                    value={screeningType}
-                    onValueChange={(v) => setScreeningType(v as 'text' | 'yesno')}
-                    className="flex gap-4"
-                  >
-                    <div className="flex items-center gap-2">
-                      <RadioGroupItem value="text" id="sq-text" />
-                      <Label htmlFor="sq-text" className="text-sm cursor-pointer">Text response</Label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <RadioGroupItem value="yesno" id="sq-yesno" />
-                      <Label htmlFor="sq-yesno" className="text-sm cursor-pointer">Yes / No</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    size="sm"
-                    onClick={handleAddScreening}
-                    className="bg-[#7800D3] hover:bg-[#6600bb] text-white"
-                  >
-                    Add Question
-                  </Button>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    onClick={() => { setIsAddingScreening(false); setScreeningText(''); }}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          )}
-        </div>
-      </Card>
-
-      {/* Section D: Interview Duration + Time Allocation */}
+      {/* Section C: Interview Duration + Time Allocation */}
       <Card className="p-5 border border-border">
         <h3 className="text-base font-semibold text-[#6474a9] mb-4">Interview Duration</h3>
 

@@ -438,11 +438,11 @@ export function AIInterviewPerformanceViewer({ role }: Props) {
         <div
           className={cn(
             "flex flex-col bg-white border-l border-gray-100 shrink-0 overflow-hidden transition-all duration-300 ease-in-out",
-            isPanelOpen ? "w-[300px]" : "w-0"
+            isPanelOpen ? "w-[480px]" : "w-0"
           )}
         >
           {/* Inner wrapper keeps content at 300px so it doesn't squish during animation */}
-          <div className="flex flex-col h-full w-[300px]">
+          <div className="flex flex-col h-full w-[480px]">
 
             <div className="flex-1 overflow-y-auto py-3">
               <Accordion type="multiple" defaultValue={["score", "transcript", "feedback"]}>

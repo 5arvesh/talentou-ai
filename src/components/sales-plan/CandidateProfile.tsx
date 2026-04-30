@@ -12,7 +12,7 @@ import {
   Calendar, Mail, Phone, Linkedin, Download,
   Building2, DollarSign, MessageSquare, Sparkles, ChevronDown, ChevronUp,
   ClipboardList, ChevronLeft, ChevronRight, Search, Eye, MoreHorizontal,
-  UserCheck, XCircle
+  UserCheck, XCircle, PlayCircle
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -486,111 +486,47 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       </ResizableHandle>
 
       <ResizablePanel defaultSize={80} minSize={50} className="bg-background flex flex-col h-[calc(100vh-64px)]">
-          {/* Sticky Header */}
-          <div className="bg-white border-b border-[#7800D3]/20 shadow-sm relative overflow-hidden sticky top-0 z-20 shrink-0">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#7800D3]/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
-            <div className="max-w-7xl mx-auto px-6 py-6 relative z-10">
-              <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center">
-            {/* Avatar and Basic Info */}
-            <div className="flex items-center gap-5">
-              <div className="h-24 w-24 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground text-3xl font-bold shadow-lg">
+        {/* Compact Sticky Header */}
+        <div className="bg-white border-b border-[#7800D3]/20 shadow-sm sticky top-0 z-20 shrink-0">
+          <div className="px-6 py-3 flex items-center gap-4">
+            {/* Avatar + Name + Role */}
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground text-base font-bold shadow">
                 {candidate.firstName[0]}{candidate.lastName[0]}
               </div>
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-2xl font-bold text-[#7800D3]">{candidate.name}</h1>
-                  <Badge className={cn("text-xs font-semibold", getStatusColor(candidate.status))}>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-base font-bold text-[#7800D3]">{candidate.name}</h1>
+                  <Badge className={cn("text-xs font-medium", getStatusColor(candidate.status))}>
                     {candidate.status}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground flex items-center gap-2">
-                  <Briefcase className="h-4 w-4" />
-                  {candidate.role}
-                </p>
-                <p className="text-muted-foreground flex items-center gap-2 mt-1">
-                  <MapPin className="h-4 w-4" />
-                  {candidate.currentLocation}
+                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <Briefcase className="h-3 w-3" />{candidate.role}
+                  <span className="mx-1 text-border">·</span>
+                  <MapPin className="h-3 w-3" />{candidate.currentLocation}
                 </p>
               </div>
             </div>
 
-            {/* Dual Score Cards */}
-            <div className="lg:ml-auto flex flex-wrap gap-4">
-              {/* Job Fit Score */}
-              <Collapsible open={jobFitReasonOpen} onOpenChange={setJobFitReasonOpen}>
-                <Card className={cn("p-4 border-2 min-w-[200px]", `bg-gradient-to-br ${getScoreBg(candidate.jobFitScore)}`)}>
-                  <CollapsibleTrigger className="w-full">
-                    <div className="flex items-center gap-4">
-                      <div className="relative">
-                        <svg className="w-16 h-16 transform -rotate-90">
-                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="transparent" className="text-muted" />
-                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="transparent" strokeDasharray={`${(candidate.jobFitScore) * 1.76} 176`} className={getScoreColor(candidate.jobFitScore)} />
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className={cn("text-lg font-bold", getScoreColor(candidate.jobFitScore))}>{candidate.jobFitScore}%</span>
-                        </div>
-                      </div>
-                      <div className="text-left">
-                        <p className="text-sm font-medium text-foreground flex items-center gap-1">
-                          <FileText className="h-3 w-3" />
-                          Job Fit Score
-                        </p>
-                        <p className="text-xs text-muted-foreground">CV vs JD match</p>
-                        <div className="flex items-center gap-1 mt-1 text-xs text-primary">
-                          {jobFitReasonOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-                          <span>View reason</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <div className="mt-3 pt-3 border-t border-border">
-                      <p className="text-xs text-muted-foreground leading-relaxed">{candidate.jobFitReason}</p>
-                    </div>
-                  </CollapsibleContent>
-                </Card>
-              </Collapsible>
-
-              {/* AI Interview Score */}
+            {/* Score chips — centred */}
+            <div className="flex items-center gap-2 mx-auto">
+              <div className={cn("flex items-center gap-2 px-3 py-1.5 rounded-lg border bg-gradient-to-r", getScoreBg(candidate.jobFitScore))}>
+                <FileText className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground whitespace-nowrap">Job Fit</span>
+                <span className={cn("text-sm font-bold", getScoreColor(candidate.jobFitScore))}>{candidate.jobFitScore}%</span>
+              </div>
               {candidate.interviewScore !== null && (
-                <Collapsible open={interviewReasonOpen} onOpenChange={setInterviewReasonOpen}>
-                  <Card className={cn("p-4 border-2 min-w-[200px]", `bg-gradient-to-br ${getScoreBg(candidate.interviewScore)}`)}>
-                    <CollapsibleTrigger className="w-full">
-                      <div className="flex items-center gap-4">
-                        <div className="relative">
-                          <svg className="w-16 h-16 transform -rotate-90">
-                            <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="transparent" className="text-muted" />
-                            <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="transparent" strokeDasharray={`${(candidate.interviewScore) * 1.76} 176`} className={getScoreColor(candidate.interviewScore)} />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className={cn("text-lg font-bold", getScoreColor(candidate.interviewScore))}>{candidate.interviewScore}%</span>
-                          </div>
-                        </div>
-                        <div className="text-left">
-                          <p className="text-sm font-medium text-foreground flex items-center gap-1">
-                            <Sparkles className="h-3 w-3" />
-                            Interview Score
-                          </p>
-                          <p className="text-xs text-muted-foreground">AI assessment</p>
-                          <div className="flex items-center gap-1 mt-1 text-xs text-primary">
-                            {interviewReasonOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-                            <span>View reason</span>
-                          </div>
-                        </div>
-                      </div>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <div className="mt-3 pt-3 border-t border-border">
-                        <p className="text-xs text-muted-foreground leading-relaxed">{candidate.interviewReason}</p>
-                      </div>
-                    </CollapsibleContent>
-                  </Card>
-                </Collapsible>
+                <div className={cn("flex items-center gap-2 px-3 py-1.5 rounded-lg border bg-gradient-to-r", getScoreBg(candidate.interviewScore))}>
+                  <Sparkles className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">Interview</span>
+                  <span className={cn("text-sm font-bold", getScoreColor(candidate.interviewScore))}>{candidate.interviewScore}%</span>
+                </div>
               )}
             </div>
 
-            {/* Action Bar */}
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* Actions */}
+            <div className="flex items-center gap-2 shrink-0">
               <Button size="sm" className="gap-2 bg-[#7800D3] hover:bg-[#7800D3]/90 text-white shadow-sm">
                 <Calendar className="h-4 w-4" />
                 Schedule Interview
@@ -605,7 +541,13 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuContent align="end" className="w-52">
+                  <DropdownMenuItem
+                    className="gap-2 cursor-pointer"
+                    onClick={() => navigate(`${basePath}/candidates/interview/${candidate.id}?name=${encodeURIComponent(candidate.name)}`)}>
+                    <PlayCircle className="h-4 w-4" /> View Interview Recording
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem className="gap-2 cursor-pointer">
                     <Mail className="h-4 w-4" /> Send Email
                   </DropdownMenuItem>
@@ -621,7 +563,6 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
             </div>
           </div>
         </div>
-      </div>
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
@@ -959,12 +900,15 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                     <SelectValue placeholder="Select new status" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="rejected">Rejected</SelectItem>
                     <SelectItem value="applied">Applied</SelectItem>
+                    <SelectItem value="sourced">Sourced</SelectItem>
                     <SelectItem value="shortlisted">Shortlisted</SelectItem>
                     <SelectItem value="interview">Interview</SelectItem>
-                    <SelectItem value="offer">Offer Extended</SelectItem>
+                    <SelectItem value="review">Review</SelectItem>
+                    <SelectItem value="selected">Selected</SelectItem>
+                    <SelectItem value="offered">Offered</SelectItem>
                     <SelectItem value="hired">Hired</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button className="w-full mt-3 bg-[#7800D3] hover:bg-[#7800D3]/90 text-white" disabled={!selectedStatus}>
