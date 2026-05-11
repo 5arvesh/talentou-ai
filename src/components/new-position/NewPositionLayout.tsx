@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NewPositionProvider } from '@/context/NewPositionContext';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 import { NewPositionProgress } from './NewPositionProgress';
 import { NewPositionChat } from './NewPositionChat';
 import { NewPositionPanel } from './NewPositionPanel';
 import { useChatPanelStore } from "@/store/chat-panel-store";
+import { useTourStore } from "@/store/tour-store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const NEW_POSITION_TOUR_STEPS = [
+  {
+    title: "Request a new position",
+    description: "Describe the new role you need to open. The AI will help you structure the request, define requirements, and set priorities.",
+  },
+  {
+    title: "Review the generated position details",
+    description: "This panel shows the JD preview, priority level, and recruiter assignment for your new position. Make any edits before submitting.",
+  },
+  {
+    title: "Complete all 3 steps to submit",
+    description: "Work through JD Preview → Priority Management → Recruiter Assignment. Once done, the request is sent for approval.",
+  },
+];
 
 export function NewPositionLayout() {
   const { isChatOpen } = useChatPanelStore();
+  const { startTour } = useTourStore();
+
+  useEffect(() => {
+    startTour("new-position", NEW_POSITION_TOUR_STEPS);
+  }, []);
 
   return (
     <NewPositionProvider>

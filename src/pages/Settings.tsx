@@ -16,6 +16,7 @@ import { BillingSettings } from "@/components/settings/BillingSettings";
 import { CreditUsageSettings } from "@/components/settings/CreditUsageSettings";
 import { ReferralsSettings } from "@/components/settings/ReferralsSettings";
 import { InterviewSettings } from "@/components/settings/InterviewSettings";
+import { JobFitScoreSettings } from "@/components/settings/JobFitScoreSettings";
 import { EmailTemplatesSettings } from "@/components/settings/EmailTemplatesSettings";
 import { ATSIntegrationSettings } from "@/components/settings/ATSIntegrationSettings";
 import { AuthenticationSettings } from "@/components/settings/AuthenticationSettings";
@@ -40,6 +41,7 @@ const Settings = () => {
   const isAuthenticationPage = currentPath === "/settings/authentication";
   const isPolicyPage = currentPath === "/settings/policy";
   const isLicensePage = currentPath === "/settings/license";
+  const isJobFitPage = currentPath === "/settings/job-fit-score";
   
   const detailsForm = useForm({
     defaultValues: {
@@ -188,6 +190,46 @@ const Settings = () => {
           <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-800">
             <div className="p-6 max-w-6xl">
               <EmailTemplatesSettings />
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (isInterviewPage) {
+    return (
+      <Layout>
+        <div className="flex h-[calc(100vh-4rem)] w-full">
+          <div className="w-72 flex-shrink-0 border-r border-gray-200 dark:border-gray-700 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+            <div className="p-6">
+              <h1 className="text-2xl font-semibold mb-6">Settings</h1>
+              <SettingsNav />
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-800">
+            <div className="p-6 max-w-3xl">
+              <InterviewSettings />
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (isJobFitPage) {
+    return (
+      <Layout>
+        <div className="flex h-[calc(100vh-4rem)] w-full">
+          <div className="w-72 flex-shrink-0 border-r border-gray-200 dark:border-gray-700 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+            <div className="p-6">
+              <h1 className="text-2xl font-semibold mb-6">Settings</h1>
+              <SettingsNav />
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-800">
+            <div className="p-6 max-w-3xl">
+              <JobFitScoreSettings />
             </div>
           </div>
         </div>

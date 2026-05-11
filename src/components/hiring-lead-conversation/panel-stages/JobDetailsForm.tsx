@@ -190,13 +190,34 @@ export function JobDetailsForm() {
                 <DollarSign className="h-4 w-4" />
                 Maximum Budget
               </Label>
-              <Input
-                id="maxBudget"
-                value={jobDetails.maxBudget}
-                onChange={(e) => updateJobDetails({ maxBudget: e.target.value })}
-                placeholder="e.g., ₹15 LPA"
-                className="h-11 text-sm placeholder:text-muted-foreground bg-background"
-              />
+              <div className="flex gap-2">
+                <Select
+                  value={jobDetails.budgetCurrency}
+                  onValueChange={(value) => updateJobDetails({ budgetCurrency: value })}
+                >
+                  <SelectTrigger className="h-11 w-[110px] shrink-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USD">USD ($)</SelectItem>
+                    <SelectItem value="EUR">EUR (€)</SelectItem>
+                    <SelectItem value="GBP">GBP (£)</SelectItem>
+                    <SelectItem value="INR">INR (₹)</SelectItem>
+                    <SelectItem value="AED">AED (د.إ)</SelectItem>
+                    <SelectItem value="SGD">SGD (S$)</SelectItem>
+                    <SelectItem value="AUD">AUD (A$)</SelectItem>
+                    <SelectItem value="CAD">CAD (C$)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input
+                  id="maxBudget"
+                  type="number"
+                  value={jobDetails.maxBudget}
+                  onChange={(e) => updateJobDetails({ maxBudget: e.target.value })}
+                  placeholder="e.g., 150000"
+                  className="h-11 text-sm placeholder:text-muted-foreground bg-background flex-1"
+                />
+              </div>
             </div>
 
             <div>

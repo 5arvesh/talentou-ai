@@ -44,6 +44,7 @@ interface JobDetails {
   workType: string;
   location: string;
   minExperience: string;
+  budgetCurrency: string;
   maxBudget: string;
   sampleProfiles: string[];
 
@@ -95,6 +96,7 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     workType: 'Onsite',
     location: '',
     minExperience: '',
+    budgetCurrency: 'USD',
     maxBudget: '',
     sampleProfiles: [],
 

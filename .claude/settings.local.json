@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(xargs grep *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Sarvesh S\\\\\\\\talentou-ai\" -type f \\\\\\( -name \"Settings.tsx\" -o -name \"App.tsx\" -o -name \"Header.tsx\" -o -name \"Constant.ts\" \\\\\\))",
+      "Bash(grep -r \"jobFit\\\\|job_fit\\\\|job fit\\\\|scoring\\\\|weightage\\\\|weight\" \"C:\\\\\\\\Users\\\\\\\\Sarvesh S\\\\\\\\talentou-ai\\\\\\\\src\" --include=\"*.tsx\" --include=\"*.ts\")",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Sarvesh S\\\\\\\\talentou-ai\" -type f \\\\\\( -name \"*robot*\" -o -name \"*mascot*\" -o -name \"*guide*\" -o -name \"*piqual*\" \\\\\\))",
+      "Bash(grep *)",
+      "Bash(ls -lah \"C:\\\\\\\\Users\\\\\\\\Sarvesh S\\\\\\\\talentou-ai\\\\\\\\src\\\\\\\\assets\\\\\\\\\")",
+      "Bash(find C:\\\\\\\\Users\\\\\\\\Sarvesh S\\\\\\\\talentou-ai\\\\\\\\src\\\\\\\\context *)",
+      "Bash(ls -lah \"C:\\\\\\\\Users\\\\\\\\Sarvesh S\\\\\\\\talentou-ai\\\\\\\\public\\\\\\\\lovable-uploads\\\\\\\\\")",
+      "Bash(npm i *)",
+      "Bash(node -e \"require\\('xlsx'\\)\")"
     ]
   }
 }

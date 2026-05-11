@@ -341,6 +341,13 @@ npm run lint        # Run ESLint
 | Date | Topic | Decision / Context |
 |---|---|---|
 | 2026-05-06 | Initial context capture | Full project structure, roles, and conventions documented from codebase exploration |
+| 2026-05-06 | Interview Settings upgrade | Replaced 100-line basic `InterviewSettings.tsx` with full 504-line version from ta-project-2 (6 collapsible sections: Link & Access, Timing, Answer Settings, Proctoring, AI Evaluation, Notifications) |
+| 2026-05-06 | Tour guide system | Added `src/store/tour-store.ts` (Zustand) + `src/components/shared/TourGuide.tsx` (fixed bottom-right overlay card with `talentou-mascot-new.png`). Tours registered on: TA Plan Flow, JD Flow, Hiring Lead Conversation, New Position, all 3 Job List pages, Candidates page. `?` help icon in Header restarts the tour for the current screen. localStorage key `tour_done_<key>` tracks completion. |
+| 2026-05-06 | Currency dropdown in Hiring Lead Job Details | Split `maxBudget` text input into `[currency Select] + [amount Input]`. Added `budgetCurrency` field to `HiringLeadConversationContext`. Currencies: USD, EUR, GBP, INR, AED, SGD, AUD, CAD. |
+| 2026-05-06 | Talent Pool optional fields | Added `(Optional)` label to "Target Industries" and "Educational Institutions" in `TalentPoolSection.tsx` via new `optional` param on `renderArrayField`. |
+| 2026-05-06 | Candidate list contact buttons | Added `linkedinUrl?: string` to `CandidateItem`. Added Phone (copy), Email (copy), LinkedIn (open URL) icon buttons per candidate row in `ModernCandidateList.tsx`. Disabled when data absent. |
+| 2026-05-06 | Bulk candidate upload (TA Associate) | `Add Candidate` button now triggers hidden file input for `.csv/.xlsx/.xls`. New `BulkUploadModal` parses & previews data. Requires `xlsx` npm package (added). Wired in `CandidatesPage.tsx` for recruiter role only. |
+| 2026-05-06 | Job Fit Score settings | New `JobFitScoreSettings.tsx` with 6 weighted sliders summing to 100%. Added to `SettingsNav.tsx` (Target icon), route `/settings/job-fit-score` in `App.tsx`, and early-return render in `Settings.tsx`. Also fixed missing early-return for `/settings/interview`. |
 
 ---
 

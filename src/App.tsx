@@ -235,6 +235,7 @@ const App = () => (
                 <Route path="/settings/authentication" element={<Settings />} />
                 <Route path="/settings/policy" element={<Settings />} />
                 <Route path="/settings/license" element={<Settings />} />
+                <Route path="/settings/job-fit-score" element={<Settings />} />
                 
                 <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/suggest-feedback" element={<SuggestFeedback />} />

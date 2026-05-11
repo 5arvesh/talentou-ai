@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { TAAssociateJDFlowProvider } from '@/context/TAAssociateJDFlowContext';
@@ -7,11 +7,32 @@ import { TAAssociateJDFlowChat } from './TAAssociateJDFlowChat';
 import { TAAssociateJDFlowPanel } from './TAAssociateJDFlowPanel';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 import { useChatPanelStore } from "@/store/chat-panel-store";
+import { useTourStore } from "@/store/tour-store";
+
+const JD_FLOW_TOUR_STEPS = [
+  {
+    title: "Build your job description here",
+    description: "Chat with the AI to describe the role. You can ask it to generate a JD from scratch, refine an existing one, or answer specific questions about the position.",
+  },
+  {
+    title: "Review & edit your JD in the panel",
+    description: "Your job description is generated live in this panel. Edit any section directly, add or remove fields, and preview before publishing.",
+  },
+  {
+    title: "Track your JD stages",
+    description: "The left sidebar tracks your progress — from initial details through skills, responsibilities, and final approval. Complete each step to publish.",
+  },
+];
 
 export function TAAssociateJDFlowLayout() {
   const { jobId } = useParams<{ jobId: string }>();
   const scrollToStageRef = useRef<((stage: number) => void) | undefined>();
   const { isChatOpen } = useChatPanelStore();
+  const { startTour } = useTourStore();
+
+  useEffect(() => {
+    startTour("jd-flow", JD_FLOW_TOUR_STEPS);
+  }, []);
 
   return (
     <TAAssociateJDFlowProvider>

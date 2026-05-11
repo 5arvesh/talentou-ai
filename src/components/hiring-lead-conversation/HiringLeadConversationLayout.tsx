@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { HiringLeadConversationProvider, useHiringLeadConversation } from "@/context/HiringLeadConversationContext";
 import { HiringLeadConversationProgress } from "./HiringLeadConversationProgress";
@@ -6,11 +6,32 @@ import { HiringLeadConversationChat } from "./HiringLeadConversationChat";
 import { HiringLeadConversationPanel } from "./HiringLeadConversationPanel";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { useChatPanelStore } from "@/store/chat-panel-store";
+import { useTourStore } from "@/store/tour-store";
+
+const HL_CONVERSATION_TOUR_STEPS = [
+  {
+    title: "Describe your hiring requirements",
+    description: "Chat naturally with the AI about the role you're hiring for. Ask questions, share context, or let it guide you through the process.",
+  },
+  {
+    title: "Fill in the job details panel",
+    description: "Complete the structured fields here — job title, budget, start date, skills, and more. The AI helps generate content based on your conversation.",
+  },
+  {
+    title: "Complete each stage in order",
+    description: "The left sidebar tracks your progress through 5 stages: Job Details → Skills → Screening → Interview Setup → JD Preview. Each stage unlocks the next.",
+  },
+];
 
 function ConversationContent() {
   const scrollToStageRef = useRef<((stage: number) => void) | undefined>();
   const { currentStage } = useHiringLeadConversation();
   const { isChatOpen } = useChatPanelStore();
+  const { startTour } = useTourStore();
+
+  useEffect(() => {
+    startTour("hl-conversation", HL_CONVERSATION_TOUR_STEPS);
+  }, []);
 
   // View JD section (stage 3) - bigger right panel, smaller chat
   const isViewJDStage = currentStage === 3;

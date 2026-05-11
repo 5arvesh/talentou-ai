@@ -2,8 +2,8 @@
 import { useState, 
   // useRef, 
   useEffect } from "react";
-import { Bell, 
-  // Search, 
+import { Bell, HelpCircle,
+  // Search,
   ChevronDown
 } from "lucide-react";
 // import { Input } from "@/components/ui/input";
@@ -14,11 +14,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useNavigate, useLocation } from "react-router-dom";
 // import { SearchResults } from "./SearchResults";
 import { useChatPanelStore } from "@/store/chat-panel-store";
+import { useTourStore } from "@/store/tour-store";
 
 export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isChatOpen } = useChatPanelStore();
+  const { tourKey, restartTour } = useTourStore();
   // const [searchQuery, setSearchQuery] = useState("");
   // const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [userName, setUserName] = useState("Ananthan Gambhiram");
@@ -122,11 +124,23 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          {tourKey && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-500 hover:text-[#7800D3] hover:bg-[#7800D3]/10 transition-colors"
+              onClick={restartTour}
+              title="Restart tour"
+            >
+              <HelpCircle size={20} />
+            </Button>
+          )}
+
           <div className="relative">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-gray-600 cursor-pointer" 
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-600 cursor-pointer"
               onClick={handleNotificationClick}
             >
               <Bell size={20} />

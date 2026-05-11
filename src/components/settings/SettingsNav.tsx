@@ -14,7 +14,8 @@ import {
   Database,
   Shield,
   FileText,
-  Award
+  Award,
+  Target
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -49,6 +50,11 @@ const navItems = [
     icon: Video,
     label: "Interview Settings",
     path: "/settings/interview"
+  },
+  {
+    icon: Target,
+    label: "Job Fit Score",
+    path: "/settings/job-fit-score"
   },
   {
     icon: Mail,

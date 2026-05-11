@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { Calendar, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModernCandidateList, CandidateItem } from "../shared/ModernCandidateList";
 import { RecruiterScheduleDrawer } from "../recruiter/RecruiterScheduleDrawer";
+import { BulkUploadModal } from "../candidates/BulkUploadModal";
+import { useTourStore } from "@/store/tour-store";
+
+const CANDIDATES_TOUR_STEPS = [
+  {
+    title: "Your candidate pipeline is here",
+    description: "Every candidate for your open roles is listed in this table. The Job Fit Score shows how well each candidate matches the position requirements.",
+  },
+  {
+    title: "Search, filter & sort candidates",
+    description: "Use the search bar to find candidates by name, skill, or email. Filter by job, status, or score. Toggle column visibility to customise your view.",
+  },
+  {
+    title: "Quick-action buttons on every row",
+    description: "Use the phone and email icons to copy contact info instantly. The LinkedIn icon opens their profile. The dropdown menu has more actions like scheduling and status changes.",
+  },
+];
 
 interface Candidate {
   id: number;
@@ -57,6 +74,28 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
   const [drawerCandidates, setDrawerCandidates] = useState<Array<{ id: string | number; name: string; jobTitle?: string }>>([]);
 
   const isRecruiter = role === "recruiter";
+  const { startTour } = useTourStore();
+
+  useEffect(() => {
+    startTour("candidates", CANDIDATES_TOUR_STEPS);
+  }, []);
+
+  // Bulk upload state (recruiter only)
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
+
+  const handleAddCandidate = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadFile(file);
+    setBulkModalOpen(true);
+    e.target.value = "";
+  };
 
   const formattedCandidates = allCandidates.map((c) => ({
     id: c.id,
@@ -115,6 +154,17 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
 
   return (
     <>
+      {/* Hidden file input for bulk upload */}
+      {isRecruiter && (
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".csv,.xlsx,.xls"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      )}
+
       {/* Bulk action bar — only visible for recruiter when candidates are selected */}
       {isRecruiter && selectedIds.size > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-[#1e1e2e] text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
@@ -148,10 +198,20 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
         role={role}
         candidates={formattedCandidates}
         onAction={isRecruiter ? handleAction : undefined}
+        onAddCandidate={isRecruiter ? handleAddCandidate : undefined}
         selectedIds={isRecruiter ? selectedIds : undefined}
         onSelectionChange={isRecruiter ? handleSelectionChange : undefined}
         onSelectAll={isRecruiter ? handleSelectAll : undefined}
       />
+
+      {isRecruiter && (
+        <BulkUploadModal
+          open={bulkModalOpen}
+          file={uploadFile}
+          onClose={() => { setBulkModalOpen(false); setUploadFile(null); }}
+          onImport={() => {}}
+        />
+      )}
 
       {isRecruiter && (
         <RecruiterScheduleDrawer

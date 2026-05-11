@@ -25,14 +25,17 @@ export function TalentPoolSection() {
     updateStageData('talentPool', { [field]: currentArray.filter((_, i) => i !== index) });
   };
 
-  const renderArrayField = (field: string, label: string, items: string[]) => {
+  const renderArrayField = (field: string, label: string, items: string[], optional?: boolean) => {
     const [inputValue, setInputValue] = useState('');
     const isEditing = editingField === field;
 
     return (
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-foreground">{label}</label>
+          <label className="text-sm font-medium text-foreground">
+            {label}
+            {optional && <span className="ml-1.5 text-xs text-muted-foreground font-normal">(Optional)</span>}
+          </label>
           {!isEditing && (
             <Button
               variant="ghost"
@@ -126,9 +129,9 @@ export function TalentPoolSection() {
           <div className="p-4 space-y-4 border-t border-primary/20">
             {renderArrayField('workArrangement', 'Work Arrangement', data.workArrangement)}
             {renderArrayField('geographicPreferences', 'Geographic Preferences', data.geographicPreferences)}
-            {renderArrayField('targetIndustries', 'Target Industries', data.targetIndustries)}
+            {renderArrayField('targetIndustries', 'Target Industries', data.targetIndustries, true)}
             {renderArrayField('targetCompanies', 'Target Companies', data.targetCompanies)}
-            {renderArrayField('educationalInstitutions', 'Educational Institutions', data.educationalInstitutions)}
+            {renderArrayField('educationalInstitutions', 'Educational Institutions', data.educationalInstitutions, true)}
             {renderArrayField('keySkills', 'Key Skills', data.keySkills)}
           </div>
         </CollapsibleContent>

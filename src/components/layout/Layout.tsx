@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Sidebar } from "../sidebar/Sidebar";
 import { Header } from "../header/Header";
 import { TabNav } from "../navigation/TabNav";
+import { TourGuide } from "../shared/TourGuide";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { useLocation } from "react-router-dom";
@@ -89,6 +90,7 @@ export function Layout({ children }: LayoutProps) {
           {children}
         </main>
 
+        <TourGuide />
         <Toaster />
         <SonnerToaster />
       </div>

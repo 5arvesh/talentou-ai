@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import {
   Search,
   ChevronRight,
@@ -16,7 +17,10 @@ import {
   ArrowUpZA,
   ListFilter,
   Plus,
-  PlayCircle
+  PlayCircle,
+  Phone,
+  Mail,
+  Linkedin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +52,7 @@ export interface CandidateItem {
   currentCTC?: string;
   expectedCTC?: string;
   earliestJoiningDate?: string;
+  linkedinUrl?: string;
 }
 
 interface ModernCandidateListProps {
@@ -55,6 +60,7 @@ interface ModernCandidateListProps {
   candidates: CandidateItem[];
   title?: string;
   onAction?: (action: string, candidate: CandidateItem) => void;
+  onAddCandidate?: () => void;
   selectedIds?: Set<string | number>;
   onSelectionChange?: (id: string | number, selected: boolean) => void;
   onSelectAll?: (selected: boolean, visibleIds: Array<string | number>) => void;
@@ -81,7 +87,7 @@ const ALL_COLUMNS: ColumnDef[] = [
 
 const DEFAULT_COLUMNS = ["name", "yearsOfExperience", "skills", "roleFitScore", "status"];
 
-export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction, selectedIds, onSelectionChange, onSelectAll }: ModernCandidateListProps) {
+export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction, onAddCandidate, selectedIds, onSelectionChange, onSelectAll }: ModernCandidateListProps) {
   const navigate = useNavigate();
   const [globalSearch, setGlobalSearch] = useState("");
   const [visibleColumns, setVisibleColumns] = useState<string[]>(DEFAULT_COLUMNS);
@@ -497,7 +503,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           </div>
 
           {/* Add Candidate button */}
-          <Button className="bg-[#4EAD3B] hover:bg-[#3e8a2f] text-white shrink-0">
+          <Button className="bg-[#4EAD3B] hover:bg-[#3e8a2f] text-white shrink-0" onClick={onAddCandidate}>
             <Plus className="h-4 w-4 mr-2" /> Add Candidate
           </Button>
         </div>
@@ -627,11 +633,68 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                       })}
                     
                     <TableCell className="text-center pr-4 py-3" onClick={(e) => e.stopPropagation()}>
-                      <DropdownMenu>
+                      <div className="flex items-center justify-center gap-0.5">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 rounded-full"
+                              disabled={!candidate.phone}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(candidate.phone ?? '');
+                                toast.success("Phone number copied");
+                              }}
+                            >
+                              <Phone className="h-3.5 w-3.5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Copy phone</TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 rounded-full"
+                              disabled={!candidate.email}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(candidate.email ?? '');
+                                toast.success("Email address copied");
+                              }}
+                            >
+                              <Mail className="h-3.5 w-3.5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Copy email</TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full"
+                              disabled={!candidate.linkedinUrl}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(candidate.linkedinUrl, '_blank');
+                              }}
+                            >
+                              <Linkedin className="h-3.5 w-3.5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>{candidate.linkedinUrl ? "Open LinkedIn" : "LinkedIn not available"}</TooltipContent>
+                        </Tooltip>
+
+                        <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             className="h-8 w-8 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 transition-colors rounded-full"
                           >
                             <ChevronRight className="h-5 w-5" />
@@ -667,6 +730,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                             )}
                           </DropdownMenuContent>
                         </DropdownMenu>
+                      </div>
                       </TableCell>
                     </TableRow>
                   );
