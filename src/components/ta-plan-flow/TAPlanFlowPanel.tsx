@@ -50,7 +50,7 @@ export function TAPlanFlowPanel() {
     <div className="h-full flex flex-col bg-white">
       {/* Header - aligned with other panels */}
       <div className="p-6 border-b border-[#7800D3]/15">
-        <h2 className="text-xl font-bold text-[#6474a9]">TA Plan Details</h2>
+        <h2 className="text-xl font-bold text-[#7800D3]">TA Plan Details</h2>
         <p className="text-sm text-muted-foreground mt-1">Fill in the details for each section</p>
       </div>
 
@@ -93,7 +93,7 @@ export function TAPlanFlowPanel() {
                   <AccordionTrigger className="px-6 py-4 hover:no-underline">
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-bold text-[#6474a9]">
+                        <h3 className="text-lg font-bold text-[#7800D3]">
                           {section.title}
                         </h3>
                       </div>

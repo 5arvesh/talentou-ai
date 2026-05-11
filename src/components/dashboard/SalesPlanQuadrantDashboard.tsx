@@ -103,9 +103,9 @@ const SalesPlanQuadrantDashboard = () => {
 
   const HiringMetrics = () => {
     const metrics = [
-      { label: "Current Efficiency", value: "75%", change: "+7%", trend: "up", color: "from-emerald-500 to-teal-500" },
-      { label: "Current Velocity", value: "67%", change: "-3%", trend: "down", color: "from-amber-500 to-orange-500" },
-      { label: "Overall Score", value: "71%", change: "+2%", trend: "up", color: "from-violet-500 to-purple-500" },
+      { label: "Current Efficiency", value: "75%", change: "+7%", trend: "up", color: "from-emerald-600 to-emerald-500" },
+      { label: "Current Velocity", value: "67%", change: "-3%", trend: "down", color: "from-amber-600 to-amber-500" },
+      { label: "Overall Score", value: "71%", change: "+2%", trend: "up", color: "from-[#7800D3] to-[#9b30e8]" },
     ];
 
     return (
@@ -233,7 +233,7 @@ const SalesPlanQuadrantDashboard = () => {
       <div className="flex justify-between items-start">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+            <h1 className="text-3xl font-bold text-foreground">
               TA Leader Dashboard
             </h1>
             <Badge variant="secondary" className="gap-1">

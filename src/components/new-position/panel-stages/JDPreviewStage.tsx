@@ -122,7 +122,7 @@ export function JDPreviewStage() {
             </Card>
 
             {/* About the Role */}
-            <Card className="p-5 border-l-4 border-l-primary">
+            <Card className="p-5 border border-[#7800D3]/20 bg-[#7800D3]/4">
               <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
                 <Star className="h-5 w-5 text-primary" />
                 About the Role

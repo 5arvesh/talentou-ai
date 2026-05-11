@@ -82,7 +82,7 @@ export function HiringLeadConversationPanel() {
   return (
     <div className="h-full flex flex-col bg-white">
       <div className="p-6 border-b border-[#7800D3]/15">
-        <h2 className="text-xl font-bold text-[#6474a9]">Position Details</h2>
+        <h2 className="text-xl font-bold text-[#7800D3]">Position Details</h2>
         <p className="text-xs text-muted-foreground mt-1">Fill in the details for each section</p>
       </div>
 
@@ -121,7 +121,7 @@ export function HiringLeadConversationPanel() {
                           <Check className="h-4 w-4 text-black" />
                         </div>
                       )}
-                      <h3 className={`text-lg font-bold ${status === 'completed' ? 'text-[#4ead3b]' : 'text-[#6474a9]'}`}>
+                      <h3 className={`text-lg font-bold ${status === 'completed' ? 'text-[#4ead3b]' : 'text-[#7800D3]'}`}>
                         {section.title}
                       </h3>
                     </div>

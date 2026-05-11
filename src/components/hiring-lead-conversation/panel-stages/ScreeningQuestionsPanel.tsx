@@ -53,7 +53,7 @@ export function ScreeningQuestionsPanel() {
       <Card className="p-5 border border-border">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#6474a9]">Screening Questions</h3>
+            <h3 className="text-base font-semibold text-[#7800D3]">Screening Questions</h3>
             {interviewSetup.screeningQuestions.length > 0 && (
               <Badge variant="secondary" className="text-xs font-normal">
                 {interviewSetup.screeningQuestions.length} question{interviewSetup.screeningQuestions.length !== 1 ? 's' : ''}

@@ -19,14 +19,14 @@ export function CompanyUSPPanel() {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <Label className="text-base font-bold text-[#6474a9]">Company USP & Value Propositions</Label>
+        <Label className="text-base font-bold text-[#7800D3]">Company USP & Value Propositions</Label>
         <p className="text-sm text-muted-foreground">
           Paste your company website URL in the chat to auto-extract USPs, or type them manually below.
         </p>
 
         {/* Elevator Pitch Textarea */}
         <div className="space-y-2">
-          <Label className="text-sm font-bold text-[#6474a9]">Elevator Pitch</Label>
+          <Label className="text-sm font-bold text-[#7800D3]">Elevator Pitch</Label>
           <Textarea
             value={planData.companyUSP.elevatorPitch}
             onChange={(e) => updatePlanData("companyUSP", { elevatorPitch: e.target.value })}

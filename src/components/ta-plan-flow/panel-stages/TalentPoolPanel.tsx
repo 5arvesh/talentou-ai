@@ -188,7 +188,7 @@ export function TalentPoolPanel() {
     <div className="space-y-6">
       {/* Work Arrangement */}
       <div className="space-y-3">
-        <Label className="text-base font-bold text-[#6474a9]">Work Arrangement</Label>
+        <Label className="text-base font-bold text-[#7800D3]">Work Arrangement</Label>
         <div className="flex gap-3">
           {WORK_MODES.map((mode) => (
             <Button
@@ -200,7 +200,7 @@ export function TalentPoolPanel() {
                 "flex-1 border-transparent",
                 planData.talentPool.workMode.includes(mode) 
                   ? "bg-[#7800d4] hover:bg-[#7800d4]/90 text-white" 
-                  : "bg-[#f3eeff] font-bold text-[#6474a9] hover:bg-[#e9d1ff]"
+                  : "bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff]"
               )}
             >
               {mode}
@@ -211,7 +211,7 @@ export function TalentPoolPanel() {
 
       {/* Hiring Region - City Only with Autocomplete */}
       <div className="space-y-3">
-        <Label className="text-base font-bold text-[#6474a9]">Hiring Region</Label>
+        <Label className="text-base font-bold text-[#7800D3]">Hiring Region</Label>
         
         {planData.talentPool.cities.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-2">
@@ -238,7 +238,7 @@ export function TalentPoolPanel() {
               variant="outline"
               role="combobox"
               aria-expanded={openCityPopover}
-              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#6474a9]"
+              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#7800D3]"
             >
               {citySearchValue || "Select or type city..."}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -292,7 +292,7 @@ export function TalentPoolPanel() {
 
       {/* Target Industries */}
       <div className="space-y-3">
-        <Label className="text-base font-bold text-[#6474a9]">Target Industries</Label>
+        <Label className="text-base font-bold text-[#7800D3]">Target Industries</Label>
         
         {planData.talentPool.targetIndustries.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-2">
@@ -319,7 +319,7 @@ export function TalentPoolPanel() {
               variant="outline"
               role="combobox"
               aria-expanded={openIndustryPopover}
-              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#6474a9]"
+              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#7800D3]"
             >
               {industrySearchValue || "Select or type industry..."}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -373,7 +373,7 @@ export function TalentPoolPanel() {
 
       {/* Educational Institutions */}
       <div className="space-y-3">
-        <Label className="text-base font-bold text-[#6474a9]">Educational Institutions</Label>
+        <Label className="text-base font-bold text-[#7800D3]">Educational Institutions</Label>
         
         {planData.talentPool.educationalInstitutions.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-2">
@@ -400,7 +400,7 @@ export function TalentPoolPanel() {
               variant="outline"
               role="combobox"
               aria-expanded={openInstitutionPopover}
-              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#6474a9]"
+              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#7800D3]"
             >
               {institutionSearchValue || "Select or type institution..."}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

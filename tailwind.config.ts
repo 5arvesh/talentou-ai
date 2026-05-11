@@ -77,6 +77,13 @@ export default {
           "primary-light": "hsl(var(--talentou-primary-light))",
           accent: "hsl(var(--talentou-accent))",
           "accent-light": "hsl(var(--talentou-accent-light))",
+          // Named brand tokens — use these instead of raw hex
+          purple: "#7800D3",
+          green: "#4EAD3B",
+          blue: "#0A92FE",
+          // Action gradient endpoints (buttons, send icons, Next CTAs)
+          "action-from": "#503afd",
+          "action-to": "#3857fd",
         },
         orange: {
           50: "#fff7ed",

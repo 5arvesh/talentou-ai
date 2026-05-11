@@ -54,7 +54,7 @@ export function Milestones() {
           <table className="w-full min-w-full">
             <thead>
               <tr className="border-b border-gray-200 dark:border-gray-700">
-                <th className="py-3 px-4 text-left font-medium text-gray-800 dark:text-gray-200 bg-orange-50/50 dark:bg-orange-900/10">Milestones</th>
+                <th className="py-3 px-4 text-left font-medium text-orange-900 dark:text-orange-200 bg-orange-50/50 dark:bg-orange-900/10">Milestones</th>
                 <th className="py-3 px-4 text-center font-medium text-gray-800 dark:text-gray-200">Daily</th>
                 <th className="py-3 px-4 text-center font-medium text-gray-800 dark:text-gray-200">Weekly</th>
                 <th className="py-3 px-4 text-center font-medium text-gray-800 dark:text-gray-200">Monthly</th>

@@ -99,7 +99,7 @@ export function InterviewSetupPanel() {
     <div className="space-y-5">
       {/* Interview Mode */}
       <Card className="p-5 border border-border">
-        <h3 className="text-base font-semibold text-[#6474a9] mb-1">Interview Mode</h3>
+        <h3 className="text-base font-semibold text-[#7800D3] mb-1">Interview Mode</h3>
         <p className="text-xs text-muted-foreground mb-4">Choose how the interview will be structured for candidates</p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={() => updateInterviewSetup({ includeAIQuestions: true })}
@@ -132,7 +132,7 @@ export function InterviewSetupPanel() {
       <Card className="p-5 border border-border">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#6474a9]">Preset Questions</h3>
+            <h3 className="text-base font-semibold text-[#7800D3]">Preset Questions</h3>
             {interviewSetup.coreQuestions.length > 0 && (
               <Badge variant="secondary" className="text-xs font-normal">
                 {interviewSetup.coreQuestions.length} question{interviewSetup.coreQuestions.length !== 1 ? 's' : ''} · {coreMins} min
@@ -225,7 +225,7 @@ export function InterviewSetupPanel() {
 
       {/* Interview Duration */}
       <Card className="p-5 border border-border">
-        <h3 className="text-base font-semibold text-[#6474a9] mb-4">Interview Duration</h3>
+        <h3 className="text-base font-semibold text-[#7800D3] mb-4">Interview Duration</h3>
         <div className="flex items-center gap-3 mb-5">
           <Button type="button" variant="outline" size="icon" className="h-8 w-8 shrink-0"
             onClick={() => updateInterviewSetup({ totalDurationMins: Math.max(1, interviewSetup.totalDurationMins - 1) })}

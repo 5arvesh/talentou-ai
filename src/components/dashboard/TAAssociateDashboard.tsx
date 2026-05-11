@@ -78,7 +78,7 @@ const TAAssociateDashboard = () => {
         <div className="flex items-end justify-between">
           <div>
             <p className="text-sm text-muted-foreground mb-1">Current Rate</p>
-            <p className="text-4xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">12.3%</p>
+            <p className="text-4xl font-bold text-red-600">12.3%</p>
           </div>
           <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-500/10 text-green-600 text-sm font-medium">
             <TrendingDown className="h-3.5 w-3.5" />
@@ -223,7 +223,7 @@ const TAAssociateDashboard = () => {
       <div className="flex justify-between items-start">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+            <h1 className="text-3xl font-bold text-foreground">
               TA Associate Dashboard
             </h1>
             <Badge variant="secondary" className="gap-1">

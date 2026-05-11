@@ -299,7 +299,7 @@ export function RecruiterAssignmentStage() {
                           <p className="font-semibold text-foreground">{job.title}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-sm text-muted-foreground font-medium">{job.project}</span>
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-black/5 text-black/60 font-medium">{job.daysOpen} days open</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-foreground/6 text-foreground/50 font-medium">{job.daysOpen} days open</span>
                           </div>
                         </div>
                         <div className="flex gap-1.5 bg-white/60 p-1 rounded-lg border border-border/50">
@@ -315,7 +315,7 @@ export function RecruiterAssignmentStage() {
                                   "text-xs px-3 h-7 font-medium transition-all",
                                   currentPriority === p 
                                     ? config.color.replace('border-', 'ring-1 ring-')
-                                    : "border-transparent bg-transparent text-muted-foreground hover:bg-black/5"
+                                    : "border-transparent bg-transparent text-muted-foreground hover:bg-foreground/5"
                                 )}
                               >
                                 {config.label}

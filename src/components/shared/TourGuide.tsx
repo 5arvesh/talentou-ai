@@ -153,7 +153,7 @@ export function TourGuide() {
         style={{ position: "fixed", top: tooltipPos.top, left: tooltipPos.left, width: TOOLTIP_WIDTH, zIndex: 9999, pointerEvents: "all" }}
         className="bg-white rounded-2xl shadow-2xl border border-[#7800D3]/20 overflow-hidden"
       >
-        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #0A92FE, #7E00FC)" }} />
+        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #7800D3, #503afd)" }} />
         <div className="flex gap-4 p-5">
           <div className="shrink-0">
             <img src={mascot} alt="Talentou guide" className="w-14 h-14 object-contain" />

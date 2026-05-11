@@ -421,7 +421,7 @@ export function MeasureKPIChat({
                       <TableRow className="border-b">
                         <TableCell
                           colSpan={2}
-                          className="font-semibold text-[#4a8ff7] dark:text-gray-200 bg-blue-50 dark:bg-gray-800 border-r py-3.5"
+                          className="font-semibold text-blue-800 dark:text-blue-200 bg-blue-50 dark:bg-gray-800 border-r py-3.5"
                         >
                           {section.category}
                         </TableCell>

@@ -66,7 +66,7 @@ export function TeamInvitationPanel() {
             <div className="p-2 rounded-lg bg-[#44C4EB]">
               <Users className="h-5 w-5 text-black" />
             </div>
-            <Label className="text-base font-bold m-0 text-[#6474a9]">Invite Team Members</Label>
+            <Label className="text-base font-bold m-0 text-[#7800D3]">Invite Team Members</Label>
           </div>
 
           {/* Email Input */}
@@ -82,13 +82,13 @@ export function TeamInvitationPanel() {
 
             {/* Role Selection Buttons */}
             <div className="space-y-2">
-              <Label className="text-base font-bold text-[#6474a9]">Select Role(s)</Label>
+              <Label className="text-base font-bold text-[#7800D3]">Select Role(s)</Label>
               <div className="flex gap-3">
                 <Button
                   type="button"
                   variant={selectedRoles.includes('recruiter') ? 'default' : 'outline'}
                   onClick={() => toggleRole('recruiter')}
-                  className={`flex-1 h-11 border-transparent ${selectedRoles.includes('recruiter') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-[#6474a9] hover:bg-[#e9d1ff]'}`}
+                  className={`flex-1 h-11 border-transparent ${selectedRoles.includes('recruiter') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff]'}`}
                 >
                   Recruiter
                 </Button>
@@ -96,7 +96,7 @@ export function TeamInvitationPanel() {
                   type="button"
                   variant={selectedRoles.includes('hiring_lead') ? 'default' : 'outline'}
                   onClick={() => toggleRole('hiring_lead')}
-                  className={`flex-1 h-11 border-transparent ${selectedRoles.includes('hiring_lead') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-[#6474a9] hover:bg-[#e9d1ff]'}`}
+                  className={`flex-1 h-11 border-transparent ${selectedRoles.includes('hiring_lead') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff]'}`}
                 >
                   Hiring Lead
                 </Button>
@@ -108,7 +108,7 @@ export function TeamInvitationPanel() {
                           type="button"
                           disabled
                           variant="outline"
-                          className="w-full h-11 opacity-50 cursor-not-allowed bg-[#f3eeff] border-transparent font-bold text-[#6474a9]"
+                          className="w-full h-11 opacity-50 cursor-not-allowed bg-[#f3eeff] border-transparent font-bold text-[#7800D3]"
                         >
                           HR
                         </Button>
@@ -133,7 +133,7 @@ export function TeamInvitationPanel() {
             <Button
               onClick={addMember}
               disabled={!canAddMember}
-              className="w-full h-11 bg-[#f3eeff] font-bold text-[#6474a9] hover:bg-[#e9d1ff] border-transparent"
+              className="w-full h-11 bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff] border-transparent"
               variant="outline"
             >
               <Mail className="h-5 w-5 mr-2" />
@@ -145,7 +145,7 @@ export function TeamInvitationPanel() {
           {membersCount > 0 ? (
             <div className="space-y-2 mt-4 pt-4 border-t">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-bold text-[#6474a9]">
+                <p className="text-sm font-bold text-[#7800D3]">
                   Invited Members ({membersCount})
                 </p>
                 <Button
