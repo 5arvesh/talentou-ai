@@ -85,10 +85,9 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     skillsResponsibilities: { completed: false },
     screeningSetup: { completed: false },
     interviewSetup: { completed: false },
-    viewJD: { completed: false }
+    viewJD: { completed: false },
   });
   const [jobDetails, setJobDetails] = useState<JobDetails>({
-    // Stage 1
     title: '',
     numberOfOpenings: 1,
     startDate: '',
@@ -99,8 +98,6 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     budgetCurrency: 'USD',
     maxBudget: '',
     sampleProfiles: [],
-
-    // Stage 2
     keySkills: [],
     desiredSkills: [],
     preferredQualifications: [],
@@ -118,11 +115,8 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     setChatMessages(prev => [...prev, message]);
   };
 
-  const completeStage = (stage: 'jobDetails' | 'skillsResponsibilities' | 'interviewSetup' | 'viewJD') => {
-    setStages(prev => ({
-      ...prev,
-      [stage]: { completed: true }
-    }));
+  const completeStage = (stage: 'jobDetails' | 'skillsResponsibilities' | 'screeningSetup' | 'interviewSetup' | 'viewJD') => {
+    setStages(prev => ({ ...prev, [stage]: { completed: true } }));
   };
 
   const updateJobDetails = (details: Partial<JobDetails>) => {

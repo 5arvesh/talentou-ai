@@ -12,14 +12,17 @@ const TA_PLAN_TOUR_STEPS = [
   {
     title: "Chat with your AI assistant",
     description: "Type here to have a conversation with Talentou AI. Describe your company, talent needs, or ask questions — the AI builds your plan as you chat.",
+    targetSelector: '[data-tour-id="ta-plan-chat"]',
   },
   {
     title: "Your plan builds here in real time",
     description: "This panel reflects your TA plan as it's created. You can edit any section directly — click the Edit button on any field to update it.",
+    targetSelector: '[data-tour-id="ta-plan-panel"]',
   },
   {
     title: "Track your progress",
     description: "The sidebar on the left shows all 5 planning stages. Each stage turns green as you complete it. You can jump between stages anytime.",
+    targetSelector: '[data-tour-id="ta-plan-progress"]',
   },
 ];
 
@@ -37,7 +40,9 @@ export function TAPlanFlowLayout() {
       <ResizablePanelGroup direction="horizontal" className="min-h-[calc(100vh-64px)] w-full">
         {/* Left Progress Sidebar */}
         <ResizablePanel defaultSize={15} minSize={10} maxSize={25}>
-          <TAPlanFlowProgress scrollToStageRef={scrollToStageRef} />
+          <div data-tour-id="ta-plan-progress" className="h-full">
+            <TAPlanFlowProgress scrollToStageRef={scrollToStageRef} />
+          </div>
         </ResizablePanel>
 
         <ResizableHandle>
@@ -54,7 +59,9 @@ export function TAPlanFlowLayout() {
           <>
             {/* Center Continuous Chat */}
             <ResizablePanel defaultSize={30} minSize={20}>
-              <TAPlanFlowChat scrollToStageRef={scrollToStageRef} />
+              <div data-tour-id="ta-plan-chat" className="h-full">
+                <TAPlanFlowChat scrollToStageRef={scrollToStageRef} />
+              </div>
             </ResizablePanel>
             <ResizableHandle />
           </>
@@ -62,7 +69,9 @@ export function TAPlanFlowLayout() {
 
         {/* Right Interactive Form Panel */}
         <ResizablePanel defaultSize={55} minSize={35} maxSize={70}>
-          <TAPlanFlowPanel />
+          <div data-tour-id="ta-plan-panel" className="h-full">
+            <TAPlanFlowPanel />
+          </div>
         </ResizablePanel>
       </ResizablePanelGroup>
     </TAPlanFlowProvider>

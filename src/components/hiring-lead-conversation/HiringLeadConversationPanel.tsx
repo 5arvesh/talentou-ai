@@ -21,7 +21,6 @@ export function HiringLeadConversationPanel() {
   const { currentStage, jobDetails, stages, addChatMessage, completeStage, setCurrentStage, updateJobDetails } = useHiringLeadConversation();
   const [openSection, setOpenSection] = React.useState<string>(`section-${currentStage}`);
 
-  // Auto-switch accordion when stage changes
   React.useEffect(() => {
     setOpenSection(`section-${currentStage}`);
   }, [currentStage]);
@@ -33,7 +32,6 @@ export function HiringLeadConversationPanel() {
     return 'upcoming';
   };
 
-  // Check if all required fields are filled for current stage
   const isCurrentStageComplete = () => {
     switch (currentStage) {
       case 0:
@@ -44,16 +42,9 @@ export function HiringLeadConversationPanel() {
                jobDetails.minExperience.trim() !== '' &&
                jobDetails.sampleProfiles.length > 0;
       case 1:
-        return jobDetails.keySkills.length > 0 &&
-               jobDetails.responsibilities.length > 0;
-      case 2: // Screening Questions — optional, always completable
-        return true;
-      case 3: // Interview Setup — always completable
-        return true;
-      case 4: // View JD
-        return true;
+        return jobDetails.keySkills.length > 0 && jobDetails.responsibilities.length > 0;
       default:
-        return false;
+        return true;
     }
   };
 
@@ -66,60 +57,35 @@ export function HiringLeadConversationPanel() {
           'Design and develop scalable web applications',
           'Collaborate with cross-functional teams',
           'Write clean, maintainable code',
-          'Participate in code reviews'
-        ]
+          'Participate in code reviews',
+        ],
       });
       addChatMessage({
-        id: Date.now(),
-        sender: 'ai',
+        id: Date.now(), sender: 'ai',
         content: "Great! I've generated the required skills, preferred skills, and responsibilities based on your job details. You can review and edit them in the right panel.",
-        name: 'Talentou AI',
-        stageIndex: 1
+        name: 'Talentou AI', stageIndex: 1,
       });
       completeStage('jobDetails');
       setCurrentStage(1);
     } else if (currentStage === 1) {
       addChatMessage({
-        id: Date.now(),
-        sender: 'ai',
+        id: Date.now(), sender: 'ai',
         content: "Perfect! Now let's add any pre-application screening questions for candidates. These are optional — you can skip to continue.",
-        name: 'Talentou AI',
-        stageIndex: 2
+        name: 'Talentou AI', stageIndex: 2,
       });
       completeStage('skillsResponsibilities');
       setCurrentStage(2);
-    } else if (currentStage === 2) {
-      addChatMessage({
-        id: Date.now(),
-        sender: 'ai',
-        content: "Got it! Now let's set up the interview — add your preset questions, choose AI assistance, and set the duration.",
-        name: 'Talentou AI',
-        stageIndex: 3
-      });
-      completeStage('screeningSetup');
-      setCurrentStage(3);
-    } else if (currentStage === 3) {
-      addChatMessage({
-        id: Date.now(),
-        sender: 'ai',
-        content: "Excellent! I've generated a complete Job Description based on your inputs. Please review it in the panel on the right.",
-        name: 'Talentou AI',
-        stageIndex: 4
-      });
-      completeStage('interviewSetup');
-      setCurrentStage(4);
     }
+    // Stages 2 and 3 advance via their own internal "Next" buttons
   };
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* Header - aligned with other panels */}
       <div className="p-6 border-b border-[#7800D3]/15">
         <h2 className="text-xl font-bold text-[#6474a9]">Position Details</h2>
         <p className="text-xs text-muted-foreground mt-1">Fill in the details for each section</p>
       </div>
 
-      {/* Accordion Sections */}
       <ScrollArea className="flex-1">
         <div className="p-6">
           <Accordion
@@ -130,29 +96,23 @@ export function HiringLeadConversationPanel() {
               setOpenSection(value);
               if (value) {
                 const sectionId = parseInt(value.split('-')[1]);
-                if (getSectionStatus(sectionId) !== 'upcoming') {
-                  setCurrentStage(sectionId);
-                }
+                if (getSectionStatus(sectionId) !== 'upcoming') setCurrentStage(sectionId);
               }
             }}
             className="space-y-4"
           >
             {sections.map((section) => {
               const status = getSectionStatus(section.id);
-              
               if (status === 'upcoming') return null;
-
               const Component = section.component;
 
               return (
                 <AccordionItem
                   key={section.id}
                   value={`section-${section.id}`}
-                  className={`
-                    border-2 rounded-lg overflow-hidden transition-all bg-gradient-to-r from-[#faf5ff] to-white
+                  className={`border-2 rounded-lg overflow-hidden transition-all bg-gradient-to-r from-[#faf5ff] to-white
                     ${status === 'completed' ? 'border-[#4ead3b]/30' : ''}
-                    ${status === 'in-progress' ? 'border-[#7800D3]/30 shadow-sm' : 'border-transparent'}
-                  `}
+                    ${status === 'in-progress' ? 'border-[#7800D3]/30 shadow-sm' : 'border-transparent'}`}
                 >
                   <AccordionTrigger className="px-6 py-4 hover:no-underline">
                     <div className="flex items-center gap-3">
@@ -161,18 +121,24 @@ export function HiringLeadConversationPanel() {
                           <Check className="h-4 w-4 text-black" />
                         </div>
                       )}
-                      <h3
-                        className={`
-                          text-lg font-bold
-                          ${status === 'completed' ? 'text-[#4ead3b]' : 'text-[#6474a9]'}
-                        `}
-                      >
+                      <h3 className={`text-lg font-bold ${status === 'completed' ? 'text-[#4ead3b]' : 'text-[#6474a9]'}`}>
                         {section.title}
                       </h3>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="px-6 pb-6 bg-white/50">
                     <Component />
+                    {(section.id === 0 || section.id === 1) && status === 'in-progress' && (
+                      <div className="mt-4 pt-4 border-t border-[#7800D3]/10">
+                        <button
+                          onClick={handleNextStage}
+                          disabled={!isCurrentStageComplete()}
+                          className="w-full h-10 text-sm font-semibold bg-[#7800D3] hover:bg-[#6600B3] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        >
+                          {section.id === 0 ? 'Generate Skills & Responsibilities →' : 'Next: Screening Questions →'}
+                        </button>
+                      </div>
+                    )}
                   </AccordionContent>
                 </AccordionItem>
               );

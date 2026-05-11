@@ -13,14 +13,17 @@ const JD_FLOW_TOUR_STEPS = [
   {
     title: "Build your job description here",
     description: "Chat with the AI to describe the role. You can ask it to generate a JD from scratch, refine an existing one, or answer specific questions about the position.",
+    targetSelector: '[data-tour-id="jd-chat"]',
   },
   {
     title: "Review & edit your JD in the panel",
     description: "Your job description is generated live in this panel. Edit any section directly, add or remove fields, and preview before publishing.",
+    targetSelector: '[data-tour-id="jd-panel"]',
   },
   {
     title: "Track your JD stages",
     description: "The left sidebar tracks your progress — from initial details through skills, responsibilities, and final approval. Complete each step to publish.",
+    targetSelector: '[data-tour-id="jd-progress"]',
   },
 ];
 
@@ -39,7 +42,9 @@ export function TAAssociateJDFlowLayout() {
       <ResizablePanelGroup direction="horizontal" className="min-h-[calc(100vh-64px)] w-full">
         {/* Left Progress Sidebar */}
         <ResizablePanel defaultSize={15} minSize={10} maxSize={25}>
-          <TAAssociateJDFlowProgress scrollToStageRef={scrollToStageRef} jobId={jobId || ''} />
+          <div data-tour-id="jd-progress" className="h-full">
+            <TAAssociateJDFlowProgress scrollToStageRef={scrollToStageRef} jobId={jobId || ''} />
+          </div>
         </ResizablePanel>
 
         <ResizableHandle>
@@ -56,7 +61,9 @@ export function TAAssociateJDFlowLayout() {
           <>
             {/* Center Continuous Chat */}
             <ResizablePanel defaultSize={30} minSize={20}>
-              <TAAssociateJDFlowChat scrollToStageRef={scrollToStageRef} jobId={jobId || ''} />
+              <div data-tour-id="jd-chat" className="h-full">
+                <TAAssociateJDFlowChat scrollToStageRef={scrollToStageRef} jobId={jobId || ''} />
+              </div>
             </ResizablePanel>
             <ResizableHandle />
           </>
@@ -64,7 +71,9 @@ export function TAAssociateJDFlowLayout() {
 
         {/* Right Interactive Form Panel */}
         <ResizablePanel defaultSize={55} minSize={35} maxSize={70}>
-          <TAAssociateJDFlowPanel jobId={jobId || ''} />
+          <div data-tour-id="jd-panel" className="h-full">
+            <TAAssociateJDFlowPanel jobId={jobId || ''} />
+          </div>
         </ResizablePanel>
       </ResizablePanelGroup>
     </TAAssociateJDFlowProvider>

@@ -3,6 +3,7 @@ import { create } from "zustand";
 export interface TourStep {
   title: string;
   description: string;
+  targetSelector?: string;
 }
 
 interface TourStore {

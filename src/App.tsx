@@ -79,8 +79,6 @@ import HRCandidatesPage from "./pages/hr/HRCandidatesPage";
 import HROfferLetterPage from "./pages/hr/HROfferLetterPage";
 import TAAssociateDashboard from "./components/dashboard/TAAssociateDashboard";
 import TenantManagementPage from "./pages/super-admin/TenantManagementPage";
-import AIInterviewPerformancePage_TAAssociate from "./pages/AIInterviewPerformancePage_TAAssociate";
-import AIInterviewPerformancePage_HiringLead from "./pages/AIInterviewPerformancePage_HiringLead";
 
 const queryClient = new QueryClient();
 
@@ -126,7 +124,6 @@ const App = () => (
                 <Route path="/hiring-lead/jobs" element={<JobListPage />} />
                 <Route path="/hiring-lead/job-openings" element={<JobOpeningsPage />} />
                 <Route path="/hiring-lead/candidates" element={<CandidatesPageWrapper />} />
-                <Route path="/hiring-lead/candidates/interview/:candidateId" element={<AIInterviewPerformancePage_HiringLead />} />
                 <Route path="/hiring-lead/projects" element={<ProjectListPage />} />
                 <Route path="/hiring-lead/conversation" element={<HiringLeadConversationPage />} />
                 
@@ -134,7 +131,6 @@ const App = () => (
                 <Route path="/ta-associate/projects" element={<ProjectListPage_TAAssociate />} />
                 <Route path="/ta-associate/jobs" element={<JobListPage_TAAssociate />} />
                 <Route path="/ta-associate/candidates" element={<CandidatesPageWrapper_TAAssociate />} />
-                <Route path="/ta-associate/candidates/interview/:candidateId" element={<AIInterviewPerformancePage_TAAssociate />} />
                 <Route path="/ta-associate/jd/:jobId" element={<TAAssociateJDFlowPage />} />
                 <Route path="/ta-associate/dashboard" element={
                   <div className="flex h-screen">

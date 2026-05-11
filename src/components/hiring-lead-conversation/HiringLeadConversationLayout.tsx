@@ -12,14 +12,17 @@ const HL_CONVERSATION_TOUR_STEPS = [
   {
     title: "Describe your hiring requirements",
     description: "Chat naturally with the AI about the role you're hiring for. Ask questions, share context, or let it guide you through the process.",
+    targetSelector: '[data-tour-id="hl-chat"]',
   },
   {
     title: "Fill in the job details panel",
     description: "Complete the structured fields here — job title, budget, start date, skills, and more. The AI helps generate content based on your conversation.",
+    targetSelector: '[data-tour-id="hl-panel"]',
   },
   {
     title: "Complete each stage in order",
     description: "The left sidebar tracks your progress through 5 stages: Job Details → Skills → Screening → Interview Setup → JD Preview. Each stage unlocks the next.",
+    targetSelector: '[data-tour-id="hl-progress"]',
   },
 ];
 
@@ -33,14 +36,16 @@ function ConversationContent() {
     startTour("hl-conversation", HL_CONVERSATION_TOUR_STEPS);
   }, []);
 
-  // View JD section (stage 3) - bigger right panel, smaller chat
-  const isViewJDStage = currentStage === 3;
+  // View JD section (stage 4) - bigger right panel, smaller chat
+  const isViewJDStage = currentStage === 4;
 
   return (
     <ResizablePanelGroup direction="horizontal" className="h-full w-full">
       {/* Left Progress Sidebar */}
       <ResizablePanel defaultSize={15} minSize={10} maxSize={25}>
-        <HiringLeadConversationProgress scrollToStageRef={scrollToStageRef} />
+        <div data-tour-id="hl-progress" className="h-full">
+          <HiringLeadConversationProgress scrollToStageRef={scrollToStageRef} />
+        </div>
       </ResizablePanel>
 
       <ResizableHandle>
@@ -56,22 +61,26 @@ function ConversationContent() {
       {isChatOpen && (
         <>
           {/* Center Continuous Chat - smaller for View JD */}
-          <ResizablePanel 
-            defaultSize={isViewJDStage ? 20 : 30} 
+          <ResizablePanel
+            defaultSize={isViewJDStage ? 20 : 30}
             minSize={15}
           >
-            <HiringLeadConversationChat scrollToStageRef={scrollToStageRef} />
+            <div data-tour-id="hl-chat" className="h-full">
+              <HiringLeadConversationChat scrollToStageRef={scrollToStageRef} />
+            </div>
           </ResizablePanel>
           <ResizableHandle />
         </>
       )}
 
       {/* Right Form Panel - bigger for View JD */}
-      <ResizablePanel 
-        defaultSize={isViewJDStage ? 65 : 55} 
+      <ResizablePanel
+        defaultSize={isViewJDStage ? 65 : 55}
         minSize={30}
       >
-        <HiringLeadConversationPanel />
+        <div data-tour-id="hl-panel" className="h-full">
+          <HiringLeadConversationPanel />
+        </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
