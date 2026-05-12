@@ -13,7 +13,8 @@ import {
   ArrowUpZA,
   ListFilter,
   Globe,
-  ClipboardList
+  ClipboardList,
+  Users,
 } from "lucide-react";
 import { RecruiterScreeningDrawer } from "@/components/recruiter/RecruiterScreeningDrawer";
 import { Button } from "@/components/ui/button";

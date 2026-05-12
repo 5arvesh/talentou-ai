@@ -565,9 +565,12 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
     }
   };
 
+  const MONTHS = ["Jan","Feb","Mar","Apr","May"];
+  const DAYS   = ["01","05","08","10","12","15","18","20","22","25","28","30"];
   const candidatesWithExp = allCandidates.map(c => ({
     ...c,
-    yearsOfExperience: (c.id % 8) + 2
+    yearsOfExperience: (c.id % 8) + 2,
+    dateAdded: `${DAYS[c.id % DAYS.length]} ${MONTHS[c.id % MONTHS.length]} 2025`,
   }));
 
   return (

@@ -53,6 +53,7 @@ export interface CandidateItem {
   expectedCTC?: string;
   earliestJoiningDate?: string;
   linkedinUrl?: string;
+  dateAdded?: string;
 }
 
 interface ModernCandidateListProps {
@@ -83,9 +84,10 @@ const ALL_COLUMNS: ColumnDef[] = [
   { id: "currentCTC", label: "Current CTC" },
   { id: "expectedCTC", label: "Expected CTC" },
   { id: "earliestJoiningDate", label: "Earliest Joining Date" },
+  { id: "dateAdded", label: "Date Added" },
 ];
 
-const DEFAULT_COLUMNS = ["name", "yearsOfExperience", "skills", "roleFitScore", "status"];
+const DEFAULT_COLUMNS = ["name", "yearsOfExperience", "skills", "roleFitScore", "status", "dateAdded"];
 
 export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction, onAddCandidate, selectedIds, onSelectionChange, onSelectAll }: ModernCandidateListProps) {
   const navigate = useNavigate();
@@ -126,6 +128,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
     if (field === 'currentCTC') return candidate.currentCTC || "$80,000";
     if (field === 'expectedCTC') return candidate.expectedCTC || "$100,000";
     if (field === 'earliestJoiningDate') return candidate.earliestJoiningDate || "Immediate";
+    if (field === 'dateAdded') return candidate.dateAdded || "-";
     if (field === 'skills') return candidate.skills.join(", ");
     return String((candidate as any)[field] || "-");
   };
