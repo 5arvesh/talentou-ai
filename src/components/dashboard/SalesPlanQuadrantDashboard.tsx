@@ -127,7 +127,7 @@ const SalesPlanQuadrantDashboard = () => {
         <CardContent>
           <div className="grid grid-cols-3 gap-3">
             {metrics.map((metric, idx) => (
-              <div key={idx} className={`p-4 rounded-xl bg-gradient-to-br ${metric.color} text-white relative overflow-hidden`}>
+              <div key={idx} className={`p-3 rounded-xl bg-gradient-to-br ${metric.color} text-white relative overflow-hidden`}>
                 <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-8 translate-x-8" />
                 <p className="text-xs font-medium text-white/80 mb-1">{metric.label}</p>
                 <p className="text-2xl font-bold">{metric.value}</p>

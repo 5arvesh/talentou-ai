@@ -53,7 +53,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
       </div>
 
       {/* Stages List */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {stages.map((stage) => {
           const status = getStageStatus(stage.id);
 
@@ -62,11 +62,11 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
               key={stage.id}
               onClick={() => handleStageClick(stage.id)}
               className={`
-                p-4 transition-all duration-200
-                ${status === 'completed' ? 'border-[#4ead3b] bg-[#4ead3b]/5 hover:bg-[#4ead3b]/10 cursor-pointer' : ''}
-                ${status === 'in-progress' ? 'border-[#7800D3] bg-gradient-to-br from-[#7800D3]/10 to-transparent shadow-md cursor-pointer' : ''}
-                ${status === 'upcoming' ? 'border-black bg-white text-black opacity-100 cursor-not-allowed' : ''}
-                ${status === 'coming-soon' ? 'border-border bg-muted/30 opacity-60 cursor-not-allowed' : ''}
+                transition-all duration-200
+                ${status === 'completed' ? 'p-4 border-[#4ead3b] bg-[#4ead3b]/5 hover:bg-[#4ead3b]/10 cursor-pointer' : ''}
+                ${status === 'in-progress' ? 'p-5 border-[#7800D3] bg-gradient-to-br from-[#7800D3]/10 to-transparent shadow-md cursor-pointer' : ''}
+                ${status === 'upcoming' ? 'p-4 border-border bg-white opacity-60 cursor-not-allowed' : ''}
+                ${status === 'coming-soon' ? 'p-4 border-border bg-muted/30 opacity-50 cursor-not-allowed' : ''}
               `}
             >
               <div className="flex items-start gap-3">

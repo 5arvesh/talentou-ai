@@ -38,7 +38,7 @@ export function HiringLeadConversationPanel() {
         return jobDetails.title.trim() !== '' &&
                jobDetails.location.trim() !== '' &&
                jobDetails.startDate.trim() !== '' &&
-               jobDetails.maxBudget.trim() !== '' &&
+               jobDetails.annualCTC.trim() !== '' &&
                jobDetails.minExperience.trim() !== '' &&
                jobDetails.sampleProfiles.length > 0;
       case 1:

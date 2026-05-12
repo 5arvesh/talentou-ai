@@ -366,7 +366,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
 
   return (
     <TooltipProvider>
-      <div className="p-8 max-w-full mx-auto space-y-6 animate-in fade-in duration-500 overflow-x-hidden">
+      <div className="p-6 max-w-full mx-auto space-y-6 animate-in fade-in duration-500 overflow-x-hidden">
         
         {/* Top Header Section — title + inline filters + action */}
         <div className="flex items-center gap-3 flex-wrap xl:flex-nowrap">
@@ -633,7 +633,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                       })}
                     
                     <TableCell className="text-center pr-4 py-3" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-center gap-0.5">
+                      <div className="flex items-center justify-center gap-1">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button

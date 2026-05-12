@@ -45,7 +45,9 @@ interface JobDetails {
   location: string;
   minExperience: string;
   budgetCurrency: string;
-  maxBudget: string;
+  annualCTC: string;
+  monthlyCTC: string;
+  hourlyCTC: string;
   sampleProfiles: string[];
 
   // Stage 2: AI Generated Skills & Responsibilities
@@ -96,7 +98,9 @@ export function HiringLeadConversationProvider({ children }: { children: React.R
     location: '',
     minExperience: '',
     budgetCurrency: 'USD',
-    maxBudget: '',
+    annualCTC: '',
+    monthlyCTC: '',
+    hourlyCTC: '',
     sampleProfiles: [],
     keySkills: [],
     desiredSkills: [],

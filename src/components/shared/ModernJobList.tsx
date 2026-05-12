@@ -229,6 +229,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         navigator.clipboard.writeText(link);
         toast.success("JD link copied to clipboard!");
         break;
+      case "import-candidates":
+        if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
+        else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
+        else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
+        break;
     }
   };
 
@@ -546,7 +551,17 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                               Edit JD
                             </DropdownMenuItem>
                           )}
-                          
+
+                          {(role === "ta-leader" || role === "hiring-lead") && (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem onClick={() => handleAction("import-candidates", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                                <Users className="mr-2 h-4 w-4 opacity-70" />
+                                Import Candidates
+                              </DropdownMenuItem>
+                            </>
+                          )}
+
                           {role === "recruiter" && (
                             <>
                               <DropdownMenuItem onClick={() => handleAction("generate-jd-link", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
@@ -571,7 +586,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                     <TableRow className="bg-gray-50/40 border-b border-gray-100/50 hover:bg-gray-50/40">
                       <TableCell colSpan={visibleColumns.length + (role === "recruiter" ? 3 : 2)} className="p-0 border-0">
                         <div className="py-4 px-12 animate-in slide-in-from-top-2 duration-300">
-                          <div className="flex items-center gap-12 bg-white rounded-xl shadow-sm border border-gray-100 p-5 overflow-x-auto custom-scrollbar">
+                          <div className="flex items-center gap-6 bg-white rounded-xl shadow-sm border border-gray-100 p-5 overflow-x-auto custom-scrollbar">
                             {(DROPDOWN_FIELDS[role] || DROPDOWN_FIELDS["ta-leader"]).map(fieldId => {
                               const colDef = ALL_COLUMNS.find(c => c.id === fieldId);
                               if (!colDef) return null;
