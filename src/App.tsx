@@ -73,6 +73,7 @@ import CandidatesPageWrapper_TALeader from "./pages/CandidatesPageWrapper_TALead
 import CandidateCreationPage from "./pages/CandidateCreationPage";
 import CandidatesPageWrapper_SalesPlan from "./pages/CandidatesPageWrapper_SalesPlan";
 import ImportCandidatesPage from "./pages/ImportCandidatesPage";
+import InterviewRecordingPage from "./pages/InterviewRecordingPage";
 import CandidateProfilePage from "./pages/CandidateProfilePage";
 import HRHomePage from "./pages/hr/HRHomePage";
 import HRTemplatesPage from "./pages/hr/HRTemplatesPage";
@@ -126,6 +127,8 @@ const App = () => (
                 <Route path="/hiring-lead/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="hiring-lead" />} />
                 <Route path="/hiring-lead/job-openings" element={<JobOpeningsPage />} />
                 <Route path="/hiring-lead/candidates" element={<CandidatesPageWrapper />} />
+                <Route path="/hiring-lead/candidates/interview/:id" element={<InterviewRecordingPage />} />
+                <Route path="/ta-associate/candidates/interview/:id" element={<InterviewRecordingPage />} />
                 <Route path="/hiring-lead/projects" element={<ProjectListPage />} />
                 <Route path="/hiring-lead/conversation" element={<HiringLeadConversationPage />} />
                 
