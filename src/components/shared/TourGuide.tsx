@@ -52,7 +52,8 @@ export function TourGuide() {
 
   useEffect(() => {
     if (!isVisible) return;
-    const t = setTimeout(measureTarget, 80);
+    step?.onEnter?.();
+    const t = setTimeout(measureTarget, 150);
     return () => clearTimeout(t);
   }, [currentStep, isVisible, measureTarget]);
 

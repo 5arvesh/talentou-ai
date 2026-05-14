@@ -4,6 +4,7 @@ export interface TourStep {
   title: string;
   description: string;
   targetSelector?: string;
+  onEnter?: () => void;
 }
 
 interface TourStore {
@@ -17,6 +18,7 @@ interface TourStore {
   skipTour: () => void;
   completeTour: () => void;
   restartTour: () => void;
+  clearTour: () => void;
 }
 
 const STORAGE_PREFIX = "tour_done_";
@@ -60,5 +62,9 @@ export const useTourStore = create<TourStore>((set, get) => ({
 
   restartTour: () => {
     set({ currentStep: 0, isVisible: true });
+  },
+
+  clearTour: () => {
+    set({ tourKey: null, steps: [], currentStep: 0, isVisible: false });
   },
 }));

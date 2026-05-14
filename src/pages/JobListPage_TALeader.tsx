@@ -1,23 +1,26 @@
 import React, { useEffect } from 'react';
 import { Layout } from "@/components/layout/Layout";
 import { JobListSalesPlan } from "@/components/sales-plan/JobListSalesPlan";
-import { useTourStore } from "@/store/tour-store";
+import { useTourStore, TourStep } from "@/store/tour-store";
 
-const JOB_LIST_TOUR_STEPS = [
+const JOB_LIST_TOUR_STEPS: TourStep[] = [
   {
-    title: "Your job openings are listed here",
-    description: "Each card or row shows the job title, department, number of openings, and current status. Open positions are highlighted so you can focus on what's active.",
+    title: "Your job openings",
+    description: "Each row shows the job title, experience required, status, number of applicants and priority. Click any row to expand its details.",
     targetSelector: '[data-tour-id="job-list"]',
   },
   {
-    title: "Filter & search to find jobs fast",
-    description: "Use the search bar and filters to narrow down by status, department, or date. Sort by recently added or by urgency.",
-    targetSelector: '[data-tour-id="job-list"]',
+    title: "Customize your columns",
+    description: "Toggle which columns are visible in the table. Check or uncheck any column, then click Apply to save your view.",
+    targetSelector: '[data-tour-id="job-col-filter-popover"]',
+    onEnter: () => {
+      (document.querySelector('[data-tour-id="job-col-filter-btn"]') as HTMLElement)?.click();
+    },
   },
   {
-    title: "Take action on any job",
-    description: "Click on a job to view full details, schedule interviews, or manage candidates. Use the action menu for quick options like editing or archiving.",
-    targetSelector: '[data-tour-id="job-list"]',
+    title: "Search & filter jobs",
+    description: "Type a job name or ID to filter instantly. Click any column header to sort the table ascending or descending.",
+    targetSelector: '[data-tour-id="job-search"]',
   },
 ];
 

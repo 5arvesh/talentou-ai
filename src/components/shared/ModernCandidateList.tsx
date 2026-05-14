@@ -380,7 +380,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           </div>
 
           {/* Inline filter bar — grows to fill space between title and button */}
-          <div className="flex items-center gap-2 flex-1 min-w-0 bg-white border border-gray-200 rounded-lg px-3 h-11 shadow-sm">
+          <div data-tour-id="candidate-filter-bar" className="flex items-center gap-2 flex-1 min-w-0 bg-white border border-gray-200 rounded-lg px-3 h-11 shadow-sm">
             {/* Search */}
             <div className="relative flex-1 min-w-0">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 pointer-events-none" />
@@ -456,11 +456,11 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
               }}
             >
               <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 px-2.5 text-xs text-gray-600 hover:text-[#7800D4] hover:bg-[#7800D4]/8 shrink-0 gap-1.5">
+                <Button data-tour-id="candidate-col-filter-btn" variant="ghost" size="sm" className="h-8 px-2.5 text-xs text-gray-600 hover:text-[#7800D4] hover:bg-[#7800D4]/8 shrink-0 gap-1.5">
                   <ListFilter className="h-3.5 w-3.5" /> Columns
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align="end" className="w-56 p-3 rounded-xl shadow-lg border-gray-100">
+              <PopoverContent data-tour-id="candidate-col-filter-popover" align="end" className="w-56 p-3 rounded-xl shadow-lg border-gray-100">
                 <div className="text-sm font-semibold text-gray-700 mb-3">Toggle Columns</div>
                 <div className="flex items-center space-x-2 mb-3 pb-3 border-b border-gray-100">
                   <Checkbox

@@ -356,11 +356,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
             }}
           >
             <PopoverTrigger asChild>
-              <Button variant="outline" className="bg-white border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm">
+              <Button data-tour-id="job-col-filter-btn" variant="outline" className="bg-white border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm">
                 <ListFilter className="mr-2 h-4 w-4" /> Columns
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="end" className="w-56 p-3 rounded-xl shadow-lg border-gray-100">
+            <PopoverContent data-tour-id="job-col-filter-popover" align="end" className="w-56 p-3 rounded-xl shadow-lg border-gray-100">
               <div className="text-sm font-semibold text-gray-700 mb-3">
                 Toggle Columns
               </div>
@@ -412,7 +412,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
             </PopoverContent>
           </Popover>
 
-          <div className="relative w-full sm:w-72">
+          <div data-tour-id="job-search" className="relative w-full sm:w-72">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search jobs..."

@@ -1,9 +1,36 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from "@/components/layout/Layout";
 import { CandidatesPageSalesPlan } from "@/components/sales-plan/CandidatesPageSalesPlan";
+import { useTourStore, TourStep } from "@/store/tour-store";
+
+const CANDIDATES_TOUR_STEPS: TourStep[] = [
+  {
+    title: "Your candidate pipeline",
+    description: "Every candidate sourced for your open roles appears here with their role-fit score, skills, and current status.",
+    targetSelector: '[data-tour-id="candidate-list"]',
+  },
+  {
+    title: "Customize columns",
+    description: "Click Columns to show or hide fields like CTC, joining date, email, or phone number.",
+    targetSelector: '[data-tour-id="candidate-col-filter-popover"]',
+    onEnter: () => {
+      (document.querySelector('[data-tour-id="candidate-col-filter-btn"]') as HTMLElement)?.click();
+    },
+  },
+  {
+    title: "Search & filter candidates",
+    description: "Filter by job or status, sort by match score, or search by name, skills, or email to narrow the list.",
+    targetSelector: '[data-tour-id="candidate-filter-bar"]',
+  },
+];
 
 export function CandidatesPageWrapper_SalesPlan() {
+  const { startTour } = useTourStore();
+
+  useEffect(() => {
+    startTour("sales-plan-candidates", CANDIDATES_TOUR_STEPS);
+  }, []);
   // Mock job data that would typically come from the Job List table
   const jobs = [
     { id: 1, jobRole: "Software Engineer" },
@@ -32,7 +59,9 @@ export function CandidatesPageWrapper_SalesPlan() {
 
   return (
     <Layout>
-      <CandidatesPageSalesPlan jobs={jobs} />
+      <div data-tour-id="candidate-list">
+        <CandidatesPageSalesPlan jobs={jobs} />
+      </div>
     </Layout>
   );
 }
