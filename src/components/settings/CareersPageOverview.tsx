@@ -118,7 +118,7 @@ export function CareersPageOverview() {
       </section>
 
       {/* Embed Code */}
-      <section className="space-y-3">
+      <section data-tour-id="careers-embed-code" className="space-y-3">
         <div>
           <h3 className="text-sm font-semibold text-foreground">Embed Code</h3>
           <p className="text-xs text-muted-foreground mt-0.5">Copy this snippet and paste it into your website's HTML.</p>

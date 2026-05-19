@@ -218,7 +218,7 @@ export function CareersPageDesign() {
       <Separator />
 
       {/* Preview */}
-      <section className={sectionClass}>
+      <section data-tour-id="careers-preview" className={sectionClass}>
         <h3 className={headingClass}>Preview</h3>
         <CareersPagePreview settings={{ ...state, showSearch: state.display.showSearch }} />
       </section>
