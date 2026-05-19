@@ -164,7 +164,7 @@ export function HiringLeadConversationChat({ scrollToStageRef }: HiringLeadConve
           <img src="/src/assets/talentou-mascot-new.png" alt="Talentou Mascot" className="h-10 w-auto object-contain shrink-0" />
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#7800D3]">Talentou AI</h2>
+              <h2 className="text-base font-bold text-[#7800D3]">Talentou Agent</h2>
               <Sparkles className="h-4 w-4 text-[#7800D3]" />
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
@@ -194,7 +194,7 @@ export function HiringLeadConversationChat({ scrollToStageRef }: HiringLeadConve
                 {message.sender === 'ai' && (
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles className="h-4 w-4 text-[#7800D3]" />
-                    <span className="text-xs font-semibold text-[#7800D3]">Talentou AI</span>
+                    <span className="text-xs font-semibold text-[#7800D3]">Talentou Agent</span>
                   </div>
                 )}
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>

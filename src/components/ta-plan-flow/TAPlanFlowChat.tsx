@@ -45,7 +45,7 @@ export function TAPlanFlowChat({ scrollToStageRef }: TAPlanFlowChatProps) {
     if (chatMessages.length === 0) {
       addChatMessage({
         sender: 'ai',
-        content: "Welcome! I'm Talentou AI, your TA Plan assistant. You can paste your company website URL directly in the chat, and I'll automatically extract key USP points for you. Or use the form on the right to add them manually!",
+        content: "Welcome! I'm Talentou Agent, your TA Plan assistant. You can paste your company website URL directly in the chat, and I'll automatically extract key USP points for you. Or use the form on the right to add them manually!",
       });
     }
   }, []);
@@ -162,17 +162,17 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
         <div className="flex items-start gap-4">
           <img 
             src={talentouMascot} 
-            alt="Talentou AI" 
+            alt="Talentou Agent" 
             className="h-14 w-auto object-contain shrink-0 mt-1" 
           />
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-[#7800D3]" />
-              <h2 className="text-xl font-bold text-[#7800D3]">Talentou AI</h2>
+              <h2 className="text-xl font-bold text-[#7800D3]">Talentou Agent</h2>
             </div>
             <div className="flex items-center gap-2 mt-1">
               <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs text-muted-foreground">Online & ready to help</span>
+              <span className="text-xs text-muted-foreground">Online</span>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
                 {message.sender === 'ai' && (
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles className="h-4 w-4 text-[#7800D3]" />
-                    <span className="text-xs font-semibold text-[#7800D3]">Talentou AI</span>
+                    <span className="text-xs font-semibold text-[#7800D3]">Talentou Agent</span>
                   </div>
                 )}
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>

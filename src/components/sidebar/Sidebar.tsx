@@ -193,9 +193,21 @@ export function Sidebar({ className }: SidebarProps) {
           <NavItem
             icon={<MessageCircle size={20} />}
             label="Dashboard"
-            to={userRole === "ta-associate" ? "/ta-associate/dashboard" : "/sales-plan/dashboard"}
+            to={
+              userRole === "ta-associate"
+                ? "/ta-associate/dashboard"
+                : userRole === "hiring-lead"
+                ? "/hiring-lead/dashboard"
+                : "/sales-plan/dashboard"
+            }
             collapsed={collapsed}
-            active={userRole === "ta-associate" ? location.pathname === "/ta-associate/dashboard" : location.pathname === "/sales-plan/dashboard"}
+            active={
+              userRole === "ta-associate"
+                ? location.pathname === "/ta-associate/dashboard"
+                : userRole === "hiring-lead"
+                ? location.pathname === "/hiring-lead/dashboard"
+                : location.pathname === "/sales-plan/dashboard"
+            }
           />
           {/* {userRole === "ta-associate" && (
             <>

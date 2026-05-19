@@ -170,21 +170,26 @@ function EditableList({ items, onUpdate, numbered, bulletColor = 'text-primary' 
 }
 
 export function JDPreviewPanel() {
-  const { jobDetails, stages, updateJobDetails } = useHiringLeadConversation();
+  const { jobDetails, stages, updateJobDetails, addChatMessage, completeStage, setCurrentStage } = useHiringLeadConversation();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitForApproval = () => {
     setIsSubmitting(true);
-    console.log('Submitting for approval:', jobDetails);
+    addChatMessage({
+      id: Date.now(), sender: 'ai',
+      content: "Your Job Description has been sent to the TA Leader for approval. You can now set up the interview questions for this role.",
+      name: 'Talentou Agent', stageIndex: 4,
+    });
     setTimeout(() => {
-      navigate('/hiring-lead/jobs');
-    }, 500);
+      completeStage('viewJD');
+      setCurrentStage(4);
+      setIsSubmitting(false);
+    }, 600);
   };
 
   const isComplete = stages.jobDetails.completed &&
-                     stages.skillsResponsibilities.completed &&
-                     stages.interviewSetup.completed;
+                     stages.skillsResponsibilities.completed;
 
   // Mock company data - would come from TA Plan context
   const companyInfo = {
@@ -381,7 +386,7 @@ export function JDPreviewPanel() {
           ) : (
             <span className="flex items-center gap-2">
               <Send className="h-4 w-4" />
-              Confirm & Submit for TA Lead Approval
+              Send for Approval & Continue →
             </span>
           )}
         </Button>

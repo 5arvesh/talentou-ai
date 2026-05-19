@@ -13,8 +13,8 @@ const sections = [
   { id: 0, title: 'Job Details', key: 'jobDetails' as const, component: JobDetailsForm },
   { id: 1, title: 'Skills & Responsibilities', key: 'skillsResponsibilities' as const, component: SkillsResponsibilitiesPanel },
   { id: 2, title: 'Screening Questions', key: 'screeningSetup' as const, component: ScreeningQuestionsPanel },
-  { id: 3, title: 'Interview Setup', key: 'interviewSetup' as const, component: InterviewSetupPanel },
-  { id: 4, title: 'View Job Description', key: 'viewJD' as const, component: JDPreviewPanel },
+  { id: 3, title: 'View Job Description', key: 'viewJD' as const, component: JDPreviewPanel },
+  { id: 4, title: 'Interview Setup', key: 'interviewSetup' as const, component: InterviewSetupPanel },
 ];
 
 export function HiringLeadConversationPanel() {
@@ -63,7 +63,7 @@ export function HiringLeadConversationPanel() {
       addChatMessage({
         id: Date.now(), sender: 'ai',
         content: "Great! I've generated the required skills, preferred skills, and responsibilities based on your job details. You can review and edit them in the right panel.",
-        name: 'Talentou AI', stageIndex: 1,
+        name: 'Talentou Agent', stageIndex: 1,
       });
       completeStage('jobDetails');
       setCurrentStage(1);
@@ -71,7 +71,7 @@ export function HiringLeadConversationPanel() {
       addChatMessage({
         id: Date.now(), sender: 'ai',
         content: "Perfect! Now let's add any pre-application screening questions for candidates. These are optional — you can skip to continue.",
-        name: 'Talentou AI', stageIndex: 2,
+        name: 'Talentou Agent', stageIndex: 2,
       });
       completeStage('skillsResponsibilities');
       setCurrentStage(2);

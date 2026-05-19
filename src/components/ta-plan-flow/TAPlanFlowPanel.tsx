@@ -4,6 +4,7 @@ import { CompanyUSPPanel } from './panel-stages/CompanyUSPPanel';
 import { TalentPoolPanel } from './panel-stages/TalentPoolPanel';
 import { RecruitmentChannelsPanel } from './panel-stages/RecruitmentChannelsPanel';
 import { TeamInvitationPanel } from './panel-stages/TeamInvitationPanel';
+import { SuccessMetricsPanel } from './panel-stages/SuccessMetricsPanel';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -13,8 +14,8 @@ const sections = [
   { id: 0, title: 'Company USP', key: 'companyUSP' as const, component: CompanyUSPPanel },
   { id: 1, title: 'Talent Pool', key: 'talentPool' as const, component: TalentPoolPanel },
   { id: 2, title: 'Team Invitation', key: 'teamInvitation' as const, component: TeamInvitationPanel },
-  { id: 3, title: 'Recruitment Channels', key: 'recruitmentChannels' as const, component: RecruitmentChannelsPanel },
-  { id: 4, title: 'Success Metrics', key: 'successMetrics' as const, component: () => <div>Coming Soon</div> },
+  { id: 3, title: 'Success Metrics', key: 'successMetrics' as const, component: SuccessMetricsPanel },
+  { id: 4, title: 'Recruitment Channels', key: 'recruitmentChannels' as const, component: RecruitmentChannelsPanel },
 ];
 
 export function TAPlanFlowPanel() {
@@ -24,7 +25,7 @@ export function TAPlanFlowPanel() {
     const section = sections[sectionId];
     if (stages[section.key].completed) return 'completed';
     if (sectionId === currentStage) return 'in-progress';
-    if (sectionId >= 3) return 'upcoming'; // Sections 3 & 4 are coming soon
+    if (sectionId === 4) return 'upcoming'; // Recruitment Channels is still coming soon
     return 'upcoming';
   };
 

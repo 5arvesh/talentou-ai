@@ -15,7 +15,8 @@ import {
   Shield,
   FileText,
   Award,
-  Target
+  Target,
+  Globe
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,11 @@ const navItems = [
     icon: Users,
     label: "Members",
     path: "/settings/members"
+  },
+  {
+    icon: Globe,
+    label: "Careers Page",
+    path: "/settings/careers"
   },
   {
     icon: Link2,

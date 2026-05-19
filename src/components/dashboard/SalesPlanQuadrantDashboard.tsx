@@ -1,322 +1,252 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { TrendingUp, TrendingDown, Users, Target, Award, MapPin, Calendar, Clock, Bell, UserPlus, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { TrendingUp, TrendingDown, Briefcase, Clock, BarChart2, Timer } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+const MetricCard = ({ title, value, change, target, icon: Icon, trend, gradient }: {
+  title: string; value: string | number; change: string; target?: string;
+  icon: React.ElementType; trend: 'up' | 'down'; gradient: string;
+}) => (
+  <Card className={`relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${gradient}`}>
+    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
+    <CardContent className="p-5 relative">
+      <div className="flex items-start justify-between mb-3">
+        <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
+          <Icon className="h-5 w-5 text-white" />
+        </div>
+        <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${trend === 'up' ? 'bg-green-500/20 text-green-100' : 'bg-red-500/20 text-red-100'}`}>
+          {trend === 'up' ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+          {change}
+        </div>
+      </div>
+      <div className="space-y-1">
+        <p className="text-white/80 text-sm font-medium">{title}</p>
+        <p className="text-3xl font-bold text-white">{value}</p>
+        {target && <p className="text-white/60 text-xs">{target}</p>}
+      </div>
+    </CardContent>
+  </Card>
+);
+
+const recruiters = [
+  { name: 'Sarah Chen', initials: 'SC', active: 4, max: 5, closed: 3, avgClose: '3.8w', status: 'on-track' },
+  { name: 'John Doe', initials: 'JD', active: 5, max: 5, closed: 2, avgClose: '5.2w', status: 'at-risk' },
+  { name: 'Mike Johnson', initials: 'MJ', active: 3, max: 5, closed: 4, avgClose: '4.1w', status: 'on-track' },
+  { name: 'Lisa Wang', initials: 'LW', active: 5, max: 5, closed: 1, avgClose: '7.0w', status: 'behind' },
+  { name: 'Emma Rodriguez', initials: 'ER', active: 2, max: 5, closed: 5, avgClose: '3.2w', status: 'on-track' },
+];
+
+const pipelineData = [
+  { stage: 'Applied',     count: 18 },
+  { stage: 'Shortlisted', count: 12 },
+  { stage: 'Interview',   count: 9  },
+  { stage: 'Offered',     count: 4  },
+];
+
+const longRunningPositions = [
+  { title: 'Senior Backend Developer', recruiter: 'Lisa Wang', priority: 'High', daysOpen: 28 },
+  { title: 'Data Scientist', recruiter: 'John Doe', priority: 'High', daysOpen: 26 },
+  { title: 'UX Designer', recruiter: 'John Doe', priority: 'Medium', daysOpen: 19 },
+  { title: 'DevOps Engineer', recruiter: 'Lisa Wang', priority: 'Low', daysOpen: 17 },
+];
+
+const bottleneckData = [
+  { stage: 'Applied',     stalled: 3 },
+  { stage: 'Shortlisted', stalled: 7 },
+  { stage: 'Interview',   stalled: 2 },
+  { stage: 'Offered',     stalled: 0 },
+];
+
+const statusConfig: Record<string, { label: string; className: string }> = {
+  'on-track': { label: 'On Track', className: 'bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20' },
+  'at-risk': { label: 'At Risk', className: 'bg-amber-50 text-amber-700 border-amber-200' },
+  'behind': { label: 'Behind', className: 'bg-red-50 text-red-700 border-red-200' },
+};
 
 const SalesPlanQuadrantDashboard = () => {
   const navigate = useNavigate();
-  const [selectedRecruiter, setSelectedRecruiter] = useState("all");
-  const [selectedTimeframe, setSelectedTimeframe] = useState("thisquarter");
+  const [selectedRecruiter, setSelectedRecruiter] = useState('all');
+  const [selectedTimeframe, setSelectedTimeframe] = useState('thisquarter');
 
-  const recruiters = [
-    { id: "all", name: "All Recruiters" },
-    { id: "john", name: "John Doe" },
-    { id: "sarah", name: "Sarah Chen" },
-    { id: "mike", name: "Mike Johnson" },
-    { id: "lisa", name: "Lisa Wang" },
-  ];
-
-  const timeframes = [
-    { id: "thisquarter", name: "This Quarter" },
-    { id: "lastquarter", name: "Last Quarter" },
-    { id: "thisyear", name: "This Year" },
-    { id: "custom", name: "Custom Range" },
-  ];
-
-  const MetricCard = ({ title, value, change, target, icon: Icon, trend, gradient }: {
-    title: string;
-    value: string | number;
-    change: string;
-    target?: string;
-    icon: any;
-    trend: 'up' | 'down';
-    gradient: string;
-  }) => (
-    <Card className={`relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${gradient}`}>
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
-      <CardContent className="p-5 relative">
-        <div className="flex items-start justify-between mb-3">
-          <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
-            <Icon className="h-5 w-5 text-white" />
-          </div>
-          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${trend === 'up' ? 'bg-green-500/20 text-green-100' : 'bg-red-500/20 text-red-100'}`}>
-            {trend === 'up' ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-            {change}
-          </div>
-        </div>
-        <div className="space-y-1">
-          <p className="text-white/80 text-sm font-medium">{title}</p>
-          <p className="text-3xl font-bold text-white">{value}</p>
-          {target && <p className="text-white/60 text-xs">Target: {target}</p>}
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const LatestNotifications = () => {
-    const recentNotifications = [
-      { id: 1, title: "New candidate added", user: "John Doe", time: "2 hours ago", type: "candidate" },
-      { id: 2, title: "Position filled", user: "Sarah Chen", time: "4 hours ago", type: "success" },
-      { id: 3, title: "Interview scheduled", user: "Mike Johnson", time: "1 day ago", type: "interview" },
-    ];
-
-    return (
-      <Card 
-        className="h-full cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-background to-muted/30"
-        onClick={() => navigate('/notifications')}
-      >
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-purple-500/10">
-                <Bell className="h-5 w-5 text-purple-500" />
-              </div>
-              Latest Notifications
-            </CardTitle>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {recentNotifications.map((notif) => (
-            <div key={notif.id} className="flex items-start gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors">
-              <Avatar className="h-9 w-9 border-2 border-background shadow-sm">
-                <AvatarFallback className="text-xs bg-gradient-to-br from-primary/80 to-primary text-primary-foreground">
-                  {notif.user.split(' ').map(n => n[0]).join('')}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{notif.title}</p>
-                <p className="text-xs text-muted-foreground">{notif.user} • {notif.time}</p>
-              </div>
-              {notif.type === 'success' && <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />}
-              {notif.type === 'candidate' && <UserPlus className="h-4 w-4 text-blue-500 flex-shrink-0" />}
-              {notif.type === 'interview' && <Calendar className="h-4 w-4 text-orange-500 flex-shrink-0" />}
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const HiringMetrics = () => {
-    const metrics = [
-      { label: "Current Efficiency", value: "75%", change: "+7%", trend: "up", color: "from-emerald-600 to-emerald-500" },
-      { label: "Current Velocity", value: "67%", change: "-3%", trend: "down", color: "from-amber-600 to-amber-500" },
-      { label: "Overall Score", value: "71%", change: "+2%", trend: "up", color: "from-[#7800D3] to-[#9b30e8]" },
-    ];
-
-    return (
-      <Card 
-        className="h-full cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-background to-muted/30"
-        onClick={() => navigate('/sales-plan/dashboard/hiring-metrics')}
-      >
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-blue-500/10">
-                <Target className="h-5 w-5 text-blue-500" />
-              </div>
-              Hiring Metrics
-            </CardTitle>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-3">
-            {metrics.map((metric, idx) => (
-              <div key={idx} className={`p-3 rounded-xl bg-gradient-to-br ${metric.color} text-white relative overflow-hidden`}>
-                <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-8 translate-x-8" />
-                <p className="text-xs font-medium text-white/80 mb-1">{metric.label}</p>
-                <p className="text-2xl font-bold">{metric.value}</p>
-                <div className={`flex items-center gap-1 text-xs mt-1 ${metric.trend === 'up' ? 'text-white/90' : 'text-white/90'}`}>
-                  {metric.trend === 'up' ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                  {metric.change} from last quarter
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const RecruiterMetrics = () => {
-    const stats = [
-      { icon: Users, label: "Candidates", value: "184", change: "+15%", color: "text-blue-500", bg: "bg-blue-500/10" },
-      { icon: Target, label: "Positions", value: "29", change: "+8%", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-      { icon: Calendar, label: "Interviews", value: "92", change: "+12%", color: "text-orange-500", bg: "bg-orange-500/10" },
-      { icon: Clock, label: "Avg Close", value: "18d", change: "-12%", color: "text-purple-500", bg: "bg-purple-500/10", trend: "down" },
-    ];
-
-    return (
-      <Card 
-        className="h-full cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-background to-muted/30"
-        onClick={() => navigate('/sales-plan/dashboard/recruiter-metrics')}
-      >
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-amber-500/10">
-                <Award className="h-5 w-5 text-amber-500" />
-              </div>
-              Recruiter Performance
-            </CardTitle>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-4 gap-3">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="text-center p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors">
-                <div className={`mx-auto w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-2`}>
-                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                </div>
-                <p className="text-xs text-muted-foreground mb-1">{stat.label}</p>
-                <p className="text-xl font-bold">{stat.value}</p>
-                <p className={`text-xs ${stat.trend === 'down' ? 'text-red-500' : 'text-green-500'}`}>{stat.change}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const FunnelChart = () => {
-    const funnelStats = [
-      { icon: Users, label: "Conversion", value: "1.5%", change: "+0.3%", color: "text-blue-500", bg: "bg-blue-500/10" },
-      { icon: Clock, label: "Time to Hire", value: "28d", change: "+3d", color: "text-orange-500", bg: "bg-orange-500/10", trend: "down" },
-      { icon: Target, label: "Interview", value: "6.8%", change: "Above avg", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-      { icon: Award, label: "Acceptance", value: "83%", change: "+8%", color: "text-purple-500", bg: "bg-purple-500/10" },
-    ];
-
-    return (
-      <Card 
-        className="h-full cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-background to-muted/30"
-        onClick={() => navigate('/sales-plan/dashboard/funnel')}
-      >
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-indigo-500/10">
-                <MapPin className="h-5 w-5 text-indigo-500" />
-              </div>
-              Recruitment Funnel
-            </CardTitle>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-4 gap-3">
-            {funnelStats.map((stat, idx) => (
-              <div key={idx} className="text-center p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors">
-                <div className={`mx-auto w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-2`}>
-                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                </div>
-                <p className="text-xs text-muted-foreground mb-1">{stat.label}</p>
-                <p className="text-xl font-bold">{stat.value}</p>
-                <p className={`text-xs ${stat.trend === 'down' ? 'text-red-500' : 'text-green-500'}`}>{stat.change}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
+  const maxStalled = Math.max(...bottleneckData.map((d) => d.stalled));
 
   return (
     <div className="p-6 space-y-6 bg-gradient-to-br from-background via-background to-muted/20 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold text-foreground">
-              TA Leader Dashboard
-            </h1>
-            <Badge variant="secondary" className="gap-1">
-              <Sparkles className="h-3 w-3" />
-              Live
-            </Badge>
-          </div>
-          <p className="text-muted-foreground">Monitor recruitment performance and team metrics</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">TA Leader Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Recruiting operation health at a glance</p>
         </div>
         <div className="flex gap-3">
           <Select value={selectedRecruiter} onValueChange={setSelectedRecruiter}>
-            <SelectTrigger className="w-48 bg-background/80 backdrop-blur-sm border-muted-foreground/20">
-              <SelectValue placeholder="Select recruiter" />
+            <SelectTrigger className="w-[160px] h-9">
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {recruiters.map((recruiter) => (
-                <SelectItem key={recruiter.id} value={recruiter.id}>
-                  {recruiter.name}
-                </SelectItem>
+              <SelectItem value="all">All Recruiters</SelectItem>
+              {recruiters.map((r) => (
+                <SelectItem key={r.name} value={r.name}>{r.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
-            <SelectTrigger className="w-40 bg-background/80 backdrop-blur-sm border-muted-foreground/20">
-              <SelectValue placeholder="Select timeframe" />
+            <SelectTrigger className="w-[160px] h-9">
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {timeframes.map((timeframe) => (
-                <SelectItem key={timeframe.id} value={timeframe.id}>
-                  {timeframe.name}
-                </SelectItem>
-              ))}
+              <SelectItem value="thisquarter">This Quarter</SelectItem>
+              <SelectItem value="lastquarter">Last Quarter</SelectItem>
+              <SelectItem value="thisyear">This Year</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      {/* Top Performance Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard
-          title="Candidates Added"
-          value="184"
-          change="+15%"
-          target="200"
-          icon={Users}
-          trend="up"
-          gradient="bg-gradient-to-br from-blue-500 to-blue-600"
-        />
-        <MetricCard
-          title="Positions Filled"
-          value="29"
-          change="+8%"
-          target="35"
-          icon={Target}
-          trend="up"
-          gradient="bg-gradient-to-br from-emerald-500 to-teal-600"
-        />
-        <MetricCard
-          title="Interviews Scheduled"
-          value="92"
-          change="+12%"
-          target="100"
-          icon={Calendar}
-          trend="up"
-          gradient="bg-gradient-to-br from-violet-500 to-purple-600"
-        />
-        <MetricCard
-          title="Avg Time to Close"
-          value="18 days"
-          change="-12%"
-          target="21 days"
-          icon={Clock}
-          trend="down"
-          gradient="bg-gradient-to-br from-amber-500 to-orange-600"
-        />
+      {/* KPI Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard title="Total Open Positions" value={24} change="+3 this quarter" icon={Briefcase} trend="up" gradient="bg-gradient-to-br from-blue-500 to-blue-600" />
+        <MetricCard title="Open > 3 Weeks" value={5} change="+2 vs last month" icon={Timer} trend="down" gradient="bg-gradient-to-br from-amber-500 to-orange-600" />
+        <MetricCard title="Avg Time-to-Close" value="4.2w" change="vs target 5w" target="✓ Below target" icon={Clock} trend="up" gradient="bg-gradient-to-br from-emerald-500 to-teal-600" />
+        <MetricCard title="Advancement Rate" value="37%" change="vs target 30%" target="✓ Above target" icon={BarChart2} trend="up" gradient="bg-gradient-to-br from-violet-500 to-purple-600" />
       </div>
 
-      {/* 4-Quadrant Layout */}
+      {/* Quadrant Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <LatestNotifications />
-        <HiringMetrics />
-        <RecruiterMetrics />
-        <FunnelChart />
+        {/* Recruiter Leaderboard */}
+        <Card className="border-0 shadow-lg">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base font-semibold">Recruiter Performance</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="pl-6 text-xs">Recruiter</TableHead>
+                  <TableHead className="text-xs text-center">Active</TableHead>
+                  <TableHead className="text-xs text-center">Closed</TableHead>
+                  <TableHead className="text-xs text-center">Avg Close</TableHead>
+                  <TableHead className="pr-6 text-xs text-right">Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recruiters.map((r) => {
+                  const cfg = statusConfig[r.status];
+                  return (
+                    <TableRow
+                      key={r.name}
+                      className="cursor-pointer hover:bg-muted/40"
+                      onClick={() => navigate('/sales-plan/dashboard/recruiter-metrics')}
+                    >
+                      <TableCell className="pl-6 py-3">
+                        <div className="flex items-center gap-2">
+                          <Avatar className="h-7 w-7">
+                            <AvatarFallback className="text-xs bg-gradient-to-br from-[#7800D3]/70 to-[#7800D3] text-white">
+                              {r.initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm font-medium">{r.name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center text-sm">
+                        <span className={r.active >= r.max ? 'text-red-600 font-semibold' : ''}>{r.active}/{r.max}</span>
+                      </TableCell>
+                      <TableCell className="text-center text-sm">{r.closed}</TableCell>
+                      <TableCell className="text-center text-sm">{r.avgClose}</TableCell>
+                      <TableCell className="pr-6 text-right">
+                        <Badge variant="outline" className={`text-xs ${cfg.className}`}>{cfg.label}</Badge>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        {/* Pipeline Health */}
+        <Card className="border-0 shadow-lg">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base font-semibold">Pipeline Health</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={{ count: { label: 'Candidates', color: 'hsl(var(--chart-1))' } }} className="h-[220px]">
+              <BarChart data={pipelineData} layout="vertical">
+                <XAxis type="number" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis type="category" dataKey="stage" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={90} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="count" radius={4}>
+                  {pipelineData.map((_, i) => (
+                    <Cell key={i} fill={['#0A92FE', '#f59e0b', '#7800D3', '#4EAD3B'][i]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        {/* Longest Open Positions */}
+        <Card className="border-0 shadow-lg">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base font-semibold">Longest Open Positions</CardTitle>
+              <Badge variant="outline" className="text-xs bg-muted text-muted-foreground">{longRunningPositions.length} positions</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {longRunningPositions.map((item, i) => {
+              const isLong = item.daysOpen >= 28;
+              const isMid = item.daysOpen >= 21 && !isLong;
+              return (
+                <div key={i} className={`flex items-center justify-between p-3 rounded-lg border ${isLong ? 'bg-red-50 border-red-200' : isMid ? 'bg-amber-50 border-amber-200' : 'bg-muted/40 border-transparent'}`}>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">{item.title}</p>
+                    <p className="text-xs text-muted-foreground">{item.recruiter}</p>
+                  </div>
+                  <div className="flex items-center gap-2 ml-3 shrink-0">
+                    <Badge variant="outline" className={`text-xs ${item.priority === 'High' ? 'border-red-300 text-red-700' : item.priority === 'Medium' ? 'border-amber-300 text-amber-700' : 'border-gray-300 text-gray-600'}`}>
+                      {item.priority}
+                    </Badge>
+                    <span className={`text-xs font-semibold ${isLong ? 'text-red-600' : isMid ? 'text-amber-600' : 'text-muted-foreground'}`}>
+                      {item.daysOpen}d open
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
+
+        {/* Bottleneck Indicator */}
+        <Card className="border-0 shadow-lg">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base font-semibold">Bottleneck Indicator</CardTitle>
+            <p className="text-xs text-muted-foreground">Candidates stalled &gt;5 days per stage</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-4 gap-3">
+              {bottleneckData.map((d) => {
+                const isBottleneck = d.stalled === maxStalled && d.stalled > 0;
+                return (
+                  <div key={d.stage} className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all ${isBottleneck ? 'border-amber-400 bg-amber-50' : 'border-muted bg-muted/20'}`}>
+                    <span className={`text-2xl font-bold ${isBottleneck ? 'text-amber-600' : 'text-foreground'}`}>{d.stalled}</span>
+                    <span className="text-[10px] text-muted-foreground text-center mt-1 leading-tight">{d.stage}</span>
+                    {isBottleneck && <span className="text-[10px] font-semibold text-amber-600 mt-1">⚠ Bottleneck</span>}
+                  </div>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              Review candidates who have had no status change in over 5 days.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

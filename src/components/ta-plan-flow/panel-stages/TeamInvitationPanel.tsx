@@ -12,7 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 export function TeamInvitationPanel() {
   const navigate = useNavigate();
-  const { planData, updatePlanData, completeStage } = useTAPlanFlow();
+  const { planData, updatePlanData, completeStage, setCurrentStage } = useTAPlanFlow();
   const [email, setEmail] = useState('');
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
 
@@ -42,8 +42,8 @@ export function TeamInvitationPanel() {
   const handleComplete = () => {
     completeStage('teamInvitation');
     setTimeout(() => {
-      navigate('/sales-plan/dashboard');
-    }, 1000);
+      setCurrentStage(3);
+    }, 500);
   };
 
   const toggleRole = (role: string) => {

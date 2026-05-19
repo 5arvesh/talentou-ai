@@ -9,8 +9,8 @@ const stages = [
   { id: 0, title: 'Company USP', number: 1, key: 'companyUSP' as const },
   { id: 1, title: 'Talent Pool', number: 2, key: 'talentPool' as const },
   { id: 2, title: 'Team Invitation', number: 3, key: 'teamInvitation' as const },
-  { id: 3, title: 'Recruitment Channels', number: 4, key: 'recruitmentChannels' as const },
-  { id: 4, title: 'Success Metrics', number: 5, key: 'successMetrics' as const },
+  { id: 3, title: 'Success Metrics', number: 4, key: 'successMetrics' as const },
+  { id: 4, title: 'Recruitment Channels', number: 5, key: 'recruitmentChannels' as const },
 ];
 
 interface TAPlanFlowProgressProps {
@@ -24,7 +24,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
     const stageKey = stages[stageIndex].key;
     if (stageData[stageKey].completed) return 'completed';
     if (stageIndex === currentStage) return 'in-progress';
-    if (stageIndex >= 3) return 'coming-soon'; // Sections 3 & 4 are coming soon
+    if (stageIndex === 4) return 'coming-soon'; // Recruitment Channels is still coming soon
     return 'upcoming';
   };
 

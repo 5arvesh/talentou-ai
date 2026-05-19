@@ -21,6 +21,7 @@ import { ATSIntegrationSettings } from "@/components/settings/ATSIntegrationSett
 import { AuthenticationSettings } from "@/components/settings/AuthenticationSettings";
 import { PolicyDocumentSettings } from "@/components/settings/PolicyDocumentSettings";
 import { LicenseSettings } from "@/components/settings/LicenseSettings";
+import { CareersPage } from "@/components/settings/CareersPage";
 import { useLocation } from "react-router-dom";
 
 const subPages: Record<string, React.ReactNode> = {
@@ -35,6 +36,7 @@ const subPages: Record<string, React.ReactNode> = {
   "/settings/authentication": <AuthenticationSettings />,
   "/settings/policy": <PolicyDocumentSettings />,
   "/settings/license": <LicenseSettings />,
+  "/settings/careers": <CareersPage />,
 };
 
 const narrowPages = new Set(["/settings/interview", "/settings/job-fit-score"]);

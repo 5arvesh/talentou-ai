@@ -155,7 +155,7 @@ export function HiringLeadDashboard() {
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-6">
-        {/* Hero Section with Two Boxes - Added 20px gap above */}
+        {/* Hero Section */}
         <div className="flex gap-6 mb-8" style={{ marginTop: "20px" }}>
           {/* Left Box - Welcome Message */}
           <div
@@ -222,9 +222,8 @@ export function HiringLeadDashboard() {
             type="checkbox"
             checked={isAllSelected}
             onChange={handleSelectAll}
-            placeholder="Slect All"
           />
-          <p className="mx-2 text-sm text-gray">Select All</p>
+          <p className="mx-2 text-sm text-gray-600">Select All</p>
         </div>
 
         {/* Job Openings Table */}
@@ -239,9 +238,7 @@ export function HiringLeadDashboard() {
                 <TableHead className="text-black">Status</TableHead>
                 <TableHead className="text-black">Recruiter</TableHead>
                 <TableHead className="text-black">Interviewer</TableHead>
-                <TableHead className="text-center text-black">
-                  Actions
-                </TableHead>
+                <TableHead className="text-center text-black">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -256,22 +253,14 @@ export function HiringLeadDashboard() {
                     />
                     #{String(plan.id).padStart(4, "0")}
                   </TableCell>
-                  <TableCell className="font-medium py-2">
-                    {plan.jobRole}
-                  </TableCell>
-                  <TableCell className="text-gray-600 py-2">
-                    {plan.project}
-                  </TableCell>
-                  <TableCell className="text-gray-600 py-2">
-                    {plan.requiredSkills}
-                  </TableCell>
+                  <TableCell className="font-medium py-2">{plan.jobRole}</TableCell>
+                  <TableCell className="text-gray-600 py-2">{plan.project}</TableCell>
+                  <TableCell className="text-gray-600 py-2">{plan.requiredSkills}</TableCell>
                   <TableCell className="py-2">
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium cursor-help ${getStatusColor(
-                            plan.status
-                          )}`}
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium cursor-help ${getStatusColor(plan.status)}`}
                         >
                           {plan.status}
                         </span>
@@ -285,18 +274,10 @@ export function HiringLeadDashboard() {
                   <TableCell className="py-2">{plan.interviewer}</TableCell>
                   <TableCell className="py-2">
                     <div className="flex justify-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="px-2 py-1 h-8"
-                      >
+                      <Button variant="outline" size="sm" className="px-2 py-1 h-8">
                         <Eye size={12} />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="px-2 py-1 h-8"
-                      >
+                      <Button variant="outline" size="sm" className="px-2 py-1 h-8">
                         <Pen size={12} />
                       </Button>
                     </div>

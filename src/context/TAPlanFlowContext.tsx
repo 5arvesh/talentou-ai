@@ -34,6 +34,15 @@ interface PlanData {
       roles: ('recruiter' | 'hiring_lead' | 'hr')[];
     }>;
   };
+  successMetrics: {
+    timeToCloseHigh: number;
+    timeToCloseMedium: number;
+    timeToCloseLow: number;
+    maxConcurrentPositions: number;
+    weeklySourceTarget: number;
+    interviewAdvancementRate: number;
+    jdQualityScoreMin: number;
+  };
 }
 
 interface TAPlanFlowContextType {
@@ -51,7 +60,7 @@ interface TAPlanFlowContextType {
   getSectionScore: (section: 'companyUSP' | 'talentPool' | 'recruitmentChannels') => number;
   addChatMessage: (message: Omit<Message, 'id' | 'timestamp' | 'sectionId'>) => void;
   setCurrentStage: (stage: number) => void;
-  completeStage: (stage: 'companyUSP' | 'talentPool' | 'recruitmentChannels' | 'teamInvitation') => void;
+  completeStage: (stage: 'companyUSP' | 'talentPool' | 'recruitmentChannels' | 'teamInvitation' | 'successMetrics') => void;
   updatePlanData: <K extends keyof PlanData>(
     section: K,
     data: Partial<PlanData[K]>
@@ -89,6 +98,15 @@ export function TAPlanFlowProvider({ children }: { children: ReactNode }) {
     },
     teamInvitations: {
       members: [],
+    },
+    successMetrics: {
+      timeToCloseHigh: 3,
+      timeToCloseMedium: 6,
+      timeToCloseLow: 10,
+      maxConcurrentPositions: 5,
+      weeklySourceTarget: 10,
+      interviewAdvancementRate: 30,
+      jdQualityScoreMin: 70,
     },
   });
 
@@ -166,13 +184,13 @@ export function TAPlanFlowProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Only count first 3 active stages for progress (0, 1, 2)
   const completedStagesCount = [
     stages.companyUSP.completed,
     stages.talentPool.completed,
     stages.teamInvitation.completed,
+    stages.successMetrics.completed,
   ].filter(Boolean).length;
-  const progressPercentage = Math.round((completedStagesCount / 3) * 100);
+  const progressPercentage = Math.round((completedStagesCount / 4) * 100);
 
   return (
     <TAPlanFlowContext.Provider

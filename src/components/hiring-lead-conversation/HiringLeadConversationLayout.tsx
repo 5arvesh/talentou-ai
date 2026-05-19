@@ -21,7 +21,7 @@ const HL_CONVERSATION_TOUR_STEPS = [
   },
   {
     title: "Complete each stage in order",
-    description: "The left sidebar tracks your progress through 5 stages: Job Details → Skills → Screening → Interview Setup → JD Preview. Each stage unlocks the next.",
+    description: "The left sidebar tracks your progress through 5 stages: Job Details → Skills → Screening → View JD → Interview Setup. Each stage unlocks the next.",
     targetSelector: '[data-tour-id="hl-progress"]',
   },
 ];
@@ -36,8 +36,8 @@ function ConversationContent() {
     startTour("hl-conversation", HL_CONVERSATION_TOUR_STEPS);
   }, []);
 
-  // View JD section (stage 4) - bigger right panel, smaller chat
-  const isViewJDStage = currentStage === 4;
+  // View JD section (stage 3) - bigger right panel, smaller chat
+  const isViewJDStage = currentStage === 3;
 
   return (
     <ResizablePanelGroup direction="horizontal" className="h-full w-full">

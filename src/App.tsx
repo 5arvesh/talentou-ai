@@ -74,12 +74,14 @@ import CandidateCreationPage from "./pages/CandidateCreationPage";
 import CandidatesPageWrapper_SalesPlan from "./pages/CandidatesPageWrapper_SalesPlan";
 import ImportCandidatesPage from "./pages/ImportCandidatesPage";
 import InterviewRecordingPage from "./pages/InterviewRecordingPage";
+import CandidatePipelinePage from "./pages/CandidatePipelinePage";
 import CandidateProfilePage from "./pages/CandidateProfilePage";
 import HRHomePage from "./pages/hr/HRHomePage";
 import HRTemplatesPage from "./pages/hr/HRTemplatesPage";
 import HRCandidatesPage from "./pages/hr/HRCandidatesPage";
 import HROfferLetterPage from "./pages/hr/HROfferLetterPage";
 import TAAssociateDashboard from "./components/dashboard/TAAssociateDashboard";
+import HiringLeadCommandDashboard from "./components/dashboard/HiringLeadCommandDashboard";
 import TenantManagementPage from "./pages/super-admin/TenantManagementPage";
 
 const queryClient = new QueryClient();
@@ -124,6 +126,7 @@ const App = () => (
                 
                 {/* Hiring Lead specific routes */}
                 <Route path="/hiring-lead/jobs" element={<JobListPage />} />
+                <Route path="/hiring-lead/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
                 <Route path="/hiring-lead/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="hiring-lead" />} />
                 <Route path="/hiring-lead/job-openings" element={<JobOpeningsPage />} />
                 <Route path="/hiring-lead/candidates" element={<CandidatesPageWrapper />} />
@@ -144,6 +147,17 @@ const App = () => (
                       <Header />
                       <div className="flex-1 overflow-y-auto">
                         <TAAssociateDashboard />
+                      </div>
+                    </div>
+                  </div>
+                } />
+                <Route path="/hiring-lead/dashboard" element={
+                  <div className="flex h-screen">
+                    <Sidebar />
+                    <div className="flex flex-col flex-1">
+                      <Header />
+                      <div className="flex-1 overflow-y-auto">
+                        <HiringLeadCommandDashboard />
                       </div>
                     </div>
                   </div>
@@ -238,6 +252,7 @@ const App = () => (
                 <Route path="/settings/policy" element={<Settings />} />
                 <Route path="/settings/license" element={<Settings />} />
                 <Route path="/settings/job-fit-score" element={<Settings />} />
+                <Route path="/settings/careers" element={<Settings />} />
                 
                 <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/suggest-feedback" element={<SuggestFeedback />} />
