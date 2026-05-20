@@ -6,13 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   ArrowLeft, User, MapPin, Code, GraduationCap, FileText, Award, Briefcase,
   Calendar, Mail, Phone, Linkedin, Download,
   Building2, DollarSign, MessageSquare, Sparkles, ChevronDown,
   ClipboardList, ChevronLeft, ChevronRight, Search, Eye, TrendingUp, TrendingDown,
-  MoreHorizontal, BarChart2
+  MoreHorizontal, BarChart2, UserCheck
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
@@ -27,7 +26,6 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
   const navigate = useNavigate();
   const { candidateId } = useParams();
   const [notes, setNotes] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
   const [isListOpen, setIsListOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -64,7 +62,9 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       jobFitScore: score,
       jobFitReason: `Good match for the ${role} position based on skills in ${skills.slice(0, 2).join(' and ')}.`,
       jobFitStrengths: skills.slice(0, 3),
+      jobFitWeaknesses: ['Broader domain exposure', 'Cross-functional experience'] as string[],
       interviewScore: null as number | null, interviewReason: null as string | null,
+      interviewStrengths: [] as string[],
       interviewImprovements: [] as string[],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Open to discuss" },
@@ -124,8 +124,10 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       jobFitScore: 87,
       jobFitReason: "Strong match on required React and TypeScript skills. 4+ years experience exceeds minimum requirement. Previous work in e-commerce aligns with company domain. Resume shows consistent career growth and relevant certifications.",
       jobFitStrengths: ["React expertise", "TypeScript", "Career growth", "Certifications"],
+      jobFitWeaknesses: ["Cloud architecture depth", "Enterprise-scale systems"],
       interviewScore: 78,
       interviewReason: "Demonstrated solid technical knowledge with clear explanations of React concepts. Good communication skills and problem-solving approach. Could improve on system design explanations and time management during complex questions.",
+      interviewStrengths: ["Technical clarity", "Problem-solving approach", "Communication"],
       interviewImprovements: ["System design", "Time management"],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Yes, willing to relocate to Bangalore or Pune" },
@@ -173,8 +175,10 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       jobFitScore: 72,
       jobFitReason: "Good match on Python and Django skills. 2 years experience meets minimum requirement. Limited exposure to cloud technologies which is a nice-to-have for this role.",
       jobFitStrengths: ["Python", "Django", "REST APIs"],
+      jobFitWeaknesses: ["Cloud technologies", "Big data experience"],
       interviewScore: 68,
       interviewReason: "Solid understanding of backend concepts. Could benefit from more depth in system design. Communication was clear but could be more concise.",
+      interviewStrengths: ["Backend fundamentals", "Clear explanations"],
       interviewImprovements: ["System design depth", "Conciseness"],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Prefer to stay in NYC area" },
@@ -221,8 +225,10 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       jobFitScore: 65,
       jobFitReason: "Strong design portfolio with relevant experience. Good understanding of user research methodologies. Limited experience with enterprise-level design systems.",
       jobFitStrengths: ["Portfolio", "User research", "Prototyping"],
+      jobFitWeaknesses: ["Enterprise design systems", "Stakeholder management"],
       interviewScore: null,
       interviewReason: null,
+      interviewStrengths: [],
       interviewImprovements: [],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Yes, open to remote or relocation" },
@@ -268,8 +274,10 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       jobFitScore: 92,
       jobFitReason: "Excellent match on all required skills including Java, Spring, and microservices. 5 years of senior-level experience exceeds requirements. Strong cloud and DevOps background is a great fit.",
       jobFitStrengths: ["Java", "Microservices", "Cloud", "DevOps", "Leadership"],
+      jobFitWeaknesses: ["Trade-off articulation"],
       interviewScore: 85,
       interviewReason: "Exceptional system design skills and deep technical knowledge. Clear communication and strong leadership qualities. Minor areas for improvement in explaining trade-offs.",
+      interviewStrengths: ["System design", "Deep technical knowledge", "Leadership qualities"],
       interviewImprovements: ["Trade-off articulation"],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Prefer remote but can relocate if needed" },
@@ -316,8 +324,10 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       jobFitScore: 78,
       jobFitReason: "Good match on Python, SQL, and analytics skills. Data science background is relevant. Could benefit from more experience with big data technologies.",
       jobFitStrengths: ["Python", "SQL", "Analytics"],
+      jobFitWeaknesses: ["Big data technologies", "ML pipeline experience"],
       interviewScore: null,
       interviewReason: null,
+      interviewStrengths: [],
       interviewImprovements: [],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Yes, open to relocation within US" },
@@ -495,28 +505,11 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                   {candidate.firstName[0]}{candidate.lastName[0]}
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2">
                     <h1 className="text-lg font-bold text-[#7800D3] leading-tight">{candidate.name}</h1>
                     <Badge className={cn("text-[10px] font-semibold shrink-0", getStatusColor(candidate.status))}>
                       {candidate.status}
                     </Badge>
-                    {/* Status update controls — inline with name */}
-                    <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                      <SelectTrigger className="h-7 text-xs w-32 border-[#7800D3]/30 focus:ring-[#7800D3]/30">
-                        <SelectValue placeholder="Update Status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="applied">Applied</SelectItem>
-                        <SelectItem value="shortlisted">Shortlisted</SelectItem>
-                        <SelectItem value="interview">Interview</SelectItem>
-                        <SelectItem value="offer">Offer Extended</SelectItem>
-                        <SelectItem value="hired">Hired</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button size="sm" className="h-7 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white px-3" disabled={!selectedStatus}>
-                      Update
-                    </Button>
                   </div>
                   <p className="text-xs text-muted-foreground flex items-center gap-1.5 mt-0.5">
                     <Briefcase className="h-3 w-3 shrink-0" />
@@ -528,8 +521,12 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                 </div>
               </div>
 
-              {/* Actions: Schedule Interview + ⋯ */}
+              {/* Actions: Shortlist + Schedule Interview + ⋯ */}
               <div className="flex items-center gap-2 shrink-0">
+                <Button size="sm" className="h-8 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1.5">
+                  <UserCheck className="h-3.5 w-3.5" />
+                  Shortlist
+                </Button>
                 <Button size="sm" className="h-8 text-xs bg-[#4ead3b] hover:bg-[#3d9630] text-white gap-1.5">
                   <Calendar className="h-3.5 w-3.5" />
                   Schedule Interview
@@ -559,14 +556,13 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
 
           {/* ── Main Content ── */}
           <div className="px-6 py-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-8 gap-6">
 
               {/* Left: Tabs */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-4">
                 <Tabs defaultValue="quick-stats" className="w-full">
                   <TabsList className="w-full justify-start mb-6 bg-white border border-[#7800D3]/10 shadow-sm rounded-lg p-1 flex-wrap h-auto gap-0.5">
                     <TabsTrigger value="quick-stats" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Quick Stats</TabsTrigger>
-                    <TabsTrigger value="overview" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Overview</TabsTrigger>
                     <TabsTrigger value="screening" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Screening</TabsTrigger>
                     <TabsTrigger value="documents" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Documents</TabsTrigger>
                     <TabsTrigger value="experience" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Experience</TabsTrigger>
@@ -616,89 +612,6 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                               </div>
                             </div>
                           )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-
-                  {/* Overview Tab */}
-                  <TabsContent value="overview" className="space-y-6">
-                    <Card className="p-5">
-                      <CardHeader className="p-0 pb-4">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <User className="h-4 w-4 text-primary" />
-                          Contact Information
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-0 grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">Email</label>
-                          <p className="text-sm text-foreground">{candidate.email}</p>
-                        </div>
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">Phone</label>
-                          <p className="text-sm text-foreground">{candidate.phone}</p>
-                        </div>
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">Best Time to Call</label>
-                          <p className="text-sm text-foreground">{candidate.bestTimeToCall}</p>
-                        </div>
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">LinkedIn</label>
-                          <a href={candidate.linkedinProfile} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1">
-                            <Linkedin className="h-3 w-3" />
-                            View Profile
-                          </a>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="p-5">
-                      <CardHeader className="p-0 pb-4">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <Code className="h-4 w-4 text-primary" />
-                          Skills & Competencies
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-0 space-y-4">
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground mb-2 block">Key Skills</label>
-                          <div className="flex flex-wrap gap-2">
-                            {candidate.keySkills.map((skill, i) => (
-                              <Badge key={i} variant="secondary" className="px-3 py-1">{skill}</Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground mb-2 block">Desired Skills</label>
-                          <div className="flex flex-wrap gap-2">
-                            {candidate.desiredSkills.map((skill, i) => (
-                              <Badge key={i} variant="outline" className="px-3 py-1">{skill}</Badge>
-                            ))}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="p-5">
-                      <CardHeader className="p-0 pb-4">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <DollarSign className="h-4 w-4 text-primary" />
-                          Compensation Details
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-0 grid grid-cols-3 gap-4">
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">Current CTC</label>
-                          <p className="text-sm font-semibold text-foreground">{candidate.currentCTC}</p>
-                        </div>
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">Expected CTC</label>
-                          <p className="text-sm font-semibold text-foreground">{candidate.expectedCTC}</p>
-                        </div>
-                        <div>
-                          <label className="text-xs font-medium text-muted-foreground">Earliest Joining</label>
-                          <p className="text-sm font-semibold text-foreground">{formatDate(candidate.earliestJoiningDate)}</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -919,7 +832,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
               </div>
 
               {/* Right: Score cards */}
-              <div className="space-y-4">
+              <div className="lg:col-span-4 space-y-4">
 
                 {/* Job Fit Score */}
                 <div className="bg-white border-2 border-[#7800D3]/20 rounded-xl p-5 space-y-4">
@@ -948,6 +861,20 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                       </div>
                     </div>
                   )}
+
+                  {(candidate as any).jobFitWeaknesses?.length > 0 && (
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <TrendingDown className="h-3.5 w-3.5 text-red-500" />
+                        <span className="text-xs font-semibold text-[#7800D3]">Skill Gaps</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {(candidate as any).jobFitWeaknesses.map((w: string, i: number) => (
+                          <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200 font-medium">{w}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Interview Score */}
@@ -964,6 +891,20 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                       <p className="text-[10px] font-semibold text-[#7800D3] mb-1.5">AI Reasoning</p>
                       <p className="text-xs text-gray-700 leading-relaxed">{candidate.interviewReason}</p>
                     </div>
+
+                    {(candidate as any).interviewStrengths?.length > 0 && (
+                      <div>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <TrendingUp className="h-3.5 w-3.5 text-[#4ead3b]" />
+                          <span className="text-xs font-semibold text-[#7800D3]">Interview Strengths</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {(candidate as any).interviewStrengths.map((s: string, i: number) => (
+                            <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200 font-medium">{s}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {candidate.interviewImprovements && candidate.interviewImprovements.length > 0 && (
                       <div>
