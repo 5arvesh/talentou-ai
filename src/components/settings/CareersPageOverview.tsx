@@ -52,7 +52,7 @@ export function CareersPageOverview() {
   return (
     <div className="space-y-8">
       {/* Allowed Domains */}
-      <section className="space-y-3">
+      <section data-tour-id="careers-allowed-domains" className="space-y-3">
         <div>
           <h3 className="text-sm font-semibold text-foreground">Allowed Domains</h3>
           <p className="text-xs text-muted-foreground mt-0.5">Restrict where the embed code can run. Leave empty to allow all domains.</p>

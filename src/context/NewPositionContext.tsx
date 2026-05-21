@@ -23,6 +23,12 @@ export interface RecruiterJob {
   daysOpen: number;
 }
 
+export interface ScreeningQuestion {
+  id: string;
+  text: string;
+  type: 'text' | 'yesno';
+}
+
 export interface JobDetails {
   title: string;
   numberOfOpenings: number;
@@ -39,6 +45,7 @@ export interface JobDetails {
   behavioralQuestionsEnabled: boolean;
   hiringLead: string;
   project: string;
+  screeningQuestions: ScreeningQuestion[];
 }
 
 // Mock data
@@ -66,7 +73,12 @@ export const mockJobDetails: JobDetails = {
   ],
   behavioralQuestionsEnabled: false,
   hiringLead: "Ananthan",
-  project: "Amgen"
+  project: "Amgen",
+  screeningQuestions: [
+    { id: 'sq-1', text: 'Do you have at least 3 years of relevant experience?', type: 'yesno' },
+    { id: 'sq-2', text: 'Are you comfortable working in a hybrid setup (2–3 days on-site)?', type: 'yesno' },
+    { id: 'sq-3', text: 'Briefly describe your most relevant past project.', type: 'text' },
+  ],
 };
 
 export const existingRecruiters: Recruiter[] = [

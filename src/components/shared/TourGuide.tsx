@@ -32,6 +32,8 @@ export function TourGuide() {
       setTargetRect(null);
       return;
     }
+    // Scroll the element into view instantly so the spotlight always lands on a visible element
+    el.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'nearest' });
     const r = el.getBoundingClientRect();
     setTargetRect({ top: r.top, left: r.left, width: r.width, height: r.height });
 
@@ -53,7 +55,9 @@ export function TourGuide() {
   useEffect(() => {
     if (!isVisible) return;
     step?.onEnter?.();
-    const t = setTimeout(measureTarget, 150);
+    // Give more time when onEnter modifies the DOM (tab switches, popovers)
+    const delay = step?.onEnter ? 350 : 150;
+    const t = setTimeout(measureTarget, delay);
     return () => clearTimeout(t);
   }, [currentStep, isVisible, measureTarget]);
 

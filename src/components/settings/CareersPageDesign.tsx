@@ -118,7 +118,7 @@ export function CareersPageDesign() {
       <Separator />
 
       {/* Theme */}
-      <section className={sectionClass}>
+      <section data-tour-id="careers-design-options" className={sectionClass}>
         <h3 className={headingClass}>Theme</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <ColorPickerField label="Primary" value={state.theme.primary} onChange={(v) => updateTheme('primary', v)} />

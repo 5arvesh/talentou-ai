@@ -25,6 +25,7 @@ interface ScreeningQuestion {
 interface RecruiterScreeningDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  onConfirm: () => void;
   jobRole: string;
 }
 
@@ -34,8 +35,9 @@ const HL_PRESET_QUESTIONS: ScreeningQuestion[] = [
   { id: 'hl-3', text: 'Briefly describe your most relevant past project.', type: 'text', source: 'hl' },
 ];
 
-export function RecruiterScreeningDrawer({ isOpen, onClose, jobRole }: RecruiterScreeningDrawerProps) {
+export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }: RecruiterScreeningDrawerProps) {
   const [recruiterQuestions, setRecruiterQuestions] = useState<ScreeningQuestion[]>([]);
+  const [hasAnsweredPrompt, setHasAnsweredPrompt] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [text, setText] = useState('');
   const [type, setType] = useState<'text' | 'yesno'>('text');
@@ -55,11 +57,23 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, jobRole }: Recruiter
     setRecruiterQuestions(prev => prev.filter(q => q.id !== id));
   };
 
+  // Cancel — does NOT confirm; toggle stays OFF
   const handleClose = () => {
     setIsAdding(false);
     setText('');
     setType('text');
+    setHasAnsweredPrompt(false);
     onClose();
+  };
+
+  // Confirm — called on skip or save; turns the toggle ON
+  const handleConfirm = () => {
+    onConfirm();
+    // reset internal state (onConfirm already closes via parent)
+    setIsAdding(false);
+    setText('');
+    setType('text');
+    setHasAnsweredPrompt(false);
   };
 
   const allQuestions = [...HL_PRESET_QUESTIONS, ...recruiterQuestions];
@@ -74,132 +88,164 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, jobRole }: Recruiter
           </SheetDescription>
         </SheetHeader>
 
-        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-          {/* HL-set questions */}
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Lock className="h-3.5 w-3.5 text-muted-foreground" />
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Set by Hiring Lead</p>
+        {/* ── Prompt screen ── */}
+        {!hasAnsweredPrompt ? (
+          <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 gap-6 text-center">
+            <div className="h-14 w-14 rounded-full bg-[#7800D3]/10 flex items-center justify-center">
+              <ClipboardList className="h-7 w-7 text-[#7800D3]" />
             </div>
-            <div className="space-y-2">
-              {HL_PRESET_QUESTIONS.map(q => (
-                <div key={q.id} className="flex items-start gap-2 p-3 bg-muted/20 rounded-lg border border-border/60">
-                  <p className="flex-1 text-sm text-muted-foreground">{q.text}</p>
-                  <Badge variant="outline" className="text-xs shrink-0">{q.type === 'yesno' ? 'Yes / No' : 'Text'}</Badge>
-                </div>
-              ))}
+            <div>
+              <h3 className="text-base font-semibold text-foreground mb-1">Add Screening Questions?</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+                Candidates will answer these when applying through your careers page.
+              </p>
             </div>
-          </div>
-
-          {/* Recruiter questions */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <ClipboardList className="h-3.5 w-3.5 text-[#7800D3]" />
-                <p className="text-xs font-semibold text-[#7800D3] uppercase tracking-wide">Your Questions</p>
-              </div>
+            <div className="flex flex-col gap-3 w-full max-w-xs">
               <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                className="text-xs h-7 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#faf5ff]"
-                onClick={() => setIsAdding(true)}
-                disabled={isAdding}
+                className="w-full bg-[#7800D3] hover:bg-[#6600bb] text-white"
+                onClick={() => setHasAnsweredPrompt(true)}
               >
-                <Plus className="h-3 w-3 mr-1" /> Add Question
+                Yes, add questions
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={handleConfirm}
+              >
+                No, skip for now
               </Button>
             </div>
-
-            <div className="space-y-2">
-              {recruiterQuestions.length === 0 && !isAdding && (
-                <div className="flex flex-col items-center gap-2 py-6 text-muted-foreground border-2 border-dashed rounded-lg">
-                  <ClipboardList className="h-6 w-6 opacity-30" />
-                  <p className="text-sm">No questions added yet</p>
+          </div>
+        ) : (
+          /* ── Questions screen ── */
+          <>
+            <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+              {/* HL-set questions */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Lock className="h-3.5 w-3.5 text-muted-foreground" />
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Set by Hiring Lead</p>
                 </div>
-              )}
+                <div className="space-y-2">
+                  {HL_PRESET_QUESTIONS.map(q => (
+                    <div key={q.id} className="flex items-start gap-2 p-3 bg-muted/20 rounded-lg border border-border/60">
+                      <p className="flex-1 text-sm text-muted-foreground">{q.text}</p>
+                      <Badge variant="outline" className="text-xs shrink-0">{q.type === 'yesno' ? 'Yes / No' : 'Text'}</Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-              {recruiterQuestions.map(q => (
-                <div key={q.id} className="flex items-center gap-2 p-3 bg-purple-50 rounded-lg border border-purple-200">
-                  <p className="flex-1 text-sm">{q.text}</p>
-                  <Badge variant="outline" className="text-xs shrink-0 border-purple-200 text-purple-700">
-                    {q.type === 'yesno' ? 'Yes / No' : 'Text'}
-                  </Badge>
+              {/* Recruiter questions */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <ClipboardList className="h-3.5 w-3.5 text-[#7800D3]" />
+                    <p className="text-xs font-semibold text-[#7800D3] uppercase tracking-wide">Your Questions</p>
+                  </div>
                   <Button
                     type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 text-muted-foreground hover:text-red-500 shrink-0"
-                    onClick={() => handleDelete(q.id)}
+                    size="sm"
+                    variant="outline"
+                    className="text-xs h-7 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#faf5ff]"
+                    onClick={() => setIsAdding(true)}
+                    disabled={isAdding}
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Plus className="h-3 w-3 mr-1" /> Add Question
                   </Button>
                 </div>
-              ))}
 
-              {isAdding && (
-                <Card className="p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
-                  <div className="space-y-3">
-                    <Textarea
-                      placeholder="Enter screening question..."
-                      value={text}
-                      onChange={(e) => setText(e.target.value)}
-                      rows={2}
-                      className="text-sm resize-none"
-                      autoFocus
-                    />
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-2">Answer type</p>
-                      <RadioGroup
-                        value={type}
-                        onValueChange={(v) => setType(v as 'text' | 'yesno')}
-                        className="flex gap-4"
+                <div className="space-y-2">
+                  {recruiterQuestions.length === 0 && !isAdding && (
+                    <div className="flex flex-col items-center gap-2 py-6 text-muted-foreground border-2 border-dashed rounded-lg">
+                      <ClipboardList className="h-6 w-6 opacity-30" />
+                      <p className="text-sm">No questions added yet</p>
+                    </div>
+                  )}
+
+                  {recruiterQuestions.map(q => (
+                    <div key={q.id} className="flex items-center gap-2 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                      <p className="flex-1 text-sm">{q.text}</p>
+                      <Badge variant="outline" className="text-xs shrink-0 border-purple-200 text-purple-700">
+                        {q.type === 'yesno' ? 'Yes / No' : 'Text'}
+                      </Badge>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 text-muted-foreground hover:text-red-500 shrink-0"
+                        onClick={() => handleDelete(q.id)}
                       >
-                        <div className="flex items-center gap-2">
-                          <RadioGroupItem value="text" id="rq-text" />
-                          <Label htmlFor="rq-text" className="text-sm cursor-pointer">Text response</Label>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <RadioGroupItem value="yesno" id="rq-yesno" />
-                          <Label htmlFor="rq-yesno" className="text-sm cursor-pointer">Yes / No</Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button type="button" size="sm" onClick={handleAdd} className="bg-[#7800D3] hover:bg-[#6600bb] text-white">
-                        Add Question
-                      </Button>
-                      <Button type="button" size="sm" variant="outline" onClick={() => { setIsAdding(false); setText(''); }}>
-                        Cancel
+                        <Trash2 className="h-3 w-3" />
                       </Button>
                     </div>
-                  </div>
-                </Card>
+                  ))}
+
+                  {isAdding && (
+                    <Card className="p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
+                      <div className="space-y-3">
+                        <Textarea
+                          placeholder="Enter screening question..."
+                          value={text}
+                          onChange={(e) => setText(e.target.value)}
+                          rows={2}
+                          className="text-sm resize-none"
+                          autoFocus
+                        />
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-2">Answer type</p>
+                          <RadioGroup
+                            value={type}
+                            onValueChange={(v) => setType(v as 'text' | 'yesno')}
+                            className="flex gap-4"
+                          >
+                            <div className="flex items-center gap-2">
+                              <RadioGroupItem value="text" id="rq-text" />
+                              <Label htmlFor="rq-text" className="text-sm cursor-pointer">Text response</Label>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <RadioGroupItem value="yesno" id="rq-yesno" />
+                              <Label htmlFor="rq-yesno" className="text-sm cursor-pointer">Yes / No</Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button type="button" size="sm" onClick={handleAdd} className="bg-[#7800D3] hover:bg-[#6600bb] text-white">
+                            Add Question
+                          </Button>
+                          <Button type="button" size="sm" variant="outline" onClick={() => { setIsAdding(false); setText(''); }}>
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+                </div>
+              </div>
+
+              {allQuestions.length > 0 && (
+                <p className="text-xs text-muted-foreground text-center pt-2">
+                  {allQuestions.length} total question{allQuestions.length !== 1 ? 's' : ''} —
+                  candidates will answer all of these when applying
+                </p>
               )}
             </div>
-          </div>
 
-          {/* Summary */}
-          {allQuestions.length > 0 && (
-            <p className="text-xs text-muted-foreground text-center pt-2">
-              {allQuestions.length} total question{allQuestions.length !== 1 ? 's' : ''} —
-              candidates will answer all of these when applying
-            </p>
-          )}
-        </div>
-
-        <SheetFooter className="px-6 py-4 border-t border-border">
-          <div className="flex gap-3 w-full">
-            <Button variant="outline" className="flex-1" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button
-              className="flex-1 bg-[#7800D3] hover:bg-[#6600bb] text-white"
-              onClick={handleClose}
-            >
-              Save Questions
-            </Button>
-          </div>
-        </SheetFooter>
+            <SheetFooter className="px-6 py-4 border-t border-border">
+              <div className="flex gap-3 w-full">
+                <Button variant="outline" className="flex-1" onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button
+                  className="flex-1 bg-[#7800D3] hover:bg-[#6600bb] text-white"
+                  onClick={handleConfirm}
+                >
+                  {recruiterQuestions.length === 0 ? 'Skip for now' : 'Save Questions'}
+                </Button>
+              </div>
+            </SheetFooter>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

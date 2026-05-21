@@ -5,9 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
-  Eye, EyeOff, ThumbsUp, ThumbsDown, Building2, Clock, Star, Heart, 
-  TrendingUp, DollarSign, Calendar, User, AlertTriangle, Zap, MapPin, 
-  Briefcase, Users, CheckCircle2 
+  Eye, EyeOff, ThumbsUp, ThumbsDown, Building2, Clock, Star, Heart,
+  TrendingUp, DollarSign, Calendar, User, AlertTriangle, Zap, MapPin,
+  Briefcase, Users, CheckCircle2, ClipboardList
 } from 'lucide-react';
 import { useNewPosition } from '@/context/NewPositionContext';
 
@@ -217,6 +217,35 @@ export function JDPreviewStage() {
                 ))}
               </div>
             </Card>
+
+            {/* Screening Questions */}
+            {jobDetails.screeningQuestions && jobDetails.screeningQuestions.length > 0 && (
+              <Card className="p-5 border border-[#7800D3]/20">
+                <h3 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2">
+                  <ClipboardList className="h-5 w-5 text-[#7800D3]" />
+                  Screening Questions
+                  <Badge variant="secondary" className="text-xs font-normal ml-1">
+                    {jobDetails.screeningQuestions.length}
+                  </Badge>
+                </h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  Candidates will answer these questions when applying for this position.
+                </p>
+                <div className="space-y-2">
+                  {jobDetails.screeningQuestions.map((q, index) => (
+                    <div key={q.id} className="flex items-start gap-3 p-3 bg-muted/20 rounded-lg border border-border/60">
+                      <span className="text-[10px] font-bold text-[#7800D3] bg-[#7800D3]/10 rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
+                        {index + 1}
+                      </span>
+                      <p className="flex-1 text-sm text-foreground leading-snug">{q.text}</p>
+                      <Badge variant="outline" className="text-xs shrink-0">
+                        {q.type === 'yesno' ? 'Yes / No' : 'Text'}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
           </div>
         </ScrollArea>
       ) : (

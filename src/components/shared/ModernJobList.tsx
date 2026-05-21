@@ -510,9 +510,13 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                               <div className="inline-flex">
                                 <Switch
                                   checked={isCareerEnabled(job)}
-                                  onCheckedChange={(checked) =>
-                                    setCareersEnabled(prev => ({ ...prev, [job.id]: checked }))
-                                  }
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setScreeningDrawerJob(job); // toggle stays OFF until drawer confirms
+                                    } else {
+                                      setCareersEnabled(prev => ({ ...prev, [job.id]: false }));
+                                    }
+                                  }}
                                   className="data-[state=checked]:bg-[#4EAD3B] scale-90"
                                 />
                               </div>
@@ -569,13 +573,6 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                                 <LinkIcon className="mr-2 h-4 w-4 opacity-70" />
                                 Generate JD Link
                               </DropdownMenuItem>
-                              <DropdownMenuItem
-                                onClick={(e) => { e.stopPropagation(); setScreeningDrawerJob(job); }}
-                                className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2"
-                              >
-                                <ClipboardList className="mr-2 h-4 w-4 opacity-70" />
-                                Screening Questions
-                              </DropdownMenuItem>
                             </>
                           )}
                         </DropdownMenuContent>
@@ -617,6 +614,12 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       <RecruiterScreeningDrawer
         isOpen={!!screeningDrawerJob}
         onClose={() => setScreeningDrawerJob(null)}
+        onConfirm={() => {
+          if (screeningDrawerJob) {
+            setCareersEnabled(prev => ({ ...prev, [screeningDrawerJob.id]: true }));
+          }
+          setScreeningDrawerJob(null);
+        }}
         jobRole={screeningDrawerJob?.jobRole ?? ""}
       />
 
