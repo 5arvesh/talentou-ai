@@ -1,5 +1,5 @@
 // v2
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { toast } from 'sonner';
 
 interface CandidateProfileProps {
   jobs: { id: number; jobRole: string }[];
@@ -26,6 +27,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
   const navigate = useNavigate();
   const { candidateId } = useParams();
   const [notes, setNotes] = useState("");
+  const [currentStatus, setCurrentStatus] = useState("");
   const [isListOpen, setIsListOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -385,6 +387,23 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
     );
   }
 
+  useEffect(() => {
+    setCurrentStatus(candidate.status);
+  }, [candidateId]);
+
+  const isShortlisted = ['shortlisted', 'interview', 'offer extended', 'hired'].includes(currentStatus.toLowerCase());
+  const isInterviewScheduled = ['interview', 'offer extended', 'hired'].includes(currentStatus.toLowerCase());
+
+  const handleShortlist = () => {
+    setCurrentStatus('Shortlisted');
+    toast.success(`${candidate.name} has been shortlisted`);
+  };
+
+  const handleScheduleInterview = () => {
+    setCurrentStatus('Interview');
+    toast.success(`Interview scheduled for ${candidate.name}`);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'interview':
@@ -507,8 +526,8 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h1 className="text-lg font-bold text-[#7800D3] leading-tight">{candidate.name}</h1>
-                    <Badge className={cn("text-[10px] font-semibold shrink-0", getStatusColor(candidate.status))}>
-                      {candidate.status}
+                    <Badge className={cn("text-[10px] font-semibold shrink-0", getStatusColor(currentStatus || candidate.status))}>
+                      {currentStatus || candidate.status}
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground flex items-center gap-1.5 mt-0.5">
@@ -523,13 +542,23 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
 
               {/* Actions: Shortlist + Schedule Interview + ⋯ */}
               <div className="flex items-center gap-2 shrink-0">
-                <Button size="sm" className="h-8 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1.5">
+                <Button
+                  size="sm"
+                  className="h-8 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  onClick={handleShortlist}
+                  disabled={isShortlisted}
+                >
                   <UserCheck className="h-3.5 w-3.5" />
-                  Shortlist
+                  {isShortlisted ? 'Shortlisted ✓' : 'Shortlist'}
                 </Button>
-                <Button size="sm" className="h-8 text-xs bg-[#4ead3b] hover:bg-[#3d9630] text-white gap-1.5">
+                <Button
+                  size="sm"
+                  className="h-8 text-xs bg-[#4ead3b] hover:bg-[#3d9630] text-white gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  onClick={handleScheduleInterview}
+                  disabled={isInterviewScheduled}
+                >
                   <Calendar className="h-3.5 w-3.5" />
-                  Schedule Interview
+                  {isInterviewScheduled ? 'Interview Scheduled ✓' : 'Schedule Interview'}
                 </Button>
 
                 <DropdownMenu>
