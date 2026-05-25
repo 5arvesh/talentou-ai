@@ -60,7 +60,7 @@ export function ReviewProgressSidebar() {
                       font-bold text-lg transition-all
                       ${isActive ? 'bg-[#7800d3] text-white' : ''}
                       ${isViewed ? 'bg-[#4ead3b] text-white' : ''}
-                      ${isPending ? 'bg-black text-white dark:bg-white dark:text-black' : ''}
+                      ${isPending ? 'bg-muted text-muted-foreground' : ''}
                     `}
                   >
                     {isViewed ? (

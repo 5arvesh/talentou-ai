@@ -15,6 +15,8 @@ import {
   Globe,
   ClipboardList,
   Users,
+  Briefcase,
+  Loader2,
 } from "lucide-react";
 import { RecruiterScreeningDrawer } from "@/components/recruiter/RecruiterScreeningDrawer";
 import { Button } from "@/components/ui/button";
@@ -53,6 +55,10 @@ export interface JobItem {
 
   // Compatibility
   openCandidates?: number;
+
+  // Document attachments
+  sampleCVUrl?: string;
+  sampleJDUrl?: string;
 }
 
 interface ModernJobListProps {
@@ -115,6 +121,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc'|'desc' } | null>(null);
   const [careersEnabled, setCareersEnabled] = useState<Record<string | number, boolean>>({});
   const [screeningDrawerJob, setScreeningDrawerJob] = useState<JobItem | null>(null);
+  const [loadingFile, setLoadingFile] = useState<string | null>(null);
 
   const isCareerEnabled = (job: JobItem) => {
     if (job.id in careersEnabled) return careersEnabled[job.id];
@@ -206,6 +213,27 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
     if (p === "medium") return "bg-yellow-50 text-yellow-600 border-yellow-200";
     if (p === "low") return "bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20";
     return "bg-gray-50 text-gray-600";
+  };
+
+  const handleOpenFile = (url: string, fileKey: string, fileName: string) => {
+    setLoadingFile(fileKey);
+    try {
+      const isPdf = url.toLowerCase().includes('.pdf');
+      if (isPdf) {
+        window.open(url, '_blank');
+      } else {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    } catch {
+      toast.error('Could not open the file. Please try again.');
+    } finally {
+      setLoadingFile(null);
+    }
   };
 
   const handleAction = (action: string, job: JobItem) => {
@@ -427,7 +455,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
         <Table className="w-full min-w-max">
           <TableHeader>
-            <TableRow className="bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 border-b-0">
+            <TableRow className="bg-[#7800D3] hover:bg-[#6a00bb] border-b-0">
               <TableHead className="w-12 text-center text-white"></TableHead>
               {visibleColumns.map((colId) => {
                 const colDef = ALL_COLUMNS.find(c => c.id === colId);
@@ -573,6 +601,36 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                                 <LinkIcon className="mr-2 h-4 w-4 opacity-70" />
                                 Generate JD Link
                               </DropdownMenuItem>
+                            </>
+                          )}
+
+                          {(job.sampleCVUrl || job.sampleJDUrl) && (
+                            <>
+                              <DropdownMenuSeparator />
+                              {job.sampleCVUrl && (
+                                <DropdownMenuItem
+                                  onClick={(e) => { e.stopPropagation(); handleOpenFile(job.sampleCVUrl!, `${job.id}_cv`, `${job.jobRole}_SampleCV.pdf`); }}
+                                  disabled={loadingFile === `${job.id}_cv`}
+                                  className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2"
+                                >
+                                  {loadingFile === `${job.id}_cv`
+                                    ? <Loader2 className="mr-2 h-4 w-4 animate-spin opacity-70" />
+                                    : <FileText className="mr-2 h-4 w-4 opacity-70" />}
+                                  View Sample CV
+                                </DropdownMenuItem>
+                              )}
+                              {job.sampleJDUrl && (
+                                <DropdownMenuItem
+                                  onClick={(e) => { e.stopPropagation(); handleOpenFile(job.sampleJDUrl!, `${job.id}_jd`, `${job.jobRole}_SampleJD.pdf`); }}
+                                  disabled={loadingFile === `${job.id}_jd`}
+                                  className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2"
+                                >
+                                  {loadingFile === `${job.id}_jd`
+                                    ? <Loader2 className="mr-2 h-4 w-4 animate-spin opacity-70" />
+                                    : <Briefcase className="mr-2 h-4 w-4 opacity-70" />}
+                                  View Sample JD
+                                </DropdownMenuItem>
+                              )}
                             </>
                           )}
                         </DropdownMenuContent>

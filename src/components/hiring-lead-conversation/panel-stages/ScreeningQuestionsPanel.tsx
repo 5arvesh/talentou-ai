@@ -126,7 +126,7 @@ function SortableScreeningItem({
           <p className="flex-1 text-sm text-foreground leading-snug">{q.text}</p>
 
           <div className="flex items-center gap-1 shrink-0">
-            <Badge variant="outline" className={`text-xs ${q.type === 'yesno' ? 'border-emerald-300 text-emerald-700 bg-emerald-50' : 'border-gray-300 text-gray-600 bg-gray-50'}`}>
+            <Badge variant="outline" className={`text-xs ${q.type === 'yesno' ? 'border-emerald-300 text-emerald-700 bg-emerald-50' : 'border-gray-300 text-gray-700 bg-gray-50'}`}>
               {q.type === 'yesno' ? 'Yes / No' : 'Text'}
             </Badge>
             <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-[#7800D3]" onClick={() => onStartEdit(q)} title="Edit">
