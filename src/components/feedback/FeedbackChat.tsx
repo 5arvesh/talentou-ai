@@ -102,7 +102,7 @@ export const FeedbackChat = ({ onSubmitFeedback }: FeedbackChatProps) => {
               className={cn(
                 "flex max-w-[80%] rounded-lg p-4",
                 msg.sender === "user"
-                  ? "ml-auto bg-emerald-100 dark:bg-emerald-900/30 text-emerald-900 dark:text-emerald-100"
+                  ? "ml-auto bg-emerald-100 dark:bg-emerald-900/30 text-gray-800 dark:text-gray-100"
                   : "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100"
               )}
             >

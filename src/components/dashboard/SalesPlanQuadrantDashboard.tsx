@@ -2,12 +2,37 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Timer } from 'lucide-react';
+import { TrendingUp, TrendingDown, Briefcase, Clock, BarChart2, Timer } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+const MetricCard = ({ title, value, change, target, icon: Icon, trend, gradient }: {
+  title: string; value: string | number; change: string; target?: string;
+  icon: React.ElementType; trend: 'up' | 'down'; gradient: string;
+}) => (
+  <Card className={`relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${gradient}`}>
+    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
+    <CardContent className="p-5 relative">
+      <div className="flex items-start justify-between mb-3">
+        <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
+          <Icon className="h-5 w-5 text-white" />
+        </div>
+        <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${trend === 'up' ? 'bg-green-500/20 text-green-100' : 'bg-red-500/20 text-red-100'}`}>
+          {trend === 'up' ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+          {change}
+        </div>
+      </div>
+      <div className="space-y-1">
+        <p className="text-white/80 text-sm font-medium">{title}</p>
+        <p className="text-3xl font-bold text-white">{value}</p>
+        {target && <p className="text-white/60 text-xs">{target}</p>}
+      </div>
+    </CardContent>
+  </Card>
+);
 
 const recruiters = [
   { name: 'Sarah Chen', initials: 'SC', active: 4, max: 5, closed: 3, avgClose: '3.8w', status: 'on-track' },
@@ -40,57 +65,62 @@ const bottleneckData = [
 
 const statusConfig: Record<string, { label: string; className: string }> = {
   'on-track': { label: 'On Track', className: 'bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20' },
-  'at-risk':  { label: 'At Risk',  className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  'behind':   { label: 'Behind',   className: 'bg-red-50 text-red-700 border-red-200' },
+  'at-risk': { label: 'At Risk', className: 'bg-amber-50 text-amber-700 border-amber-200' },
+  'behind': { label: 'Behind', className: 'bg-red-50 text-red-700 border-red-200' },
 };
-
-const kpiStats = [
-  { label: 'Total Open Positions', value: 24,     sub: '+3 this quarter',     subColor: 'text-[#4EAD3B]' },
-  { label: 'Open > 3 Weeks',       value: 5,      sub: '+2 vs last month',    subColor: 'text-red-500' },
-  { label: 'Avg Time-to-Close',    value: '4.2w', sub: '✓ Below 5w target',   subColor: 'text-[#4EAD3B]' },
-  { label: 'Advancement Rate',     value: '37%',  sub: '✓ Above 30% target',  subColor: 'text-[#4EAD3B]' },
-];
 
 const SalesPlanQuadrantDashboard = () => {
   const navigate = useNavigate();
   const [selectedRecruiter, setSelectedRecruiter] = useState('all');
+  const [selectedTimeframe, setSelectedTimeframe] = useState('thisquarter');
+
+  const maxStalled = Math.max(...bottleneckData.map((d) => d.stalled));
 
   return (
-    <div className="p-6 space-y-6 bg-background min-h-screen">
+    <div className="p-6 space-y-6 bg-gradient-to-br from-background via-background to-muted/20 min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Pipeline Overview</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Team recruiting activity at a glance</p>
+          <h1 className="text-2xl font-bold text-foreground">TA Leader Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Recruiting operation health at a glance</p>
         </div>
-        <Select value={selectedRecruiter} onValueChange={setSelectedRecruiter}>
-          <SelectTrigger className="w-[160px] h-9">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Recruiters</SelectItem>
-            {recruiters.map((r) => (
-              <SelectItem key={r.name} value={r.name}>{r.name}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex gap-3">
+          <Select value={selectedRecruiter} onValueChange={setSelectedRecruiter}>
+            <SelectTrigger className="w-[160px] h-9">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Recruiters</SelectItem>
+              {recruiters.map((r) => (
+                <SelectItem key={r.name} value={r.name}>{r.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
+            <SelectTrigger className="w-[160px] h-9">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="thisquarter">This Quarter</SelectItem>
+              <SelectItem value="lastquarter">Last Quarter</SelectItem>
+              <SelectItem value="thisyear">This Year</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      {/* KPI Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden border border-border">
-        {kpiStats.map((stat) => (
-          <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{stat.label}</span>
-            <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-            <span className={`text-xs font-medium ${stat.subColor}`}>{stat.sub}</span>
-          </div>
-        ))}
+      {/* KPI Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard title="Total Open Positions" value={24} change="+3 this quarter" icon={Briefcase} trend="up" gradient="bg-gradient-to-br from-blue-500 to-blue-600" />
+        <MetricCard title="Open > 3 Weeks" value={5} change="+2 vs last month" icon={Timer} trend="down" gradient="bg-gradient-to-br from-amber-500 to-orange-600" />
+        <MetricCard title="Avg Time-to-Close" value="4.2w" change="vs target 5w" target="✓ Below target" icon={Clock} trend="up" gradient="bg-gradient-to-br from-emerald-500 to-teal-600" />
+        <MetricCard title="Advancement Rate" value="37%" change="vs target 30%" target="✓ Above target" icon={BarChart2} trend="up" gradient="bg-gradient-to-br from-violet-500 to-purple-600" />
       </div>
 
       {/* Quadrant Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Recruiter Performance */}
-        <Card className="border border-border shadow-sm">
+        {/* Recruiter Leaderboard */}
+        <Card className="border-0 shadow-lg">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Recruiter Performance</CardTitle>
           </CardHeader>
@@ -109,11 +139,17 @@ const SalesPlanQuadrantDashboard = () => {
                 {recruiters.map((r) => {
                   const cfg = statusConfig[r.status];
                   return (
-                    <TableRow key={r.name} className="cursor-pointer hover:bg-muted/40" onClick={() => navigate('/sales-plan/dashboard/recruiter-metrics')}>
+                    <TableRow
+                      key={r.name}
+                      className="cursor-pointer hover:bg-muted/40"
+                      onClick={() => navigate('/sales-plan/dashboard/recruiter-metrics')}
+                    >
                       <TableCell className="pl-6 py-3">
                         <div className="flex items-center gap-2">
                           <Avatar className="h-7 w-7">
-                            <AvatarFallback className="text-xs bg-[#7800D3] text-white">{r.initials}</AvatarFallback>
+                            <AvatarFallback className="text-xs bg-gradient-to-br from-[#7800D3]/70 to-[#7800D3] text-white">
+                              {r.initials}
+                            </AvatarFallback>
                           </Avatar>
                           <span className="text-sm font-medium">{r.name}</span>
                         </div>
@@ -135,7 +171,7 @@ const SalesPlanQuadrantDashboard = () => {
         </Card>
 
         {/* Pipeline Health */}
-        <Card className="border border-border shadow-sm">
+        <Card className="border-0 shadow-lg">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Pipeline Health</CardTitle>
           </CardHeader>
@@ -156,7 +192,7 @@ const SalesPlanQuadrantDashboard = () => {
         </Card>
 
         {/* Longest Open Positions */}
-        <Card className="border border-border shadow-sm">
+        <Card className="border-0 shadow-lg">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base font-semibold">Longest Open Positions</CardTitle>
@@ -166,7 +202,7 @@ const SalesPlanQuadrantDashboard = () => {
           <CardContent className="space-y-2">
             {longRunningPositions.map((item, i) => {
               const isLong = item.daysOpen >= 28;
-              const isMid  = item.daysOpen >= 21 && !isLong;
+              const isMid = item.daysOpen >= 21 && !isLong;
               return (
                 <div key={i} className={`flex items-center justify-between p-3 rounded-lg border ${isLong ? 'bg-red-50 border-red-200' : isMid ? 'bg-amber-50 border-amber-200' : 'bg-muted/40 border-transparent'}`}>
                   <div className="min-w-0 flex-1">
@@ -187,8 +223,8 @@ const SalesPlanQuadrantDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Bottleneck Indicator — flags all stages ≥3 stalled */}
-        <Card className="border border-border shadow-sm">
+        {/* Bottleneck Indicator */}
+        <Card className="border-0 shadow-lg">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Bottleneck Indicator</CardTitle>
             <p className="text-xs text-muted-foreground">Candidates stalled &gt;5 days per stage</p>
@@ -196,22 +232,18 @@ const SalesPlanQuadrantDashboard = () => {
           <CardContent>
             <div className="grid grid-cols-4 gap-3">
               {bottleneckData.map((d) => {
-                const isBottleneck = d.stalled >= 3;
+                const isBottleneck = d.stalled === maxStalled && d.stalled > 0;
                 return (
                   <div key={d.stage} className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all ${isBottleneck ? 'border-amber-400 bg-amber-50' : 'border-muted bg-muted/20'}`}>
                     <span className={`text-2xl font-bold ${isBottleneck ? 'text-amber-600' : 'text-foreground'}`}>{d.stalled}</span>
-                    <span className="text-xs text-muted-foreground text-center mt-1 leading-tight">{d.stage}</span>
-                    {isBottleneck && (
-                      <span className="text-xs font-semibold text-amber-600 mt-1 flex items-center gap-0.5">
-                        <Timer className="h-3 w-3" /> Stalled
-                      </span>
-                    )}
+                    <span className="text-[10px] text-muted-foreground text-center mt-1 leading-tight">{d.stage}</span>
+                    {isBottleneck && <span className="text-[10px] font-semibold text-amber-600 mt-1">⚠ Bottleneck</span>}
                   </div>
                 );
               })}
             </div>
             <p className="text-xs text-muted-foreground mt-4">
-              All stages with 3 or more candidates stalled over 5 days are flagged.
+              Review candidates who have had no status change in over 5 days.
             </p>
           </CardContent>
         </Card>

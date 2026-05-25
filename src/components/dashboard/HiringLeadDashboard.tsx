@@ -160,7 +160,7 @@ export function HiringLeadDashboard() {
           {/* Left Box - Welcome Message */}
           <div
             className="w-1/2 rounded-lg p-8 text-white relative overflow-hidden flex flex-col items-center justify-center text-center"
-            style={{ background: "#7800D3" }}
+            style={{ background: "linear-gradient(135deg, #0A92FE, #7E00FC)" }}
           >
             <div className="relative z-10 flex flex-col items-center">
               <h1 className="text-3xl font-bold mb-2">
@@ -171,7 +171,7 @@ export function HiringLeadDashboard() {
                 clarity.
               </p>
               <Button
-                className="bg-white text-[#7800D3] hover:bg-gray-100 font-medium px-6 py-2 flex items-center gap-2"
+                className="bg-white text-purple-600 hover:bg-gray-100 font-medium px-6 py-2 flex items-center gap-2"
                 onClick={handleCreateNewPosition}
               >
                 <Plus size={20} />

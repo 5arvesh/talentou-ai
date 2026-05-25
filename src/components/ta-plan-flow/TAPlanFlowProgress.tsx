@@ -75,7 +75,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
                     w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold text-lg
                     ${status === 'completed' ? 'bg-[#4ead3b] text-white' : ''}
                     ${status === 'in-progress' ? 'bg-[#7800D3] text-white' : ''}
-                    ${status === 'upcoming' ? 'bg-muted text-muted-foreground' : ''}
+                    ${status === 'upcoming' ? 'bg-black text-white' : ''}
                     ${status === 'coming-soon' ? 'bg-muted text-muted-foreground' : ''}
                   `}
                 >

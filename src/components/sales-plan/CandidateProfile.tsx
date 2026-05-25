@@ -453,9 +453,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
           <span className="text-muted-foreground">{icon}</span>
           <span className="text-xs font-semibold text-[#7800D3]">{label}</span>
         </div>
-        <span className={cn("text-sm font-semibold", getScoreTextClass(score))}>
-          {score >= 80 ? 'Strong match' : score >= 60 ? 'Moderate fit' : 'Weak fit'}
-        </span>
+        <span className={cn("text-2xl font-bold", getScoreTextClass(score))}>{score}%</span>
       </div>
     </div>
   );
