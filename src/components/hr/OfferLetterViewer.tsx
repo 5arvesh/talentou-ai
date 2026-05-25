@@ -99,7 +99,7 @@ export function OfferLetterViewer() {
           <CardContent className="p-12">
             {/* Header with Logo */}
             <div className="mb-12">
-              <h1 className="text-4xl font-bold text-purple-600 mb-8">Talentou</h1>
+              <h1 className="text-4xl font-bold text-[#7800D3] mb-8">Talentou</h1>
               
               <div className="space-y-1 text-sm">
                 <p><strong>September 01, 2025</strong></p>

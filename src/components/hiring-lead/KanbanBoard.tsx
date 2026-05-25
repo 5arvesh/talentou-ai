@@ -136,7 +136,7 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold leading-snug truncate">{candidate.name}</p>
-              <p className="text-[10px] text-muted-foreground truncate">{candidate.title} · {candidate.company}</p>
+              <p className="text-xs text-muted-foreground truncate">{candidate.title} · {candidate.company}</p>
             </div>
             <div className="flex items-center gap-1 shrink-0">
               {isStalled && (
@@ -160,8 +160,8 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
 
           {/* Badges */}
           <div className="flex flex-wrap gap-1 mb-2">
-            <Badge variant="outline" className="text-[10px] px-1.5 py-0">{candidate.experience} exp</Badge>
-            <Badge variant="outline" className="text-[10px] px-1.5 py-0">{candidate.location}</Badge>
+            <Badge variant="outline" className="text-xs px-1.5 py-0">{candidate.experience} exp</Badge>
+            <Badge variant="outline" className="text-xs px-1.5 py-0">{candidate.location}</Badge>
           </div>
 
           {/* Fit Score + Fit Label */}
@@ -170,14 +170,14 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
               <Star className="h-3 w-3 text-amber-500" />
               <span className="text-xs font-semibold">{candidate.fitScore}</span>
             </div>
-            <Badge variant="outline" className={`text-[10px] px-1.5 py-0 ${FIT_LABEL_CONFIG[candidate.fitLabel]}`}>
+            <Badge variant="outline" className={`text-xs px-1.5 py-0 ${FIT_LABEL_CONFIG[candidate.fitLabel]}`}>
               {candidate.fitLabel}
             </Badge>
           </div>
 
           {/* Footer */}
           <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50">
-            <span className="text-[10px] text-muted-foreground">{candidate.daysAdded}d ago</span>
+            <span className="text-xs text-muted-foreground">{candidate.daysAdded}d ago</span>
             <div className="flex items-center gap-1.5" data-action-btn>
               <button className="p-1 rounded hover:bg-muted transition-colors" onClick={(e) => e.stopPropagation()} title="Email">
                 <Mail className="h-3 w-3 text-muted-foreground" />
@@ -333,13 +333,25 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
               const colCandidates = getColumnCandidates(col.id);
               return (
                 <div key={col.id} className="flex flex-col flex-1 min-w-[220px]">
-                  {/* Column header */}
-                  <div className={`flex items-center justify-between px-3 py-2 rounded-lg border mb-3 ${col.headerColor}`}>
-                    <span className="text-xs font-semibold">{col.label}</span>
-                    <Badge className="text-[10px] h-4 px-1.5 bg-white/60 text-inherit border-0">
-                      {colCandidates.length}
-                    </Badge>
-                  </div>
+                  {/* Column header — shows lock hint for auto-managed columns during drag */}
+                  {(() => {
+                    const isLocked = activeId !== null && (col.id === 'Interview' || col.id === 'Offered');
+                    return (
+                      <div className={`flex flex-col px-3 py-2 rounded-lg border mb-3 transition-opacity ${col.headerColor} ${isLocked ? 'opacity-50' : ''}`}>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold">{col.label}</span>
+                          <Badge className="text-xs h-4 px-1.5 bg-white/60 text-inherit border-0">
+                            {colCandidates.length}
+                          </Badge>
+                        </div>
+                        {isLocked && (
+                          <span className="text-[10px] mt-0.5 opacity-80 flex items-center gap-0.5">
+                            🔒 Auto-assigned
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
 
                   {/* Droppable zone — registered with dnd-kit, works even when empty */}
                   <DroppableColumn id={col.id} className={`flex-1 rounded-lg p-2 min-h-[300px] transition-all ${col.color}`}>
@@ -371,7 +383,7 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
                       </div>
                       <div>
                         <p className="text-sm font-semibold">{activeCandidate.name}</p>
-                        <p className="text-[10px] text-muted-foreground">{activeCandidate.title}</p>
+                        <p className="text-xs text-muted-foreground">{activeCandidate.title}</p>
                       </div>
                     </div>
                   </CardContent>

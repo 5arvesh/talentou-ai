@@ -152,7 +152,7 @@ export function HRDashboard() {
       {/* Header */}
       <div className="space-y-1">
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+          <h1 className="text-3xl font-bold text-foreground">
             HR Dashboard
           </h1>
           <Badge variant="secondary" className="gap-1">

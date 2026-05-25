@@ -42,7 +42,7 @@ export function AuthenticationSettings() {
           </div>
 
           {ssoEnabled && (
-            <div className="space-y-4 mt-4 pl-4 border-l-2 border-primary">
+            <div className="space-y-4 mt-4 p-4 bg-[#7800D3]/5 rounded-lg border border-[#7800D3]/20">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Microsoft Entra ID</label>
                 <p className="text-xs text-muted-foreground">

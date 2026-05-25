@@ -224,7 +224,7 @@ export function InterviewRecordingViewer() {
           <div className="flex flex-col w-[48%] border-r border-gray-200 shrink-0">
 
             {/* Video */}
-            <div ref={videoContainerRef} className="relative flex-1 bg-black flex items-center justify-center min-h-0 group">
+            <div ref={videoContainerRef} className="relative flex-1 bg-[#0a0014] flex items-center justify-center min-h-0 group">
               <video ref={videoRef} className="max-w-full max-h-full object-contain">
                 Your browser does not support the video tag.
               </video>
@@ -239,7 +239,7 @@ export function InterviewRecordingViewer() {
 
               <button
                 onClick={handleFullscreen}
-                className="absolute top-3 right-3 p-1.5 rounded-md bg-black/50 text-white hover:bg-black/75 transition-colors opacity-0 group-hover:opacity-100"
+                className="absolute top-3 right-3 p-1.5 rounded-md bg-[#0a0014]/50 text-white hover:bg-[#0a0014]/75 transition-colors opacity-0 group-hover:opacity-100"
               >
                 {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
               </button>

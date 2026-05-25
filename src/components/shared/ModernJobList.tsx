@@ -427,7 +427,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
         <Table className="w-full min-w-max">
           <TableHeader>
-            <TableRow className="bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 border-b-0">
+            <TableRow className="bg-[#7800D3] hover:bg-[#6a00bb] border-b-0">
               <TableHead className="w-12 text-center text-white"></TableHead>
               {visibleColumns.map((colId) => {
                 const colDef = ALL_COLUMNS.find(c => c.id === colId);
