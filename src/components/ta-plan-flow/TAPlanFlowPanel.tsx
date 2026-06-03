@@ -1,114 +1,120 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { CompanyUSPPanel } from './panel-stages/CompanyUSPPanel';
 import { TalentPoolPanel } from './panel-stages/TalentPoolPanel';
-import { RecruitmentChannelsPanel } from './panel-stages/RecruitmentChannelsPanel';
 import { TeamInvitationPanel } from './panel-stages/TeamInvitationPanel';
 import { SuccessMetricsPanel } from './panel-stages/SuccessMetricsPanel';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Check, CheckCircle2 } from 'lucide-react';
 
 const sections = [
   { id: 0, title: 'Company USP', key: 'companyUSP' as const, component: CompanyUSPPanel },
   { id: 1, title: 'Talent Pool', key: 'talentPool' as const, component: TalentPoolPanel },
   { id: 2, title: 'Team Invitation', key: 'teamInvitation' as const, component: TeamInvitationPanel },
   { id: 3, title: 'Success Metrics', key: 'successMetrics' as const, component: SuccessMetricsPanel },
-  { id: 4, title: 'Recruitment Channels', key: 'recruitmentChannels' as const, component: RecruitmentChannelsPanel },
 ];
 
+const stageSubtitles = [
+  "Define your company's unique selling points",
+  'Target the right talent pool and locations',
+  'Build your recruiting team',
+  'Set your performance benchmarks',
+];
+
+const validationHints = [
+  'Write at least 50 characters to continue',
+  'Select a work mode and add at least one city',
+  'Invite at least one team member to continue',
+  'Fill in all metric fields to complete your plan',
+];
+
+const stageKeys = ['companyUSP', 'talentPool', 'teamInvitation', 'successMetrics'] as const;
+
 export function TAPlanFlowPanel() {
-  const { currentStage, stages, setCurrentStage, getSectionScore } = useTAPlanFlow();
+  const navigate = useNavigate();
+  const { currentStage, stages, setCurrentStage, completeStage, planData } = useTAPlanFlow();
 
   const getSectionStatus = (sectionId: number) => {
     const section = sections[sectionId];
     if (stages[section.key].completed) return 'completed';
     if (sectionId === currentStage) return 'in-progress';
-    if (sectionId === 4) return 'upcoming'; // Recruitment Channels is still coming soon
     return 'upcoming';
   };
 
-  const getScoreColor = (score: number) => {
-    if (score < 40) return {
-      text: 'text-red-600',
-      bg: 'bg-red-50',
-      border: 'border-red-300'
-    };
-    if (score < 70) return {
-      text: 'text-yellow-600',
-      bg: 'bg-yellow-50',
-      border: 'border-yellow-300'
-    };
-    return {
-      text: 'text-green-600',
-      bg: 'bg-green-50',
-      border: 'border-green-300'
-    };
+  const isCurrentStageValid = (() => {
+    switch (currentStage) {
+      case 0: return planData.companyUSP.elevatorPitch.length >= 50;
+      case 1: return planData.talentPool.workMode.length > 0 && planData.talentPool.cities.length > 0;
+      case 2: return planData.teamInvitations.members.length > 0;
+      case 3: {
+        const s = planData.successMetrics;
+        return s.timeToCloseHigh > 0 && s.timeToCloseMedium > 0 && s.timeToCloseLow > 0
+          && s.maxConcurrentPositions > 0 && s.weeklySourceTarget > 0
+          && s.interviewAdvancementRate > 0 && s.jdQualityScoreMin > 0;
+      }
+      default: return false;
+    }
+  })();
+
+  const handleNext = () => {
+    completeStage(stageKeys[currentStage]);
+    if (currentStage === 3) navigate('/sales-plan/dashboard');
+    else setCurrentStage(currentStage + 1);
   };
 
   return (
-    <div className="h-full flex flex-col bg-white">
-      {/* Header - aligned with other panels */}
-      <div className="p-6 border-b border-[#7800D3]/15">
-        <h2 className="text-xl font-bold text-[#7800D3]">TA Plan Details</h2>
-        <p className="text-sm text-muted-foreground mt-1">Fill in the details for each section</p>
+    <div className="h-full flex flex-col bg-[#F8F7FF]">
+      {/* Header */}
+      <div className="px-5 py-4">
+        <h2 className="text-[15px] font-semibold text-gray-900">Your Workspace</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">{stageSubtitles[currentStage]}</p>
       </div>
 
-      {/* Accordion Sections */}
+      {/* Content */}
       <ScrollArea className="flex-1">
-        <div className="p-6">
-          <Accordion
-            type="single"
-            collapsible
-            value={`section-${currentStage}`}
-            onValueChange={(value) => {
-              if (value) {
-                const sectionId = parseInt(value.split('-')[1]);
-                if (getSectionStatus(sectionId) !== 'upcoming') {
-                  setCurrentStage(sectionId);
-                }
-              }
-            }}
-            className="space-y-4"
-          >
-            {sections.map((section) => {
-              const status = getSectionStatus(section.id);
-              const showScore = section.id < 2; // Only sections 0 & 1 show scores
-              const score = showScore ? getSectionScore(section.key as 'companyUSP' | 'talentPool' | 'recruitmentChannels') : 0;
+        <div className="p-6 space-y-4">
+          {/* Completed section banners */}
+          {sections.map((section) => {
+            if (getSectionStatus(section.id) !== 'completed') return null;
+            return (
+              <div key={section.id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                <span className="text-sm font-semibold text-emerald-700">{section.title}</span>
+                <span className="ml-auto text-xs text-emerald-600 font-medium">Completed</span>
+              </div>
+            );
+          })}
 
-              // Don't render upcoming sections as accordions
-              if (status === 'upcoming') return null;
-
-              const Component = section.component;
-
-              return (
-                <AccordionItem
-                  key={section.id}
-                  value={`section-${section.id}`}
-                  className={`
-                    border-2 rounded-lg overflow-hidden transition-all bg-gradient-to-r from-[#faf5ff] to-white
-                    ${status === 'in-progress' ? 'border-[#7800D3]/30 shadow-sm' : 'border-transparent'}
-                  `}
-                >
-                  <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                    <div className="flex items-center justify-between w-full pr-4">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-bold text-[#7800D3]">
-                          {section.title}
-                        </h3>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6">
-                    <Component />
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+          {/* Current section — rendered directly */}
+          {sections.map((section) => {
+            if (getSectionStatus(section.id) !== 'in-progress') return null;
+            const Component = section.component;
+            return (
+              <div key={section.id} className="rounded-2xl bg-white border border-border p-6 shadow-sm">
+                <h3 className="text-[15px] font-semibold text-gray-800 mb-4">{section.title}</h3>
+                <Component />
+              </div>
+            );
+          })}
         </div>
       </ScrollArea>
+
+      {/* Pinned Next button */}
+      <div className="px-6 py-4 bg-[#F8F7FF] flex flex-col items-center gap-1.5">
+        {isCurrentStageValid ? (
+          <Button
+            onClick={handleNext}
+            className="px-8 h-11 rounded-full bg-[#1e1b4b] hover:bg-[#1e1b4b]/90 text-white font-semibold text-sm border-0"
+          >
+            <Check className="h-4 w-4 mr-2" />
+            {currentStage === 3 ? 'Finish Plan' : 'Next'}
+          </Button>
+        ) : (
+          <p className="text-xs text-muted-foreground">{validationHints[currentStage]}</p>
+        )}
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ export interface TourStep {
   description: string;
   targetSelector?: string;
   onEnter?: () => void;
+  hideNext?: boolean;
 }
 
 interface TourStore {

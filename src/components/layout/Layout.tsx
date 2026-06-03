@@ -92,7 +92,7 @@ export function Layout({ children }: LayoutProps) {
 
         <TourGuide />
         <Toaster />
-        <SonnerToaster />
+        <SonnerToaster position="top-right" richColors />
       </div>
     </div>
   );

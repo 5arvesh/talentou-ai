@@ -8,6 +8,10 @@ const goToOverviewTab = () => {
   (document.querySelector('[data-tour-id="careers-overview-tab"]') as HTMLElement)?.click();
 };
 
+const goToDesignTab = () => {
+  (document.querySelector('[data-tour-id="careers-design-tab"]') as HTMLElement)?.click();
+};
+
 const CAREERS_TOUR_STEPS: TourStep[] = [
   {
     title: "Careers Page Integration",
@@ -28,12 +32,17 @@ const CAREERS_TOUR_STEPS: TourStep[] = [
     onEnter: goToOverviewTab,
   },
   {
-    title: "Customize the Widget",
+    title: "Head to the Design Tab",
+    description: "All visual customisation lives in the Design tab — templates, brand colours, fonts, and display settings. Click the highlighted tab to explore it.",
+    targetSelector: '[data-tour-id="careers-design-tab"]',
+    onEnter: goToOverviewTab,
+    hideNext: true,
+  },
+  {
+    title: "Customise the Widget",
     description: "Head to the Design tab to make the widget match your brand. Choose a template, set your brand colours, add a welcome message, and control which fields are visible to candidates.",
     targetSelector: '[data-tour-id="careers-design-options"]',
-    onEnter: () => {
-      (document.querySelector('[data-tour-id="careers-design-tab"]') as HTMLElement)?.click();
-    },
+    onEnter: goToDesignTab,
   },
   {
     title: "Live Preview",

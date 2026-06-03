@@ -77,7 +77,7 @@ const SalesPlanQuadrantDashboard = () => {
       </div>
 
       {/* KPI Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden border border-border">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-card overflow-hidden border border-border">
         {kpiStats.map((stat) => (
           <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
             <span className="text-xs text-muted-foreground">{stat.label}</span>
@@ -90,7 +90,7 @@ const SalesPlanQuadrantDashboard = () => {
       {/* Quadrant Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Recruiter Performance */}
-        <Card className="border border-border shadow-sm">
+        <Card className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Recruiter Performance</CardTitle>
           </CardHeader>
@@ -135,7 +135,7 @@ const SalesPlanQuadrantDashboard = () => {
         </Card>
 
         {/* Pipeline Health */}
-        <Card className="border border-border shadow-sm">
+        <Card className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Pipeline Health</CardTitle>
           </CardHeader>
@@ -156,7 +156,7 @@ const SalesPlanQuadrantDashboard = () => {
         </Card>
 
         {/* Longest Open Positions */}
-        <Card className="border border-border shadow-sm">
+        <Card className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base font-semibold">Longest Open Positions</CardTitle>
@@ -188,7 +188,7 @@ const SalesPlanQuadrantDashboard = () => {
         </Card>
 
         {/* Bottleneck Indicator — flags all stages ≥3 stalled */}
-        <Card className="border border-border shadow-sm">
+        <Card className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Bottleneck Indicator</CardTitle>
             <p className="text-xs text-muted-foreground">Candidates stalled &gt;5 days per stage</p>
@@ -198,7 +198,7 @@ const SalesPlanQuadrantDashboard = () => {
               {bottleneckData.map((d) => {
                 const isBottleneck = d.stalled >= 3;
                 return (
-                  <div key={d.stage} className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all ${isBottleneck ? 'border-amber-400 bg-amber-50' : 'border-muted bg-muted/20'}`}>
+                  <div key={d.stage} className={`flex flex-col items-center p-3 rounded-card border-2 transition-all ${isBottleneck ? 'border-amber-400 bg-amber-50' : 'border-muted bg-muted/20'}`}>
                     <span className={`text-2xl font-bold ${isBottleneck ? 'text-amber-600' : 'text-foreground'}`}>{d.stalled}</span>
                     <span className="text-xs text-muted-foreground text-center mt-1 leading-tight">{d.stage}</span>
                     {isBottleneck && (

@@ -120,6 +120,15 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        input: "10px",
+        btn: "10px",
+        card: "16px",
+        chip: "9999px",
+      },
+      boxShadow: {
+        card: "0 1px 3px rgb(0 0 0/.06), 0 1px 2px -1px rgb(0 0 0/.06)",
+        raised: "0 4px 12px -2px rgb(0 0 0/.08)",
+        pop: "0 12px 28px -8px rgb(0 0 0/.14)",
       },
       keyframes: {
         "accordion-down": {

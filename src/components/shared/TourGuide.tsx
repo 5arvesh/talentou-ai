@@ -136,7 +136,17 @@ export function TourGuide() {
           const el = document.elementFromPoint(e.clientX, e.clientY);
           if (el?.closest("[data-tour-tooltip]")) return;
           const inSpotlight = e.clientX >= sx && e.clientX <= sx + sw && e.clientY >= sy && e.clientY <= sy + sh;
-          if (!inSpotlight) e.stopPropagation();
+          if (inSpotlight) {
+            // Pass the click through to the underlying element
+            const elements = document.elementsFromPoint(e.clientX, e.clientY);
+            const underlying = elements.find(
+              (elem) => !(elem instanceof SVGElement) && elem instanceof HTMLElement
+            ) as HTMLElement | undefined;
+            underlying?.click();
+            if (step?.hideNext) setTimeout(() => nextStep(), 50);
+          } else {
+            e.stopPropagation();
+          }
         }}
       >
         <defs>
@@ -186,14 +196,20 @@ export function TourGuide() {
             Skip tour
           </button>
           <div className="flex items-center gap-2">
-            {!isFirst && (
-              <Button variant="outline" size="sm" onClick={prevStep} className="h-7 px-3 text-xs border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10 gap-1">
-                <ChevronLeft className="h-3 w-3" /> Back
-              </Button>
+            {step?.hideNext ? (
+              <span className="text-[10px] text-[#7800D3] italic">Click the highlighted element to continue</span>
+            ) : (
+              <>
+                {!isFirst && (
+                  <Button variant="outline" size="sm" onClick={prevStep} className="h-7 px-3 text-xs border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10 gap-1">
+                    <ChevronLeft className="h-3 w-3" /> Back
+                  </Button>
+                )}
+                <Button size="sm" onClick={nextStep} className="h-7 px-3 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1">
+                  {isLast ? "Done" : "Next"}{!isLast && <ChevronRight className="h-3 w-3" />}
+                </Button>
+              </>
             )}
-            <Button size="sm" onClick={nextStep} className="h-7 px-3 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1">
-              {isLast ? "Done" : "Next"}{!isLast && <ChevronRight className="h-3 w-3" />}
-            </Button>
           </div>
         </div>
       </div>
