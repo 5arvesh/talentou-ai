@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -50,8 +50,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <div
-      className={cn("flex flex-col h-screen text-white w-16 shrink-0", className)}
-      style={{ background: "linear-gradient(135deg, #0A92FE 0%, #7E00FC 100%)" }}
+      className={cn("flex flex-col h-screen text-white w-16 shrink-0 bg-[#1e1b4b]", className)}
     >
       {/* Brand mark */}
       <div className="h-16 flex items-center justify-center border-b border-white/20 shrink-0">

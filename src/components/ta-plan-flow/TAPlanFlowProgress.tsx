@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { Check, MessageSquareText } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -74,7 +74,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
               className={`
                 rounded-card transition-all duration-200
                 ${status === 'completed' ? 'p-4 bg-white border-2 border-emerald-500 cursor-pointer hover:shadow-md' : ''}
-                ${status === 'in-progress' ? 'p-4 bg-white border-2 border-[#7800D3] shadow-sm cursor-pointer hover:shadow-md' : ''}
+                ${status === 'in-progress' ? 'p-4 bg-white border-2 border-primary shadow-sm cursor-pointer hover:shadow-md' : ''}
                 ${status === 'upcoming' ? 'p-4 bg-white border border-border opacity-50 cursor-not-allowed' : ''}
               `}
             >
@@ -83,7 +83,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold text-lg
                     ${status === 'completed' ? 'bg-emerald-500 text-white' : ''}
-                    ${status === 'in-progress' ? 'bg-[#7800D3] text-white' : ''}
+                    ${status === 'in-progress' ? 'bg-primary text-white' : ''}
                     ${status === 'upcoming' ? 'bg-muted text-muted-foreground' : ''}
                   `}
                 >
@@ -108,7 +108,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
                     className={`
                       text-xs mt-0.5
                       ${status === 'completed' ? 'text-emerald-600' : ''}
-                      ${status === 'in-progress' ? 'text-[#7800D3]/70' : ''}
+                      ${status === 'in-progress' ? 'text-primary/70' : ''}
                       ${status === 'upcoming' ? 'text-muted-foreground' : ''}
                     `}
                   >
@@ -129,7 +129,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
           <div className="flex items-center gap-3 bg-white border border-border rounded-full px-4 py-2.5 shadow-sm">
             <span className="text-xs text-gray-600 font-medium flex-1">
               Hi {userName}, Just{' '}
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-[#7800D3] text-white text-[10px] font-bold mx-0.5">
+              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary text-white text-[10px] font-bold mx-0.5">
                 {stepsLeft}
               </span>{' '}
               steps left
