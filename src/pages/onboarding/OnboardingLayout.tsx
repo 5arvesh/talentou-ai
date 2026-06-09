@@ -1,4 +1,4 @@
-
+﻿
 import { ReactNode, useEffect, useState } from "react";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { Header } from "@/components/header/Header";
@@ -123,7 +123,7 @@ export function OnboardingLayout({
         <main className="flex-1 overflow-y-auto px-6 pt-6 pb-8 dark:text-gray-100 res-1200:pt-3 res-1200:px-3 res-1200:pb-4">
           <div className="max-w-5xl mx-auto res-1200:max-w-3xl">
             <div className="mb-6 res-1200:mb-3">
-              <h1 className="text-2xl font-bold mb-1 res-1200:text-lg" style={{ color: "#7800D3" }}>Hi {userName} 👋</h1>
+              <h1 className="text-2xl font-bold mb-1 res-1200:text-lg" style={{ color: "hsl(var(--primary))" }}>Hi {userName} ðŸ‘‹</h1>
               <p className="text-gray-600 dark:text-gray-400 text-lg res-1200:text-sm">
                 {role === 'ta-associate' ? 'Welcome to your recruitment launchpad!' : 'Welcome to your recruitment management hub!'}
               </p>
@@ -135,7 +135,7 @@ export function OnboardingLayout({
                 
                 <Card className="shadow-md border border-gray-200 dark:border-gray-700 mb-8 res-1200:mb-2">
                   <CardContent className="p-6 res-1200:p-4">
-                    <h3 className="text-xl font-bold mb-4 res-1200:mb-2 res-1200:text-[18px]" style={{ color: "#0A92FF" }}>{title}</h3>
+                    <h3 className="text-xl font-bold mb-4 res-1200:mb-2 res-1200:text-[18px] text-primary">{title}</h3>
                     
                     <div className="space-y-4 res-1200:space-y-2">
                       {checklistItems.map((item, index) => (
@@ -160,13 +160,6 @@ export function OnboardingLayout({
               <div className="flex items-center gap-4">
                 <div className="flex-1">
                   <Progress value={progressValue} className="h-2" />
-                  <style>
-                    {`
-                      .progress-indicator {
-                        background-color: #7800D3 !important;
-                      }
-                    `}
-                  </style>
                 </div>
                 <span className="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap res-1200:text-xs">
                   Step {step} of 4
@@ -175,10 +168,9 @@ export function OnboardingLayout({
               
               {nextRoute && (
                 <div className="flex justify-end">
-                  <Button 
-                    onClick={handleNext} 
-                    style={{ backgroundColor: "#4ead3b", color: "black" }}
-                    className="font-medium px-8 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+                  <Button
+                    onClick={handleNext}
+                    className="bg-primary text-white hover:bg-primary/90 font-medium px-8 res-1200:h-8 res-1200:text-xs"
                   >
                     {isLastStep ? "Let's Start Winning" : "Next"}
                   </Button>

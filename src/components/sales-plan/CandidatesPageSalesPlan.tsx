@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,7 +96,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 123-4567",
       linkedinProfile: "linkedin.com/in/johnsmith",
       skills: ["React", "Node.js", "TypeScript", "AWS", "Docker"],
-      status: "Interview",
+      status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "Alex Thompson",
       jobTitle: "Software Engineer",
@@ -154,7 +154,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 234-5678",
       linkedinProfile: "linkedin.com/in/emilydavis",
       skills: ["Figma", "UI/UX Design", "Adobe XD", "Prototyping", "User Research"],
-      status: "Review",
+      status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Jennifer Davis",
       jobTitle: "UX Designer",
@@ -212,7 +212,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 666-7777",
       linkedinProfile: "linkedin.com/in/ethangarcia",
       skills: ["Python", "Django", "REST APIs", "MySQL"],
-      status: "Interview",
+      status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "Michael Roberts",
       jobTitle: "Backend Developer",
@@ -270,7 +270,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 999-0000",
       linkedinProfile: "linkedin.com/in/isabellathomas",
       skills: ["R", "Statistics", "PyTorch", "Data Visualization"],
-      status: "Review",
+      status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Sarah Kim",
       jobTitle: "Data Scientist",
@@ -300,7 +300,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 567-8901",
       linkedinProfile: "linkedin.com/in/davidjohnson",
       skills: ["DevOps", "Docker", "AWS", "Kubernetes", "CI/CD"],
-      status: "Accepted",
+      status: "Offer Accepted",
       statusTooltip: "Candidate has accepted the job offer.",
       interviewer: "David Martinez",
       jobTitle: "DevOps Engineer",
@@ -314,7 +314,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 111-2222",
       linkedinProfile: "linkedin.com/in/miataylor",
       skills: ["Terraform", "Jenkins", "Azure", "Linux"],
-      status: "Interview",
+      status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "David Martinez",
       jobTitle: "DevOps Engineer",
@@ -358,7 +358,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 333-4444",
       linkedinProfile: "linkedin.com/in/jameswilson",
       skills: ["Product Strategy", "Market Research", "Jira", "SQL"],
-      status: "Review",
+      status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Lisa Chen",
       jobTitle: "Product Manager",
@@ -402,7 +402,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 555-6666",
       linkedinProfile: "linkedin.com/in/benjaminwhite",
       skills: ["Scala", "Kafka", "Microservices", "Redis"],
-      status: "Interview",
+      status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "James Wilson",
       jobTitle: "Senior Backend Developer",
@@ -460,7 +460,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 888-9999",
       linkedinProfile: "linkedin.com/in/elijahwalker",
       skills: ["React", "Next.js", "Styled Components", "Redux"],
-      status: "Review",
+      status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Not Assigned",
       jobTitle: "Frontend Developer",
@@ -476,7 +476,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 901-2345",
       linkedinProfile: "linkedin.com/in/markanderson",
       skills: ["Mobile Development", "React Native", "iOS", "Android"],
-      status: "Interview",
+      status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "Alex Thompson",
       jobTitle: "Mobile Developer",
@@ -520,7 +520,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 012-3456",
       linkedinProfile: "linkedin.com/in/amandawhite",
       skills: ["QA Testing", "Automation", "Selenium", "Cypress"],
-      status: "Review",
+      status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Jennifer Davis",
       jobTitle: "QA Engineer",
@@ -671,3 +671,4 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
     </>
   );
 }
+

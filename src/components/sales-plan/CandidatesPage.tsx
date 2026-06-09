@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCandidateStatusColor, CANDIDATE_STATUS_OPTIONS } from "@/constants/statuses";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -231,42 +232,9 @@ export function CandidatesPage() {
     },
   ]);
 
-  const statusOptions = [
-    { value: "Applied", tooltip: "Candidate has submitted their application." },
-    { value: "Under Review", tooltip: "Application is being reviewed by the hiring team." },
-    { value: "Shortlisted", tooltip: "Candidate has been shortlisted for further evaluation." },
-    { value: "Interview Scheduled", tooltip: "Interview has been scheduled with the candidate." },
-    { value: "Interviewed", tooltip: "Candidate has completed the interview process." },
-    { value: "Offered", tooltip: "Job offer has been extended to the candidate." },
-    { value: "Accepted", tooltip: "Candidate has accepted the job offer." },
-    { value: "Rejected", tooltip: "Candidate was not selected for the position." },
-    { value: "Withdrawn", tooltip: "Candidate has withdrawn from the application process." },
-  ];
+  const statusOptions = CANDIDATE_STATUS_OPTIONS;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Applied":
-        return "bg-blue-100 text-blue-700";
-      case "Under Review":
-        return "bg-yellow-100 text-yellow-700";
-      case "Shortlisted":
-        return "bg-purple-100 text-purple-700";
-      case "Interview Scheduled":
-        return "bg-orange-100 text-orange-700";
-      case "Interviewed":
-        return "bg-indigo-100 text-indigo-700";
-      case "Offered":
-        return "bg-green-100 text-green-700";
-      case "Accepted":
-        return "bg-emerald-100 text-emerald-700";
-      case "Rejected":
-        return "bg-red-100 text-red-700";
-      case "Withdrawn":
-        return "bg-gray-100 text-gray-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
+  const getStatusColor = getCandidateStatusColor;
 
   const handleStatusChange = (candidateId: number, newStatus: string) => {
     setAllCandidates(prevCandidates => 
@@ -275,7 +243,7 @@ export function CandidatesPage() {
           ? { 
               ...candidate, 
               status: newStatus,
-              statusTooltip: statusOptions.find(opt => opt.value === newStatus)?.tooltip || ""
+              statusTooltip: statusOptions.find(opt => opt.value === newStatus)?.label || ""
             }
           : candidate
       )

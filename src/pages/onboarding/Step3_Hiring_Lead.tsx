@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -104,8 +104,7 @@ export default function OnboardingStep3_Hiring_Lead() {
           <Button 
             onClick={handleNext}
             disabled={!isFormValid}
-            style={{ backgroundColor: "#4ead3b", color: "black" }}
-            className="flex-1 h-12 font-medium rounded-md shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+            className="flex-1 h-12 font-medium rounded-md shadow-sm bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 res-1200:h-8 res-1200:text-xs"
           >
             Continue
           </Button>

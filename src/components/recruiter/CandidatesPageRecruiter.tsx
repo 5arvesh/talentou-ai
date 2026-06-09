@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ModernCandidateList } from "../shared/ModernCandidateList";
+import { CANDIDATE_STATUS_OPTIONS } from "@/constants/statuses";
 import { BehavioralQuestionsDrawer, type BehavioralQuestion } from "./BehavioralQuestionsDrawer";
 import { InterviewSchedulingDrawer } from "./InterviewSchedulingDrawer";
 
@@ -246,19 +247,7 @@ export function CandidatesPageRecruiter() {
     },
   ]);
 
-  const statusOptions = [
-    { value: "Applied", tooltip: "Candidate has submitted their application." },
-    { value: "Under Review", tooltip: "Application is being reviewed by the hiring team." },
-    { value: "Shortlisted", tooltip: "Candidate has been shortlisted for further evaluation." },
-    { value: "Sourced", tooltip: "Recruiter sourced the Candidate." },
-    { value: "Interview Scheduled", tooltip: "Interview has been scheduled with the candidate." },
-    { value: "Interviewed", tooltip: "Candidate has completed the interview process." },
-    { value: "Offered", tooltip: "Job offer has been extended to the candidate." },
-    { value: "Accepted", tooltip: "Candidate has accepted the job offer." },
-    { value: "Rejected", tooltip: "Candidate was not selected for the position." },
-    { value: "Decline", tooltip: "Candidate Rejected the offer." },
-    { value: "Withdrawn", tooltip: "Candidate has withdrawn from the application process." },
-  ];
+  const statusOptions = CANDIDATE_STATUS_OPTIONS;
 
   const handleStatusChange = (candidateId: number, newStatus: string) => {
     setAllCandidates(prevCandidates =>
@@ -267,7 +256,7 @@ export function CandidatesPageRecruiter() {
           ? {
               ...candidate,
               status: newStatus,
-              statusTooltip: statusOptions.find(opt => opt.value === newStatus)?.tooltip || "",
+              statusTooltip: statusOptions.find(opt => opt.value === newStatus)?.label || "",
             }
           : candidate
       )

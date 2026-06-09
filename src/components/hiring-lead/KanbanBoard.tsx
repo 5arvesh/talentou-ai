@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
@@ -24,7 +24,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Mail, Link2, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical } from 'lucide-react';
 
-type Stage = 'Applied' | 'Shortlisted' | 'Interview' | 'Offered';
+type Stage = 'Applied' | 'Shortlisted' | 'Phone Screen' | 'Interview' | 'Offered';
 
 interface KanbanCandidate {
   id: string;
@@ -40,7 +40,7 @@ interface KanbanCandidate {
   stage: Stage;
 }
 
-const COLUMN_ORDER: Stage[] = ['Applied', 'Shortlisted', 'Interview', 'Offered'];
+const COLUMN_ORDER: Stage[] = ['Applied', 'Shortlisted', 'Phone Screen', 'Interview', 'Offered'];
 
 function isTransitionAllowed(from: Stage, to: Stage): { allowed: boolean; reason?: string } {
   if (from === to) return { allowed: true };
@@ -48,6 +48,7 @@ function isTransitionAllowed(from: Stage, to: Stage): { allowed: boolean; reason
   const toIdx = COLUMN_ORDER.indexOf(to);
   if (toIdx < fromIdx) return { allowed: true }; // backward moves always allowed
   if (from === 'Applied' && to === 'Shortlisted') return { allowed: true };
+  if (from === 'Shortlisted' && to === 'Phone Screen') return { allowed: true };
   if (to === 'Interview') return { allowed: false, reason: 'Move to Interview happens automatically when an interview is scheduled.' };
   if (to === 'Offered') return { allowed: false, reason: 'Move to Offered happens when an offer letter is generated through HR.' };
   return { allowed: false, reason: 'This status change cannot be done manually.' };
@@ -66,20 +67,21 @@ const INITIAL_CANDIDATES: KanbanCandidate[] = [
 ];
 
 const COLUMNS: { id: Stage; label: string; color: string; headerColor: string }[] = [
-  { id: 'Applied',     label: 'Applied',     color: 'bg-blue-50',   headerColor: 'bg-blue-100 text-blue-700 border-blue-200' },
-  { id: 'Shortlisted', label: 'Shortlisted', color: 'bg-amber-50',  headerColor: 'bg-amber-100 text-amber-700 border-amber-200' },
-  { id: 'Interview',   label: 'Interview',   color: 'bg-orange-50', headerColor: 'bg-orange-100 text-orange-700 border-orange-200' },
-  { id: 'Offered',     label: 'Offered',     color: 'bg-green-50',  headerColor: 'bg-green-100 text-[#4EAD3B] border-green-200' },
+  { id: 'Applied',      label: 'Applied',      color: 'bg-blue-50',   headerColor: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { id: 'Shortlisted',  label: 'Shortlisted',  color: 'bg-amber-50',  headerColor: 'bg-amber-100 text-amber-700 border-amber-200' },
+  { id: 'Phone Screen', label: 'Phone Screen', color: 'bg-purple-50', headerColor: 'bg-purple-100 text-purple-700 border-purple-200' },
+  { id: 'Interview',    label: 'Interview',    color: 'bg-orange-50', headerColor: 'bg-orange-100 text-orange-700 border-orange-200' },
+  { id: 'Offered',      label: 'Offered',      color: 'bg-green-50',  headerColor: 'bg-green-100 text-green-600 border-green-200' },
 ];
 
 const FIT_LABEL_CONFIG: Record<string, string> = {
   'Good Fit': 'bg-orange-50 text-orange-700 border-orange-200',
   'Strong Fit': 'bg-blue-50 text-blue-700 border-blue-200',
-  'Excellent Fit': 'bg-green-50 text-[#4EAD3B] border-green-200',
+  'Excellent Fit': 'bg-green-50 text-green-600 border-green-200',
 };
 
 const AVATAR_COLORS = [
-  'from-[#7800D3] to-purple-700',
+  'from-primary to-purple-700',
   'from-blue-500 to-blue-700',
   'from-emerald-500 to-teal-600',
   'from-amber-500 to-orange-600',
@@ -95,11 +97,11 @@ function getAvatarColor(name: string) {
   return AVATAR_COLORS[idx];
 }
 
-// Droppable column wrapper — registers the column as a dnd-kit drop target
+// Droppable column wrapper â€” registers the column as a dnd-kit drop target
 function DroppableColumn({ id, children, className }: { id: string; children: React.ReactNode; className: string }) {
   const { setNodeRef, isOver } = useDroppable({ id });
   return (
-    <div ref={setNodeRef} className={`${className} ${isOver ? 'ring-2 ring-[#7800D3]/30 ring-inset' : ''}`}>
+    <div ref={setNodeRef} className={`${className} ${isOver ? 'ring-2 ring-primary/30 ring-inset' : ''}`}>
       {children}
     </div>
   );
@@ -136,7 +138,7 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold leading-snug truncate">{candidate.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{candidate.title} · {candidate.company}</p>
+              <p className="text-xs text-muted-foreground truncate">{candidate.title} Â· {candidate.company}</p>
             </div>
             <div className="flex items-center gap-1 shrink-0">
               {isStalled && (
@@ -144,7 +146,7 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
                   <Clock className="h-3.5 w-3.5 text-amber-500" />
                 </div>
               )}
-              {/* Drag handle — only this element triggers drag */}
+              {/* Drag handle â€” only this element triggers drag */}
               <div
                 {...attributes}
                 {...listeners}
@@ -281,14 +283,14 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
           </Button>
           <div>
             <h1 className="text-lg font-bold text-foreground">{jobTitle}</h1>
-            <p className="text-xs text-muted-foreground">Candidate Pipeline · {daysOpen} days open</p>
+            <p className="text-xs text-muted-foreground">Candidate Pipeline Â· {daysOpen} days open</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative w-56">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
-              placeholder="Search candidates…"
+              placeholder="Search candidatesâ€¦"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-8 h-8 text-sm"
@@ -312,7 +314,7 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
         <div className="mx-6 mt-4 flex items-start gap-2 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
           <Info className="h-4 w-4 text-yellow-600 shrink-0 mt-0.5" />
           <p className="text-xs text-yellow-700">
-            This role may benefit from reviewing the job description — it has been open {daysOpen} days with few candidates.{' '}
+            This role may benefit from reviewing the job description â€” it has been open {daysOpen} days with few candidates.{' '}
             <button className="underline font-medium" onClick={() => navigate('/hiring-lead/conversation')}>
               Review JD
             </button>
@@ -333,7 +335,7 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
               const colCandidates = getColumnCandidates(col.id);
               return (
                 <div key={col.id} className="flex flex-col flex-1 min-w-[220px]">
-                  {/* Column header — shows lock hint for auto-managed columns during drag */}
+                  {/* Column header â€” shows lock hint for auto-managed columns during drag */}
                   {(() => {
                     const isLocked = activeId !== null && (col.id === 'Interview' || col.id === 'Offered');
                     return (
@@ -346,14 +348,14 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
                         </div>
                         {isLocked && (
                           <span className="text-[10px] mt-0.5 opacity-80 flex items-center gap-0.5">
-                            🔒 Auto-assigned
+                            ðŸ”’ Auto-assigned
                           </span>
                         )}
                       </div>
                     );
                   })()}
 
-                  {/* Droppable zone — registered with dnd-kit, works even when empty */}
+                  {/* Droppable zone â€” registered with dnd-kit, works even when empty */}
                   <DroppableColumn id={col.id} className={`flex-1 rounded-lg p-2 min-h-[300px] transition-all ${col.color}`}>
                     <SortableContext items={colCandidates.map((c) => c.id)} strategy={verticalListSortingStrategy}>
                       {colCandidates.length > 0 ? (

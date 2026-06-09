@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pin, Eye, Pen, ChevronLeft, ChevronRight } from "lucide-react";
+import { getJobStatusColor } from "@/constants/statuses";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function JobOpenings() {
@@ -210,6 +211,26 @@ export function JobOpenings() {
       statusTooltip: "The job order was not approved for activation.",
       taAssociate: "Alice Brown",
       interviewer: "Bob Wilson"
+    },
+    {
+      id: 21,
+      jobRole: "Product Designer",
+      project: "Design System",
+      requiredSkills: "Figma, UX Research, Prototyping",
+      status: "Filled",
+      statusTooltip: "Role successfully hired for — candidate has joined.",
+      taAssociate: "Sarah Lee",
+      interviewer: "David Kim"
+    },
+    {
+      id: 22,
+      jobRole: "DevOps Engineer",
+      project: "Infrastructure",
+      requiredSkills: "Kubernetes, Terraform, CI/CD",
+      status: "Filled",
+      statusTooltip: "Role successfully hired for — candidate has joined.",
+      taAssociate: "Michael Chen",
+      interviewer: "Emily Watts"
     }
   ];
 
@@ -225,26 +246,7 @@ export function JobOpenings() {
     });
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active":
-        return "bg-green-100 text-green-700";
-      case "Pending Approval":
-        return "bg-yellow-100 text-yellow-700";
-      case "On Hold":
-        return "bg-orange-100 text-orange-700";
-      case "Draft":
-        return "bg-gray-100 text-gray-700";
-      case "Closed":
-        return "bg-blue-100 text-blue-700";
-      case "Cancelled":
-        return "bg-red-100 text-red-700";
-      case "Rejected":
-        return "bg-red-100 text-red-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
+  const getStatusColor = getJobStatusColor;
 
   // Pagination logic
   const totalPages = Math.ceil(allJobs.length / itemsPerPage);

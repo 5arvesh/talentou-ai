@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthHeader } from "@/Reusable/AuthHeader/AuthHeader";
 import { AuthRightLayout } from "@/Layout/AuthLayout/AuthRightLayout";
@@ -9,42 +9,36 @@ const ROLES = [
     id: "ta-leader",
     label: "TA Leader",
     description: "Manage recruiting team, pipelines, and analytics",
-    userName: "Roney Soloman",
     path: "/sales-plan",
   },
   {
     id: "ta-associate",
     label: "Recruiter",
     description: "Source candidates, create JDs, run outreach",
-    userName: "Darshana",
     path: "/ta-associate-plan",
   },
   {
     id: "interviewer",
     label: "Interviewer",
     description: "Conduct interviews and evaluate candidates",
-    userName: "Interviewer User",
     path: "/interviewer",
   },
   {
     id: "hiring-lead",
     label: "Hiring Lead",
     description: "Open positions, review candidates, approve JDs",
-    userName: "Sarah Johnson",
     path: "/hiring-lead-plan/dashboard",
   },
   {
     id: "hr",
     label: "HR",
     description: "Manage offer letters, templates, and onboarding",
-    userName: "Himanshi",
     path: "/hr/home",
   },
   {
     id: "super-admin",
     label: "Super Admin",
     description: "Tenant management and platform configuration",
-    userName: "Admin User",
     path: "/super-admin/tenants",
   },
 ];
@@ -57,7 +51,6 @@ export function RoleSelection() {
     const role = ROLES.find((r) => r.id === selectedRole);
     if (!role) return;
     localStorage.setItem("userRole", role.id);
-    localStorage.setItem("userName", role.userName);
     navigate(role.path);
   };
 
@@ -80,7 +73,7 @@ export function RoleSelection() {
                   className={cn(
                     "w-full text-left px-4 py-3.5 rounded-[10px] border transition-all duration-150",
                     isSelected
-                      ? "border-[#7800D3] bg-purple-50 shadow-sm"
+                      ? "border-primary bg-purple-50 shadow-sm"
                       : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50/60"
                   )}
                 >

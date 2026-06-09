@@ -219,3 +219,17 @@ Super Admin role (`/super-admin/tenants`) manages tenant organizations. Each use
 - All localStorage keys for auth data are centralized in `src/common/common.ts`
 - Route guards are handled implicitly via `AuthContext` — token presence/validity determines access
 - The `AlignmentContext` tracks which planning stages are "complete" to drive progress UI across onboarding and planning flows
+
+---
+
+## Agent Instructions for Claude Code
+
+Conventions Claude Code must follow when making changes to this codebase:
+
+- **Do not hand-edit files in `src/components/ui/`** — these are shadcn/ui primitives; always regenerate via CLI (`npx shadcn-ui add <component>`)
+- **Use design tokens, not raw hex values** — use `bg-primary`, `text-primary`, `hsl(var(--primary))` not `#7800D3`; use `bg-gradient-to-r from-[#7800D3] to-[#5600ad]` only for the standard CTA gradient
+- **Role-specific components must use the `role: RoleType` prop pattern** — follow the pattern in `TalentPlanCard.tsx` and `ModernJobList.tsx`; do not create separate `_Hiring_Lead` or `_TA_Associate` variants
+- **No inline `style={{}}` for colours** — all colours must go through Tailwind token classes; `style={{}}` is only acceptable for dynamic computed values (e.g. `style={{ width: pct + '%' }}`)
+- **New chat bubble components must include `animate-in fade-in slide-in-from-bottom-1`** on the message wrapper div for entrance animation
+- **Use `bg-primary text-white` for all CTA buttons** — not green (`#22C55E`) or navy (`#1e1b4b`); the gradient `from-[#7800D3] to-[#5600ad]` is acceptable for 3-panel flow primary actions
+- **localStorage keys**: use existing keys set in `src/common/common.ts`; read `userName`, `userRole`, `token` — do not invent new key names

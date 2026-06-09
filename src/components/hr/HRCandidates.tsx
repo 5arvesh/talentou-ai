@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { FilePenLine, Mail, Users, Search, Filter, Eye, ChevronDown, ChevronUp, Phone, MapPin, Linkedin } from "lucide-react";
+import { getCandidateStatusColor } from "@/constants/statuses";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import {
@@ -24,7 +25,7 @@ interface Candidate {
   id: string;
   name: string;
   role: string;
-  status: "Offered" | "Accepted" | "Rejected" | "Hired";
+  status: "Offered" | "Offer Accepted" | "Hired" | "Rejected" | "Offer Declined";
   email: string;
   phone: string;
   appliedDate: string;
@@ -58,7 +59,7 @@ export function HRCandidates() {
       id: "3",
       name: "Mike Johnson",
       role: "Backend Developer",
-      status: "Accepted",
+      status: "Offer Accepted",
       email: "mike.johnson@example.com",
       phone: "+1-555-0125",
       appliedDate: "2024-01-05",
@@ -109,9 +110,7 @@ export function HRCandidates() {
     return matchesSearch && matchesStatus;
   });
 
-  const getStatusColor = (status: Candidate["status"]) => {
-    return "bg-gray-100 text-gray-800";
-  };
+  const getStatusColor = getCandidateStatusColor;
 
   const handleExpandToggle = (candidateId: string) => {
     const newExpanded = new Set(expandedCandidates);
@@ -174,9 +173,10 @@ export function HRCandidates() {
   const statusCounts = {
     all: candidates.length,
     Offered: candidates.filter(c => c.status === "Offered").length,
-    Accepted: candidates.filter(c => c.status === "Accepted").length,
-    Rejected: candidates.filter(c => c.status === "Rejected").length,
+    "Offer Accepted": candidates.filter(c => c.status === "Offer Accepted").length,
     Hired: candidates.filter(c => c.status === "Hired").length,
+    Rejected: candidates.filter(c => c.status === "Rejected").length,
+    "Offer Declined": candidates.filter(c => c.status === "Offer Declined").length,
   };
 
   return (
@@ -218,9 +218,10 @@ export function HRCandidates() {
                 <SelectContent>
                   <SelectItem value="all">All Status</SelectItem>
                   <SelectItem value="Offered">Offered</SelectItem>
-                  <SelectItem value="Accepted">Accepted</SelectItem>
-                  <SelectItem value="Rejected">Rejected</SelectItem>
+                  <SelectItem value="Offer Accepted">Offer Accepted</SelectItem>
                   <SelectItem value="Hired">Hired</SelectItem>
+                  <SelectItem value="Rejected">Rejected</SelectItem>
+                  <SelectItem value="Offer Declined">Offer Declined</SelectItem>
                 </SelectContent>
               </Select>
             </div>

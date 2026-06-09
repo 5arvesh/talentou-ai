@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -187,8 +187,7 @@ export function TenantDialog({
             </Button>
             <Button
               type="submit"
-              style={{ backgroundColor: "#4ead3b", color: "black" }}
-              className="hover:opacity-90"
+              className="bg-primary text-white hover:bg-primary/90 hover:opacity-90"
             >
               {mode === "create" ? "Create Tenant" : "Save Changes"}
             </Button>

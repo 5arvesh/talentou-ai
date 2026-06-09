@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -36,7 +36,7 @@ function SettingsSection({ icon, title, description, children, defaultOpen = tru
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#ebdbfc] flex items-center justify-center text-[#7800D3]">
+          <div className="w-9 h-9 rounded-lg bg-[#ebdbfc] flex items-center justify-center text-primary">
             {icon}
           </div>
           <div>
@@ -93,19 +93,19 @@ function ToggleRow({ label, description, checked, onChange, badge }: ToggleRowPr
 }
 
 export function InterviewSettings() {
-  // ── Link & Access ──────────────────────────────────────────────
+  // â”€â”€ Link & Access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [linkExpiry, setLinkExpiry] = useState(7);
   const [maxAttempts, setMaxAttempts] = useState(1);
   const [candidateReminders, setCandidateReminders] = useState(true);
   const [reminderHours, setReminderHours] = useState(24);
 
-  // ── Timing ────────────────────────────────────────────────────
+  // â”€â”€ Timing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [maxDuration, setMaxDuration] = useState(60);
   const [readingTime, setReadingTime] = useState(30);
   const [thinkingTime, setThinkingTime] = useState(30);
   const [maxWaitTime, setMaxWaitTime] = useState(30);
 
-  // ── Answer Settings ───────────────────────────────────────────
+  // â”€â”€ Answer Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [defaultAnswerMode, setDefaultAnswerMode] = useState("voice");
   const [allowReattempt, setAllowReattempt] = useState(true);
   const [maxReattempts, setMaxReattempts] = useState(2);
@@ -114,7 +114,7 @@ export function InterviewSettings() {
   const [resendOTPLimit, setResendOTPLimit] = useState(3);
   const [allowTestRun, setAllowTestRun] = useState(true);
 
-  // ── Proctoring ────────────────────────────────────────────────
+  // â”€â”€ Proctoring â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [faceDetection, setFaceDetection] = useState(true);
   const [multipleFacesDetection, setMultipleFacesDetection] = useState(true);
   const [eyeTracking, setEyeTracking] = useState(true);
@@ -123,7 +123,7 @@ export function InterviewSettings() {
   const [clipboardDetection, setClipboardDetection] = useState(true);
   const [autoFlagSuspicious, setAutoFlagSuspicious] = useState(true);
 
-  // ── AI Evaluation ─────────────────────────────────────────────
+  // â”€â”€ AI Evaluation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [aiScoring, setAiScoring] = useState(true);
   const [aiEvalCriteria, setAiEvalCriteria] = useState("balanced");
   const [requireReviewBeforeShortlist, setRequireReviewBeforeShortlist] = useState(true);
@@ -131,7 +131,7 @@ export function InterviewSettings() {
   const [aiQuestionSuggestions, setAiQuestionSuggestions] = useState(true);
   const [defaultQuestionCount, setDefaultQuestionCount] = useState(5);
 
-  // ── Notifications ─────────────────────────────────────────────
+  // â”€â”€ Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [notifyOnCompletion, setNotifyOnCompletion] = useState(true);
   const [notifyHiringTeam, setNotifyHiringTeam] = useState(true);
   const [sendCandidateReport, setSendCandidateReport] = useState(false);
@@ -155,7 +155,7 @@ export function InterviewSettings() {
         </p>
       </div>
 
-      {/* ── 1. Link & Access ─────────────────────────────────────── */}
+      {/* â”€â”€ 1. Link & Access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <SettingsSection
         icon={<Link2 className="h-4 w-4" />}
         title="Link & Access"
@@ -207,7 +207,7 @@ export function InterviewSettings() {
         )}
       </SettingsSection>
 
-      {/* ── 2. Timing ────────────────────────────────────────────── */}
+      {/* â”€â”€ 2. Timing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <SettingsSection
         icon={<Clock className="h-4 w-4" />}
         title="Timing"
@@ -254,7 +254,7 @@ export function InterviewSettings() {
         />
       </SettingsSection>
 
-      {/* ── 3. Answer Settings ───────────────────────────────────── */}
+      {/* â”€â”€ 3. Answer Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <SettingsSection
         icon={<Mic className="h-4 w-4" />}
         title="Answer Settings"
@@ -326,7 +326,7 @@ export function InterviewSettings() {
         />
       </SettingsSection>
 
-      {/* ── 4. Proctoring & Security ─────────────────────────────── */}
+      {/* â”€â”€ 4. Proctoring & Security â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <SettingsSection
         icon={<ShieldCheck className="h-4 w-4" />}
         title="Proctoring & Security"
@@ -342,7 +342,7 @@ export function InterviewSettings() {
 
         <ToggleRow
           label="Multiple faces detection"
-          description="Flag when more than one face appears — potential impersonation"
+          description="Flag when more than one face appears â€” potential impersonation"
           checked={multipleFacesDetection}
           onChange={setMultipleFacesDetection}
           badge={{ label: "Critical", variant: "critical" }}
@@ -390,7 +390,7 @@ export function InterviewSettings() {
         />
       </SettingsSection>
 
-      {/* ── 5. AI Evaluation ─────────────────────────────────────── */}
+      {/* â”€â”€ 5. AI Evaluation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <SettingsSection
         icon={<Brain className="h-4 w-4" />}
         title="AI Evaluation"
@@ -398,7 +398,7 @@ export function InterviewSettings() {
       >
         <ToggleRow
           label="Enable AI scoring"
-          description="Automatically generate a score (0–100) with reasoning, strengths, and improvement areas for each candidate"
+          description="Automatically generate a score (0â€“100) with reasoning, strengths, and improvement areas for each candidate"
           checked={aiScoring}
           onChange={setAiScoring}
         />
@@ -445,7 +445,7 @@ export function InterviewSettings() {
         />
       </SettingsSection>
 
-      {/* ── 6. Notifications ─────────────────────────────────────── */}
+      {/* â”€â”€ 6. Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <SettingsSection
         icon={<Bell className="h-4 w-4" />}
         title="Notifications"
@@ -485,8 +485,7 @@ export function InterviewSettings() {
       <div className="flex items-center gap-3 pt-2">
         <Button
           onClick={handleSave}
-          style={{ backgroundColor: "#4ead3b", color: "black" }}
-          className="hover:opacity-90 font-medium"
+          className="bg-primary text-white hover:bg-primary/90 hover:opacity-90 font-medium"
         >
           <CheckCircle2 className="h-4 w-4 mr-2" />
           Save Settings

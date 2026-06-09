@@ -64,7 +64,7 @@ const TALeaderDashboard = () => {
       { stage: "Interview Scheduled", count: 355, color: "bg-orange-200" },
       { stage: "Review", count: 766, color: "bg-purple-200" },
       { stage: "Offered", count: 24, color: "bg-yellow-200" },
-      { stage: "Accepted", count: 24, color: "bg-green-200" },
+      { stage: "Offer Accepted", count: 24, color: "bg-green-200" },
       { stage: "Hired", count: 20, color: "bg-indigo-200" },
       { stage: "Rejected", count: 947, color: "bg-red-200" },
     ];

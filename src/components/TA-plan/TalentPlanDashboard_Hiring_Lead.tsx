@@ -1,9 +1,9 @@
-
+﻿
 import React from 'react';
 import { MessageCircle, Database, Megaphone, ChartBar, UserPlus, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAlignment } from "@/context/AlignmentContext";
-import { TalentPlanCard_Hiring_Lead } from "./TalentPlanCard_Hiring_Lead";
+import { TalentPlanCard } from "./TalentPlanCard";
 import { CompletedMessageCard_Hiring_Lead } from "@/components/messages/CompletedMessageCard_Hiring_Lead";
 import { CompletedMarketCard_Hiring_Lead } from "@/components/market/CompletedMarketCard_Hiring_Lead";
 import { CompletedMediaCard_Hiring_Lead } from "@/components/media/CompletedMediaCard_Hiring_Lead";
@@ -43,13 +43,13 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
     <div className="w-full max-w-full overflow-hidden">
       <div className="mb-6 res-1200:mb-4 res-1400:mb-5 res-1600:mb-6 flex justify-between items-start">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl res-1200:text-xl res-1400:text-2xl res-1600:text-3xl font-bold mb-2 res-1200:mb-1 res-1400:mb-2" style={{ color: "#7800D3" }}>
-            Hi Ananthan Gambhiram 👋
+          <h1 className="text-2xl res-1200:text-xl res-1400:text-2xl res-1600:text-3xl font-bold mb-2 res-1200:mb-1 res-1400:mb-2" style={{ color: "hsl(var(--primary))" }}>
+            Hi {localStorage.getItem("userName") || "there"} 👋
           </h1>
           {allPlansCompleted ? (
             <>
               <p className="text-gray-700 dark:text-gray-300 text-lg res-1200:text-sm res-1400:text-md">
-                Your talent strategy is live – let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
+                Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-lg res-1200:text-sm res-1400:text-md res-1600:text-xl font-medium pr-4">
                 As the Hiring Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
@@ -71,13 +71,14 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
         {isMessageFullyAligned ? (
           <CompletedMessageCard_Hiring_Lead className="lg:col-span-1 res-1200:mt-[30px] res-1200:md:col-span-1" />
         ) : (
-          <TalentPlanCard_Hiring_Lead
+          <TalentPlanCard
             title="Company USP"
             description="Your employer brand deserves the spotlight. Align recruitment messaging to showcase what makes your company stand out and attract top talent."
             icon={MessageCircle}
             path="/hiring-lead-plan/message"
             isCompleted={isMessageFullyAligned}
             isActive={true}
+            role="hiring-lead"
           />
         )}
         
@@ -85,7 +86,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
         {isMarketCriteriaAligned ? (
           <CompletedMarketCard_Hiring_Lead className="lg:col-span-1 res-1200:mt-[30px] res-1200:md:col-span-1 "/>
         ) : (
-          <TalentPlanCard_Hiring_Lead
+          <TalentPlanCard
             title="Talent Pool"
             description="The right candidates, the right results. Identify your target profiles and ensure your team is focused on the highest-impact talent segments."
             icon={Database}
@@ -93,6 +94,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
             isCompleted={isMarketCriteriaAligned}
             isActive={isMessageFullyAligned}
             ctaText="Start Now"
+            role="hiring-lead"
           />
         )}
         
@@ -100,7 +102,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
         {isMediaOutreachFullyAligned ? (
           <CompletedMediaCard_Hiring_Lead className="lg:col-span-1 res-1200:mt-[30px] res-1200:md:col-span-1"/>
         ) : (
-          <TalentPlanCard_Hiring_Lead
+          <TalentPlanCard
             title="Recruitment Channels"
             description="Multi-channel, maximum results. Set the right outreach cadence using email, LinkedIn, and calls to engage and convert top candidates."
             icon={Megaphone}
@@ -108,6 +110,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
             isCompleted={isMediaOutreachFullyAligned}
             isActive={isMessageFullyAligned && isMarketCriteriaAligned}
             ctaText="Start Now"
+            role="hiring-lead"
           />
         )}
         
@@ -115,7 +118,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
         {isMilestonesAligned ? (
           <CompletedMeasureCard_Hiring_Lead className="lg:col-span-1 res-1200:mt-[30px] res-1200:md:col-span-1"/>
         ) : (
-          <TalentPlanCard_Hiring_Lead
+          <TalentPlanCard
             title="Success Metrics"
             description="What gets tracked, gets optimized. Define TA Team KPIs that drive progress, turning consistent efforts into repeatable hiring success."
             icon={ChartBar}
@@ -123,6 +126,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
             isCompleted={isMilestonesAligned}
             isActive={isMessageFullyAligned && isMarketCriteriaAligned && isMediaOutreachFullyAligned}
             ctaText="Start Now"
+            role="hiring-lead"
           />
         )}
       </div>
@@ -130,10 +134,9 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
       {/* Button section - only visible when all plans are completed */}
       {allPlansCompleted && (
         <div className="mt-8 res-1200:mt-2 res-1400:mt-7 res-1600:mt-10 flex justify-center gap-4">
-          <Button 
-            onClick={handleAssignTATeam} 
-            className="py-4 h-12 res-1200:py-0 res-1200:h-8 res-1400:h-8 res-1400:py-3 res-1600:py-6 px-6 res-1200:px-2 res-1400:px-6 res-1600:px-8 text-base res-1200:text-xs res-1400:text-base res-1600:text-lg flex items-center gap-2 text-black"
-            style={{ backgroundColor: "#4ead3b" }}
+          <Button
+            onClick={handleAssignTATeam}
+            className="py-4 h-12 res-1200:py-0 res-1200:h-8 res-1400:h-8 res-1400:py-3 res-1600:py-6 px-6 res-1200:px-2 res-1400:px-6 res-1600:px-8 text-base res-1200:text-xs res-1400:text-base res-1600:text-lg flex items-center gap-2 bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white"
             size="lg"
           >
             <UserPlus size={20} className="w-4 h-4 res-1200:w-1 res-1200:h-1 res-1400:w-5 res-1400:h-5 res-1600:w-6 res-1600:h-6" />

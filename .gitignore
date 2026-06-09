@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Claude Code CLI wrappers (auto-generated)
+/claude
+/claude.cmd
+/claude.ps1

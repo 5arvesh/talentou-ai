@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,7 @@ export const MessageDetail_TA_Associate = ({ messageType }: MessageDetailProps_T
         description: "AI-generated recruitment messages tailored to your company's unique value proposition",
         messages: {
           "LinkedIn Outreach": "Hi [Name], I noticed your impressive background in [specific skill/experience]. At Ignitho, we're not just another tech company - we're building the future of digital transformation with cutting-edge AI solutions. We're currently looking for talented professionals like yourself to join our innovative team. Would you be open to a brief conversation about how your expertise could contribute to our mission?",
-          "Email Follow-up": "Subject: Exciting Opportunity at Ignitho - Your Skills Align Perfectly\n\nDear [Name],\n\nI hope this email finds you well. I came across your profile and was impressed by your experience in [relevant field]. At Ignitho, we're revolutionizing how businesses approach digital transformation through AI-powered solutions.\n\nWhat sets us apart:\n• Cutting-edge technology stack\n• Collaborative, innovation-driven culture\n• Opportunity to work on industry-leading projects\n• Strong focus on professional development\n\nI'd love to discuss how your background aligns with our current opportunities. Are you available for a 15-minute call this week?\n\nBest regards,\n[Your Name]",
+          "Email Follow-up": "Subject: Exciting Opportunity at Ignitho - Your Skills Align Perfectly\n\nDear [Name],\n\nI hope this email finds you well. I came across your profile and was impressed by your experience in [relevant field]. At Ignitho, we're revolutionizing how businesses approach digital transformation through AI-powered solutions.\n\nWhat sets us apart:\nâ€¢ Cutting-edge technology stack\nâ€¢ Collaborative, innovation-driven culture\nâ€¢ Opportunity to work on industry-leading projects\nâ€¢ Strong focus on professional development\n\nI'd love to discuss how your background aligns with our current opportunities. Are you available for a 15-minute call this week?\n\nBest regards,\n[Your Name]",
           "Phone Script": "Hi [Name], this is [Your Name] from Ignitho. I hope I'm not catching you at a bad time. I reached out because I was impressed by your background in [specific area] and thought you might be interested in learning about an exciting opportunity we have. Ignitho is at the forefront of AI-driven digital transformation, and we're looking for talented professionals who share our passion for innovation. Would you have a few minutes to chat about how your skills could contribute to our growing team?"
         }
       };
@@ -48,8 +48,8 @@ export const MessageDetail_TA_Associate = ({ messageType }: MessageDetailProps_T
         description: "Supporting materials and documents for your recruitment campaigns",
         messages: {
           "Company Overview": "Ignitho Technologies - Leading the Future of Digital Transformation\n\nFounded with a vision to revolutionize business processes through cutting-edge technology, Ignitho has emerged as a premier provider of AI-powered digital solutions. Our team of innovative thinkers and technical experts work collaboratively to deliver transformative results for our clients across various industries.",
-          "Role Description Template": "Position: [Job Title]\nDepartment: [Department Name]\nLocation: [Location]\n\nAbout the Role:\nWe are seeking a dynamic [Job Title] to join our growing team at Ignitho. This role offers an exciting opportunity to work with cutting-edge technology while contributing to innovative projects that shape the future of digital transformation.\n\nKey Responsibilities:\n• [Responsibility 1]\n• [Responsibility 2]\n• [Responsibility 3]\n\nWhat We Offer:\n• Competitive compensation package\n• Flexible working arrangements\n• Professional development opportunities\n• Collaborative and innovative work environment",
-          "Benefits Package": "Why Choose Ignitho?\n\n💰 Competitive Salary & Benefits\n🏠 Flexible Work Arrangements\n📚 Continuous Learning & Development\n🚀 Career Growth Opportunities\n🤝 Collaborative Team Environment\n🌟 Work on Cutting-edge Projects\n🎯 Performance-based Incentives\n🏥 Comprehensive Health Coverage"
+          "Role Description Template": "Position: [Job Title]\nDepartment: [Department Name]\nLocation: [Location]\n\nAbout the Role:\nWe are seeking a dynamic [Job Title] to join our growing team at Ignitho. This role offers an exciting opportunity to work with cutting-edge technology while contributing to innovative projects that shape the future of digital transformation.\n\nKey Responsibilities:\nâ€¢ [Responsibility 1]\nâ€¢ [Responsibility 2]\nâ€¢ [Responsibility 3]\n\nWhat We Offer:\nâ€¢ Competitive compensation package\nâ€¢ Flexible working arrangements\nâ€¢ Professional development opportunities\nâ€¢ Collaborative and innovative work environment",
+          "Benefits Package": "Why Choose Ignitho?\n\nðŸ’° Competitive Salary & Benefits\nðŸ  Flexible Work Arrangements\nðŸ“š Continuous Learning & Development\nðŸš€ Career Growth Opportunities\nðŸ¤ Collaborative Team Environment\nðŸŒŸ Work on Cutting-edge Projects\nðŸŽ¯ Performance-based Incentives\nðŸ¥ Comprehensive Health Coverage"
         }
       };
     }
@@ -118,8 +118,7 @@ export const MessageDetail_TA_Associate = ({ messageType }: MessageDetailProps_T
             </Button>
             <Button 
               onClick={handleApprove}
-              style={{ backgroundColor: "#4ead3b", color: "black" }}
-              className="hover:opacity-90 res-1200:text-xs"
+              className="bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:text-xs"
             >
               Approve & Continue
             </Button>

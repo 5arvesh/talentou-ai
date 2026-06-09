@@ -1,4 +1,4 @@
-
+﻿
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -190,8 +190,7 @@ export function Register() {
               
               <Button 
                 type="submit"
-                style={{ backgroundColor: "#4ead3b", color: "black" }}
-                className="w-full h-12 font-medium rounded-md shadow-sm hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+                className="w-full h-12 font-medium rounded-md shadow-sm bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
               >
                 Register
               </Button>

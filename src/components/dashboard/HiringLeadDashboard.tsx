@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus, Eye, Pen } from "lucide-react";
+import { getJobStatusColor } from "@/constants/statuses";
 import {
   Tooltip,
   TooltipContent,
@@ -131,26 +132,7 @@ export function HiringLeadDashboard() {
     navigate("/hiring-lead/jobs");
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active":
-        return "bg-green-100 text-green-700";
-      case "Pending Approval":
-        return "bg-yellow-100 text-yellow-700";
-      case "On Hold":
-        return "bg-orange-100 text-orange-700";
-      case "Draft":
-        return "bg-gray-100 text-gray-700";
-      case "Closed":
-        return "bg-blue-100 text-blue-700";
-      case "Cancelled":
-        return "bg-red-100 text-red-700";
-      case "Rejected":
-        return "bg-red-100 text-red-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
+  const getStatusColor = getJobStatusColor;
 
   return (
     <TooltipProvider>
@@ -160,7 +142,7 @@ export function HiringLeadDashboard() {
           {/* Left Box - Welcome Message */}
           <div
             className="w-1/2 rounded-lg p-8 text-white relative overflow-hidden flex flex-col items-center justify-center text-center"
-            style={{ background: "#7800D3" }}
+            style={{ background: "hsl(var(--primary))" }}
           >
             <div className="relative z-10 flex flex-col items-center">
               <h1 className="text-3xl font-bold mb-2">
@@ -171,7 +153,7 @@ export function HiringLeadDashboard() {
                 clarity.
               </p>
               <Button
-                className="bg-white text-[#7800D3] hover:bg-gray-100 font-medium px-6 py-2 flex items-center gap-2"
+                className="bg-white text-primary hover:bg-gray-100 font-medium px-6 py-2 flex items-center gap-2"
                 onClick={handleCreateNewPosition}
               >
                 <Plus size={20} />
@@ -191,7 +173,7 @@ export function HiringLeadDashboard() {
             </div>
             <div>
               <h3 className="font-semibold mb-2 text-gray-800 text-xl">
-                From Chaos to Clarity – Let's Hire Smarter Together
+                From Chaos to Clarity â€“ Let's Hire Smarter Together
               </h3>
               <p className="text-gray-600 mb-4">
                 Shape role requirements into a shared strategy that enables

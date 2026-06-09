@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -30,6 +30,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { getJobStatusColor } from "@/constants/statuses";
 
 export type RoleType = "ta-leader" | "recruiter" | "hiring-lead";
 
@@ -52,6 +53,11 @@ export interface JobItem {
   project?: string;
   skills?: string[];
   location?: string;
+
+  department?: string;
+  createdDate?: string;
+  employmentType?: string;
+  stagePipelineCounts?: { screening?: number; interview?: number; offer?: number; };
 
   // Compatibility
   openCandidates?: number;
@@ -89,18 +95,22 @@ const ALL_COLUMNS: ColumnDef[] = [
   { id: "project", label: "Project" },
   { id: "skills", label: "Skills" },
   { id: "location", label: "Location" },
+  { id: "department", label: "Department" },
+  { id: "createdDate", label: "Created Date" },
+  { id: "employmentType", label: "Employment Type" },
+  { id: "stagePipelineCounts", label: "Pipeline" },
 ];
 
 const DEFAULT_COLUMNS: Record<RoleType, string[]> = {
-  "ta-leader": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings"],
-  "recruiter": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings"],
-  "hiring-lead": ["id", "jobRole", "experience", "status", "applicants", "openings"],
+  "ta-leader": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings", "department", "stagePipelineCounts"],
+  "recruiter": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings", "department"],
+  "hiring-lead": ["id", "jobRole", "experience", "status", "applicants", "openings", "department"],
 };
 
 const DROPDOWN_FIELDS: Record<RoleType, string[]> = {
-  "ta-leader": ["recruiter", "hiringLead", "budget", "daysOpen"],
-  "recruiter": ["hiringLead", "budget", "newApplicants"],
-  "hiring-lead": ["recruiter", "budget", "daysOpen"],
+  "ta-leader": ["recruiter", "hiringLead", "budget", "daysOpen", "createdDate", "employmentType"],
+  "recruiter": ["hiringLead", "budget", "newApplicants", "createdDate", "employmentType"],
+  "hiring-lead": ["recruiter", "budget", "daysOpen", "createdDate", "employmentType"],
 };
 
 const FILTER_COLUMNS_AVAILABLE: Record<RoleType, string[]> = {
@@ -145,6 +155,13 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
     if (field === 'project') return job.project || "Core Product";
     if (field === 'skills') return job.skills ? job.skills.join(", ") : "React, TypeScript";
     if (field === 'location') return job.location || "San Francisco, CA";
+    if (field === 'department') return job.department || "Engineering";
+    if (field === 'createdDate') return job.createdDate || "-";
+    if (field === 'employmentType') return job.employmentType || "Full-time";
+    if (field === 'stagePipelineCounts') {
+      const s = job.stagePipelineCounts;
+      return String((s?.screening ?? 0) + (s?.interview ?? 0) + (s?.offer ?? 0));
+    }
     return String((job as any)[field] || "-");
   };
 
@@ -197,21 +214,13 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
     setExpandedJobs(newExpanded);
   };
 
-  const getStatusColor = (status: string) => {
-    const s = status.toLowerCase();
-    if (s.includes("active")) return "bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20";
-    if (s.includes("pending")) return "bg-orange-100 text-orange-700 border-orange-200";
-    if (s.includes("closed") || s.includes("cancel")) return "bg-gray-100 text-gray-700 border-gray-200";
-    if (s.includes("hold")) return "bg-yellow-100 text-yellow-700 border-yellow-200";
-    if (s.includes("draft")) return "bg-[#7800D4]/10 text-[#7800D4] border-[#7800D4]/20";
-    return "bg-gray-100 text-gray-700 border-gray-200";
-  };
+  const getStatusColor = getJobStatusColor;
 
   const getPriorityColor = (priority?: string) => {
     const p = (priority || "").toLowerCase();
     if (p === "high") return "bg-red-50 text-red-600 border-red-200";
     if (p === "medium") return "bg-yellow-50 text-yellow-600 border-yellow-200";
-    if (p === "low") return "bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20";
+    if (p === "low") return "bg-green-500/10 text-green-600 border-green-500/20";
     return "bg-gray-50 text-gray-600";
   };
 
@@ -302,8 +311,8 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
 
     return (
       <Popover>
-        <PopoverTrigger className="flex items-center gap-1 text-white hover:text-white/80 group outline-none py-1 mx-auto max-w-fit">
-          <span className="font-semibold">{label}</span>
+        <PopoverTrigger className="flex items-center gap-1 text-[#5600ad] hover:text-[#5600ad]/80 group outline-none py-1 mx-auto max-w-fit">
+          <span className="font-semibold text-xs uppercase tracking-wide">{label}</span>
           <ChevronDown className="h-3 w-3 opacity-70 group-hover:opacity-100 transition-opacity" />
         </PopoverTrigger>
         <PopoverContent className="w-56 p-2 rounded-xl border border-gray-100 shadow-xl" align="start">
@@ -428,7 +437,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
               <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end">
                  <Button 
                    size="sm" 
-                   className="bg-[#7800D3] hover:bg-[#7800D3]/90 text-white w-full rounded-md"
+                   className="bg-primary hover:bg-primary/90 text-white w-full rounded-md"
                    onClick={() => {
                      setVisibleColumns(tempVisibleColumns);
                      setIsColumnFilterOpen(false);
@@ -455,27 +464,27 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
         <Table className="w-full min-w-max">
           <TableHeader>
-            <TableRow className="bg-[#7800D3] hover:bg-[#6a00bb] border-b-0">
-              <TableHead className="w-12 text-center text-white"></TableHead>
+            <TableRow className="bg-[#F8F4FF] hover:bg-[#F0E8FF] border-b-2 border-primary">
+              <TableHead className="w-12 text-center text-[#5600ad]"></TableHead>
               {visibleColumns.map((colId) => {
                 const colDef = ALL_COLUMNS.find(c => c.id === colId);
                 if (!colDef) return null;
                 const isNumeric = ["applicants", "openings", "daysOpen", "newApplicants"].includes(colId);
                 return (
-                  <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-white font-semibold ${isNumeric ? 'text-center' : 'text-left'}`}>
+                  <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-[#5600ad] font-semibold text-xs uppercase tracking-wide ${isNumeric ? 'text-center' : 'text-left'}`}>
                     <ColumnHeaderMenu columnId={colId} label={colDef.label} />
                   </TableHead>
                 );
               })}
               {role === "recruiter" && (
-                <TableHead className="whitespace-nowrap pb-3 pt-4 text-white font-semibold text-left">
+                <TableHead className="whitespace-nowrap pb-3 pt-4 text-[#5600ad] font-semibold text-xs uppercase tracking-wide text-left">
                   <div className="flex items-center gap-1.5">
                     <Globe className="h-3.5 w-3.5 opacity-80" />
                     Careers
                   </div>
                 </TableHead>
               )}
-              <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-white">Actions</TableHead>
+              <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-[#5600ad] text-xs uppercase tracking-wide">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -525,6 +534,18 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                             ) : <span>-</span>
                           ) : colId === "applicants" || colId === "openings" || colId === "daysOpen" || colId === "newApplicants" ? (
                             <span className="font-medium">{value}</span>
+                          ) : colId === "stagePipelineCounts" ? (
+                            <div className="flex items-center gap-1 flex-nowrap">
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-blue-100 text-blue-700 whitespace-nowrap">
+                                S {job.stagePipelineCounts?.screening ?? 0}
+                              </span>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-700 whitespace-nowrap">
+                                I {job.stagePipelineCounts?.interview ?? 0}
+                              </span>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-green-100 text-green-700 whitespace-nowrap">
+                                O {job.stagePipelineCounts?.offer ?? 0}
+                              </span>
+                            </div>
                           ) : colId === "experience" ? `${value} Yrs` : value}
                         </TableCell>
                       );
@@ -545,7 +566,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                                       setCareersEnabled(prev => ({ ...prev, [job.id]: false }));
                                     }
                                   }}
-                                  className="data-[state=checked]:bg-[#4EAD3B] scale-90"
+                                  className="data-[state=checked]:bg-green-500 scale-90"
                                 />
                               </div>
                             </TooltipTrigger>

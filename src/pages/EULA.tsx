@@ -1,4 +1,4 @@
-
+﻿
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AuthRightLayout } from "@/Layout/AuthLayout/AuthRightLayout";
@@ -59,8 +59,7 @@ export function EULA() {
             
             <Button 
               onClick={handleAgree}
-              style={{ backgroundColor: "#4ead3b", color: "black" }}
-              className="h-12 font-medium hover:opacity-90 xl:h-10 res-1200:h-8 res-1200:text-xs"
+              className="h-12 font-medium bg-primary text-white hover:bg-primary/90 hover:opacity-90 xl:h-10 res-1200:h-8 res-1200:text-xs"
             >
               I Agree
             </Button>

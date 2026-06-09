@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import {Database, Megaphone, ChartBar, UserPlus, Users, MessageSquareText, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAlignment } from "@/context/AlignmentContext";
@@ -89,8 +89,7 @@ export const SalesPlanDashboard = () => {
         <div className="mb-6">
           <Button
             onClick={() => navigate("/sales-plan/create-plan")}
-            className="h-14 px-8 text-lg"
-            style={{ backgroundColor: "#4ead3b", color: "black" }}
+            className="h-14 px-8 text-lg bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white"
           >
             <Plus className="mr-2 h-5 w-5" />
             Create New TA Plan
@@ -100,13 +99,13 @@ export const SalesPlanDashboard = () => {
       
       <div className="mb-6 res-1200:mb-4 res-1400:mb-5 res-1600:mb-6 flex justify-between items-start">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl res-1200:text-xl res-1400:text-2xl res-1600:text-3xl font-bold mb-2 res-1200:mb-1 res-1400:mb-2" style={{ color: "#7800D3" }}>
-            Hi Roney Soloman 👋
+          <h1 className="text-2xl res-1200:text-xl res-1400:text-2xl res-1600:text-3xl font-bold mb-2 res-1200:mb-1 res-1400:mb-2" style={{ color: "hsl(var(--primary))" }}>
+            Hi {localStorage.getItem("userName") || "there"} 👋
           </h1>
           {allPlansCompleted ? (
             <>
               <p className="text-gray-700 dark:text-gray-300 text-lg res-1200:text-sm res-1400:text-md">
-                Your talent strategy is live – let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
+                Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-lg res-1200:text-sm res-1400:text-md res-1600:text-xl font-medium pr-4">
                 As the TA Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
@@ -155,8 +154,7 @@ export const SalesPlanDashboard = () => {
         <div className="mt-8 res-1200:mt-2 res-1400:mt-7 res-1600:mt-10 flex justify-center gap-4">
           <Button
             onClick={handleAssignTATeam}
-            className="py-4 h-12 res-1200:py-0 res-1200:h-8 res-1400:h-8 res-1400:py-3 res-1600:py-6 px-6 res-1200:px-2 res-1400:px-6 res-1600:px-8 text-base res-1200:text-xs res-1400:text-base res-1600:text-lg flex items-center gap-2 text-black"
-            style={{ backgroundColor: "#4ead3b" }}
+            className="py-4 h-12 res-1200:py-0 res-1200:h-8 res-1400:h-8 res-1400:py-3 res-1600:py-6 px-6 res-1200:px-2 res-1400:px-6 res-1600:px-8 text-base res-1200:text-xs res-1400:text-base res-1600:text-lg flex items-center gap-2 bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white"
             size="lg"
           >
             <UserPlus size={20} className="w-4 h-4 res-1200:w-1 res-1200:h-1 res-1400:w-5 res-1400:h-5 res-1600:w-6 res-1600:h-6" />

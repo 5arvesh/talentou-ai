@@ -1,4 +1,4 @@
-import {
+﻿import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -30,8 +30,7 @@ export function SuccessDialog({ open, onOpenChange, email }: SuccessDialogProps)
         <div className="flex justify-center pt-4">
           <Button
             onClick={() => onOpenChange(false)}
-            style={{ backgroundColor: "#4ead3b", color: "black" }}
-            className="px-8 hover:opacity-90"
+            className="bg-primary text-white hover:bg-primary/90 px-8 hover:opacity-90"
           >
             OK
           </Button>

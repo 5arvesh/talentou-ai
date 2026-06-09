@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -33,6 +33,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { RoleType } from "./ModernJobList";
+import { getCandidateStatusColor } from "@/constants/statuses";
 
 export interface CandidateItem {
   id: string | number;
@@ -54,6 +55,14 @@ export interface CandidateItem {
   earliestJoiningDate?: string;
   linkedinUrl?: string;
   dateAdded?: string;
+  source?: string;
+  currentTitle?: string;
+  currentCompany?: string;
+  recruiterAssigned?: string;
+  lastActivity?: string;
+  daysInStage?: number;
+  tags?: string[];
+  interviewScheduledDate?: string;
 }
 
 interface ModernCandidateListProps {
@@ -85,9 +94,17 @@ const ALL_COLUMNS: ColumnDef[] = [
   { id: "expectedCTC", label: "Expected CTC" },
   { id: "earliestJoiningDate", label: "Earliest Joining Date" },
   { id: "dateAdded", label: "Date Added" },
+  { id: "source", label: "Source" },
+  { id: "currentTitle", label: "Current Title" },
+  { id: "currentCompany", label: "Current Company" },
+  { id: "recruiterAssigned", label: "Recruiter Assigned" },
+  { id: "lastActivity", label: "Last Activity" },
+  { id: "daysInStage", label: "Days in Stage" },
+  { id: "tags", label: "Tags" },
+  { id: "interviewScheduledDate", label: "Interview Date" },
 ];
 
-const DEFAULT_COLUMNS = ["name", "yearsOfExperience", "skills", "roleFitScore", "status", "dateAdded"];
+const DEFAULT_COLUMNS = ["name", "currentTitle", "yearsOfExperience", "skills", "roleFitScore", "status", "source", "dateAdded"];
 
 export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction, onAddCandidate, selectedIds, onSelectionChange, onSelectAll }: ModernCandidateListProps) {
   const navigate = useNavigate();
@@ -130,6 +147,14 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
     if (field === 'earliestJoiningDate') return candidate.earliestJoiningDate || "Immediate";
     if (field === 'dateAdded') return candidate.dateAdded || "-";
     if (field === 'skills') return candidate.skills.join(", ");
+    if (field === 'source') return candidate.source || "Direct";
+    if (field === 'currentTitle') return candidate.currentTitle || "-";
+    if (field === 'currentCompany') return candidate.currentCompany || "-";
+    if (field === 'recruiterAssigned') return candidate.recruiterAssigned || "-";
+    if (field === 'lastActivity') return candidate.lastActivity || "-";
+    if (field === 'daysInStage') return String(candidate.daysInStage ?? 0);
+    if (field === 'tags') return candidate.tags ? candidate.tags.join(", ") : "-";
+    if (field === 'interviewScheduledDate') return candidate.interviewScheduledDate || "-";
     return String((candidate as any)[field] || "-");
   };
 
@@ -197,34 +222,16 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
     return result;
   }, [candidates, globalSearch, columnFilters, sortConfig, selectedJob, selectedStatus, globalSort]);
 
-  const getStatusColor = (status: string) => {
-    const s = status.toLowerCase();
-    switch (s) {
-      case "applied": return "bg-blue-50 text-blue-700 border-blue-200";
-      case "sourced": return "bg-purple-50 text-purple-700 border-purple-200";
-      case "review": 
-      case "under review": return "bg-yellow-50 text-yellow-700 border-yellow-200";
-      case "shortlisted": return "bg-teal-50 text-teal-700 border-teal-200";
-      case "interview": 
-      case "interview scheduled": return "bg-orange-50 text-orange-700 border-orange-200";
-      case "interviewed": return "bg-indigo-50 text-indigo-700 border-indigo-200";
-      case "offered": return "bg-green-50 text-green-700 border-green-200";
-      case "accepted": return "bg-emerald-50 text-[#4EAD3B] border-[#4EAD3B]/20";
-      case "rejected": 
-      case "decline": return "bg-red-50 text-red-700 border-red-200";
-      case "withdrawn": return "bg-gray-50 text-gray-700 border-gray-200";
-      default: return "bg-gray-50 text-gray-700 border-gray-200";
-    }
-  };
+  const getStatusColor = getCandidateStatusColor;
 
   const getRoleFitColor = (score: number) => {
-    if (score >= 70) return "text-[#4EAD3B]";
+    if (score >= 70) return "text-green-600";
     if (score >= 40) return "text-yellow-600";
     return "text-red-500";
   };
   
   const getRoleFitBgColor = (score: number) => {
-    if (score >= 70) return "bg-[#4EAD3B]/10";
+    if (score >= 70) return "bg-green-500/10";
     if (score >= 40) return "bg-yellow-100";
     return "bg-red-50";
   };
@@ -301,8 +308,8 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
 
     return (
       <Popover>
-        <PopoverTrigger className="flex items-center gap-1 text-white hover:text-white/80 group outline-none py-1 mx-auto max-w-fit">
-          <span className="font-semibold">{label}</span>
+        <PopoverTrigger className="flex items-center gap-1 text-[#5600ad] hover:text-[#5600ad]/80 group outline-none py-1 mx-auto max-w-fit">
+          <span className="font-semibold text-xs uppercase tracking-wide">{label}</span>
           <ChevronDown className="h-3 w-3 opacity-70 group-hover:opacity-100 transition-opacity" />
         </PopoverTrigger>
         <PopoverContent className="w-56 p-2 rounded-xl border border-gray-100 shadow-xl" align="start">
@@ -371,7 +378,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
     <TooltipProvider>
       <div className="p-6 max-w-full mx-auto space-y-6 animate-in fade-in duration-500 overflow-x-hidden">
         
-        {/* Top Header Section — title + inline filters + action */}
+        {/* Top Header Section â€” title + inline filters + action */}
         <div className="flex items-center gap-3 flex-wrap xl:flex-nowrap">
           {/* Title */}
           <div className="shrink-0">
@@ -379,7 +386,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
             <p className="text-gray-500 text-sm mt-0.5">Manage all candidates sourced or applied to open positions.</p>
           </div>
 
-          {/* Inline filter bar — grows to fill space between title and button */}
+          {/* Inline filter bar â€” grows to fill space between title and button */}
           <div data-tour-id="candidate-filter-bar" className="flex items-center gap-2 flex-1 min-w-0 bg-white border border-gray-200 rounded-lg px-3 h-11 shadow-sm">
             {/* Search */}
             <div className="relative flex-1 min-w-0">
@@ -495,7 +502,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                 <div className="mt-4 pt-3 border-t border-gray-100">
                   <Button
                     size="sm"
-                    className="bg-[#7800D3] hover:bg-[#7800D3]/90 text-white w-full rounded-md"
+                    className="bg-primary hover:bg-primary/90 text-white w-full rounded-md"
                     onClick={() => { setVisibleColumns(tempVisibleColumns); setIsColumnFilterOpen(false); }}
                   >
                     Apply
@@ -506,7 +513,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           </div>
 
           {/* Add Candidate button */}
-          <Button className="bg-[#4EAD3B] hover:bg-[#3e8a2f] text-white shrink-0" onClick={onAddCandidate}>
+          <Button className="bg-green-500 hover:bg-[#3e8a2f] text-white shrink-0" onClick={onAddCandidate}>
             <Plus className="h-4 w-4 mr-2" /> Add Candidate
           </Button>
         </div>
@@ -515,27 +522,27 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
           <Table className="w-full min-w-max">
             <TableHeader>
-              <TableRow className="bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 border-b-0">
+              <TableRow className="bg-[#F8F4FF] hover:bg-[#F0E8FF] border-b-2 border-primary">
                 {onSelectionChange && (
                   <TableHead className="w-10 pl-4 pb-3 pt-4">
                     <Checkbox
                       checked={processedCandidates.length > 0 && processedCandidates.every(c => selectedIds?.has(c.id))}
                       onCheckedChange={(checked) => onSelectAll?.(!!checked, processedCandidates.map(c => c.id))}
-                      className="border-white data-[state=checked]:bg-white data-[state=checked]:text-[#503afd]"
+                      className="border-[#5600ad] data-[state=checked]:bg-[#5600ad] data-[state=checked]:text-white"
                     />
                   </TableHead>
                 )}
                 {visibleColumns.map(colId => {
                   const colDef = ALL_COLUMNS.find(c => c.id === colId);
                   if (!colDef) return null;
-                  const isCentered = ["roleFitScore", "status", "yearsOfExperience"].includes(colId);
+                  const isCentered = ["roleFitScore", "status", "yearsOfExperience", "daysInStage"].includes(colId);
                   return (
-                    <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-white ${isCentered ? 'text-center' : 'text-left'}`}>
+                    <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-[#5600ad] font-semibold text-xs uppercase tracking-wide ${isCentered ? 'text-center' : 'text-left'}`}>
                       <ColumnHeaderMenu columnId={colId} label={colDef.label} />
                     </TableHead>
                   );
                 })}
-                <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-white outline-none">Actions</TableHead>
+                <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-[#5600ad] text-xs uppercase tracking-wide outline-none">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -628,6 +635,61 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                             </TableCell>
                           );
                         }
+
+                        if (colId === "source") {
+                          const sourceColors: Record<string, string> = {
+                            LinkedIn: "bg-blue-100 text-blue-700",
+                            Referral: "bg-purple-100 text-purple-700",
+                            Indeed: "bg-indigo-100 text-indigo-700",
+                            "Job Board": "bg-orange-100 text-orange-700",
+                            Agency: "bg-amber-100 text-amber-700",
+                            Campus: "bg-teal-100 text-teal-700",
+                            Direct: "bg-gray-100 text-gray-600",
+                          };
+                          const colorClass = sourceColors[value] || "bg-gray-100 text-gray-600";
+                          return (
+                            <TableCell key={colId} className="py-3 whitespace-nowrap">
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}`}>
+                                {value}
+                              </span>
+                            </TableCell>
+                          );
+                        }
+
+                        if (colId === "daysInStage") {
+                          const days = candidate.daysInStage ?? 0;
+                          const colorClass = days >= 14 ? "text-red-600 bg-red-50" : days >= 8 ? "text-amber-600 bg-amber-50" : "text-green-600 bg-green-50";
+                          return (
+                            <TableCell key={colId} className="py-3 text-center whitespace-nowrap">
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${colorClass}`}>
+                                {days}d
+                              </span>
+                            </TableCell>
+                          );
+                        }
+
+                        if (colId === "tags") {
+                          return (
+                            <TableCell key={colId} className="py-3">
+                              <div className="flex flex-wrap gap-1">
+                                {(candidate.tags || []).slice(0, 2).map((tag, i) => (
+                                  <Badge key={i} variant="secondary" className="bg-violet-100 text-violet-700 hover:bg-violet-200 font-normal text-xs px-2 py-0.5 border-none rounded">
+                                    {tag}
+                                  </Badge>
+                                ))}
+                                {(candidate.tags || []).length > 2 && (
+                                  <Badge variant="secondary" className="bg-gray-100 text-gray-500 font-normal text-xs px-2 py-0 border-none rounded">
+                                    +{(candidate.tags || []).length - 2}
+                                  </Badge>
+                                )}
+                                {(!candidate.tags || candidate.tags.length === 0) && (
+                                  <span className="text-gray-400 text-xs">—</span>
+                                )}
+                              </div>
+                            </TableCell>
+                          );
+                        }
+
                         return (
                           <TableCell key={colId} className="text-gray-600 py-3 whitespace-nowrap text-center">
                             {colId === "yearsOfExperience" ? `${value} Yrs` : value}

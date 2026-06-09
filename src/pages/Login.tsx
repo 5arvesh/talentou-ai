@@ -74,8 +74,9 @@ export function Login() {
 
           <form onSubmit={onSubmit} className="space-y-5 res-1200:space-y-3">
             <div>
-              <label className="text-[13px] font-semibold text-gray-700 mb-1.5 block">Email</label>
+              <label htmlFor="email" className="text-[13px] font-semibold text-gray-700 mb-1.5 block">Email</label>
               <Input
+                id="email"
                 type="email"
                 placeholder="Enter your email address"
                 className="rounded-[10px] h-12 res-1200:h-8 res-1200:text-xs focus:border-purple-700 focus:ring-2 focus:ring-purple-700/20"
@@ -85,9 +86,10 @@ export function Login() {
             </div>
 
             <div>
-              <label className="text-[13px] font-semibold text-gray-700 mb-1.5 block">Password</label>
+              <label htmlFor="password" className="text-[13px] font-semibold text-gray-700 mb-1.5 block">Password</label>
               <div className="relative">
                 <Input
+                  id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="rounded-[10px] h-12 pr-10 res-1200:h-8 res-1200:text-xs focus:border-purple-700 focus:ring-2 focus:ring-purple-700/20"
@@ -96,6 +98,7 @@ export function Login() {
                 />
                 <button
                   type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
                 >

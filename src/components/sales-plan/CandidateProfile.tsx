@@ -1,4 +1,4 @@
-// v2
+﻿// v2
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import {
   MoreHorizontal, BarChart2, UserCheck
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getCandidateStatusColor } from "@/constants/statuses";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -70,7 +71,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       interviewImprovements: [] as string[],
       screeningResponses: [
         { question: "Are you open to relocation?", answer: "Open to discuss" },
-        { question: "Notice period?", answer: "2–4 weeks" },
+        { question: "Notice period?", answer: "2â€“4 weeks" },
       ],
       yearsOfExperience: (id % 6) + 2,
     };
@@ -377,11 +378,11 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
     return (
       <div className="h-full p-6 bg-white flex items-center justify-center">
         <div className="max-w-4xl mx-auto text-center">
-          <Button variant="outline" onClick={() => navigate(`${basePath}/candidates`)} className="mb-6 hover:bg-[#7800D3] hover:text-white">
+          <Button variant="outline" onClick={() => navigate(`${basePath}/candidates`)} className="mb-6 hover:bg-primary hover:text-white">
             <ArrowLeft size={16} className="mr-2" />
             Back to Candidates
           </Button>
-          <h1 className="text-2xl font-bold text-[#7800D3]">Candidate Not Found</h1>
+          <h1 className="text-2xl font-bold text-primary">Candidate Not Found</h1>
         </div>
       </div>
     );
@@ -404,16 +405,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
     toast.success(`Interview scheduled for ${candidate.name}`);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'interview':
-      case 'interview scheduled': return 'bg-blue-100 text-blue-700';
-      case 'shortlisted': return 'bg-emerald-100 text-emerald-700';
-      case 'applied': return 'bg-purple-100 text-purple-700';
-      case 'under review': return 'bg-amber-100 text-amber-700';
-      default: return 'bg-muted text-muted-foreground';
-    }
-  };
+  const getStatusColor = getCandidateStatusColor;
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return '#4ead3b';
@@ -422,7 +414,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
   };
 
   const getScoreTextClass = (score: number) => {
-    if (score >= 80) return 'text-[#4ead3b]';
+    if (score >= 80) return 'text-green-600';
     if (score >= 60) return 'text-amber-500';
     return 'text-red-500';
   };
@@ -451,7 +443,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       <div>
         <div className="flex items-center gap-1.5 mb-0.5">
           <span className="text-muted-foreground">{icon}</span>
-          <span className="text-xs font-semibold text-[#7800D3]">{label}</span>
+          <span className="text-xs font-semibold text-primary">{label}</span>
         </div>
         <span className={cn("text-sm font-semibold", getScoreTextClass(score))}>
           {score >= 80 ? 'Strong match' : score >= 60 ? 'Moderate fit' : 'Weak fit'}
@@ -464,17 +456,17 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
     <ResizablePanelGroup direction="horizontal" className="h-full bg-background">
       {/* Candidate List Sidebar */}
       {isListOpen && (
-        <ResizablePanel defaultSize={20} minSize={15} maxSize={30} className="bg-white border-r border-[#7800D3]/15">
+        <ResizablePanel defaultSize={20} minSize={15} maxSize={30} className="bg-white border-r border-primary/15">
           <div className="flex flex-col h-full bg-white">
-            <div className="p-4 border-b border-[#7800D3]/15 sticky top-0 bg-white z-10">
-              <Button variant="ghost" size="sm" onClick={() => navigate(`${basePath}/candidates`)} className="mb-4 -ml-2 hover:bg-transparent hover:text-[#7800D3]">
+            <div className="p-4 border-b border-primary/15 sticky top-0 bg-white z-10">
+              <Button variant="ghost" size="sm" onClick={() => navigate(`${basePath}/candidates`)} className="mb-4 -ml-2 hover:bg-transparent hover:text-primary">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back
               </Button>
-              <h2 className="text-xl font-bold text-[#7800D3]">Candidates</h2>
+              <h2 className="text-xl font-bold text-primary">Candidates</h2>
               <div className="relative mt-3">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search candidates..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-9 bg-muted/30 focus-visible:ring-[#7800D3]" />
+                <Input placeholder="Search candidates..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-9 bg-muted/30 focus-visible:ring-primary" />
               </div>
             </div>
             <div className="flex-1 overflow-y-auto p-3 space-y-2">
@@ -482,14 +474,14 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                 <div
                   key={c.id}
                   onClick={() => navigate(`${basePath}/candidate-profile/${c.id}`)}
-                  className={cn("p-3 rounded-lg cursor-pointer border transition-all", candidate.id === c.id ? 'border-[#7800D3] bg-[#7800D3]/5 shadow-sm' : 'border-transparent hover:bg-muted')}
+                  className={cn("p-3 rounded-lg cursor-pointer border transition-all", candidate.id === c.id ? 'border-primary bg-primary/5 shadow-sm' : 'border-transparent hover:bg-muted')}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={cn("h-10 w-10 rounded-full flex items-center justify-center font-bold", candidate.id === c.id ? 'bg-[#7800D3] text-white' : 'bg-muted text-muted-foreground')}>
+                    <div className={cn("h-10 w-10 rounded-full flex items-center justify-center font-bold", candidate.id === c.id ? 'bg-primary text-white' : 'bg-muted text-muted-foreground')}>
                       {c.firstName[0]}{c.lastName[0]}
                     </div>
                     <div>
-                      <p className={cn("font-medium text-sm", candidate.id === c.id ? 'text-[#7800D3]' : 'text-foreground')}>{c.name}</p>
+                      <p className={cn("font-medium text-sm", candidate.id === c.id ? 'text-primary' : 'text-foreground')}>{c.name}</p>
                       <p className="text-xs text-muted-foreground line-clamp-1">{c.role}</p>
                     </div>
                   </div>
@@ -516,18 +508,18 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
       <ResizablePanel defaultSize={80} minSize={50} className="bg-background flex flex-col h-full">
         <div className="flex-1 overflow-y-auto">
 
-          {/* ── Header ── */}
-          <div className="bg-white border-b border-[#7800D3]/15 px-6 py-4">
+          {/* â”€â”€ Header â”€â”€ */}
+          <div className="bg-white border-b border-primary/15 px-6 py-4">
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
 
               {/* Avatar + Name + Status controls + Role + Location */}
               <div className="flex items-center gap-4 flex-1 min-w-0">
-                <div className="h-14 w-14 rounded-full bg-gradient-to-br from-[#7800D3] to-[#0A92FE] flex items-center justify-center text-white text-xl font-bold shadow shrink-0">
+                <div className="h-14 w-14 rounded-full bg-gradient-to-br from-primary to-indigo-400 flex items-center justify-center text-white text-xl font-bold shadow shrink-0">
                   {candidate.firstName[0]}{candidate.lastName[0]}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <h1 className="text-lg font-bold text-[#7800D3] leading-tight">{candidate.name}</h1>
+                    <h1 className="text-lg font-bold text-primary leading-tight">{candidate.name}</h1>
                     <Badge className={cn("text-[10px] font-semibold shrink-0", getStatusColor(currentStatus || candidate.status))}>
                       {currentStatus || candidate.status}
                     </Badge>
@@ -535,32 +527,32 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                   <p className="text-xs text-muted-foreground flex items-center gap-1.5 mt-0.5">
                     <Briefcase className="h-3 w-3 shrink-0" />
                     {candidate.role}
-                    <span className="text-gray-300">·</span>
+                    <span className="text-gray-300">Â·</span>
                     <MapPin className="h-3 w-3 shrink-0" />
                     {candidate.currentLocation}
                   </p>
                 </div>
               </div>
 
-              {/* Actions: Shortlist + Schedule Interview + ⋯ */}
+              {/* Actions: Shortlist + Schedule Interview + â‹¯ */}
               <div className="flex items-center gap-2 shrink-0">
                 <Button
                   size="sm"
-                  className="h-8 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="h-8 text-xs bg-primary hover:bg-primary/90 text-white gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
                   onClick={handleShortlist}
                   disabled={isShortlisted}
                 >
                   <UserCheck className="h-3.5 w-3.5" />
-                  {isShortlisted ? 'Shortlisted ✓' : 'Shortlist'}
+                  {isShortlisted ? 'Shortlisted âœ“' : 'Shortlist'}
                 </Button>
                 <Button
                   size="sm"
-                  className="h-8 text-xs bg-[#4ead3b] hover:bg-[#3d9630] text-white gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="h-8 text-xs bg-green-500 hover:bg-green-600 text-white gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
                   onClick={handleScheduleInterview}
                   disabled={isInterviewScheduled}
                 >
                   <Calendar className="h-3.5 w-3.5" />
-                  {isInterviewScheduled ? 'Interview Scheduled ✓' : 'Schedule Interview'}
+                  {isInterviewScheduled ? 'Interview Scheduled âœ“' : 'Schedule Interview'}
                 </Button>
 
                 <DropdownMenu>
@@ -585,28 +577,28 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
             </div>
           </div>
 
-          {/* ── Main Content ── */}
+          {/* â”€â”€ Main Content â”€â”€ */}
           <div className="px-6 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-8 gap-6">
 
               {/* Left: Tabs */}
               <div className="lg:col-span-4">
                 <Tabs defaultValue="quick-stats" className="w-full">
-                  <TabsList className="w-full justify-start mb-6 bg-white border border-[#7800D3]/10 shadow-sm rounded-lg p-1 flex-wrap h-auto gap-0.5">
-                    <TabsTrigger value="quick-stats" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Quick Stats</TabsTrigger>
-                    <TabsTrigger value="screening" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Screening</TabsTrigger>
-                    <TabsTrigger value="documents" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Documents</TabsTrigger>
-                    <TabsTrigger value="experience" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Experience</TabsTrigger>
-                    <TabsTrigger value="education" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Education</TabsTrigger>
-                    <TabsTrigger value="notes" className="text-xs data-[state=active]:bg-[#7800D3]/10 data-[state=active]:text-[#7800D3] data-[state=active]:shadow-none">Notes</TabsTrigger>
+                  <TabsList className="w-full justify-start mb-6 bg-white border border-primary/10 shadow-sm rounded-lg p-1 flex-wrap h-auto gap-0.5">
+                    <TabsTrigger value="quick-stats" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none">Quick Stats</TabsTrigger>
+                    <TabsTrigger value="screening" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none">Screening</TabsTrigger>
+                    <TabsTrigger value="documents" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none">Documents</TabsTrigger>
+                    <TabsTrigger value="experience" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none">Experience</TabsTrigger>
+                    <TabsTrigger value="education" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none">Education</TabsTrigger>
+                    <TabsTrigger value="notes" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none">Notes</TabsTrigger>
                   </TabsList>
 
                   {/* Quick Stats Tab */}
                   <TabsContent value="quick-stats">
-                    <Card className="p-5 border-[#7800D3]/10">
+                    <Card className="p-5 border-primary/10">
                       <CardHeader className="p-0 pb-4">
                         <CardTitle className="text-base flex items-center gap-2">
-                          <BarChart2 className="h-4 w-4 text-[#7800D3]" />
+                          <BarChart2 className="h-4 w-4 text-primary" />
                           Quick Stats
                         </CardTitle>
                       </CardHeader>
@@ -638,7 +630,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                               <span className="text-sm text-muted-foreground shrink-0">Key Skills</span>
                               <div className="flex flex-wrap gap-1 justify-end max-w-[65%]">
                                 {candidate.keySkills.map((skill, i) => (
-                                  <span key={i} className="text-[11px] px-2 py-0.5 rounded-full bg-[#7800D3]/8 text-[#7800D3] border border-[#7800D3]/20 font-medium">{skill}</span>
+                                  <span key={i} className="text-[11px] px-2 py-0.5 rounded-full bg-primary/8 text-primary border border-primary/20 font-medium">{skill}</span>
                                 ))}
                               </div>
                             </div>
@@ -672,25 +664,25 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
 
                   {/* Documents Tab */}
                   <TabsContent value="documents" className="space-y-4">
-                    <Card className="p-5 border-[#7800D3]/20 shadow-sm">
+                    <Card className="p-5 border-primary/20 shadow-sm">
                       <CardHeader className="p-0 pb-4">
-                        <CardTitle className="text-base flex items-center gap-2 text-[#7800D3]">
+                        <CardTitle className="text-base flex items-center gap-2 text-primary">
                           <FileText className="h-4 w-4" />
                           Applicant Resume
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="p-0 space-y-4">
-                        <div className="flex items-center justify-between p-4 border border-[#7800D3]/20 bg-[#7800D3]/5 rounded-lg">
+                        <div className="flex items-center justify-between p-4 border border-primary/20 bg-primary/5 rounded-lg">
                           <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-lg bg-[#7800D3]/10 flex items-center justify-center">
-                              <FileText className="h-5 w-5 text-[#7800D3]" />
+                            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                              <FileText className="h-5 w-5 text-primary" />
                             </div>
                             <div>
                               <p className="font-medium text-foreground">{candidate.firstName}_Resume.pdf</p>
-                              <p className="text-xs text-muted-foreground">Uploaded on {formatDate("2024-01-15")} · 1.2 MB</p>
+                              <p className="text-xs text-muted-foreground">Uploaded on {formatDate("2024-01-15")} Â· 1.2 MB</p>
                             </div>
                           </div>
-                          <Button size="sm" className="gap-2 bg-[#7800D3] hover:bg-[#7800D3]/90 text-white shadow-sm">
+                          <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90 text-white shadow-sm">
                             <Download className="h-4 w-4" />
                             Download CV
                           </Button>
@@ -709,15 +701,15 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                             <div className="w-full max-w-[800px] bg-white shadow-lg p-12 text-black font-sans aspect-[1/1.4] transform origin-top scale-[0.85] md:scale-100">
                               <h1 className="text-3xl font-bold border-b-2 border-primary/30 pb-4 mb-6 text-gray-900">{candidate.name}</h1>
                               <div className="text-sm text-gray-600 mb-8 flex gap-4 font-medium">
-                                <span>{candidate.email}</span><span>•</span>
-                                <span>{candidate.phone}</span><span>•</span>
+                                <span>{candidate.email}</span><span>â€¢</span>
+                                <span>{candidate.phone}</span><span>â€¢</span>
                                 <span>{candidate.currentLocation}</span>
                               </div>
-                              <h2 className="text-xl font-bold text-[#7800D3] uppercase tracking-wider mb-4">Summary</h2>
+                              <h2 className="text-xl font-bold text-primary uppercase tracking-wider mb-4">Summary</h2>
                               <p className="text-gray-700 leading-relaxed mb-8">
                                 A highly motivated {candidate.role} with {candidate.yearsOfExperience} years of experience. Passionate about leveraging cutting-edge technologies to solve complex problems and deliver robust solutions.
                               </p>
-                              <h2 className="text-xl font-bold text-[#7800D3] uppercase tracking-wider mb-4">Experience</h2>
+                              <h2 className="text-xl font-bold text-primary uppercase tracking-wider mb-4">Experience</h2>
                               <div className="space-y-6 mb-8">
                                 {candidate.workExperience.map((exp, i) => (
                                   <div key={i}>
@@ -729,7 +721,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                                   </div>
                                 ))}
                               </div>
-                              <h2 className="text-xl font-bold text-[#7800D3] uppercase tracking-wider mb-4">Education</h2>
+                              <h2 className="text-xl font-bold text-primary uppercase tracking-wider mb-4">Education</h2>
                               <div className="space-y-4">
                                 {candidate.education.map((edu, i) => (
                                   <div key={i}>
@@ -851,9 +843,9 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                           placeholder="Add notes about this candidate..."
                           value={notes}
                           onChange={(e) => setNotes(e.target.value)}
-                          className="min-h-[140px] border-[#7800D3]/20 focus-visible:ring-[#7800D3]/30"
+                          className="min-h-[140px] border-primary/20 focus-visible:ring-primary/30"
                         />
-                        <Button variant="outline" className="mt-3 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10" disabled={!notes.trim()}>
+                        <Button variant="outline" className="mt-3 border-primary/30 text-primary hover:bg-primary/10" disabled={!notes.trim()}>
                           Save Note
                         </Button>
                       </CardContent>
@@ -866,24 +858,24 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
               <div className="lg:col-span-4 space-y-4">
 
                 {/* Job Fit Score */}
-                <div className="bg-white border-2 border-[#7800D3]/20 rounded-xl p-5 space-y-4">
+                <div className="bg-white border-2 border-primary/20 rounded-xl p-5 space-y-4">
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-[#7800D3]" />
-                    <span className="text-sm font-semibold text-[#7800D3]">Job Fit Score</span>
+                    <FileText className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-semibold text-primary">Job Fit Score</span>
                   </div>
 
                   <ScoreRing score={candidate.jobFitScore} label="CV vs JD match" icon={<FileText className="h-3.5 w-3.5" />} />
 
-                  <div className="bg-[#f5efff] rounded-lg p-3">
-                    <p className="text-[10px] font-semibold text-[#7800D3] mb-1.5">AI Reasoning</p>
+                  <div className="bg-accent rounded-lg p-3">
+                    <p className="text-[10px] font-semibold text-primary mb-1.5">AI Reasoning</p>
                     <p className="text-xs text-gray-700 leading-relaxed">{candidate.jobFitReason}</p>
                   </div>
 
                   {candidate.jobFitStrengths && candidate.jobFitStrengths.length > 0 && (
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
-                        <TrendingUp className="h-3.5 w-3.5 text-[#4ead3b]" />
-                        <span className="text-xs font-semibold text-[#7800D3]">Matching Strengths</span>
+                        <TrendingUp className="h-3.5 w-3.5 text-green-600" />
+                        <span className="text-xs font-semibold text-primary">Matching Strengths</span>
                       </div>
                       <div className="flex flex-wrap gap-1">
                         {candidate.jobFitStrengths.map((s, i) => (
@@ -897,7 +889,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
                         <TrendingDown className="h-3.5 w-3.5 text-red-500" />
-                        <span className="text-xs font-semibold text-[#7800D3]">Skill Gaps</span>
+                        <span className="text-xs font-semibold text-primary">Skill Gaps</span>
                       </div>
                       <div className="flex flex-wrap gap-1">
                         {(candidate as any).jobFitWeaknesses.map((w: string, i: number) => (
@@ -910,24 +902,24 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
 
                 {/* Interview Score */}
                 {candidate.interviewScore !== null && (
-                  <div className="bg-white border-2 border-[#7800D3]/20 rounded-xl p-5 space-y-4">
+                  <div className="bg-white border-2 border-primary/20 rounded-xl p-5 space-y-4">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-[#7800D3]" />
-                      <span className="text-sm font-semibold text-[#7800D3]">AI Interview Score</span>
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      <span className="text-sm font-semibold text-primary">AI Interview Score</span>
                     </div>
 
                     <ScoreRing score={candidate.interviewScore} label="AI assessment" icon={<Sparkles className="h-3.5 w-3.5" />} />
 
-                    <div className="bg-[#f5efff] rounded-lg p-3">
-                      <p className="text-[10px] font-semibold text-[#7800D3] mb-1.5">AI Reasoning</p>
+                    <div className="bg-accent rounded-lg p-3">
+                      <p className="text-[10px] font-semibold text-primary mb-1.5">AI Reasoning</p>
                       <p className="text-xs text-gray-700 leading-relaxed">{candidate.interviewReason}</p>
                     </div>
 
                     {(candidate as any).interviewStrengths?.length > 0 && (
                       <div>
                         <div className="flex items-center gap-1.5 mb-2">
-                          <TrendingUp className="h-3.5 w-3.5 text-[#4ead3b]" />
-                          <span className="text-xs font-semibold text-[#7800D3]">Interview Strengths</span>
+                          <TrendingUp className="h-3.5 w-3.5 text-green-600" />
+                          <span className="text-xs font-semibold text-primary">Interview Strengths</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {(candidate as any).interviewStrengths.map((s: string, i: number) => (
@@ -941,7 +933,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
                       <div>
                         <div className="flex items-center gap-1.5 mb-2">
                           <TrendingDown className="h-3.5 w-3.5 text-amber-500" />
-                          <span className="text-xs font-semibold text-[#7800D3]">Areas to Improve</span>
+                          <span className="text-xs font-semibold text-primary">Areas to Improve</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {candidate.interviewImprovements.map((imp, i) => (

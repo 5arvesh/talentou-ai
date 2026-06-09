@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, ReferenceLine } from 'recharts';
@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { KPIStrip } from "@/components/shared/KPIStrip";
 
 const assignedRoles = [
   { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 } },
@@ -32,14 +33,14 @@ const weeklyActivity = [
 const priorityConfig: Record<string, { label: string; className: string }> = {
   High:   { label: 'High',   className: 'bg-red-50 text-red-700 border-red-200' },
   Medium: { label: 'Medium', className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  Low:    { label: 'Low',    className: 'bg-green-50 text-[#4EAD3B] border-green-200' },
+  Low:    { label: 'Low',    className: 'bg-green-50 text-green-600 border-green-200' },
 };
 
 const kpiStats = [
   { label: 'Active Roles',        value: 4,      sub: 'Assigned to you',     subColor: 'text-muted-foreground' },
-  { label: 'Closed This Month',   value: 2,      sub: '↑ vs last month',     subColor: 'text-[#4EAD3B]' },
-  { label: 'Avg Time-to-Close',   value: '3.8w', sub: '✓ Below 5w target',   subColor: 'text-[#4EAD3B]' },
-  { label: 'Advancement Rate',    value: '42%',  sub: '✓ Above 30% target',  subColor: 'text-[#4EAD3B]' },
+  { label: 'Closed This Month',   value: 2,      sub: 'â†‘ vs last month',     subColor: 'text-green-600' },
+  { label: 'Avg Time-to-Close',   value: '3.8w', sub: 'âœ“ Below 5w target',   subColor: 'text-green-600' },
+  { label: 'Advancement Rate',    value: '42%',  sub: 'âœ“ Above 30% target',  subColor: 'text-green-600' },
 ];
 
 const TAAssociateDashboard = () => {
@@ -55,15 +56,7 @@ const TAAssociateDashboard = () => {
       </div>
 
       {/* KPI Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden border border-border">
-        {kpiStats.map((stat) => (
-          <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{stat.label}</span>
-            <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-            <span className={`text-xs font-medium ${stat.subColor}`}>{stat.sub}</span>
-          </div>
-        ))}
-      </div>
+      <KPIStrip stats={kpiStats} />
 
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
@@ -84,7 +77,7 @@ const TAAssociateDashboard = () => {
                         <Badge variant="outline" className={`text-xs shrink-0 ${pCfg.className}`}>{pCfg.label}</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {role.pipeline.applied} Applied · {role.pipeline.shortlisted} Shortlisted · {role.pipeline.interview} Interview
+                        {role.pipeline.applied} Applied Â· {role.pipeline.shortlisted} Shortlisted Â· {role.pipeline.interview} Interview
                         <span className="ml-2 text-foreground font-medium">({total} total)</span>
                       </p>
                     </div>
@@ -97,7 +90,7 @@ const TAAssociateDashboard = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-7 text-xs text-[#7800D3] border-[#7800D3]/30 hover:bg-[#7800D3]/5"
+                      className="h-7 text-xs text-primary border-primary/30 hover:bg-primary/5"
                       onClick={() => navigate(`/ta-associate/candidates?role=${role.id}`)}
                     >
                       View Candidates <ChevronRight className="h-3 w-3 ml-1" />
@@ -125,7 +118,7 @@ const TAAssociateDashboard = () => {
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <span className="text-xs font-semibold">{m.mine}</span>
-                    <span className={`text-sm ${m.passing ? 'text-[#4EAD3B]' : 'text-red-500'}`}>{m.passing ? '✓' : '✗'}</span>
+                    <span className={`text-sm ${m.passing ? 'text-green-600' : 'text-red-500'}`}>{m.passing ? 'âœ“' : 'âœ—'}</span>
                   </div>
                 </div>
               ))}
@@ -139,13 +132,13 @@ const TAAssociateDashboard = () => {
               <p className="text-xs text-muted-foreground">Candidates contacted per day (target: {dailyTarget}/day)</p>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={{ contacted: { label: 'Contacted', color: '#7800D3' } }} className="h-[140px]">
+              <ChartContainer config={{ contacted: { label: 'Contacted', color: 'hsl(var(--primary))' } }} className="h-[140px]">
                 <BarChart data={weeklyActivity} barSize={24}>
                   <XAxis dataKey="day" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={20} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <ReferenceLine y={dailyTarget} stroke="#4EAD3B" strokeDasharray="4 2" strokeWidth={1.5} label={{ value: 'target', position: 'insideTopRight', fontSize: 9, fill: '#4EAD3B' }} />
-                  <Bar dataKey="contacted" fill="#7800D3" radius={3} />
+                  <ReferenceLine y={dailyTarget} stroke="#22C55E" strokeDasharray="4 2" strokeWidth={1.5} label={{ value: 'target', position: 'insideTopRight', fontSize: 9, fill: '#4EAD3B' }} />
+                  <Bar dataKey="contacted" fill="hsl(var(--primary))" radius={3} />
                 </BarChart>
               </ChartContainer>
             </CardContent>

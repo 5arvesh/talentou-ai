@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Eye, Filter, Search, ChevronDown, ChevronUp, FilePlus, Link, Globe } from "lucide-react";
+import { getJobStatusColor } from "@/constants/statuses";
 import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
@@ -202,18 +203,7 @@ export function RecruiterJobList() {
     },
   ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active":
-        return "bg-green-100 text-green-700";
-      case "On Hold":
-        return "bg-orange-100 text-orange-700";
-      case "Closed":
-        return "bg-blue-100 text-blue-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
+  const getStatusColor = getJobStatusColor;
 
   const handlePinToggle = (jobId: number) => {
     const newPinnedJobs = new Set(pinnedJobs);
@@ -329,7 +319,7 @@ export function RecruiterJobList() {
             <SelectContent>
               <SelectItem value="">All {placeholder}</SelectItem>
               {column === "status"
-                ? ["Active", "On Hold", "Closed"].map((status) => (
+                ? ["Active", "On Hold", "Filled", "Closed"].map((status) => (
                     <SelectItem key={status} value={status}>
                       {status}
                     </SelectItem>

@@ -1,4 +1,4 @@
-
+﻿
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,8 +39,7 @@ export function ForgotPassword() {
             
             <Button 
               onClick={handleRequestReset}
-              style={{ backgroundColor: "#4ead3b", color: "black" }}
-              className="w-full h-12 font-medium rounded-md shadow-sm hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+              className="w-full h-12 font-medium rounded-md shadow-sm bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
             >
               Request Reset Link
             </Button>
@@ -48,7 +47,7 @@ export function ForgotPassword() {
             <div className="text-center">
               <button
                 onClick={handleBackToLogin}
-                style={{ color: "#4ead3b" }}
+                style={{ color: "#22C55E" }}
                 className="font-medium hover:underline res-1200:text-xs"
               >
                 Back to Login Screen
