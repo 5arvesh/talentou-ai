@@ -177,7 +177,7 @@ export function MembersSettings() {
                 <TableRow key={member.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#7800d4] text-white flex items-center justify-center text-sm font-medium">
+                      <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-medium">
                         {member.avatarLetter}
                       </div>
                       <div>

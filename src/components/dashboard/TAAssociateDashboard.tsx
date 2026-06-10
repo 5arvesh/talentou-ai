@@ -4,7 +4,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { BarChart, Bar, XAxis, YAxis, ReferenceLine } from 'recharts';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, TrendingUp, CheckCircle2, XCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
 
@@ -38,9 +38,9 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
 
 const kpiStats = [
   { label: 'Active Roles',        value: 4,      sub: 'Assigned to you',     subColor: 'text-muted-foreground' },
-  { label: 'Closed This Month',   value: 2,      sub: 'â†‘ vs last month',     subColor: 'text-green-600' },
-  { label: 'Avg Time-to-Close',   value: '3.8w', sub: 'âœ“ Below 5w target',   subColor: 'text-green-600' },
-  { label: 'Advancement Rate',    value: '42%',  sub: 'âœ“ Above 30% target',  subColor: 'text-green-600' },
+  { label: 'Closed This Month',   value: 2,      sub: 'vs last month',     subColor: 'text-green-600', icon: TrendingUp },
+  { label: 'Avg Time-to-Close',   value: '3.8w', sub: 'Below 5w target',   subColor: 'text-green-600', icon: CheckCircle2 },
+  { label: 'Advancement Rate',    value: '42%',  sub: 'Above 30% target',  subColor: 'text-green-600', icon: CheckCircle2 },
 ];
 
 const TAAssociateDashboard = () => {
@@ -118,7 +118,7 @@ const TAAssociateDashboard = () => {
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <span className="text-xs font-semibold">{m.mine}</span>
-                    <span className={`text-sm ${m.passing ? 'text-green-600' : 'text-red-500'}`}>{m.passing ? 'âœ“' : 'âœ—'}</span>
+                    {m.passing ? <CheckCircle2 className="h-4 w-4 text-green-600" /> : <XCircle className="h-4 w-4 text-red-500" />}
                   </div>
                 </div>
               ))}
@@ -137,7 +137,7 @@ const TAAssociateDashboard = () => {
                   <XAxis dataKey="day" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={20} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <ReferenceLine y={dailyTarget} stroke="#22C55E" strokeDasharray="4 2" strokeWidth={1.5} label={{ value: 'target', position: 'insideTopRight', fontSize: 9, fill: '#4EAD3B' }} />
+                  <ReferenceLine y={dailyTarget} stroke="hsl(var(--success))" strokeDasharray="4 2" strokeWidth={1.5} label={{ value: 'target', position: 'insideTopRight', fontSize: 9, fill: 'hsl(var(--success))' }} />
                   <Bar dataKey="contacted" fill="hsl(var(--primary))" radius={3} />
                 </BarChart>
               </ChartContainer>

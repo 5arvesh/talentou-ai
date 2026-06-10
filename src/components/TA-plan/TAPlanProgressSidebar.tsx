@@ -76,10 +76,10 @@ export function TAPlanProgressSidebar({ scrollToStageRef }: TAPlanProgressSideba
                   {/* Status Icon */}
                   <div className="flex-shrink-0 mt-0.5">
                     {status === 'completed' ? (
-                      <CheckCircle2 className="w-6 h-6 text-[#58bb6b]" />
+                      <CheckCircle2 className="w-6 h-6 text-success" />
                     ) : status === 'in-progress' ? (
-                      <div className="w-6 h-6 rounded-full border-2 border-[#58bb6b] bg-[#58bb6b]/20 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-[#58bb6b] animate-pulse" />
+                      <div className="w-6 h-6 rounded-full border-2 border-success bg-success/20 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                       </div>
                     ) : (
                       <Circle className="w-6 h-6 text-muted-foreground" />
@@ -91,14 +91,14 @@ export function TAPlanProgressSidebar({ scrollToStageRef }: TAPlanProgressSideba
                     <div className="flex items-center gap-2">
                       <Icon className={cn(
                         "w-4 h-4",
-                        status === 'completed' && "text-[#58bb6b]",
-                        status === 'in-progress' && "text-[#58bb6b]",
+                        status === 'completed' && "text-success",
+                        status === 'in-progress' && "text-success",
                         status === 'upcoming' && "text-muted-foreground"
                       )} />
                       <h3 className={cn(
                         "font-medium",
                         status === 'completed' && "text-foreground",
-                        status === 'in-progress' && "text-[#58bb6b]",
+                        status === 'in-progress' && "text-success",
                         status === 'upcoming' && "text-muted-foreground"
                       )}>
                         {stage.title}
@@ -108,10 +108,10 @@ export function TAPlanProgressSidebar({ scrollToStageRef }: TAPlanProgressSideba
                     {/* Status Badge */}
                     <div className="mt-1">
                       {status === 'completed' && (
-                        <span className="text-xs text-[#58bb6b] font-medium">✓ Completed</span>
+                        <span className="text-xs text-success font-medium">✓ Completed</span>
                       )}
                       {status === 'in-progress' && (
-                        <span className="text-xs text-[#58bb6b] font-medium">● In Progress</span>
+                        <span className="text-xs text-success font-medium">● In Progress</span>
                       )}
                       {status === 'upcoming' && (
                         <span className="text-xs text-muted-foreground">Upcoming</span>
@@ -124,7 +124,7 @@ export function TAPlanProgressSidebar({ scrollToStageRef }: TAPlanProgressSideba
                 {index < stages.length - 1 && (
                   <div className={cn(
                     "ml-[21px] w-0.5 h-4 my-1",
-                    status === 'completed' ? "bg-[#58bb6b]" : "bg-border"
+                    status === 'completed' ? "bg-success" : "bg-border"
                   )} />
                 )}
               </div>
@@ -144,7 +144,7 @@ export function TAPlanProgressSidebar({ scrollToStageRef }: TAPlanProgressSideba
           {/* Progress Bar */}
           <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
             <div 
-              className="h-full bg-[#58bb6b] transition-all duration-500 ease-out"
+              className="h-full bg-success transition-all duration-500 ease-out"
               style={{ width: `${progressPercentage}%` }}
             />
           </div>

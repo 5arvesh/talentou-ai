@@ -179,7 +179,7 @@ const Chat = () => {
                       value={24} 
                       className="h-2 bg-red-100 dark:bg-red-950"
                       style={{
-                        background: "linear-gradient(to right, #ef4444, #fca5a5)"
+                        background: "linear-gradient(to right, hsl(var(--destructive)), hsl(var(--destructive) / 0.6))"
                       }}
                     />
                   </div>

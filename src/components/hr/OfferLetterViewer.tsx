@@ -68,7 +68,7 @@ export function OfferLetterViewer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-background py-8">
       {/* Header */}
       <div className="max-w-4xl mx-auto px-6 mb-6 print:hidden">
         <div className="flex items-center justify-between">
@@ -95,26 +95,30 @@ export function OfferLetterViewer() {
 
       {/* Offer Letter Content */}
       <div className="max-w-4xl mx-auto">
-        <Card className="bg-white shadow-lg print:shadow-none">
+        <Card className="bg-card shadow-lg print:shadow-none overflow-hidden">
+          {/* Accent header strip */}
+          <div className="bg-primary px-12 py-5">
+            <h1 className="text-2xl font-bold text-white tracking-wide">Talentou</h1>
+          </div>
           <CardContent className="p-12">
-            {/* Header with Logo */}
-            <div className="mb-12">
-              <h1 className="text-4xl font-bold text-primary mb-8">Talentou</h1>
-              
-              <div className="space-y-1 text-sm">
-                <p><strong>September 01, 2025</strong></p>
-                <p><strong>Reshma Hariharan</strong></p>
+            {/* Candidate info header */}
+            <div className="mb-12 pb-8 border-b border-border">
+              <p className="text-sm text-muted-foreground mb-3">September 01, 2025</p>
+              <h2 className="text-2xl font-bold text-foreground">{candidate.name}</h2>
+              <p className="text-base text-muted-foreground mt-1">{candidate.role}</p>
+
+              <div className="mt-4 space-y-1 text-sm text-muted-foreground">
                 <p>Plot no.3, Door No.8,</p>
                 <p>Srinagar Colony, West Mambalam,</p>
                 <p>Chennai - 600 042.</p>
-                <p><strong>Contact:</strong> +91 7358500452 / rh.reshmadhu@gmail.com</p>
+                <p><strong className="text-foreground">Contact:</strong> +91 7358500452 / rh.reshmadhu@gmail.com</p>
               </div>
             </div>
 
             {/* Main Content */}
             <div className="space-y-6 text-sm leading-relaxed">
               <div className="text-center">
-                <h2 className="font-bold text-lg underline mb-6">INTERNSHIP OFFER & AGREEMENT</h2>
+                <h2 className="inline-block font-bold text-lg text-foreground border-b-2 border-primary pb-2 mb-6">INTERNSHIP OFFER & AGREEMENT</h2>
               </div>
 
               <p>
@@ -132,7 +136,7 @@ export function OfferLetterViewer() {
 
               <div className="space-y-3">
                 <div>
-                  <span className="font-bold">1.</span> Your joining date is <strong>September 03, 2025</strong> as a <strong>Product â€“ owner intern</strong>. The offer letter will be
+                  <span className="font-bold">1.</span> Your joining date is <strong>September 03, 2025</strong> as a <strong>Product – Owner Intern</strong>. The offer letter will be
                   under <strong>Talentou</strong>.
                 </div>
                 
@@ -148,7 +152,7 @@ export function OfferLetterViewer() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-bold text-base">1. NON-COMPETITION AND NON-SOLICITATION:</h3>
+                <h3 className="font-bold text-base text-foreground pt-4 border-t border-border">1. NON-COMPETITION AND NON-SOLICITATION:</h3>
                 <p>
                   The Intern agrees that during the term of employment with the company and for a period of
                   eighteen (18) months following the termination of relationship with the company, for
@@ -181,7 +185,7 @@ export function OfferLetterViewer() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-bold text-base">2. CONFIDENTIALITY:</h3>
+                <h3 className="font-bold text-base text-foreground pt-4 border-t border-border">2. CONFIDENTIALITY:</h3>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
                     The Intern shall not disclose, any time, to any Person or Competitor who is not employed, part
@@ -197,7 +201,7 @@ export function OfferLetterViewer() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-bold text-base">3. INTELLECTUAL PROPERTY:</h3>
+                <h3 className="font-bold text-base text-foreground pt-4 border-t border-border">3. INTELLECTUAL PROPERTY:</h3>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
                     All intellectual property rights in, India and abroad, for the full term of such rights, in any work
@@ -214,7 +218,7 @@ export function OfferLetterViewer() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-bold text-base">4. USE AND RETURN OF COMPANY PROPERTY:</h3>
+                <h3 className="font-bold text-base text-foreground pt-4 border-t border-border">4. USE AND RETURN OF COMPANY PROPERTY:</h3>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
                     The Intern is trusted to behave responsibly and use good judgment to conserve company
@@ -235,7 +239,7 @@ export function OfferLetterViewer() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-bold text-base">5. TERMINATION OF INTERNSHIP:</h3>
+                <h3 className="font-bold text-base text-foreground pt-4 border-t border-border">5. TERMINATION OF INTERNSHIP:</h3>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
                     The Company may terminate the Internship with the Intern under this Agreement, with
@@ -282,7 +286,7 @@ export function OfferLetterViewer() {
                   </div>
 
                   <div className="space-y-4">
-                    <h3 className="font-bold text-base">6. PERSONAL DATA PROTECTION:</h3>
+                    <h3 className="font-bold text-base text-foreground pt-4 border-t border-border">6. PERSONAL DATA PROTECTION:</h3>
                     <ul className="list-disc pl-6 space-y-2">
                       <li>
                         The Intern agrees that the Company may collect personal data (other than sensitive personal data) relating to the
@@ -337,39 +341,46 @@ export function OfferLetterViewer() {
                   </div>
 
                   <div className="mt-8">
-                    <p>Yours sincerely,</p>
+                    <p className="text-muted-foreground">Yours sincerely,</p>
                     <div className="mt-8">
-                      <div className="w-32 h-16 border-b border-black mb-2"></div>
-                      <p className="font-bold">Sriviihya B</p>
-                      <p><strong>Head â€“ Finance & Ops</strong></p>
+                      <div className="w-48 h-16 border-b border-border mb-2"></div>
+                      <p className="font-semibold text-foreground">Sriviihya B</p>
+                      <p className="text-muted-foreground"><strong className="text-foreground">Head – Finance & Ops</strong></p>
                     </div>
                   </div>
                 </div>
 
                 {/* Acceptance Section */}
                 <div className="mt-12 pt-8 border-t">
-                  <h3 className="font-bold text-lg text-center underline mb-6">ACCEPTANCE</h3>
+                  <h3 className="text-center mb-6">
+                    <span className="inline-block font-bold text-lg text-foreground border-b-2 border-primary pb-2">ACCEPTANCE</span>
+                  </h3>
                   <p className="mb-6">
                     I hereby acknowledge the above terms and accept the employment offer with effect from September
                     03, 2025 (Date of Joining).
                   </p>
                   
-                  <div className="space-y-4">
-                    <div>
-                      <span className="font-bold">Signature:</span> ................................................................
+                  <div className="space-y-6 max-w-md">
+                    <div className="flex items-end gap-3">
+                      <span className="font-semibold text-foreground shrink-0">Signature:</span>
+                      <div className="flex-1 border-b border-border h-7" />
                     </div>
-                    <div>
-                      <span className="font-bold">Name:</span> ................................................................
+                    <div className="flex items-end gap-3">
+                      <span className="font-semibold text-foreground shrink-0">Name:</span>
+                      <div className="flex-1 border-b border-border h-7" />
                     </div>
-                    <div>
-                      <span className="font-bold">Date:</span> ............................
+                    <div className="flex items-end gap-3">
+                      <span className="font-semibold text-foreground shrink-0">Date:</span>
+                      <div className="flex-1 border-b border-border h-7" />
                     </div>
                   </div>
                 </div>
 
                 {/* Annexure */}
                 <div className="mt-12 pt-8 page-break">
-                  <h3 className="font-bold text-lg text-center underline mb-6">ANNEXURE 2</h3>
+                  <h3 className="text-center mb-6">
+                    <span className="inline-block font-bold text-lg text-foreground border-b-2 border-primary pb-2">ANNEXURE 2</span>
+                  </h3>
                   <p className="mb-6">
                     The following documents are required to be produced at the time of joining. Submit all soft copies on
                     or before the date of joining.

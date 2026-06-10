@@ -2,8 +2,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Briefcase, Users, Calendar, CheckCircle2, ChevronRight, MapPin, Clock } from 'lucide-react';
+import { Briefcase, Users, Calendar, CheckCircle2, ChevronRight, MapPin, Clock, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { KPIStrip } from "@/components/shared/KPIStrip";
 
 const jobOpenings = [
   { id: 1, title: 'Senior React Developer', location: 'Bangalore',  experience: '4â€“7y', totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14 },
@@ -23,15 +24,15 @@ const upcomingInterviews = [
 ];
 
 const interviewTypeBadge: Record<string, string> = {
-  Technical:    'bg-blue-50 text-blue-700 border-blue-200',
-  'HR Round':   'bg-green-50 text-green-700 border-green-200',
+  Technical:    'bg-info/10 text-info border-info/20',
+  'HR Round':   'bg-success/10 text-success border-success/20',
   'Final Round':'bg-primary/10 text-primary border-primary/20',
 };
 
 const kpiStats = [
   { label: 'My Open Positions',       value: 6,  sub: 'Active requisitions', subColor: 'text-muted-foreground' },
   { label: 'Candidates in Pipeline',  value: 47, sub: 'Across all roles',    subColor: 'text-muted-foreground' },
-  { label: 'Interviews This Week',    value: 8,  sub: 'â†‘ vs last week',      subColor: 'text-green-600' },
+  { label: 'Interviews This Week',    value: 8,  sub: 'vs last week',        subColor: 'text-success', icon: TrendingUp },
   { label: 'Selected This Month',     value: 3,  sub: 'Offers extended',     subColor: 'text-muted-foreground' },
 ];
 
@@ -50,15 +51,7 @@ export function HiringLeadCommandDashboard() {
       </div>
 
       {/* KPI Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden border border-border">
-        {kpiStats.map((stat) => (
-          <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{stat.label}</span>
-            <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-            <span className={`text-xs font-medium ${stat.subColor}`}>{stat.sub}</span>
-          </div>
-        ))}
-      </div>
+      <KPIStrip stats={kpiStats} />
 
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
@@ -69,7 +62,7 @@ export function HiringLeadCommandDashboard() {
             {sortedJobs.map((job) => {
               const isStale = job.daysOpen >= 21;
               return (
-                <Card key={job.id} className={`border shadow-sm hover:shadow-md transition-all cursor-pointer ${isStale ? 'border-amber-200' : 'border-border'}`}>
+                <Card key={job.id} className={`border shadow-sm hover:shadow-md transition-all cursor-pointer ${isStale ? 'border-warning/30' : 'border-border'}`}>
                   <CardContent className="p-4">
                     <p className="text-sm font-semibold text-foreground leading-snug">{job.title}</p>
                     <div className="flex items-center gap-3 mt-1.5 flex-wrap">
@@ -77,7 +70,7 @@ export function HiringLeadCommandDashboard() {
                         <MapPin className="h-3 w-3" />{job.location}
                       </span>
                       <span className="text-xs text-muted-foreground">{job.experience} exp</span>
-                      <span className={`flex items-center gap-1 text-xs font-medium ${isStale ? 'text-amber-600' : 'text-muted-foreground'}`}>
+                      <span className={`flex items-center gap-1 text-xs font-medium ${isStale ? 'text-warning' : 'text-muted-foreground'}`}>
                         <Clock className="h-3 w-3" />{job.daysOpen}d open
                       </span>
                     </div>
@@ -91,7 +84,7 @@ export function HiringLeadCommandDashboard() {
                         </Badge>
                       )}
                       {job.stages.selected > 0 && (
-                        <Badge variant="outline" className="text-xs px-1.5 py-0.5 bg-green-50 text-green-600 border-green-200">
+                        <Badge variant="outline" className="text-xs px-1.5 py-0.5 bg-success/10 text-success border-success/20">
                           {job.stages.selected} Selected
                         </Badge>
                       )}
@@ -117,7 +110,7 @@ export function HiringLeadCommandDashboard() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-semibold">Upcoming Interviews</CardTitle>
-                <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">Next 7 days</Badge>
+                <Badge variant="outline" className="text-xs bg-info/10 text-info border-info/20">Next 7 days</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-3">

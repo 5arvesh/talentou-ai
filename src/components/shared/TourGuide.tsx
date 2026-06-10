@@ -76,8 +76,8 @@ export function TourGuide() {
   if (!step.targetSelector || !targetRect) {
     return (
       <div className="fixed bottom-6 right-6 z-[100] w-[360px] animate-in slide-in-from-bottom-4 duration-300">
-        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
-          <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #7800D3, #503afd)" }} />
+        <div className="bg-white rounded-card shadow-2xl border border-gray-100 overflow-hidden">
+          <div className="h-1 w-full bg-gradient-to-r from-talentou-purple to-talentou-action-from" />
           <div className="flex gap-4 p-5">
             <div className="shrink-0">
               <img src={mascot} alt="Talentou guide" className="w-16 h-16 object-contain" />
@@ -94,7 +94,7 @@ export function TourGuide() {
               <div className="flex gap-1 mb-3">
                 {steps.map((_, i) => (
                   <div key={i} className="h-1 rounded-full transition-all duration-300"
-                    style={{ width: i === currentStep ? "16px" : "6px", backgroundColor: i <= currentStep ? "hsl(var(--primary))" : "#e5e7eb" }} />
+                    style={{ width: i === currentStep ? "16px" : "6px", backgroundColor: i <= currentStep ? "hsl(var(--primary))" : "hsl(var(--muted))" }} />
                 ))}
               </div>
               <h4 className="text-sm font-semibold text-gray-900 leading-snug mb-1">{step.title}</h4>
@@ -166,16 +166,16 @@ export function TourGuide() {
       <div
         data-tour-tooltip
         style={{ position: "fixed", top: tooltipPos.top, left: tooltipPos.left, width: TOOLTIP_WIDTH, zIndex: 9999, pointerEvents: "all" }}
-        className="bg-white rounded-2xl shadow-2xl border border-primary/20 overflow-hidden"
+        className="bg-white rounded-card shadow-2xl border border-primary/20 overflow-hidden"
       >
-        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #7800D3, #503afd)" }} />
+        <div className="h-1 w-full bg-gradient-to-r from-talentou-purple to-talentou-action-from" />
         <div className="flex gap-4 p-5">
           <div className="shrink-0">
             <img src={mascot} alt="Talentou guide" className="w-14 h-14 object-contain" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-semibold text-primary bg-[#ebdbfc] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                 Step {currentStep + 1} of {steps.length}
               </span>
               <button onClick={skipTour} className="text-gray-400 hover:text-gray-600 transition-colors p-0.5 rounded">
@@ -184,7 +184,7 @@ export function TourGuide() {
             </div>
             <div className="flex gap-1 mb-3">
               {steps.map((_, i) => (
-                <div key={i} className={cn("h-1.5 rounded-full transition-all", i === currentStep ? "w-5 bg-primary" : i < currentStep ? "w-1.5 bg-green-500" : "w-1.5 bg-gray-200")} />
+                <div key={i} className={cn("h-1.5 rounded-full transition-all", i === currentStep ? "w-5 bg-primary" : i < currentStep ? "w-1.5 bg-success" : "w-1.5 bg-muted")} />
               ))}
             </div>
             <h3 className="text-sm font-semibold text-primary leading-snug mb-1">{step.title}</h3>

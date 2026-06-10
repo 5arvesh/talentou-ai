@@ -17,6 +17,7 @@ import {
   Users,
   Briefcase,
   Loader2,
+  Kanban,
 } from "lucide-react";
 import { RecruiterScreeningDrawer } from "@/components/recruiter/RecruiterScreeningDrawer";
 import { Button } from "@/components/ui/button";
@@ -57,7 +58,6 @@ export interface JobItem {
   department?: string;
   createdDate?: string;
   employmentType?: string;
-  stagePipelineCounts?: { screening?: number; interview?: number; offer?: number; };
 
   // Compatibility
   openCandidates?: number;
@@ -98,11 +98,10 @@ const ALL_COLUMNS: ColumnDef[] = [
   { id: "department", label: "Department" },
   { id: "createdDate", label: "Created Date" },
   { id: "employmentType", label: "Employment Type" },
-  { id: "stagePipelineCounts", label: "Pipeline" },
 ];
 
 const DEFAULT_COLUMNS: Record<RoleType, string[]> = {
-  "ta-leader": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings", "department", "stagePipelineCounts"],
+  "ta-leader": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings", "department"],
   "recruiter": ["id", "jobRole", "experience", "status", "applicants", "priority", "openings", "department"],
   "hiring-lead": ["id", "jobRole", "experience", "status", "applicants", "openings", "department"],
 };
@@ -142,8 +141,8 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
     if (field === 'id') return String(job.id);
     if (field === 'jobRole') return job.jobRole;
     if (field === 'status') return job.status;
-    if (field === 'priority') return job.priority || "High";
-    if (field === 'experience') return job.experience || "3-5 Yrs";
+    if (field === 'priority') return job.priority || "-";
+    if (field === 'experience') return job.experience || "3-5";
     if (field === 'applicants') return String(job.applicants ?? job.openCandidates ?? Math.floor(Math.random() * 50) + 10);
     if (field === 'openings') return String(job.openings ?? Math.floor(Math.random() * 5) + 1);
     if (field === 'recruiter') return job.recruiter || "Sarah Johnson";
@@ -158,10 +157,6 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
     if (field === 'department') return job.department || "Engineering";
     if (field === 'createdDate') return job.createdDate || "-";
     if (field === 'employmentType') return job.employmentType || "Full-time";
-    if (field === 'stagePipelineCounts') {
-      const s = job.stagePipelineCounts;
-      return String((s?.screening ?? 0) + (s?.interview ?? 0) + (s?.offer ?? 0));
-    }
     return String((job as any)[field] || "-");
   };
 
@@ -272,6 +267,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
         else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
         break;
+      case "view-pipeline":
+        if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/pipeline`);
+        else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/pipeline`);
+        else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/pipeline`);
+        break;
     }
   };
 
@@ -311,7 +311,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
 
     return (
       <Popover>
-        <PopoverTrigger className="flex items-center gap-1 text-[#5600ad] hover:text-[#5600ad]/80 group outline-none py-1 mx-auto max-w-fit">
+        <PopoverTrigger className="flex items-center gap-1 text-brand-700 hover:text-brand-700/80 group outline-none py-1 mx-auto max-w-fit">
           <span className="font-semibold text-xs uppercase tracking-wide">{label}</span>
           <ChevronDown className="h-3 w-3 opacity-70 group-hover:opacity-100 transition-opacity" />
         </PopoverTrigger>
@@ -337,7 +337,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                 placeholder="Search..." 
                 value={searchVal} 
                 onChange={e => setSearchVal(e.target.value)} 
-                className="h-8 pl-8 text-sm bg-gray-50/50 border-gray-200 focus-visible:ring-[#7800D4] focus-visible:ring-offset-0" 
+                className="h-8 pl-8 text-sm bg-gray-50/50 border-gray-200 focus-visible:ring-primary focus-visible:ring-offset-0" 
               />
             </div>
             <div className="max-h-40 overflow-y-auto space-y-0.5 px-1 pb-1 custom-scrollbar">
@@ -349,7 +349,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                   type="checkbox" 
                   checked={isAllSelected} 
                   onChange={handleSelectAll} 
-                  className="rounded border-gray-300 text-[#7800D4] focus:ring-[#7800D4] cursor-pointer" 
+                  className="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" 
                   onClick={(e) => e.stopPropagation()}
                 />
                 <span className="text-sm text-gray-700">(Select All)</span>
@@ -364,7 +364,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                     type="checkbox" 
                     checked={isAllSelected || (columnFilters[columnId] && columnFilters[columnId].includes(val))} 
                     onChange={() => toggleFilter(val)} 
-                    className="rounded border-gray-300 text-[#7800D4] focus:ring-[#7800D4] cursor-pointer"
+                    className="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                     onClick={(e) => e.stopPropagation()}
                   />
                   <span className="text-sm text-gray-700 truncate" title={val}>{val}</span>
@@ -455,7 +455,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
               placeholder="Search jobs..."
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
-              className="pl-9 h-10 bg-white border-gray-200 shadow-sm focus-visible:ring-[#7800D4]"
+              className="pl-9 h-10 bg-white border-gray-200 shadow-sm focus-visible:ring-primary"
             />
           </div>
         </div>
@@ -464,27 +464,27 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
         <Table className="w-full min-w-max">
           <TableHeader>
-            <TableRow className="bg-[#F8F4FF] hover:bg-[#F0E8FF] border-b-2 border-primary">
-              <TableHead className="w-12 text-center text-[#5600ad]"></TableHead>
+            <TableRow className="bg-primary/5 hover:bg-primary/10 border-b-2 border-primary">
+              <TableHead className="w-12 text-center text-brand-700"></TableHead>
               {visibleColumns.map((colId) => {
                 const colDef = ALL_COLUMNS.find(c => c.id === colId);
                 if (!colDef) return null;
                 const isNumeric = ["applicants", "openings", "daysOpen", "newApplicants"].includes(colId);
                 return (
-                  <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-[#5600ad] font-semibold text-xs uppercase tracking-wide ${isNumeric ? 'text-center' : 'text-left'}`}>
+                  <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-brand-700 font-semibold text-xs uppercase tracking-wide ${isNumeric ? 'text-center' : 'text-left'}`}>
                     <ColumnHeaderMenu columnId={colId} label={colDef.label} />
                   </TableHead>
                 );
               })}
               {role === "recruiter" && (
-                <TableHead className="whitespace-nowrap pb-3 pt-4 text-[#5600ad] font-semibold text-xs uppercase tracking-wide text-left">
+                <TableHead className="whitespace-nowrap pb-3 pt-4 text-brand-700 font-semibold text-xs uppercase tracking-wide text-left">
                   <div className="flex items-center gap-1.5">
                     <Globe className="h-3.5 w-3.5 opacity-80" />
                     Careers
                   </div>
                 </TableHead>
               )}
-              <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-[#5600ad] text-xs uppercase tracking-wide">Actions</TableHead>
+              <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-brand-700 text-xs uppercase tracking-wide">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -534,18 +534,6 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                             ) : <span>-</span>
                           ) : colId === "applicants" || colId === "openings" || colId === "daysOpen" || colId === "newApplicants" ? (
                             <span className="font-medium">{value}</span>
-                          ) : colId === "stagePipelineCounts" ? (
-                            <div className="flex items-center gap-1 flex-nowrap">
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-blue-100 text-blue-700 whitespace-nowrap">
-                                S {job.stagePipelineCounts?.screening ?? 0}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-700 whitespace-nowrap">
-                                I {job.stagePipelineCounts?.interview ?? 0}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-green-100 text-green-700 whitespace-nowrap">
-                                O {job.stagePipelineCounts?.offer ?? 0}
-                              </span>
-                            </div>
                           ) : colId === "experience" ? `${value} Yrs` : value}
                         </TableCell>
                       );
@@ -578,29 +566,39 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                       </TableCell>
                     )}
                     <TableCell className="text-right pr-4 py-3" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 gap-1.5 text-gray-600 border-gray-200 hover:text-primary hover:border-primary/40 hover:bg-primary/5"
+                        onClick={() => handleAction("view-pipeline", job)}
+                      >
+                        <Kanban className="h-3.5 w-3.5" />
+                        View Pipeline
+                      </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-8 w-8 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 transition-colors rounded-full"
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-gray-400 hover:text-primary hover:bg-primary/10 transition-colors rounded-full"
                           >
                             <ChevronRight className="h-5 w-5" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48 shadow-lg border-gray-100 rounded-xl">
-                          <DropdownMenuItem onClick={() => handleAction("view-candidate", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                          <DropdownMenuItem onClick={() => handleAction("view-candidate", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                             <Eye className="mr-2 h-4 w-4 opacity-70" />
                             View Candidates
                           </DropdownMenuItem>
                           
-                          <DropdownMenuItem onClick={() => handleAction("view-jd", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                          <DropdownMenuItem onClick={() => handleAction("view-jd", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                             <FileText className="mr-2 h-4 w-4 opacity-70" />
                             View JD
                           </DropdownMenuItem>
                           
                           {role === "hiring-lead" && (
-                            <DropdownMenuItem onClick={() => handleAction("edit-jd", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                            <DropdownMenuItem onClick={() => handleAction("edit-jd", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                               <Edit className="mr-2 h-4 w-4 opacity-70" />
                               Edit JD
                             </DropdownMenuItem>
@@ -609,7 +607,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                           {(role === "ta-leader" || role === "hiring-lead") && (
                             <>
                               <DropdownMenuSeparator />
-                              <DropdownMenuItem onClick={() => handleAction("import-candidates", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                              <DropdownMenuItem onClick={() => handleAction("import-candidates", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                                 <Users className="mr-2 h-4 w-4 opacity-70" />
                                 Import Candidates
                               </DropdownMenuItem>
@@ -618,7 +616,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
 
                           {role === "recruiter" && (
                             <>
-                              <DropdownMenuItem onClick={() => handleAction("generate-jd-link", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                              <DropdownMenuItem onClick={() => handleAction("generate-jd-link", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                                 <LinkIcon className="mr-2 h-4 w-4 opacity-70" />
                                 Generate JD Link
                               </DropdownMenuItem>
@@ -632,7 +630,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                                 <DropdownMenuItem
                                   onClick={(e) => { e.stopPropagation(); handleOpenFile(job.sampleCVUrl!, `${job.id}_cv`, `${job.jobRole}_SampleCV.pdf`); }}
                                   disabled={loadingFile === `${job.id}_cv`}
-                                  className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2"
+                                  className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2"
                                 >
                                   {loadingFile === `${job.id}_cv`
                                     ? <Loader2 className="mr-2 h-4 w-4 animate-spin opacity-70" />
@@ -644,7 +642,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                                 <DropdownMenuItem
                                   onClick={(e) => { e.stopPropagation(); handleOpenFile(job.sampleJDUrl!, `${job.id}_jd`, `${job.jobRole}_SampleJD.pdf`); }}
                                   disabled={loadingFile === `${job.id}_jd`}
-                                  className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2"
+                                  className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2"
                                 >
                                   {loadingFile === `${job.id}_jd`
                                     ? <Loader2 className="mr-2 h-4 w-4 animate-spin opacity-70" />
@@ -656,6 +654,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                           )}
                         </DropdownMenuContent>
                       </DropdownMenu>
+                      </div>
                     </TableCell>
                   </TableRow>
                   
@@ -705,7 +704,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       <style dangerouslySetInnerHTML={{__html: `
         .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e5e7eb; border-radius: 20px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: hsl(var(--muted)); border-radius: 20px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #d1d5db; }
       `}} />
     </div>

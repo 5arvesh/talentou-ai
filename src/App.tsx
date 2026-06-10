@@ -138,6 +138,7 @@ const App = () => (
                 {/* Recruiter specific routes */}
                 <Route path="/ta-associate/projects" element={<ProjectListPage_TAAssociate />} />
                 <Route path="/ta-associate/jobs" element={<JobListPage_TAAssociate />} />
+                <Route path="/ta-associate/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
                 <Route path="/ta-associate/candidates" element={<CandidatesPageWrapper_TAAssociate />} />
                 <Route path="/ta-associate/jd/:jobId" element={<TAAssociateJDFlowPage />} />
                 <Route path="/ta-associate/dashboard" element={
@@ -166,6 +167,7 @@ const App = () => (
                 {/* TA Leader specific routes */}
                 <Route path="/sales-plan/projects" element={<ProjectListPage_TALeader />} />
                 <Route path="/sales-plan/jobs" element={<JobListPage_TALeader />} />
+                <Route path="/sales-plan/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
                 <Route path="/sales-plan/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="ta-leader" />} />
                 <Route path="/sales-plan/candidates" element={<CandidatesPageWrapper_SalesPlan />} />
                 

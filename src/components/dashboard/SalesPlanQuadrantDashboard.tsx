@@ -6,8 +6,9 @@ import { BarChart, Bar, XAxis, YAxis, Cell } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Timer } from 'lucide-react';
+import { Timer, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { KPIStrip } from "@/components/shared/KPIStrip";
 
 const recruiters = [
   { name: 'Sarah Chen', initials: 'SC', active: 4, max: 5, closed: 3, avgClose: '3.8w', status: 'on-track' },
@@ -39,16 +40,16 @@ const bottleneckData = [
 ];
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  'on-track': { label: 'On Track', className: 'bg-green-500/10 text-green-600 border-green-500/20' },
-  'at-risk':  { label: 'At Risk',  className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  'behind':   { label: 'Behind',   className: 'bg-red-50 text-red-700 border-red-200' },
+  'on-track': { label: 'On Track', className: 'bg-success/10 text-success border-success/20' },
+  'at-risk':  { label: 'At Risk',  className: 'bg-warning/10 text-warning border-warning/20' },
+  'behind':   { label: 'Behind',   className: 'bg-destructive/10 text-destructive border-destructive/20' },
 };
 
 const kpiStats = [
-  { label: 'Total Open Positions', value: 24,     sub: '+3 this quarter',     subColor: 'text-green-600' },
-  { label: 'Open > 3 Weeks',       value: 5,      sub: '+2 vs last month',    subColor: 'text-red-500' },
-  { label: 'Avg Time-to-Close',    value: '4.2w', sub: 'âœ“ Below 5w target',   subColor: 'text-green-600' },
-  { label: 'Advancement Rate',     value: '37%',  sub: 'âœ“ Above 30% target',  subColor: 'text-green-600' },
+  { label: 'Total Open Positions', value: 24,     sub: '+3 this quarter',    subColor: 'text-success', icon: TrendingUp },
+  { label: 'Open > 3 Weeks',       value: 5,      sub: '+2 vs last month',   subColor: 'text-destructive', icon: TrendingUp },
+  { label: 'Avg Time-to-Close',    value: '4.2w', sub: 'Below 5w target',    subColor: 'text-success', icon: CheckCircle2 },
+  { label: 'Advancement Rate',     value: '37%',  sub: 'Above 30% target',   subColor: 'text-success', icon: CheckCircle2 },
 ];
 
 const SalesPlanQuadrantDashboard = () => {
@@ -77,15 +78,7 @@ const SalesPlanQuadrantDashboard = () => {
       </div>
 
       {/* KPI Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-card overflow-hidden border border-border">
-        {kpiStats.map((stat) => (
-          <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{stat.label}</span>
-            <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-            <span className={`text-xs font-medium ${stat.subColor}`}>{stat.sub}</span>
-          </div>
-        ))}
-      </div>
+      <KPIStrip stats={kpiStats} />
 
       {/* Quadrant Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -119,7 +112,7 @@ const SalesPlanQuadrantDashboard = () => {
                         </div>
                       </TableCell>
                       <TableCell className="text-center text-sm">
-                        <span className={r.active >= r.max ? 'text-red-600 font-semibold' : ''}>{r.active}/{r.max}</span>
+                        <span className={r.active >= r.max ? 'text-destructive font-semibold' : ''}>{r.active}/{r.max}</span>
                       </TableCell>
                       <TableCell className="text-center text-sm">{r.closed}</TableCell>
                       <TableCell className="text-center text-sm">{r.avgClose}</TableCell>
@@ -147,7 +140,7 @@ const SalesPlanQuadrantDashboard = () => {
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="count" radius={4}>
                   {pipelineData.map((_, i) => (
-                    <Cell key={i} fill={['#0A92FE', '#f59e0b', 'hsl(var(--primary))', '#4EAD3B'][i]} />
+                    <Cell key={i} fill={['hsl(var(--info))', 'hsl(var(--warning))', 'hsl(var(--primary))', 'hsl(var(--success))'][i]} />
                   ))}
                 </Bar>
               </BarChart>
@@ -168,16 +161,16 @@ const SalesPlanQuadrantDashboard = () => {
               const isLong = item.daysOpen >= 28;
               const isMid  = item.daysOpen >= 21 && !isLong;
               return (
-                <div key={i} className={`flex items-center justify-between p-3 rounded-lg border ${isLong ? 'bg-red-50 border-red-200' : isMid ? 'bg-amber-50 border-amber-200' : 'bg-muted/40 border-transparent'}`}>
+                <div key={i} className={`flex items-center justify-between p-3 rounded-lg border ${isLong ? 'bg-destructive/5 border-destructive/20' : isMid ? 'bg-warning/10 border-warning/20' : 'bg-muted/40 border-transparent'}`}>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium truncate">{item.title}</p>
                     <p className="text-xs text-muted-foreground">{item.recruiter}</p>
                   </div>
                   <div className="flex items-center gap-2 ml-3 shrink-0">
-                    <Badge variant="outline" className={`text-xs ${item.priority === 'High' ? 'border-red-300 text-red-700' : item.priority === 'Medium' ? 'border-amber-300 text-amber-700' : 'border-gray-300 text-gray-600'}`}>
+                    <Badge variant="outline" className={`text-xs ${item.priority === 'High' ? 'border-destructive/30 text-destructive' : item.priority === 'Medium' ? 'border-warning/40 text-warning' : 'border-muted-foreground/30 text-muted-foreground'}`}>
                       {item.priority}
                     </Badge>
-                    <span className={`text-xs font-semibold ${isLong ? 'text-red-600' : isMid ? 'text-amber-600' : 'text-muted-foreground'}`}>
+                    <span className={`text-xs font-semibold ${isLong ? 'text-destructive' : isMid ? 'text-warning' : 'text-muted-foreground'}`}>
                       {item.daysOpen}d open
                     </span>
                   </div>
@@ -198,11 +191,11 @@ const SalesPlanQuadrantDashboard = () => {
               {bottleneckData.map((d) => {
                 const isBottleneck = d.stalled >= 3;
                 return (
-                  <div key={d.stage} className={`flex flex-col items-center p-3 rounded-card border-2 transition-all ${isBottleneck ? 'border-amber-400 bg-amber-50' : 'border-muted bg-muted/20'}`}>
-                    <span className={`text-2xl font-bold ${isBottleneck ? 'text-amber-600' : 'text-foreground'}`}>{d.stalled}</span>
+                  <div key={d.stage} className={`flex flex-col items-center p-3 rounded-card border-2 transition-all ${isBottleneck ? 'border-warning/40 bg-warning/10' : 'border-muted bg-muted/20'}`}>
+                    <span className={`text-2xl font-bold ${isBottleneck ? 'text-warning' : 'text-foreground'}`}>{d.stalled}</span>
                     <span className="text-xs text-muted-foreground text-center mt-1 leading-tight">{d.stage}</span>
                     {isBottleneck && (
-                      <span className="text-xs font-semibold text-amber-600 mt-1 flex items-center gap-0.5">
+                      <span className="text-xs font-semibold text-warning mt-1 flex items-center gap-0.5">
                         <Timer className="h-3 w-3" /> Stalled
                       </span>
                     )}

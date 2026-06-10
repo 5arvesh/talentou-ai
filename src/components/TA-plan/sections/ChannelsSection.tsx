@@ -45,7 +45,7 @@ export function ChannelsSection() {
               <span className="text-accent-foreground font-semibold text-sm">📢</span>
             </div>
             <h3 className="font-semibold text-foreground">Your Channels</h3>
-            {isCompleted && <Check className="w-4 h-4 text-[#58bb6b]" />}
+            {isCompleted && <Check className="w-4 h-4 text-success" />}
           </div>
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </CollapsibleTrigger>
@@ -64,21 +64,21 @@ export function ChannelsSection() {
                       onClick={() => toggleChannel(channel.name)}
                       className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-all ${
                         isSelected
-                          ? 'border-[#58bb6b]/50 bg-[#58bb6b]/10 shadow-sm'
+                          ? 'border-success/50 bg-success/10 shadow-sm'
                           : 'border-accent/30 bg-accent/20 hover:bg-accent/30'
                       }`}
                     >
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        isSelected ? 'bg-[#58bb6b]/20' : 'bg-accent/50'
+                        isSelected ? 'bg-success/20' : 'bg-accent/50'
                       }`}>
-                        <Icon className={`w-4 h-4 ${isSelected ? 'text-[#58bb6b]' : 'text-muted-foreground'}`} />
+                        <Icon className={`w-4 h-4 ${isSelected ? 'text-success' : 'text-muted-foreground'}`} />
                       </div>
                       <span className={`flex-1 text-left text-sm font-medium ${
                         isSelected ? 'text-foreground' : 'text-muted-foreground'
                       }`}>
                         {channel.name}
                       </span>
-                      {isSelected && <Check className="w-5 h-5 text-[#58bb6b]" />}
+                      {isSelected && <Check className="w-5 h-5 text-success" />}
                     </button>
                   );
                 })}
@@ -109,13 +109,13 @@ export function ChannelsSection() {
                     value={cadenceValue}
                     onChange={(e) => setCadenceValue(e.target.value)}
                     placeholder="e.g., 3 touches per week"
-                    className="border-accent/30 focus:border-[#58bb6b]"
+                    className="border-accent/30 focus:border-success"
                   />
                   <div className="flex gap-2">
                     <Button
                       size="sm"
                       onClick={handleSaveCadence}
-                      className="bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+                      className="bg-success hover:bg-success/90 text-white"
                     >
                       <Check className="w-3 h-3 mr-1" />
                       Confirm

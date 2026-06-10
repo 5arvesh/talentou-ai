@@ -36,7 +36,7 @@ function SettingsSection({ icon, title, description, children, defaultOpen = tru
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#ebdbfc] flex items-center justify-center text-primary">
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
             {icon}
           </div>
           <div>

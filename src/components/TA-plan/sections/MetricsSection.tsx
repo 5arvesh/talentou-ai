@@ -50,7 +50,7 @@ export function MetricsSection() {
               <TrendingUp className="w-4 h-4 text-blue-600" />
             </div>
             <h3 className="font-semibold text-foreground">Your Measures</h3>
-            {isCompleted && <Check className="w-4 h-4 text-[#58bb6b]" />}
+            {isCompleted && <Check className="w-4 h-4 text-success" />}
           </div>
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </CollapsibleTrigger>

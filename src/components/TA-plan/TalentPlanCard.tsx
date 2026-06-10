@@ -83,7 +83,7 @@ export const TalentPlanCard = ({
             className={cn(
               "w-full h-12 font-medium res-1200:h-8 res-1200:text-xs res-1400:h-10 res-1400:text-sm",
               isActive
-                ? "bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white"
+                ? "bg-primary hover:bg-primary/90 text-white"
                 : "cursor-not-allowed bg-gray-200 text-gray-400"
             )}
             disabled={!isActive}
@@ -143,7 +143,7 @@ export const TalentPlanCard = ({
 
           {isActive && !isCompleted && (
             <Button
-              className="bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white hover:opacity-90 res-1200:text-xs mt-auto"
+              className="bg-primary hover:bg-primary/90 text-white res-1200:text-xs mt-auto"
               onClick={handleClick}
             >
               {resolvedCta}
@@ -207,7 +207,7 @@ export const TalentPlanCard = ({
 
         {isActive && !isCompleted && (
           <Button
-            className="bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white hover:opacity-90 res-1200:text-xs"
+            className="bg-primary hover:bg-primary/90 text-white res-1200:text-xs"
             onClick={handleClick}
           >
             {resolvedCta}

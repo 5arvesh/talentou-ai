@@ -10,8 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Eye, Pen } from "lucide-react";
+import { Plus, Eye, Pen, CheckCircle2, Clock } from "lucide-react";
 import { getJobStatusColor } from "@/constants/statuses";
+import { KPIStrip } from "@/components/shared/KPIStrip";
 import {
   Tooltip,
   TooltipContent,
@@ -41,7 +42,7 @@ export function HiringLeadDashboard() {
       jobRole: "Product Manager",
       project: "Platform Beta",
       requiredSkills: "Strategy, Analytics, Agile",
-      status: "Pending Approval",
+      status: "In Review",
       statusTooltip:
         "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
       taAssociate: "David Wilson",
@@ -134,57 +135,43 @@ export function HiringLeadDashboard() {
 
   const getStatusColor = getJobStatusColor;
 
+  const openStatuses = ["Draft", "In Review", "Active", "On Hold"];
+  const openPositions = hiringPlans.filter((p) => openStatuses.includes(p.status));
+  const activeRoles = hiringPlans.filter((p) => p.status === "Active").length;
+  const pendingApproval = hiringPlans.filter((p) => p.status === "In Review").length;
+  const avgProgress = Math.round(
+    openPositions.reduce((sum, p) => sum + p.progress, 0) / openPositions.length
+  );
+
+  const kpiStats = [
+    { label: "Open Positions", value: openPositions.length, sub: "Across all projects", subColor: "text-muted-foreground" },
+    { label: "Active Roles", value: activeRoles, sub: "Currently sourcing", subColor: "text-success", icon: CheckCircle2 },
+    { label: "In Review", value: pendingApproval, sub: "Awaiting sign-off", subColor: "text-warning", icon: Clock },
+    { label: "Avg Progress", value: `${avgProgress}%`, sub: "Open positions", subColor: "text-muted-foreground" },
+  ];
+
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-6">
-        {/* Hero Section */}
-        <div className="flex gap-6 mb-8" style={{ marginTop: "20px" }}>
-          {/* Left Box - Welcome Message */}
-          <div
-            className="w-1/2 rounded-lg p-8 text-white relative overflow-hidden flex flex-col items-center justify-center text-center"
-            style={{ background: "hsl(var(--primary))" }}
+        {/* Welcome strip */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Welcome back, Ananthan</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              Open a new position, set the role details, and start hiring with clarity.
+            </p>
+          </div>
+          <Button
+            className="bg-primary hover:bg-primary/90 text-white gap-2"
+            onClick={handleCreateNewPosition}
           >
-            <div className="relative z-10 flex flex-col items-center">
-              <h1 className="text-3xl font-bold mb-2">
-                Welcome, Ananthan Gambhiram!
-              </h1>
-              <p className="text-lg mb-6 opacity-90">
-                Open a new position, set the role details, and start hiring with
-                clarity.
-              </p>
-              <Button
-                className="bg-white text-primary hover:bg-gray-100 font-medium px-6 py-2 flex items-center gap-2"
-                onClick={handleCreateNewPosition}
-              >
-                <Plus size={20} />
-                Create New Position
-              </Button>
-            </div>
-          </div>
-
-          {/* Right Box - AI Assistant Message */}
-          <div className="w-1/2 bg-white rounded-lg p-8 shadow-lg border flex flex-col items-center justify-center text-center">
-            <div className="mb-4">
-              <img
-                src="/lovable-uploads/55397514-dfbc-457f-bb12-e169562a72c5.png"
-                alt="AI Assistant"
-                className="h-[160px] w-auto object-contain mx-auto"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2 text-gray-800 text-xl">
-                From Chaos to Clarity â€“ Let's Hire Smarter Together
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Shape role requirements into a shared strategy that enables
-                faster, smarter hiring decisions.
-              </p>
-              <p className="text-sm font-medium text-gray-700">
-                <strong>Align. Accelerate. Hire.</strong>
-              </p>
-            </div>
-          </div>
+            <Plus size={18} />
+            Create New Position
+          </Button>
         </div>
+
+        {/* KPI Strip */}
+        <KPIStrip stats={kpiStats} />
 
         {/* Recent Job Openings Section */}
         <div className="flex justify-between items-center">
@@ -213,14 +200,14 @@ export function HiringLeadDashboard() {
           <Table>
             <TableHeader>
               <TableRow className="h-10">
-                <TableHead className="text-black">Job ID</TableHead>
-                <TableHead className="text-black">Job Role</TableHead>
-                <TableHead className="text-black">Project</TableHead>
-                <TableHead className="text-black">Required Skills</TableHead>
-                <TableHead className="text-black">Status</TableHead>
-                <TableHead className="text-black">Recruiter</TableHead>
-                <TableHead className="text-black">Interviewer</TableHead>
-                <TableHead className="text-center text-black">Actions</TableHead>
+                <TableHead className="text-foreground">Job ID</TableHead>
+                <TableHead className="text-foreground">Job Role</TableHead>
+                <TableHead className="text-foreground">Project</TableHead>
+                <TableHead className="text-foreground">Required Skills</TableHead>
+                <TableHead className="text-foreground">Status</TableHead>
+                <TableHead className="text-foreground">Recruiter</TableHead>
+                <TableHead className="text-foreground">Interviewer</TableHead>
+                <TableHead className="text-center text-foreground">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

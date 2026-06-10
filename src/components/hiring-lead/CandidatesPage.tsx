@@ -28,7 +28,8 @@ const CANDIDATES_TOUR_STEPS = [
 interface Candidate {
   id: number;
   name: string;
-  skill: string;
+  skills: string[];
+  currentTitle: string;
   status: string;
   statusTooltip: string;
   recruiter: string;
@@ -45,28 +46,30 @@ const MOCK_TOTAL_DURATION = 15;
 
 export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {}) {
   const [allCandidates] = useState<Candidate[]>([
-    { id: 1, name: "John Smith", skill: "React", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Sarah Johnson", jobRole: "Software Engineer" },
-    { id: 2, name: "Emily Davis", skill: "Agile", status: "Under Review", statusTooltip: "Application is being reviewed by the hiring team.", recruiter: "David Wilson", jobRole: "Product Manager" },
-    { id: 3, name: "Michael Brown", skill: "Node.js", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "Emma Rodriguez", jobRole: "Senior Developer" },
-    { id: 4, name: "Sarah Wilson", skill: "Figma", status: "Interview Scheduled", statusTooltip: "Interview has been scheduled with the candidate.", recruiter: "Alex Thompson", jobRole: "UX Designer" },
-    { id: 5, name: "David Johnson", skill: "Python", status: "Interviewed", statusTooltip: "Candidate has completed the interview process.", recruiter: "Kevin Lee", jobRole: "Data Analyst" },
-    { id: 6, name: "Jessica Lee", skill: "Docker", status: "Offered", statusTooltip: "Job offer has been extended to the candidate.", recruiter: "Rachel Kim", jobRole: "DevOps Engineer" },
-    { id: 7, name: "Robert Taylor", skill: "TypeScript", status: "Rejected", statusTooltip: "Candidate was not selected for the position.", recruiter: "Tom Anderson", jobRole: "Frontend Developer" },
-    { id: 8, name: "Lisa Chen", skill: "Selenium", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Nina Patel", jobRole: "QA Engineer" },
-    { id: 9, name: "Alex Rodriguez", skill: "Google Analytics", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "James Rodriguez", jobRole: "Marketing Manager" },
-    { id: 10, name: "Maria Garcia", skill: "Salesforce", status: "Under Review", statusTooltip: "Application is being reviewed by the hiring team.", recruiter: "Sophie Chen", jobRole: "Sales Representative" },
-    { id: 11, name: "Chris Martinez", skill: "Express.js", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Carlos Martinez", jobRole: "Backend Developer" },
-    { id: 12, name: "Amanda White", skill: "TensorFlow", status: "Interview Scheduled", statusTooltip: "Interview has been scheduled with the candidate.", recruiter: "Priya Sharma", jobRole: "Data Scientist" },
-    { id: 13, name: "Kevin Park", skill: "React Native", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Lisa Park", jobRole: "Mobile Developer" },
-    { id: 14, name: "Rachel Kim", skill: "Cybersecurity", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "Mark Davis", jobRole: "Security Engineer" },
-    { id: 15, name: "Tom Foster", skill: "Markdown", status: "Under Review", statusTooltip: "Application is being reviewed by the hiring team.", recruiter: "Amy Foster", jobRole: "Technical Writer" },
-    { id: 16, name: "Jennifer White", skill: "SQL", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Jessica White", jobRole: "Business Analyst" },
-    { id: 17, name: "Paul Black", skill: "AWS", status: "Interview Scheduled", statusTooltip: "Interview has been scheduled with the candidate.", recruiter: "Robert Black", jobRole: "Cloud Architect" },
-    { id: 18, name: "Linda Lopez", skill: "Jira", status: "Accepted", statusTooltip: "Candidate has accepted the job offer.", recruiter: "Maria Lopez", jobRole: "Scrum Master" },
-    { id: 19, name: "Steve Doe", skill: "PostgreSQL", status: "Withdrawn", statusTooltip: "Candidate has withdrawn from the application process.", recruiter: "John Doe", jobRole: "Database Administrator" },
-    { id: 20, name: "Jane Brown", skill: "PyTorch", status: "Rejected", statusTooltip: "Candidate was not selected for the position.", recruiter: "Alice Brown", jobRole: "AI Engineer" },
-    { id: 21, name: "Bob Turner", skill: "Cisco", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Michael Turner", jobRole: "Network Engineer" },
-    { id: 22, name: "Diana Parker", skill: "Linux", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "Peter Parker", jobRole: "System Administrator" },
+    { id: 1, name: "John Smith", skills: ["React", "JavaScript", "Redux", "CSS"], currentTitle: "Software Developer", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Sarah Johnson", jobRole: "Software Engineer" },
+    { id: 2, name: "Emily Davis", skills: ["Agile", "Scrum", "Roadmapping", "Stakeholder Management"], currentTitle: "Associate Product Manager", status: "Under Review", statusTooltip: "Application is being reviewed by the hiring team.", recruiter: "David Wilson", jobRole: "Product Manager" },
+    { id: 3, name: "Michael Brown", skills: ["Node.js", "Express", "MongoDB", "REST APIs"], currentTitle: "Backend Developer", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "Emma Rodriguez", jobRole: "Senior Developer" },
+    { id: 4, name: "Sarah Wilson", skills: ["Figma", "Sketch", "Prototyping", "User Research"], currentTitle: "UI Designer", status: "Interview Scheduled", statusTooltip: "Interview has been scheduled with the candidate.", recruiter: "Alex Thompson", jobRole: "UX Designer" },
+    { id: 5, name: "David Johnson", skills: ["Python", "Pandas", "SQL", "Data Visualization"], currentTitle: "Data Analyst", status: "Interviewed", statusTooltip: "Candidate has completed the interview process.", recruiter: "Kevin Lee", jobRole: "Data Analyst" },
+    { id: 6, name: "Jessica Lee", skills: ["Docker", "Kubernetes", "CI/CD", "AWS"], currentTitle: "Site Reliability Engineer", status: "Offered", statusTooltip: "Job offer has been extended to the candidate.", recruiter: "Rachel Kim", jobRole: "DevOps Engineer" },
+    { id: 7, name: "Robert Taylor", skills: ["TypeScript", "React", "Next.js", "GraphQL"], currentTitle: "Frontend Developer", status: "Rejected", statusTooltip: "Candidate was not selected for the position.", recruiter: "Tom Anderson", jobRole: "Frontend Developer" },
+    { id: 8, name: "Lisa Chen", skills: ["Selenium", "Cypress", "Test Automation", "JIRA"], currentTitle: "QA Analyst", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Nina Patel", jobRole: "QA Engineer" },
+    { id: 9, name: "Alex Rodriguez", skills: ["Google Analytics", "SEO", "Content Strategy", "A/B Testing"], currentTitle: "Marketing Specialist", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "James Rodriguez", jobRole: "Marketing Manager" },
+    { id: 10, name: "Maria Garcia", skills: ["Salesforce", "CRM", "Lead Generation", "Negotiation"], currentTitle: "Sales Executive", status: "Under Review", statusTooltip: "Application is being reviewed by the hiring team.", recruiter: "Sophie Chen", jobRole: "Sales Representative" },
+    { id: 11, name: "Chris Martinez", skills: ["Express.js", "Node.js", "PostgreSQL", "Docker"], currentTitle: "Software Engineer", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Carlos Martinez", jobRole: "Backend Developer" },
+    { id: 12, name: "Amanda White", skills: ["TensorFlow", "Python", "PyTorch", "Deep Learning"], currentTitle: "ML Engineer", status: "Interview Scheduled", statusTooltip: "Interview has been scheduled with the candidate.", recruiter: "Priya Sharma", jobRole: "Data Scientist" },
+    { id: 13, name: "Kevin Park", skills: ["React Native", "iOS", "Android", "Redux"], currentTitle: "Mobile App Developer", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Lisa Park", jobRole: "Mobile Developer" },
+    { id: 14, name: "Rachel Kim", skills: ["Cybersecurity", "Penetration Testing", "SIEM", "Network Security"], currentTitle: "Security Analyst", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "Mark Davis", jobRole: "Security Engineer" },
+    { id: 15, name: "Tom Foster", skills: ["Markdown", "Technical Writing", "API Documentation", "Confluence"], currentTitle: "Technical Writer", status: "Under Review", statusTooltip: "Application is being reviewed by the hiring team.", recruiter: "Amy Foster", jobRole: "Technical Writer" },
+    { id: 16, name: "Jennifer White", skills: ["SQL", "Power BI", "Excel", "Business Analysis"], currentTitle: "Business Systems Analyst", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Jessica White", jobRole: "Business Analyst" },
+    { id: 17, name: "Paul Black", skills: ["AWS", "Terraform", "Linux", "CI/CD"], currentTitle: "Cloud Engineer", status: "Interview Scheduled", statusTooltip: "Interview has been scheduled with the candidate.", recruiter: "Robert Black", jobRole: "Cloud Architect" },
+    { id: 18, name: "Linda Lopez", skills: ["Jira", "Confluence", "Agile", "Project Management"], currentTitle: "Project Coordinator", status: "Offer Accepted", statusTooltip: "Candidate has accepted the job offer.", recruiter: "Maria Lopez", jobRole: "Scrum Master" },
+    { id: 19, name: "Steve Doe", skills: ["PostgreSQL", "MySQL", "Database Tuning", "Backup & Recovery"], currentTitle: "Database Developer", status: "Withdrawn", statusTooltip: "Candidate has withdrawn from the application process.", recruiter: "John Doe", jobRole: "Database Administrator" },
+    { id: 20, name: "Jane Brown", skills: ["PyTorch", "Python", "Computer Vision", "NLP"], currentTitle: "Research Engineer", status: "Rejected", statusTooltip: "Candidate was not selected for the position.", recruiter: "Alice Brown", jobRole: "AI Engineer" },
+    { id: 21, name: "Bob Turner", skills: ["Cisco", "Networking", "TCP/IP", "Firewall Configuration"], currentTitle: "Network Administrator", status: "Applied", statusTooltip: "Candidate has submitted their application.", recruiter: "Michael Turner", jobRole: "Network Engineer" },
+    { id: 22, name: "Diana Parker", skills: ["Linux", "Bash Scripting", "Ansible", "Monitoring"], currentTitle: "Systems Engineer", status: "Shortlisted", statusTooltip: "Candidate has been shortlisted for further evaluation.", recruiter: "Peter Parker", jobRole: "System Administrator" },
+    { id: 23, name: "Olivia Martinez", skills: ["GraphQL", "React", "Node.js", "AWS"], currentTitle: "Full Stack Developer", status: "Hired", statusTooltip: "Candidate has been hired and has joined the company.", recruiter: "Diana Prince", jobRole: "Full Stack Developer" },
+    { id: 24, name: "Henry Adams", skills: ["Vue.js", "JavaScript", "CSS", "REST APIs"], currentTitle: "Frontend Developer", status: "Offer Declined", statusTooltip: "Candidate declined the job offer.", recruiter: "Sophie Chen", jobRole: "Sales Representative" },
   ]);
 
   // Multi-select state (recruiter only)
@@ -93,7 +96,8 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
     id: c.id,
     name: c.name,
     yearsOfExperience: 3 + (c.id % 7),
-    skills: [c.skill],
+    skills: c.skills,
+    currentTitle: c.currentTitle,
     roleFitScore: 65 + (c.id % 30),
     status: c.status,
     hasRecording: c.id % 2 === 0,
@@ -148,7 +152,7 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
     <>
       {/* Bulk action bar â€” only visible for recruiter when candidates are selected */}
       {isRecruiter && selectedIds.size > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-[#1e1e2e] text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-surface-inverse text-surface-inverse-foreground px-5 py-3 rounded-card shadow-2xl border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-purple-400" />
             <span className="text-sm font-medium">

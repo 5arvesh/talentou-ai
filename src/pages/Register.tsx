@@ -83,7 +83,7 @@ export function Register() {
                     <FormControl>
                       <Input 
                         placeholder="Enter Email Address" 
-                        className="rounded-md shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
+                        className="rounded-input shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
                         {...field}
                       />
                     </FormControl>
@@ -100,7 +100,7 @@ export function Register() {
                     <FormControl>
                       <Input 
                         placeholder="Enter Your First Name" 
-                        className="rounded-md shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
+                        className="rounded-input shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
                         {...field}
                       />
                     </FormControl>
@@ -117,7 +117,7 @@ export function Register() {
                     <FormControl>
                       <Input 
                         placeholder="Enter Your Last Name" 
-                        className="rounded-md shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
+                        className="rounded-input shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
                         {...field}
                       />
                     </FormControl>
@@ -136,7 +136,7 @@ export function Register() {
                         <Input 
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter Password" 
-                          className="rounded-md shadow-sm h-12 res-1200:h-8 res-1200:text-xs pr-12"
+                          className="rounded-input shadow-sm h-12 res-1200:h-8 res-1200:text-xs pr-12"
                           {...field}
                         />
                         <button
@@ -167,7 +167,7 @@ export function Register() {
                         <Input 
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm Password" 
-                          className="rounded-md shadow-sm h-12 res-1200:h-8 res-1200:text-xs pr-12"
+                          className="rounded-input shadow-sm h-12 res-1200:h-8 res-1200:text-xs pr-12"
                           {...field}
                         />
                         <button
@@ -190,7 +190,7 @@ export function Register() {
               
               <Button 
                 type="submit"
-                className="w-full h-12 font-medium rounded-md shadow-sm bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+                className="w-full h-12 font-medium rounded-btn shadow-sm bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
               >
                 Register
               </Button>

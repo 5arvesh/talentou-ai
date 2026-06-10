@@ -26,10 +26,10 @@ export function CompanyUSPSection() {
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
       <CollapsibleTrigger className="w-full flex items-center justify-between p-4 hover:bg-accent/5 transition-all rounded-t-lg border-b border-border">
         <div className="flex items-center gap-3">
-          <MessageCircle className="w-5 h-5 text-[#58bb6b]" />
+          <MessageCircle className="w-5 h-5 text-success" />
           <h3 className="font-semibold text-foreground">Your Story</h3>
           {stages.companyUSP.completed && (
-            <CheckCircle2 className="w-4 h-4 text-[#58bb6b]" />
+            <CheckCircle2 className="w-4 h-4 text-success" />
           )}
         </div>
         {isOpen ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
@@ -39,8 +39,8 @@ export function CompanyUSPSection() {
         {/* Elevator Pitch Card */}
         <div className="bg-gradient-to-br from-background to-accent/5 border border-border rounded-lg p-4">
           <div className="flex items-start gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-[#58bb6b]/10 flex items-center justify-center flex-shrink-0">
-              <MessageCircle className="w-5 h-5 text-[#58bb6b]" />
+            <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center flex-shrink-0">
+              <MessageCircle className="w-5 h-5 text-success" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
@@ -50,7 +50,7 @@ export function CompanyUSPSection() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleEdit('elevatorPitch', stages.companyUSP.data.elevatorPitch)}
-                    className="h-7 w-7 p-0 hover:bg-[#58bb6b]/10"
+                    className="h-7 w-7 p-0 hover:bg-success/10"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                   </Button>
@@ -73,7 +73,7 @@ export function CompanyUSPSection() {
                 <Button
                   size="sm"
                   onClick={() => handleSave('elevatorPitch')}
-                  className="bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+                  className="bg-success hover:bg-success/90 text-white"
                 >
                   Save
                 </Button>
@@ -133,7 +133,7 @@ export function CompanyUSPSection() {
                 <Button
                   size="sm"
                   onClick={() => handleSave('careerGrowth')}
-                  className="bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+                  className="bg-success hover:bg-success/90 text-white"
                 >
                   Save
                 </Button>
@@ -193,7 +193,7 @@ export function CompanyUSPSection() {
                   <Button
                     size="sm"
                     onClick={() => handleSave('compensation')}
-                    className="h-7 text-xs bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+                    className="h-7 text-xs bg-success hover:bg-success/90 text-white"
                   >
                     Save
                   </Button>
@@ -252,7 +252,7 @@ export function CompanyUSPSection() {
                   <Button
                     size="sm"
                     onClick={() => handleSave('awards')}
-                    className="h-7 text-xs bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+                    className="h-7 text-xs bg-success hover:bg-success/90 text-white"
                   >
                     Save
                   </Button>

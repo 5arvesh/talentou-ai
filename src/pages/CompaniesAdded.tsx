@@ -90,9 +90,9 @@ const CompaniesAdded = () => {
                   <Line 
                     type="monotone" 
                     dataKey="value" 
-                    stroke="#22c55e" 
-                    strokeWidth={2} 
-                    dot={{ r: 6, fill: "#22c55e" }} 
+                    stroke="hsl(var(--success))"
+                    strokeWidth={2}
+                    dot={{ r: 6, fill: "hsl(var(--success))" }}
                     activeDot={{ r: 8 }} 
                   />
                 </LineChart>

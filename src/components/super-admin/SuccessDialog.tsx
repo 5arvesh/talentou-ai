@@ -19,7 +19,7 @@ export function SuccessDialog({ open, onOpenChange, email }: SuccessDialogProps)
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader className="items-center text-center space-y-4">
-          <CheckCircle className="w-16 h-16 text-[#22c55e]" />
+          <CheckCircle className="w-16 h-16 text-success" />
           <DialogTitle className="text-2xl">Email Sent Successfully</DialogTitle>
           <DialogDescription className="text-base">
             Invite Mail has been sent to

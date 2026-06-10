@@ -34,12 +34,12 @@ export function ForgotPassword() {
           <div className="space-y-6">
             <Input 
               placeholder="Enter Email Address" 
-              className="rounded-md shadow-sm h-12 res-1200:h-8 res-1200:text-xs" 
+              className="rounded-input shadow-sm h-12 res-1200:h-8 res-1200:text-xs"
             />
             
             <Button 
               onClick={handleRequestReset}
-              className="w-full h-12 font-medium rounded-md shadow-sm bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+              className="w-full h-12 font-medium rounded-btn shadow-sm bg-primary text-white hover:bg-primary/90 hover:opacity-90 res-1200:h-8 res-1200:text-xs"
             >
               Request Reset Link
             </Button>
@@ -47,8 +47,7 @@ export function ForgotPassword() {
             <div className="text-center">
               <button
                 onClick={handleBackToLogin}
-                style={{ color: "#22C55E" }}
-                className="font-medium hover:underline res-1200:text-xs"
+                className="font-medium text-success hover:underline res-1200:text-xs"
               >
                 Back to Login Screen
               </button>

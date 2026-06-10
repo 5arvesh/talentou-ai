@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,6 +35,7 @@ interface Candidate {
   phone: string;
   linkedinProfile: string;
   skills: string[];
+  currentTitle: string;
   status: string;
   statusTooltip: string;
   interviewer: string;
@@ -49,14 +50,14 @@ interface CandidatesPageSalesPlanProps {
 
 export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) {
   const navigate = useNavigate();
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [jobFilter, setJobFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("name");
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
   const [scheduleSheetOpen, setScheduleSheetOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
   const [interviewExpiryDate, setInterviewExpiryDate] = useState<Date | undefined>();
@@ -96,6 +97,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 123-4567",
       linkedinProfile: "linkedin.com/in/johnsmith",
       skills: ["React", "Node.js", "TypeScript", "AWS", "Docker"],
+      currentTitle: "Full Stack Developer",
       status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "Alex Thompson",
@@ -110,6 +112,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 111-2222",
       linkedinProfile: "linkedin.com/in/danielmartinez",
       skills: ["React", "JavaScript", "MongoDB", "Express"],
+      currentTitle: "Frontend Developer",
       status: "Shortlisted",
       statusTooltip: "Candidate has been shortlisted for the position.",
       interviewer: "Alex Thompson",
@@ -124,6 +127,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 222-3333",
       linkedinProfile: "linkedin.com/in/sophieanderson",
       skills: ["Vue.js", "Node.js", "GraphQL", "Redis"],
+      currentTitle: "Full Stack Developer",
       status: "Applied",
       statusTooltip: "Candidate has submitted their application.",
       interviewer: "Not Assigned",
@@ -138,6 +142,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 333-4444",
       linkedinProfile: "linkedin.com/in/ryancooper",
       skills: ["Angular", "TypeScript", "RxJS", "Firebase"],
+      currentTitle: "Frontend Developer",
       status: "Rejected",
       statusTooltip: "Candidate application has been rejected.",
       interviewer: "Alex Thompson",
@@ -145,7 +150,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: true,
       roleFitScore: 42,
     },
-    
+
     // UX Designer candidates
     {
       id: 2,
@@ -154,6 +159,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 234-5678",
       linkedinProfile: "linkedin.com/in/emilydavis",
       skills: ["Figma", "UI/UX Design", "Adobe XD", "Prototyping", "User Research"],
+      currentTitle: "Product Designer",
       status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Jennifer Davis",
@@ -168,6 +174,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 444-5555",
       linkedinProfile: "linkedin.com/in/oliviabrown",
       skills: ["Sketch", "InVision", "User Testing", "Wireframing"],
+      currentTitle: "UI/UX Designer",
       status: "Offered",
       statusTooltip: "Offer has been extended to the candidate.",
       interviewer: "Jennifer Davis",
@@ -182,6 +189,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 555-6666",
       linkedinProfile: "linkedin.com/in/lucaswilliams",
       skills: ["Figma", "Adobe Creative Suite", "Design Systems"],
+      currentTitle: "Visual Designer",
       status: "Sourced",
       statusTooltip: "Candidate has been sourced and identified.",
       interviewer: "Not Assigned",
@@ -189,7 +197,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: false,
       roleFitScore: 71,
     },
-    
+
     // Backend Developer candidates
     {
       id: 3,
@@ -198,6 +206,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 345-6789",
       linkedinProfile: "linkedin.com/in/michaelbrown",
       skills: ["Java", "Spring Boot", "Microservices", "PostgreSQL"],
+      currentTitle: "Java Developer",
       status: "Shortlisted",
       statusTooltip: "Candidate has been shortlisted for the position.",
       interviewer: "Michael Roberts",
@@ -212,6 +221,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 666-7777",
       linkedinProfile: "linkedin.com/in/ethangarcia",
       skills: ["Python", "Django", "REST APIs", "MySQL"],
+      currentTitle: "Python Developer",
       status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "Michael Roberts",
@@ -226,6 +236,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 777-8888",
       linkedinProfile: "linkedin.com/in/avamartinez",
       skills: ["Node.js", "Express", "MongoDB", "GraphQL"],
+      currentTitle: "Node.js Developer",
       status: "Applied",
       statusTooltip: "Candidate has submitted their application.",
       interviewer: "Not Assigned",
@@ -240,6 +251,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 888-9999",
       linkedinProfile: "linkedin.com/in/noahrodriguez",
       skills: ["Java", "Spring", "Hibernate", "Oracle"],
+      currentTitle: "Software Engineer",
       status: "Withdrawn",
       statusTooltip: "Candidate has withdrawn their application.",
       interviewer: "Michael Roberts",
@@ -247,7 +259,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: false,
       roleFitScore: 75,
     },
-    
+
     // Data Scientist candidates
     {
       id: 4,
@@ -256,6 +268,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 456-7890",
       linkedinProfile: "linkedin.com/in/sarahwilson",
       skills: ["Python", "Data Analysis", "Machine Learning", "TensorFlow"],
+      currentTitle: "Data Analyst",
       status: "Offered",
       statusTooltip: "Offer has been extended to the candidate.",
       interviewer: "Sarah Kim",
@@ -270,6 +283,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 999-0000",
       linkedinProfile: "linkedin.com/in/isabellathomas",
       skills: ["R", "Statistics", "PyTorch", "Data Visualization"],
+      currentTitle: "Research Analyst",
       status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Sarah Kim",
@@ -284,6 +298,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 000-1111",
       linkedinProfile: "linkedin.com/in/masonlee",
       skills: ["Python", "Scikit-learn", "Pandas", "NumPy"],
+      currentTitle: "Data Analyst",
       status: "Shortlisted",
       statusTooltip: "Candidate has been shortlisted for the position.",
       interviewer: "Sarah Kim",
@@ -291,7 +306,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: true,
       roleFitScore: 79,
     },
-    
+
     // DevOps Engineer candidates
     {
       id: 5,
@@ -300,6 +315,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 567-8901",
       linkedinProfile: "linkedin.com/in/davidjohnson",
       skills: ["DevOps", "Docker", "AWS", "Kubernetes", "CI/CD"],
+      currentTitle: "Site Reliability Engineer",
       status: "Offer Accepted",
       statusTooltip: "Candidate has accepted the job offer.",
       interviewer: "David Martinez",
@@ -314,6 +330,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 111-2222",
       linkedinProfile: "linkedin.com/in/miataylor",
       skills: ["Terraform", "Jenkins", "Azure", "Linux"],
+      currentTitle: "Cloud Engineer",
       status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "David Martinez",
@@ -328,6 +345,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 222-3333",
       linkedinProfile: "linkedin.com/in/williamharris",
       skills: ["Ansible", "Docker", "Kubernetes", "GCP"],
+      currentTitle: "Systems Engineer",
       status: "Applied",
       statusTooltip: "Candidate has submitted their application.",
       interviewer: "Not Assigned",
@@ -335,7 +353,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: false,
       roleFitScore: 73,
     },
-    
+
     // Product Manager candidates
     {
       id: 6,
@@ -344,6 +362,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 678-9012",
       linkedinProfile: "linkedin.com/in/jessicalee",
       skills: ["Product Management", "Agile", "Analytics", "Roadmapping"],
+      currentTitle: "Associate Product Manager",
       status: "Sourced",
       statusTooltip: "Candidate has been sourced and identified.",
       interviewer: "Lisa Chen",
@@ -358,6 +377,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 333-4444",
       linkedinProfile: "linkedin.com/in/jameswilson",
       skills: ["Product Strategy", "Market Research", "Jira", "SQL"],
+      currentTitle: "Business Analyst",
       status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Lisa Chen",
@@ -372,6 +392,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 444-5555",
       linkedinProfile: "linkedin.com/in/charlottemoore",
       skills: ["Product Development", "Scrum", "UX", "Data Analysis"],
+      currentTitle: "Product Owner",
       status: "Shortlisted",
       statusTooltip: "Candidate has been shortlisted for the position.",
       interviewer: "Lisa Chen",
@@ -379,7 +400,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: true,
       roleFitScore: 84,
     },
-    
+
     // Senior Backend Developer candidates
     {
       id: 7,
@@ -388,6 +409,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 789-0123",
       linkedinProfile: "linkedin.com/in/roberttaylor",
       skills: ["Backend Development", "Database Design", "SQL"],
+      currentTitle: "Backend Developer",
       status: "Rejected",
       statusTooltip: "Candidate application has been rejected.",
       interviewer: "James Wilson",
@@ -402,6 +424,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 555-6666",
       linkedinProfile: "linkedin.com/in/benjaminwhite",
       skills: ["Scala", "Kafka", "Microservices", "Redis"],
+      currentTitle: "Backend Developer",
       status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "James Wilson",
@@ -416,6 +439,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 666-7777",
       linkedinProfile: "linkedin.com/in/ameliaclark",
       skills: ["Go", "PostgreSQL", "Docker", "REST APIs"],
+      currentTitle: "Backend Developer",
       status: "Offered",
       statusTooltip: "Offer has been extended to the candidate.",
       interviewer: "James Wilson",
@@ -423,7 +447,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: false,
       roleFitScore: 87,
     },
-    
+
     // Frontend Developer candidates
     {
       id: 8,
@@ -432,6 +456,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 890-1234",
       linkedinProfile: "linkedin.com/in/lisachen",
       skills: ["React", "TypeScript", "CSS", "Tailwind"],
+      currentTitle: "UI Developer",
       status: "Applied",
       statusTooltip: "Candidate has submitted their application.",
       interviewer: "Not Assigned",
@@ -446,6 +471,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 777-8888",
       linkedinProfile: "linkedin.com/in/harperlewis",
       skills: ["Vue.js", "Nuxt", "SCSS", "Webpack"],
+      currentTitle: "Web Developer",
       status: "Sourced",
       statusTooltip: "Candidate has been sourced and identified.",
       interviewer: "Not Assigned",
@@ -460,6 +486,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 888-9999",
       linkedinProfile: "linkedin.com/in/elijahwalker",
       skills: ["React", "Next.js", "Styled Components", "Redux"],
+      currentTitle: "Software Engineer",
       status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Not Assigned",
@@ -467,7 +494,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: true,
       roleFitScore: 82,
     },
-    
+
     // Mobile Developer candidates
     {
       id: 9,
@@ -476,6 +503,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 901-2345",
       linkedinProfile: "linkedin.com/in/markanderson",
       skills: ["Mobile Development", "React Native", "iOS", "Android"],
+      currentTitle: "Mobile App Developer",
       status: "Interview Scheduled",
       statusTooltip: "Interview has been scheduled with the candidate.",
       interviewer: "Alex Thompson",
@@ -490,6 +518,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 999-0000",
       linkedinProfile: "linkedin.com/in/abigailhall",
       skills: ["Flutter", "Dart", "Firebase", "Mobile UI"],
+      currentTitle: "App Developer",
       status: "Shortlisted",
       statusTooltip: "Candidate has been shortlisted for the position.",
       interviewer: "Alex Thompson",
@@ -504,6 +533,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 000-1111",
       linkedinProfile: "linkedin.com/in/alexanderyoung",
       skills: ["Swift", "iOS Development", "Xcode", "UIKit"],
+      currentTitle: "iOS Developer",
       status: "Applied",
       statusTooltip: "Candidate has submitted their application.",
       interviewer: "Not Assigned",
@@ -511,7 +541,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       hasRecording: false,
       roleFitScore: 70,
     },
-    
+
     // QA Engineer candidates
     {
       id: 10,
@@ -520,6 +550,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 012-3456",
       linkedinProfile: "linkedin.com/in/amandawhite",
       skills: ["QA Testing", "Automation", "Selenium", "Cypress"],
+      currentTitle: "QA Analyst",
       status: "Under Review",
       statusTooltip: "Application is under review by the hiring team.",
       interviewer: "Jennifer Davis",
@@ -534,6 +565,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 111-2222",
       linkedinProfile: "linkedin.com/in/evelynking",
       skills: ["Test Automation", "Jest", "Playwright", "API Testing"],
+      currentTitle: "Automation Tester",
       status: "Offered",
       statusTooltip: "Offer has been extended to the candidate.",
       interviewer: "Jennifer Davis",
@@ -548,12 +580,45 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
       phone: "+1 (555) 222-3333",
       linkedinProfile: "linkedin.com/in/sebastianwright",
       skills: ["Manual Testing", "Selenium", "TestNG", "JIRA"],
+      currentTitle: "QA Tester",
       status: "Sourced",
       statusTooltip: "Candidate has been sourced and identified.",
       interviewer: "Not Assigned",
       jobTitle: "QA Engineer",
       hasRecording: false,
       roleFitScore: 67,
+    },
+
+    // Additional pipeline-status examples
+    {
+      id: 33,
+      name: "Marcus Chen",
+      email: "marcus.chen@email.com",
+      phone: "+1 (555) 444-2222",
+      linkedinProfile: "linkedin.com/in/marcuschen",
+      skills: ["Java", "Spring Boot", "Kafka", "AWS"],
+      currentTitle: "Backend Developer",
+      status: "Hired",
+      statusTooltip: "Candidate has been hired and has joined the company.",
+      interviewer: "David Martinez",
+      jobTitle: "Backend Developer",
+      hasRecording: true,
+      roleFitScore: 88,
+    },
+    {
+      id: 34,
+      name: "Grace Kim",
+      email: "grace.kim@email.com",
+      phone: "+1 (555) 333-1111",
+      linkedinProfile: "linkedin.com/in/gracekim",
+      skills: ["DevOps", "Docker", "AWS", "Kubernetes", "CI/CD"],
+      currentTitle: "Site Reliability Engineer",
+      status: "Offer Declined",
+      statusTooltip: "Candidate declined the job offer.",
+      interviewer: "David Martinez",
+      jobTitle: "DevOps Engineer",
+      hasRecording: false,
+      roleFitScore: 80,
     },
   ]);
 
@@ -575,10 +640,10 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
 
   return (
     <>
-      <ModernCandidateList 
-        role="ta-leader" 
-        candidates={candidatesWithExp} 
-        onAction={handleActionClick} 
+      <ModernCandidateList
+        role="ta-leader"
+        candidates={candidatesWithExp}
+        onAction={handleActionClick}
       />
 
       {/* Schedule Interview Sheet */}
@@ -590,12 +655,12 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
               {isRescheduling ? "Reschedule Interview" : "Schedule Interview"}
             </SheetTitle>
             <SheetDescription>
-              {isRescheduling 
+              {isRescheduling
                 ? "Update the interview details for this candidate"
                 : "Set up an interview for this candidate"}
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="space-y-6 py-6">
             {/* Candidate Info Card */}
             {selectedCandidate && (
@@ -609,11 +674,11 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
                 </div>
               </div>
             )}
-            
+
             {/* Questionnaire Name */}
             <div className="space-y-2">
               <Label htmlFor="questionnaire-name">Questionnaire Name</Label>
-              <Input 
+              <Input
                 id="questionnaire-name"
                 placeholder="Enter questionnaire name"
                 value={questionnaireName}
@@ -621,7 +686,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
                 className="bg-background"
               />
             </div>
-            
+
             {/* Expiry Date with Calendar Popover */}
             <div className="space-y-2">
               <Label>
@@ -629,8 +694,8 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
               </Label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal bg-background",
                       !interviewExpiryDate && "text-muted-foreground"
@@ -656,7 +721,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
               </p>
             </div>
           </div>
-          
+
           <SheetFooter className="flex gap-2 sm:gap-2">
             <Button variant="outline" onClick={() => setScheduleSheetOpen(false)}>
               Cancel
@@ -671,4 +736,3 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
     </>
   );
 }
-

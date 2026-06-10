@@ -46,15 +46,15 @@ export function AuthRightLayout() {
         </div>
 
         {/* Stat callouts */}
-        <div className="absolute top-16 right-8 bg-white/15 backdrop-blur-sm rounded-2xl px-5 py-3 text-white">
+        <div className="absolute top-16 right-8 bg-white/15 backdrop-blur-sm rounded-card px-5 py-3 text-white">
           <p className="text-2xl font-bold">87%</p>
           <p className="text-xs text-white/80 mt-0.5">Faster Screening</p>
         </div>
-        <div className="absolute top-1/2 right-6 -translate-y-1/2 bg-white/15 backdrop-blur-sm rounded-2xl px-5 py-3 text-white">
+        <div className="absolute top-1/2 right-6 -translate-y-1/2 bg-white/15 backdrop-blur-sm rounded-card px-5 py-3 text-white">
           <p className="text-2xl font-bold">4.2×</p>
           <p className="text-xs text-white/80 mt-0.5">More Interviews</p>
         </div>
-        <div className="absolute bottom-24 left-8 bg-white/15 backdrop-blur-sm rounded-2xl px-5 py-3 text-white">
+        <div className="absolute bottom-24 left-8 bg-white/15 backdrop-blur-sm rounded-card px-5 py-3 text-white">
           <p className="text-2xl font-bold">60%</p>
           <p className="text-xs text-white/80 mt-0.5">Reduced Time-to-Hire</p>
         </div>

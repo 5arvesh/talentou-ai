@@ -34,7 +34,7 @@ export function SuperAdminSidebar() {
         <Button
           variant="ghost"
           size="icon"
-          className="p-3 h-5 w-5 bg-white rounded-full text-purple-600 hover:bg-[#0a92ff] hover:text-white"
+          className="p-3 h-5 w-5 bg-white rounded-full text-purple-600 hover:bg-talentou-blue hover:text-white"
           onClick={() => setCollapsed(!collapsed)}
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}

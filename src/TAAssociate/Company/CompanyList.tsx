@@ -51,8 +51,8 @@ const CompanyList = () => {
         </TabsList> */}
 
         <TabsContent value="company">
-          <div className="rounded-2xl shadow-2xl overflow-hidden border border-brand-300 bg-gradient-to-br from-brand-100 to-blue-100">
-            <Table className="rounded-2xl">
+          <div className="rounded-card shadow-2xl overflow-hidden border border-brand-300 bg-gradient-to-br from-brand-100 to-blue-100">
+            <Table className="rounded-card">
               <TableHeader className="bg-gradient-to-br from-primary to-indigo-400 text-white">
                 <TableRow>
                   <TableHead>Project Name</TableHead>

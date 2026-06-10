@@ -193,9 +193,9 @@ export const MessageStep1 = () => {
             value={isMessageSubmitted ? 100 : 50} 
             className="h-2" 
             style={{
-              background: isMessageSubmitted ? 
-                "linear-gradient(to right, #22c55e, #4ade80)" : 
-                "linear-gradient(to right, #f97316, #facc15)"
+              background: isMessageSubmitted ?
+                "linear-gradient(to right, hsl(var(--success)), hsl(var(--success) / 0.7))" :
+                "linear-gradient(to right, hsl(var(--warning)), hsl(var(--warning) / 0.6))"
             }}
           />
 

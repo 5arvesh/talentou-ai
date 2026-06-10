@@ -104,9 +104,9 @@ function getMomentStyle(severity: ImportantMoment["severity"]) {
 }
 
 function getScoreColor(score: number) {
-  if (score >= 80) return "#4ead3b";
-  if (score >= 60) return "#f59e0b";
-  return "#ef4444";
+  if (score >= 80) return "hsl(var(--success))";
+  if (score >= 60) return "hsl(var(--warning))";
+  return "hsl(var(--destructive))";
 }
 
 export function InterviewRecordingViewer() {
@@ -208,7 +208,7 @@ export function InterviewRecordingViewer() {
           </div>
           <div className={cn(
             "flex items-center gap-2 px-3 py-1.5 rounded-full border-2 text-sm font-semibold",
-            score >= 80 ? "border-[#4ead3b] text-[#4ead3b] bg-green-50"
+            score >= 80 ? "border-talentou-green text-talentou-green bg-green-50"
               : score >= 60 ? "border-amber-500 text-amber-600 bg-amber-50"
               : "border-red-500 text-red-600 bg-red-50"
           )}>
@@ -307,33 +307,33 @@ export function InterviewRecordingViewer() {
           </div>
 
           {/* RIGHT: accordions */}
-          <div className="flex-1 flex flex-col bg-[#ebdbfc] overflow-hidden">
+          <div className="flex-1 flex flex-col bg-primary/10 overflow-hidden">
 
             <div className="px-6 py-4 shrink-0">
-              <h2 className="text-base font-semibold text-[#7800D3]">Candidate Evaluation</h2>
+              <h2 className="text-base font-semibold text-primary">Candidate Evaluation</h2>
               <p className="text-xs text-muted-foreground mt-0.5">Review AI analysis, transcript & provide feedback</p>
             </div>
 
             <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
 
               {/* AI Score accordion */}
-              <div className={cn("bg-white border-2 rounded-lg overflow-hidden", scoreOpen ? "border-[#7800D3]/40" : "border-[#7800D3]/20")}>
+              <div className={cn("bg-white border-2 rounded-lg overflow-hidden", scoreOpen ? "border-primary/40" : "border-primary/20")}>
                 <button
                   onClick={() => setScoreOpen(!scoreOpen)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Brain className="h-4 w-4 text-[#7800D3]" />
-                    <span className="text-sm font-semibold text-[#7800D3]">AI Score & Analysis</span>
+                    <Brain className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-semibold text-primary">AI Score & Analysis</span>
                   </div>
-                  {scoreOpen ? <ChevronUp className="h-4 w-4 text-[#7800D3]" /> : <ChevronDown className="h-4 w-4 text-[#7800D3]" />}
+                  {scoreOpen ? <ChevronUp className="h-4 w-4 text-primary" /> : <ChevronDown className="h-4 w-4 text-primary" />}
                 </button>
                 {scoreOpen && (
                   <div className="px-5 pb-5 border-t border-gray-100 space-y-5 pt-4">
                     <div className="flex items-start gap-5">
                       <div className="shrink-0 flex flex-col items-center gap-1">
                         <svg width="96" height="96" viewBox="0 0 96 96">
-                          <circle cx="48" cy="48" r={r} fill="none" stroke="#e5e7eb" strokeWidth="8" />
+                          <circle cx="48" cy="48" r={r} fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
                           <circle
                             cx="48" cy="48" r={r} fill="none"
                             stroke={scoreColor} strokeWidth="8"
@@ -346,21 +346,21 @@ export function InterviewRecordingViewer() {
                         <span className="text-[10px] text-muted-foreground">out of 100</span>
                       </div>
                       <div className="flex-1 pt-1">
-                        <p className="text-xs font-semibold text-[#7800D3] mb-1.5">AI Reasoning</p>
+                        <p className="text-xs font-semibold text-primary mb-1.5">AI Reasoning</p>
                         <p className="text-xs text-gray-600 leading-relaxed">{aiAnalysis.reasoning}</p>
                       </div>
                     </div>
 
-                    <div className="bg-[#f5efff] rounded-lg p-3.5">
-                      <p className="text-xs font-semibold text-[#7800D3] mb-1">Summary</p>
+                    <div className="bg-primary/5 rounded-lg p-3.5">
+                      <p className="text-xs font-semibold text-primary mb-1">Summary</p>
                       <p className="text-xs text-gray-700 leading-relaxed">{aiAnalysis.summary}</p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <div className="flex items-center gap-1.5 mb-2">
-                          <TrendingUp className="h-3.5 w-3.5 text-[#4ead3b]" />
-                          <span className="text-xs font-semibold text-[#7800D3]">Strengths</span>
+                          <TrendingUp className="h-3.5 w-3.5 text-talentou-green" />
+                          <span className="text-xs font-semibold text-primary">Strengths</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {aiAnalysis.strengths.map((s, i) => (
@@ -371,7 +371,7 @@ export function InterviewRecordingViewer() {
                       <div>
                         <div className="flex items-center gap-1.5 mb-2">
                           <TrendingDown className="h-3.5 w-3.5 text-amber-500" />
-                          <span className="text-xs font-semibold text-[#7800D3]">To Improve</span>
+                          <span className="text-xs font-semibold text-primary">To Improve</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {aiAnalysis.improvements.map((imp, i) => (
@@ -385,19 +385,19 @@ export function InterviewRecordingViewer() {
               </div>
 
               {/* Transcript accordion */}
-              <div className={cn("bg-white border-2 rounded-lg overflow-hidden", transcriptOpen ? "border-[#7800D3]/40" : "border-[#7800D3]/20")}>
+              <div className={cn("bg-white border-2 rounded-lg overflow-hidden", transcriptOpen ? "border-primary/40" : "border-primary/20")}>
                 <button
                   onClick={() => setTranscriptOpen(!transcriptOpen)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
                   <div className="flex items-center gap-2.5">
-                    <MessageSquare className="h-4 w-4 text-[#7800D3]" />
-                    <span className="text-sm font-semibold text-[#7800D3]">Interview Transcript</span>
-                    <span className="text-[10px] ml-1 bg-[#f5efff] text-[#7800D3] px-1.5 py-0.5 rounded-full font-medium">
+                    <MessageSquare className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-semibold text-primary">Interview Transcript</span>
+                    <span className="text-[10px] ml-1 bg-primary/5 text-primary px-1.5 py-0.5 rounded-full font-medium">
                       {liveTranscript.length} entries
                     </span>
                   </div>
-                  {transcriptOpen ? <ChevronUp className="h-4 w-4 text-[#7800D3]" /> : <ChevronDown className="h-4 w-4 text-[#7800D3]" />}
+                  {transcriptOpen ? <ChevronUp className="h-4 w-4 text-primary" /> : <ChevronDown className="h-4 w-4 text-primary" />}
                 </button>
                 {transcriptOpen && (
                   <div className="border-t border-gray-100">
@@ -406,7 +406,7 @@ export function InterviewRecordingViewer() {
                         <div key={entry.id} className={cn("flex gap-2.5", entry.speaker === "candidate" && "flex-row-reverse")}>
                           <div className={cn(
                             "w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[9px] font-bold mt-0.5",
-                            entry.speaker === "ai" ? "bg-[#7800D3] text-white" : "bg-[#4ead3b] text-white"
+                            entry.speaker === "ai" ? "bg-primary text-white" : "bg-talentou-green text-white"
                           )}>
                             {entry.speaker === "ai" ? "AI" : candidateName.charAt(0).toUpperCase()}
                           </div>
@@ -418,12 +418,12 @@ export function InterviewRecordingViewer() {
                               </span>
                               <button
                                 onClick={() => handleSeek(entry.timestamp)}
-                                className="text-[9px] text-[#7800D3] hover:underline"
+                                className="text-[9px] text-primary hover:underline"
                               >
                                 {formatTime(entry.timestamp)}
                               </button>
                               {entry.type === "typed" && (
-                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-50 text-[#7800D3] border border-purple-200 font-medium flex items-center gap-0.5">
+                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-50 text-primary border border-purple-200 font-medium flex items-center gap-0.5">
                                   <Keyboard className="h-2.5 w-2.5" /> Written
                                 </span>
                               )}
@@ -435,10 +435,10 @@ export function InterviewRecordingViewer() {
                             </div>
 
                             {entry.type === "typed" ? (
-                              <div className="rounded-lg border border-[#7800D3]/20 bg-[#f5efff] overflow-hidden">
+                              <div className="rounded-lg border border-primary/20 bg-primary/5 overflow-hidden">
                                 {entry.questionContext && (
-                                  <div className="px-3 py-1.5 border-b border-[#7800D3]/10">
-                                    <span className="text-[9px] font-semibold text-[#7800D3]">{entry.questionContext}</span>
+                                  <div className="px-3 py-1.5 border-b border-primary/10">
+                                    <span className="text-[9px] font-semibold text-primary">{entry.questionContext}</span>
                                   </div>
                                 )}
                                 <pre className="text-[10px] font-mono p-3 text-gray-700 whitespace-pre-wrap overflow-x-auto leading-relaxed">
@@ -450,7 +450,7 @@ export function InterviewRecordingViewer() {
                                 "rounded-xl px-3.5 py-2.5 text-xs leading-relaxed",
                                 entry.speaker === "ai"
                                   ? "bg-gray-100 text-gray-700 rounded-tl-sm"
-                                  : "bg-[#7800D3] text-white rounded-tr-sm"
+                                  : "bg-primary text-white rounded-tr-sm"
                               )}>
                                 {entry.content}
                               </div>
@@ -464,17 +464,17 @@ export function InterviewRecordingViewer() {
               </div>
 
               {/* Feedback accordion */}
-              <div className={cn("bg-white border-2 rounded-lg overflow-hidden", feedbackOpen ? "border-[#7800D3]/40" : "border-[#7800D3]/20")}>
+              <div className={cn("bg-white border-2 rounded-lg overflow-hidden", feedbackOpen ? "border-primary/40" : "border-primary/20")}>
                 <button
                   onClick={() => setFeedbackOpen(!feedbackOpen)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
                   <div className="flex items-center gap-2.5">
-                    <ClipboardList className="h-4 w-4 text-[#7800D3]" />
-                    <span className="text-sm font-semibold text-[#7800D3]">Feedback</span>
+                    <ClipboardList className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-semibold text-primary">Feedback</span>
                     <span className="text-[10px] text-muted-foreground ml-0.5">— Optional</span>
                   </div>
-                  {feedbackOpen ? <ChevronUp className="h-4 w-4 text-[#7800D3]" /> : <ChevronDown className="h-4 w-4 text-[#7800D3]" />}
+                  {feedbackOpen ? <ChevronUp className="h-4 w-4 text-primary" /> : <ChevronDown className="h-4 w-4 text-primary" />}
                 </button>
                 {feedbackOpen && (
                   <div className="px-5 pb-5 border-t border-gray-100 pt-4 space-y-3">
@@ -485,12 +485,12 @@ export function InterviewRecordingViewer() {
                       value={feedback}
                       onChange={(e) => setFeedback(e.target.value)}
                       placeholder="e.g. Candidate was very composed under pressure and asked insightful questions about the team..."
-                      className="min-h-[120px] text-xs resize-none border-[#7800D3]/20 focus-visible:ring-[#7800D3]/30"
+                      className="min-h-[120px] text-xs resize-none border-primary/20 focus-visible:ring-primary/30"
                     />
                     <Button
                       size="sm"
                       disabled={!feedback.trim()}
-                      className="bg-[#7800D3] hover:bg-[#6200ad] text-white text-xs"
+                      className="bg-primary hover:bg-primary/90 text-white text-xs"
                     >
                       Save Feedback
                     </Button>
@@ -512,7 +512,7 @@ export function InterviewRecordingViewer() {
                 </Button>
                 <Button
                   onClick={handlePrimary}
-                  className="flex-1 bg-[#4ead3b] hover:bg-[#3d9630] text-white font-medium"
+                  className="flex-1 bg-talentou-green hover:bg-talentou-green/90 text-white font-medium"
                 >
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   {primaryLabel}

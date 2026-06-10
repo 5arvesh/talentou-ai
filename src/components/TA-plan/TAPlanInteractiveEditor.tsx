@@ -22,7 +22,7 @@ export function TAPlanInteractiveEditor() {
       <div className="p-6 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-xl font-semibold text-foreground">Your TA Plan</h2>
-          <CheckCircle2 className="w-5 h-5 text-[#58bb6b]" />
+          <CheckCircle2 className="w-5 h-5 text-success" />
         </div>
         <p className="text-sm text-muted-foreground">Your Personalized TA Plan - Powered by AI, Perfected by You.</p>
       </div>
@@ -31,35 +31,35 @@ export function TAPlanInteractiveEditor() {
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {/* Company USP */}
         {stages.companyUSP.completed && (
-          <div className="animate-fade-in border-2 border-[#58bb6b]/30 rounded-lg">
+          <div className="animate-fade-in border-2 border-success/30 rounded-lg">
             <CompanyUSPSection />
           </div>
         )}
 
         {/* Talent Pool */}
         {stages.talentPool.completed && (
-          <div className="animate-fade-in border-2 border-[#58bb6b]/30 rounded-lg">
+          <div className="animate-fade-in border-2 border-success/30 rounded-lg">
             <TalentPoolSection />
           </div>
         )}
 
         {/* Recruitment Channels */}
         {stages.recruitmentChannels.completed && (
-          <div className="animate-fade-in border-2 border-[#58bb6b]/30 rounded-lg">
+          <div className="animate-fade-in border-2 border-success/30 rounded-lg">
             <ChannelsSection />
           </div>
         )}
 
         {/* Success Metrics */}
         {stages.successMetrics.completed && (
-          <div className="animate-fade-in border-2 border-[#58bb6b]/30 rounded-lg">
+          <div className="animate-fade-in border-2 border-success/30 rounded-lg">
             <MetricsSection />
           </div>
         )}
 
         {/* Team Members */}
         {stages.teamInvitation.completed && (
-          <div className="animate-fade-in border-2 border-[#58bb6b]/30 rounded-lg">
+          <div className="animate-fade-in border-2 border-success/30 rounded-lg">
             <TeamMembersSection />
           </div>
         )}
@@ -69,7 +69,7 @@ export function TAPlanInteractiveEditor() {
       <div className="p-6 border-t border-border bg-background/80 backdrop-blur-sm">
         <Button 
           onClick={handleExportPlan}
-          className="w-full bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+          className="w-full bg-success hover:bg-success/90 text-white"
         >
           <FileDown className="w-4 h-4 mr-2" />
           Export Plan as PDF

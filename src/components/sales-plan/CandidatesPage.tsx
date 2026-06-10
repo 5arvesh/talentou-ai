@@ -318,10 +318,6 @@ export function CandidatesPage() {
     setSelectAll(allSelected);
   }, [pinnedCandidates, currentCandidates]);
 
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const goToPrevious = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -410,7 +406,7 @@ export function CandidatesPage() {
     <TooltipProvider>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Candidates</h1>
+          <h1 className="text-3xl font-bold text-foreground">Candidates</h1>
         </div>
         <div className="bg-white rounded-lg border shadow-sm">
           <Table>
@@ -422,27 +418,27 @@ export function CandidatesPage() {
                       type="checkbox"
                       checked={selectAll}
                       onChange={toggleSelectAll}
-                      className="form-checkbox h-4 w-4 text-blue-600"
+                      className="form-checkbox h-4 w-4 text-primary"
                     />
                   </div>
                 </TableHead>
                 <TableHead>
-                  <div className="flex items-center text-black">Name</div>
+                  <div className="flex items-center text-foreground">Name</div>
                 </TableHead>
                 <TableHead className="w-[200px]">
-                  <div className="flex items-center text-black">Status</div>
+                  <div className="flex items-center text-foreground">Status</div>
                 </TableHead>
                 <TableHead>
-                  <div className="flex items-center text-black">
+                  <div className="flex items-center text-foreground">
                     Hiring Lead
                   </div>
                 </TableHead>
                 <TableHead>
-                  <div className="flex items-center text-black">
+                  <div className="flex items-center text-foreground">
                     Interviewer
                   </div>
                 </TableHead>
-                <TableHead className="text-center text-black">
+                <TableHead className="text-center text-foreground">
                   Actions
                 </TableHead>
               </TableRow>
@@ -461,7 +457,7 @@ export function CandidatesPage() {
                         type="checkbox"
                         checked={pinnedCandidates.has(candidate.id)}
                         onChange={() => handlePinToggle(candidate.id)}
-                        className="form-checkbox h-4 w-4 text-blue-600"
+                        className="form-checkbox h-4 w-4 text-primary"
                       />
                     </Button>
                   </TableCell>
@@ -523,7 +519,7 @@ export function CandidatesPage() {
         <div className="flex justify-start">
           <Button
             onClick={handleCreateNewCandidate}
-            className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
+            className="bg-primary hover:bg-primary/90 text-white shadow-sm"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add New Candidate
@@ -531,16 +527,16 @@ export function CandidatesPage() {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-muted-foreground">
             Showing {startIndex + 1} to {Math.min(endIndex, sortedCandidates.length)}{" "}
             of {sortedCandidates.length} results
             {filteredCandidates.length !== allCandidates.length && (
-              <span className="text-blue-600 ml-2">
+              <span className="text-info ml-2">
                 (filtered from {allCandidates.length} total)
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               size="sm"
@@ -550,17 +546,9 @@ export function CandidatesPage() {
               <ChevronLeft size={14} />
               Previous
             </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
-                onClick={() => goToPage(page)}
-                className="w-8 h-8 p-0"
-              >
-                {page}
-              </Button>
-            ))}
+            <span className="text-sm text-muted-foreground">
+              Page {currentPage} of {totalPages}
+            </span>
             <Button
               variant="outline"
               size="sm"

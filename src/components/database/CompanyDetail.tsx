@@ -1,5 +1,5 @@
 ﻿import { useState } from "react";
-import { ArrowLeft, ChevronUp, ChevronDown, ArrowRightCircle } from "lucide-react";
+import { ArrowLeft, ChevronUp, ChevronDown, ArrowRightCircle, Building2, Globe, Users, Factory, DollarSign, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -32,7 +32,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">ðŸ¢</span>
+                  <Building2 className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Company Name</span>
               </div>
@@ -42,7 +42,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">ðŸŒ</span>
+                  <Globe className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Headquarters</span>
               </div>
@@ -52,7 +52,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">ðŸ‘¥</span>
+                  <Users className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Employee Size</span>
               </div>
@@ -62,7 +62,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">ðŸ­</span>
+                  <Factory className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Industry</span>
               </div>
@@ -72,7 +72,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">ðŸ’°</span>
+                  <DollarSign className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Revenue</span>
               </div>
@@ -82,7 +82,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">â­</span>
+                  <Star className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Company Fitment Score</span>
               </div>

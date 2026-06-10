@@ -144,8 +144,7 @@ export default function TenantManagementPage() {
           </div>
           <Button
             onClick={handleInviteTenant}
-            style={{ backgroundColor: "#4ead3b", color: "black" }}
-            className="hover:opacity-90"
+            className="bg-success text-success-foreground hover:bg-success/90"
           >
             <UserPlus className="w-4 h-4 mr-2" />
             Invite Tenant

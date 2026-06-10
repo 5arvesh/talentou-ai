@@ -137,7 +137,7 @@ export function BehavioralQuestionsDrawer({
   return (
     <>
       <Sheet open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
-        <SheetContent side="right" className="w-[580px] sm:max-w-[580px] flex flex-col p-0">
+        <SheetContent side="right" className="w-[560px] sm:max-w-[560px] flex flex-col p-0">
           <SheetHeader className="px-6 py-5 border-b border-border">
             <SheetTitle className="text-lg font-bold text-primary">
               Behavioral Questions
@@ -241,7 +241,7 @@ export function BehavioralQuestionsDrawer({
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="h-6 w-6 text-muted-foreground hover:text-red-500"
+                          className="h-6 w-6 text-muted-foreground hover:text-destructive"
                           onClick={() => handleDelete(q.id)}
                         >
                           <Trash2 className="h-3 w-3" />
@@ -270,7 +270,7 @@ export function BehavioralQuestionsDrawer({
                 ))}
 
                 {isAddingManually && (
-                  <Card className="p-4 border-2 border-dashed border-primary/30 bg-[#faf5ff]/50">
+                  <Card className="p-4 border-2 border-dashed border-primary/30 bg-primary/5">
                     <div className="space-y-3">
                       <Textarea
                         placeholder="Enter your behavioral question..."
@@ -318,17 +318,17 @@ export function BehavioralQuestionsDrawer({
                 <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs bg-muted/30 rounded-lg px-4 py-3">
                   <span>
                     <span className="text-muted-foreground">Technical: </span>
-                    <span className="font-semibold text-blue-600">~{technicalMins} min</span>
+                    <span className="font-semibold text-info">~{technicalMins} min</span>
                   </span>
                   <span className="text-muted-foreground">|</span>
                   <span>
                     <span className="text-muted-foreground">Behavioral: </span>
-                    <span className="font-semibold text-orange-600">{behavioralMins} min</span>
+                    <span className="font-semibold text-warning">{behavioralMins} min</span>
                   </span>
                   <span className="text-muted-foreground">|</span>
                   <span>
                     <span className="text-muted-foreground">AI Dynamic: </span>
-                    <span className="font-semibold text-purple-600">{aiDynamicMins} min</span>
+                    <span className="font-semibold text-primary">{aiDynamicMins} min</span>
                   </span>
                   <span className="text-muted-foreground">|</span>
                   <span>
@@ -340,21 +340,21 @@ export function BehavioralQuestionsDrawer({
 
               {/* Over-budget disclaimer */}
               {isOverBehavioralBudget && (
-                <div className="mt-3 rounded-lg border border-orange-300 bg-orange-50 px-4 py-3 space-y-3">
+                <div className="mt-3 rounded-lg border border-warning/30 bg-warning/10 px-4 py-3 space-y-3">
                   <div className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5 shrink-0" />
-                    <p className="text-sm text-orange-800">
+                    <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" />
+                    <p className="text-sm text-warning">
                       Behavioral questions exceed remaining time after technical round.
                     </p>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-xs text-orange-700">
+                    <p className="text-xs text-warning">
                       You can extend the interview by up to{' '}
                       <span className="font-semibold">{maxExtension} mins</span> (recruiter limit).
-                      No HL re-approval required â€” HL will be notified of the change.
+                      No HL re-approval required — HL will be notified of the change.
                     </p>
                     <div className="flex items-center gap-2">
-                      <Label htmlFor="extension-input" className="text-xs text-orange-800 shrink-0">
+                      <Label htmlFor="extension-input" className="text-xs text-warning shrink-0">
                         Extend by:
                       </Label>
                       <Input
@@ -369,7 +369,7 @@ export function BehavioralQuestionsDrawer({
                         }}
                         className="w-20 text-center text-sm h-8"
                       />
-                      <span className="text-xs text-orange-700">mins (max {maxExtension})</span>
+                      <span className="text-xs text-warning">mins (max {maxExtension})</span>
                     </div>
                   </div>
                 </div>
@@ -393,7 +393,7 @@ export function BehavioralQuestionsDrawer({
           <SheetFooter className="px-6 py-4 border-t border-border">
             <Button
               onClick={() => onProceedToScheduling(behavioralQuestions)}
-              className="w-full bg-primary hover:bg-[#6600bb] text-white"
+              className="w-full bg-primary hover:bg-primary/90 text-white"
             >
               Continue to Scheduling
             </Button>
@@ -418,7 +418,7 @@ export function BehavioralQuestionsDrawer({
                 handleClose();
                 onSkip();
               }}
-              className="bg-primary text-white hover:bg-[#6600bb]"
+              className="bg-primary text-white hover:bg-primary/90"
             >
               Yes, skip
             </AlertDialogAction>

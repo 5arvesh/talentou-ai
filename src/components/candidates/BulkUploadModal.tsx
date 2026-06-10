@@ -121,7 +121,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); }}>
-      <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-2xl border-0 shadow-2xl">
+      <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-card border-0 shadow-2xl">
         <div className="h-1.5 w-full bg-gradient-to-r from-primary to-ai-purple" />
 
         <div className="px-6 pt-5 pb-6 space-y-5">
@@ -245,7 +245,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full border-2 border-dashed border-primary/30 hover:border-primary/60 hover:bg-accent/50 rounded-xl p-8 flex flex-col items-center gap-3 transition-all group"
               >
-                <div className="w-12 h-12 rounded-full bg-[#ebdbfc] flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <Upload className="h-5 w-5 text-primary" />
                 </div>
                 <div className="text-center">
@@ -298,7 +298,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                 <Progress
                   value={progress}
                   className="h-2"
-                  style={{ "--progress-background": stage === "done" ? "#22C55E" : "hsl(var(--primary))" } as React.CSSProperties}
+                  style={{ "--progress-background": stage === "done" ? "hsl(var(--success))" : "hsl(var(--primary))" } as React.CSSProperties}
                 />
                 <div className="flex justify-between text-[10px] text-muted-foreground">
                   <span>{visibleRows} of {MOCK_IMPORT_CANDIDATES.length} candidates</span>

@@ -25,10 +25,9 @@ export function RegistrationSuccess() {
             Congratulations, Your account has been successfully created.
           </p>
           
-          <button 
+          <button
             onClick={handleLogin}
-            style={{ color: "#22C55E" }}
-            className="font-medium hover:underline res-1200:text-xs"
+            className="font-medium text-success hover:underline res-1200:text-xs"
           >
             Click here to login
           </button>

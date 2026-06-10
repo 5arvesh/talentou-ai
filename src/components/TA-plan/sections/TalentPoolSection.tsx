@@ -90,7 +90,7 @@ export function TalentPoolSection() {
                   setInputValue('');
                 }
               }}
-              className="bg-[#58bb6b] hover:bg-[#4aa75c] text-white"
+              className="bg-success hover:bg-success/90 text-white"
             >
               Add
             </Button>
@@ -120,7 +120,7 @@ export function TalentPoolSection() {
               <span className="text-primary font-semibold text-sm">👥</span>
             </div>
             <h3 className="font-semibold text-foreground">Talent Pool</h3>
-            {isCompleted && <Check className="w-4 h-4 text-[#58bb6b]" />}
+            {isCompleted && <Check className="w-4 h-4 text-success" />}
           </div>
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </CollapsibleTrigger>

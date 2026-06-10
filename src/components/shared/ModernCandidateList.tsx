@@ -225,15 +225,15 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
   const getStatusColor = getCandidateStatusColor;
 
   const getRoleFitColor = (score: number) => {
-    if (score >= 70) return "text-green-600";
-    if (score >= 40) return "text-yellow-600";
-    return "text-red-500";
+    if (score >= 70) return "text-success";
+    if (score >= 40) return "text-warning";
+    return "text-destructive";
   };
-  
+
   const getRoleFitBgColor = (score: number) => {
-    if (score >= 70) return "bg-green-500/10";
-    if (score >= 40) return "bg-yellow-100";
-    return "bg-red-50";
+    if (score >= 70) return "bg-success/10";
+    if (score >= 40) return "bg-warning/10";
+    return "bg-destructive/10";
   };
 
   const markAsViewed = (id: string | number) => {
@@ -308,7 +308,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
 
     return (
       <Popover>
-        <PopoverTrigger className="flex items-center gap-1 text-[#5600ad] hover:text-[#5600ad]/80 group outline-none py-1 mx-auto max-w-fit">
+        <PopoverTrigger className="flex items-center gap-1 text-brand-700 hover:text-brand-700/80 group outline-none py-1 mx-auto max-w-fit">
           <span className="font-semibold text-xs uppercase tracking-wide">{label}</span>
           <ChevronDown className="h-3 w-3 opacity-70 group-hover:opacity-100 transition-opacity" />
         </PopoverTrigger>
@@ -334,7 +334,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                 placeholder="Search..." 
                 value={searchVal} 
                 onChange={e => setSearchVal(e.target.value)} 
-                className="h-8 pl-8 text-sm bg-gray-50/50 border-gray-200 focus-visible:ring-[#7800D4]" 
+                className="h-8 pl-8 text-sm bg-gray-50/50 border-gray-200 focus-visible:ring-primary" 
               />
             </div>
             <div className="max-h-40 overflow-y-auto space-y-0.5 px-1 pb-1 custom-scrollbar">
@@ -346,7 +346,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                   type="checkbox" 
                   checked={isAllSelected} 
                   onChange={handleSelectAll} 
-                  className="rounded border-gray-300 text-[#7800D4] focus:ring-[#7800D4] cursor-pointer" 
+                  className="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" 
                   onClick={(e) => e.stopPropagation()}
                 />
                 <span className="text-sm text-gray-700">(Select All)</span>
@@ -361,7 +361,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                     type="checkbox" 
                     checked={isAllSelected || (columnFilters[columnId] && columnFilters[columnId].includes(val))} 
                     onChange={() => toggleFilter(val)} 
-                    className="rounded border-gray-300 text-[#7800D4] focus:ring-[#7800D4] cursor-pointer"
+                    className="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                     onClick={(e) => e.stopPropagation()}
                   />
                   <span className="text-sm text-gray-700 truncate" title={val}>{val}</span>
@@ -463,7 +463,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
               }}
             >
               <PopoverTrigger asChild>
-                <Button data-tour-id="candidate-col-filter-btn" variant="ghost" size="sm" className="h-8 px-2.5 text-xs text-gray-600 hover:text-[#7800D4] hover:bg-[#7800D4]/8 shrink-0 gap-1.5">
+                <Button data-tour-id="candidate-col-filter-btn" variant="ghost" size="sm" className="h-8 px-2.5 text-xs text-gray-600 hover:text-primary hover:bg-primary/10 shrink-0 gap-1.5">
                   <ListFilter className="h-3.5 w-3.5" /> Columns
                 </Button>
               </PopoverTrigger>
@@ -513,7 +513,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           </div>
 
           {/* Add Candidate button */}
-          <Button className="bg-green-500 hover:bg-[#3e8a2f] text-white shrink-0" onClick={onAddCandidate}>
+          <Button className="bg-primary hover:bg-primary/90 text-white shrink-0" onClick={onAddCandidate}>
             <Plus className="h-4 w-4 mr-2" /> Add Candidate
           </Button>
         </div>
@@ -522,13 +522,13 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
           <Table className="w-full min-w-max">
             <TableHeader>
-              <TableRow className="bg-[#F8F4FF] hover:bg-[#F0E8FF] border-b-2 border-primary">
+              <TableRow className="bg-primary/5 hover:bg-primary/10 border-b-2 border-primary">
                 {onSelectionChange && (
                   <TableHead className="w-10 pl-4 pb-3 pt-4">
                     <Checkbox
                       checked={processedCandidates.length > 0 && processedCandidates.every(c => selectedIds?.has(c.id))}
                       onCheckedChange={(checked) => onSelectAll?.(!!checked, processedCandidates.map(c => c.id))}
-                      className="border-[#5600ad] data-[state=checked]:bg-[#5600ad] data-[state=checked]:text-white"
+                      className="border-brand-700 data-[state=checked]:bg-brand-700 data-[state=checked]:text-white"
                     />
                   </TableHead>
                 )}
@@ -537,12 +537,12 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                   if (!colDef) return null;
                   const isCentered = ["roleFitScore", "status", "yearsOfExperience", "daysInStage"].includes(colId);
                   return (
-                    <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-[#5600ad] font-semibold text-xs uppercase tracking-wide ${isCentered ? 'text-center' : 'text-left'}`}>
+                    <TableHead key={colId} className={`whitespace-nowrap pb-3 pt-4 text-brand-700 font-semibold text-xs uppercase tracking-wide ${isCentered ? 'text-center' : 'text-left'}`}>
                       <ColumnHeaderMenu columnId={colId} label={colDef.label} />
                     </TableHead>
                   );
                 })}
-                <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-[#5600ad] text-xs uppercase tracking-wide outline-none">Actions</TableHead>
+                <TableHead className="w-16 text-center pr-6 pb-3 pt-4 font-semibold text-brand-700 text-xs uppercase tracking-wide outline-none">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -561,7 +561,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                       key={candidate.id}
                       className={cn(
                         "group hover:bg-gray-50/60 transition-colors border-b border-gray-50 cursor-pointer",
-                        isActuallyNew ? "bg-[#e5f5ff]" : "",
+                        isActuallyNew ? "bg-info/10" : "",
                         selectedIds?.has(candidate.id) ? "bg-purple-50/40" : ""
                       )}
                       onClick={() => handleActionClick("view-profile", candidate)}
@@ -585,7 +585,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                                 {candidate.hasRecording && (
                                   <Tooltip>
                                     <TooltipTrigger asChild>
-                                      <Video className="h-4 w-4 text-[#7800D4]" />
+                                      <Video className="h-4 w-4 text-primary" />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                       <p>Video interview available</p>
@@ -704,7 +704,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-7 w-7 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 rounded-full"
+                              className="h-7 w-7 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full"
                               disabled={!candidate.phone}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -723,7 +723,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-7 w-7 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 rounded-full"
+                              className="h-7 w-7 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full"
                               disabled={!candidate.email}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -760,13 +760,13 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-gray-400 hover:text-[#7800D4] hover:bg-[#7800D4]/10 transition-colors rounded-full"
+                            className="h-8 w-8 text-gray-400 hover:text-primary hover:bg-primary/10 transition-colors rounded-full"
                           >
                             <ChevronRight className="h-5 w-5" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48 shadow-lg border-gray-100 rounded-xl">
-                            <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("view-profile", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                            <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("view-profile", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                               <User className="mr-2 h-4 w-4 opacity-70" />
                               View Profile
                             </DropdownMenuItem>
@@ -774,7 +774,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
                             {(role === "recruiter" || role === "hiring-lead") && candidate.hasRecording && (
                               <>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("view-interview", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("view-interview", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                                   <PlayCircle className="mr-2 h-4 w-4 opacity-70" />
                                   View Interview
                                 </DropdownMenuItem>
@@ -783,11 +783,11 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
 
                             {(role === "recruiter" || role === "ta-leader" || role === "hiring-lead") && (
                               <>
-                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("schedule-interview", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("schedule-interview", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                                   <Calendar className="mr-2 h-4 w-4 opacity-70" />
                                   Schedule Interview
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("move-stage", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-[#7800D4] py-2">
+                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleActionClick("move-stage", candidate); }} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                                   <MoveRight className="mr-2 h-4 w-4 opacity-70" />
                                   Change Status
                                 </DropdownMenuItem>

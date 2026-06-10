@@ -204,7 +204,7 @@ export function LeadTracker() {
               change={15}
               isPositive={true}
               chartData={companyAddedChartData}
-              chartColor="#22c55e"
+              chartColor="hsl(var(--success))"
             />
             
             <StatCard
@@ -213,7 +213,7 @@ export function LeadTracker() {
               change={4}
               isPositive={false}
               chartData={contactAddedChartData}
-              chartColor="#ef4444"
+              chartColor="hsl(var(--destructive))"
             />
           </div>
         </div>
@@ -228,7 +228,7 @@ export function LeadTracker() {
               change={6}
               isPositive={true}
               chartData={companyReachedChartData}
-              chartColor="#22c55e"
+              chartColor="hsl(var(--success))"
             />
             
             <StatCard
@@ -237,7 +237,7 @@ export function LeadTracker() {
               change={28}
               isPositive={true}
               chartData={meetingsBookedChartData}
-              chartColor="#22c55e"
+              chartColor="hsl(var(--success))"
             />
             
             <StatCard
@@ -246,7 +246,7 @@ export function LeadTracker() {
               change={2}
               isPositive={false}
               chartData={contactReachedChartData}
-              chartColor="#ef4444"
+              chartColor="hsl(var(--destructive))"
             />
             
             {/* Response Stats Card */}

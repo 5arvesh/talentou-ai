@@ -123,8 +123,8 @@ export function RecruiterJobList() {
       SecondarySkill: "Python, Tableau",
       Attributes: "Analytical, Detail-Oriented",
       Location: "Austin, TX",
-      status: "Closed",
-      statusTooltip: "The role is filled or the requirement is no longer active.",
+      status: "Filled",
+      statusTooltip: "Role successfully hired for — candidate has joined.",
       expectedStartDate: "2024-01-20",
       hiringLead: "Kevin Lee",
       recruiter: "Lisa Wong",
@@ -354,9 +354,9 @@ export function RecruiterJobList() {
     <TooltipProvider>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Job List</h1>
+          <h1 className="text-3xl font-bold text-foreground">Job List</h1>
           <div className="relative w-80">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               type="text"
               placeholder="Search by Job ID or Job Role..."
@@ -368,7 +368,7 @@ export function RecruiterJobList() {
             />
           </div>
         </div>
-        <div className="bg-white rounded-lg border shadow-sm">
+        <div className="bg-card rounded-lg border shadow-sm">
           <Table>
             <TableHeader>
               <TableRow className="h-10">
@@ -378,24 +378,24 @@ export function RecruiterJobList() {
                       type="checkbox"
                       checked={selectAll}
                       onChange={toggleSelectAll}
-                      className="form-checkbox h-4 w-4 text-blue-600"
+                      className="form-checkbox h-4 w-4 text-primary"
                     />
                   </div>
                 </TableHead>
                 <TableHead>Expand</TableHead>
-                <TableHead className="text-black">Job ID</TableHead>
-                <TableHead className="text-black">Role</TableHead>
-                <TableHead className="text-black">Job Status</TableHead>
-                <TableHead className="text-black">Expected Start Date</TableHead>
-                <TableHead className="text-black">Hiring Lead</TableHead>
-                <TableHead className="text-black">Interviewer</TableHead>
-                <TableHead className="text-black">
+                <TableHead className="text-foreground">Job ID</TableHead>
+                <TableHead className="text-foreground">Role</TableHead>
+                <TableHead className="text-foreground">Job Status</TableHead>
+                <TableHead className="text-foreground">Expected Start Date</TableHead>
+                <TableHead className="text-foreground">Hiring Lead</TableHead>
+                <TableHead className="text-foreground">Interviewer</TableHead>
+                <TableHead className="text-foreground">
                   <div className="flex items-center gap-1.5">
-                    <Globe className="h-3.5 w-3.5 text-gray-500" />
+                    <Globe className="h-3.5 w-3.5 text-muted-foreground" />
                     Careers
                   </div>
                 </TableHead>
-                <TableHead className="text-center text-black">Actions</TableHead>
+                <TableHead className="text-center text-foreground">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -407,7 +407,7 @@ export function RecruiterJobList() {
                         type="checkbox"
                         checked={pinnedJobs.has(job.id)}
                         onChange={() => handlePinToggle(job.id)}
-                        className="form-checkbox h-4 w-4 text-blue-600"
+                        className="form-checkbox h-4 w-4 text-primary"
                       />
                     </TableCell>
                     <TableCell>
@@ -458,7 +458,7 @@ export function RecruiterJobList() {
                               onCheckedChange={(checked) =>
                                 setCareersEnabled(prev => ({ ...prev, [job.id]: checked }))
                               }
-                              className="data-[state=checked]:bg-green-500 scale-90"
+                              className="data-[state=checked]:bg-success scale-90"
                             />
                           </div>
                         </TooltipTrigger>
@@ -494,67 +494,67 @@ export function RecruiterJobList() {
                   {expandedRows.has(job.id) && (
                     <TableRow className="w-12">
                         <TableCell colSpan={10} className="p-0">
-                          <div className="bg-gray-50 pl-20 pr-4 py-4 border-t">
+                          <div className="bg-muted/50 pl-20 pr-4 py-4 border-t">
                             <div className="grid grid-cols-3 gap-4">
                               <div>
-                                <span className="font-semibold text-gray-700">Positions:</span>
-                                <p className="text-gray-600">{job.positions}</p>
+                                <span className="font-semibold text-foreground">Positions:</span>
+                                <p className="text-muted-foreground">{job.positions}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Project Name:</span>
-                                <p className="text-gray-600">{job.projectName}</p>
+                                <span className="font-semibold text-foreground">Project Name:</span>
+                                <p className="text-muted-foreground">{job.projectName}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Work Mode:</span>
-                                <p className="text-gray-600">{job.workMode}</p>
+                                <span className="font-semibold text-foreground">Work Mode:</span>
+                                <p className="text-muted-foreground">{job.workMode}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Domain:</span>
-                                <p className="text-gray-600">{job.domain}</p>
+                                <span className="font-semibold text-foreground">Domain:</span>
+                                <p className="text-muted-foreground">{job.domain}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Primary Skill:</span>
-                                <p className="text-gray-600">{job.PrimarySkill}</p>
+                                <span className="font-semibold text-foreground">Primary Skill:</span>
+                                <p className="text-muted-foreground">{job.PrimarySkill}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Secondary Skill:</span>
-                                <p className="text-gray-600">{job.SecondarySkill}</p>
+                                <span className="font-semibold text-foreground">Secondary Skill:</span>
+                                <p className="text-muted-foreground">{job.SecondarySkill}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Attributes:</span>
-                                <p className="text-gray-600">{job.Attributes}</p>
+                                <span className="font-semibold text-foreground">Attributes:</span>
+                                <p className="text-muted-foreground">{job.Attributes}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Location:</span>
-                                <p className="text-gray-600">{job.Location}</p>
+                                <span className="font-semibold text-foreground">Location:</span>
+                                <p className="text-muted-foreground">{job.Location}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Experience:</span>
-                                <p className="text-gray-600">{job.experience}</p>
+                                <span className="font-semibold text-foreground">Experience:</span>
+                                <p className="text-muted-foreground">{job.experience}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Budget:</span>
-                                <p className="text-gray-600">{job.budget}</p>
+                                <span className="font-semibold text-foreground">Budget:</span>
+                                <p className="text-muted-foreground">{job.budget}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Preferred Institutions:</span>
-                                <p className="text-gray-600">{job.preferredInstitutions}</p>
+                                <span className="font-semibold text-foreground">Preferred Institutions:</span>
+                                <p className="text-muted-foreground">{job.preferredInstitutions}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Preferred Companies:</span>
-                                <p className="text-gray-600">{job.preferredCompanies}</p>
+                                <span className="font-semibold text-foreground">Preferred Companies:</span>
+                                <p className="text-muted-foreground">{job.preferredCompanies}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">JD Status:</span>
-                                <p className="text-gray-600">{job.jdStatus}</p>
+                                <span className="font-semibold text-foreground">JD Status:</span>
+                                <p className="text-muted-foreground">{job.jdStatus}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Sample Profile:</span>
-                                <p className="text-gray-600">{job.sampleProfile}</p>
+                                <span className="font-semibold text-foreground">Sample Profile:</span>
+                                <p className="text-muted-foreground">{job.sampleProfile}</p>
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-700">Responsibilities:</span>
-                                <p className="text-gray-600">{job.responsibilities}</p>
+                                <span className="font-semibold text-foreground">Responsibilities:</span>
+                                <p className="text-muted-foreground">{job.responsibilities}</p>
                               </div>
                             </div>
                          </div>
@@ -567,10 +567,10 @@ export function RecruiterJobList() {
           </Table>
         </div>
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-muted-foreground">
             Showing all {sortedJobs.length} results
             {filteredJobs.length !== allJobs.length && (
-              <span className="text-blue-600 ml-2">
+              <span className="text-info ml-2">
                 (filtered from {allJobs.length} total)
               </span>
             )}

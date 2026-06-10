@@ -72,7 +72,7 @@ export function TenantDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="bg-gradient-to-r from-[#22c55e] to-[#16a34a] -m-6 mb-0 p-6 rounded-t-lg">
+        <DialogHeader className="bg-success -m-6 mb-0 p-6 rounded-t-lg">
           <DialogTitle className="text-white text-2xl">
             {mode === "create" ? "Add New Tenant" : "Edit Tenant"}
           </DialogTitle>
@@ -87,7 +87,7 @@ export function TenantDialog({
           {/* Basic Information */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-[#22c55e]" />
+              <div className="w-2 h-2 rounded-full bg-success" />
               <h3 className="text-lg font-semibold text-foreground">Basic Information</h3>
             </div>
             
@@ -102,7 +102,7 @@ export function TenantDialog({
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter tenant name"
                   required
-                  className="focus:border-[#22c55e] focus:ring-[#22c55e]"
+                  className="focus:border-success focus:ring-success"
                 />
               </div>
 
@@ -116,7 +116,7 @@ export function TenantDialog({
                   onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
                   placeholder="e.g., company.com"
                   required
-                  className="focus:border-[#22c55e] focus:ring-[#22c55e]"
+                  className="focus:border-success focus:ring-success"
                 />
               </div>
             </div>
@@ -125,7 +125,7 @@ export function TenantDialog({
           {/* Recipient Information */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-[#22c55e]" />
+              <div className="w-2 h-2 rounded-full bg-success" />
               <h3 className="text-lg font-semibold text-foreground">Recipient Information</h3>
             </div>
             
@@ -141,7 +141,7 @@ export function TenantDialog({
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="Enter email address"
                   required
-                  className="focus:border-[#22c55e] focus:ring-[#22c55e]"
+                  className="focus:border-success focus:ring-success"
                 />
               </div>
             </div>
@@ -150,7 +150,7 @@ export function TenantDialog({
           {/* Plan Information */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-[#22c55e]" />
+              <div className="w-2 h-2 rounded-full bg-success" />
               <h3 className="text-lg font-semibold text-foreground">Plan Information</h3>
             </div>
             
@@ -163,7 +163,7 @@ export function TenantDialog({
                   value={formData.plan}
                   onValueChange={(value) => setFormData({ ...formData, plan: value })}
                 >
-                  <SelectTrigger className="focus:border-[#22c55e] focus:ring-[#22c55e]">
+                  <SelectTrigger className="focus:border-success focus:ring-success">
                     <SelectValue placeholder="Select plan" />
                   </SelectTrigger>
                   <SelectContent>

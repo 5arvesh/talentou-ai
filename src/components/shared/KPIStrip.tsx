@@ -1,10 +1,12 @@
 import React from "react";
+import { LucideIcon } from "lucide-react";
 
 interface KPIStat {
   label: string;
   value: string | number;
   sub: string;
   subColor: string;
+  icon?: LucideIcon;
 }
 
 interface KPIStripProps {
@@ -20,7 +22,10 @@ export function KPIStrip({ stats, cols = 4 }: KPIStripProps) {
         <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
           <span className="text-xs text-muted-foreground">{stat.label}</span>
           <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-          <span className={`text-xs font-medium ${stat.subColor}`}>{stat.sub}</span>
+          <span className={`text-xs font-medium flex items-center gap-1 ${stat.subColor}`}>
+            {stat.icon && <stat.icon className="h-3 w-3" />}
+            {stat.sub}
+          </span>
         </div>
       ))}
     </div>

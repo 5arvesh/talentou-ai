@@ -22,7 +22,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Link2, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical } from 'lucide-react';
+import { Mail, Link2, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical, Lock } from 'lucide-react';
+import { RoleType } from '@/components/shared/ModernJobList';
 
 type Stage = 'Applied' | 'Shortlisted' | 'Phone Screen' | 'Interview' | 'Offered';
 
@@ -107,7 +108,7 @@ function DroppableColumn({ id, children, className }: { id: string; children: Re
   );
 }
 
-function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; isDragging?: boolean }) {
+function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandidate; isDragging?: boolean; role: RoleType }) {
   const navigate = useNavigate();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: candidate.id });
 
@@ -121,7 +122,8 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
 
   const handleCardClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('[data-action-btn]')) return;
-    navigate(`/hiring-lead/candidate-profile/${candidate.id}`);
+    const base = role === 'ta-leader' ? '/sales-plan' : role === 'recruiter' ? '/ta-associate' : '/hiring-lead';
+    navigate(`${base}/candidate-profile/${candidate.id}`);
   };
 
   return (
@@ -200,6 +202,7 @@ function CandidateCard({ candidate, isDragging }: { candidate: KanbanCandidate; 
 
 interface KanbanBoardProps {
   jobId: string;
+  role?: RoleType;
 }
 
 const JOB_TITLES: Record<string, string> = {
@@ -215,7 +218,7 @@ const JOB_DAYS_OPEN: Record<string, number> = {
   '1': 14, '2': 21, '3': 9, '4': 30, '5': 18, '6': 7,
 };
 
-export function KanbanBoard({ jobId }: KanbanBoardProps) {
+export function KanbanBoard({ jobId, role = 'hiring-lead' }: KanbanBoardProps) {
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState<KanbanCandidate[]>(INITIAL_CANDIDATES);
   const [search, setSearch] = useState('');
@@ -226,6 +229,8 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
 
   const jobTitle = JOB_TITLES[jobId] || `Job #${jobId}`;
   const daysOpen = JOB_DAYS_OPEN[jobId] || 0;
+  const backRoute = role === 'ta-leader' ? '/sales-plan/jobs' : role === 'recruiter' ? '/ta-associate/jobs' : '/hiring-lead/jobs';
+  const jdRoute = role === 'ta-leader' ? `/sales-plan/jd/${jobId}` : role === 'recruiter' ? `/ta-associate/jd/${jobId}` : `/hiring-lead/jd/${jobId}`;
 
   const filtered = candidates.filter((c) => {
     const matchSearch = search === '' || c.name.toLowerCase().includes(search.toLowerCase());
@@ -278,7 +283,7 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
       {/* Header */}
       <div className="px-6 py-4 border-b border-border flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/hiring-lead-plan/home')}>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(backRoute)}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
@@ -315,7 +320,7 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
           <Info className="h-4 w-4 text-yellow-600 shrink-0 mt-0.5" />
           <p className="text-xs text-yellow-700">
             This role may benefit from reviewing the job description â€” it has been open {daysOpen} days with few candidates.{' '}
-            <button className="underline font-medium" onClick={() => navigate('/hiring-lead/conversation')}>
+            <button className="underline font-medium" onClick={() => navigate(jdRoute)}>
               Review JD
             </button>
           </p>
@@ -347,8 +352,8 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
                           </Badge>
                         </div>
                         {isLocked && (
-                          <span className="text-[10px] mt-0.5 opacity-80 flex items-center gap-0.5">
-                            ðŸ”’ Auto-assigned
+                          <span className="text-[10px] mt-0.5 opacity-80 flex items-center gap-1">
+                            <Lock className="h-2.5 w-2.5" /> Auto-assigned
                           </span>
                         )}
                       </div>
@@ -360,7 +365,7 @@ export function KanbanBoard({ jobId }: KanbanBoardProps) {
                     <SortableContext items={colCandidates.map((c) => c.id)} strategy={verticalListSortingStrategy}>
                       {colCandidates.length > 0 ? (
                         colCandidates.map((c) => (
-                          <CandidateCard key={c.id} candidate={c} isDragging={c.id === activeId} />
+                          <CandidateCard key={c.id} candidate={c} isDragging={c.id === activeId} role={role} />
                         ))
                       ) : (
                         <div className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border/40 rounded-lg text-muted-foreground">

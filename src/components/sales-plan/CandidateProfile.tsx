@@ -408,15 +408,15 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
   const getStatusColor = getCandidateStatusColor;
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return '#4ead3b';
-    if (score >= 60) return '#f59e0b';
-    return '#ef4444';
+    if (score >= 80) return 'hsl(var(--success))';
+    if (score >= 60) return 'hsl(var(--warning))';
+    return 'hsl(var(--destructive))';
   };
 
   const getScoreTextClass = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-amber-500';
-    return 'text-red-500';
+    if (score >= 80) return 'text-success';
+    if (score >= 60) return 'text-warning';
+    return 'text-destructive';
   };
 
   // SVG ring helpers
@@ -426,7 +426,7 @@ export function CandidateProfile({ jobs }: CandidateProfileProps) {
     <div className="flex items-center gap-4">
       <div className="shrink-0">
         <svg width="84" height="84" viewBox="0 0 84 84">
-          <circle cx="42" cy="42" r={r} fill="none" stroke="#e5e7eb" strokeWidth="7" />
+          <circle cx="42" cy="42" r={r} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" />
           <circle
             cx="42" cy="42" r={r} fill="none"
             stroke={getScoreColor(score)} strokeWidth="7"

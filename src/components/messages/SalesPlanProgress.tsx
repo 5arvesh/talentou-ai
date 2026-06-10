@@ -50,9 +50,9 @@ export const SalesPlanProgress = ({
               </div>
               <Progress value={messageProgress} className="h-3 bg-gray-200" 
                 style={{
-                  background: messageProgress === 100 ? 
-                    "linear-gradient(to right, #22c55e, #4ade80)" : 
-                    "linear-gradient(to right, #f97316, #facc15)"
+                  background: messageProgress === 100 ?
+                    "linear-gradient(to right, hsl(var(--success)), hsl(var(--success) / 0.7))" :
+                    "linear-gradient(to right, hsl(var(--warning)), hsl(var(--warning) / 0.6))"
                 }}
               />
 

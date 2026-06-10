@@ -37,7 +37,7 @@ const TALeaderDashboard = () => {
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-2">
           <Icon className="h-5 w-5 text-muted-foreground" />
-          <div className={`flex items-center text-sm ${trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+          <div className={`flex items-center text-sm ${trend === 'up' ? 'text-success' : 'text-destructive'}`}>
             {trend === 'up' ? <TrendingUp className="h-3 w-3 mr-1" /> : <TrendingDown className="h-3 w-3 mr-1" />}
             {change}
           </div>
@@ -53,25 +53,19 @@ const TALeaderDashboard = () => {
 
   const FunnelChart = () => {
     const funnelData = [
-      { 
-        stage: "Sourced & Applied", 
-        count: 1359, 
+      {
+        stage: "Sourced & Applied",
+        count: 1359,
         sourcedCount: 850,
         appliedCount: 509,
-        color: "bg-blue-200",
-        isSplit: true
+        isSplit: true,
       },
-      { stage: "Interview Scheduled", count: 355, color: "bg-orange-200" },
-      { stage: "Review", count: 766, color: "bg-purple-200" },
-      { stage: "Offered", count: 24, color: "bg-yellow-200" },
-      { stage: "Offer Accepted", count: 24, color: "bg-green-200" },
-      { stage: "Hired", count: 20, color: "bg-indigo-200" },
-      { stage: "Rejected", count: 947, color: "bg-red-200" },
-    ];
-
-    const splitLegendData = [
-      { label: "Sourced", count: 850, color: "bg-blue-300" },
-      { label: "Applied", count: 509, color: "bg-blue-500" },
+      { stage: "Interview Scheduled", count: 355 },
+      { stage: "Review", count: 766 },
+      { stage: "Offered", count: 24 },
+      { stage: "Offer Accepted", count: 24 },
+      { stage: "Hired", count: 20 },
+      { stage: "Rejected", count: 947 },
     ];
 
     return (
@@ -80,67 +74,36 @@ const TALeaderDashboard = () => {
           <CardTitle className="text-base">Recruitment Funnel</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex">
-            {/* Funnel visualization */}
-            <div className="flex-1">
-              <div className="space-y-2">
-                {funnelData.map((item, index) => (
-                  <div
-                    key={item.stage}
-                    className="relative"
-                    style={{
-                      width: `${100 - index * 8}%`,
-                      marginLeft: `${index * 4}%`,
-                    }}
-                  >
+          <div className="space-y-3">
+            {funnelData.map((item, index) => {
+              const widthPct = 100 - index * 10;
+              return (
+                <div key={item.stage} className="flex items-center gap-3">
+                  <span className="w-40 shrink-0 text-sm text-muted-foreground">{item.stage}</span>
+                  <div className="flex-1">
                     {item.isSplit ? (
-                      <div className="flex text-center text-sm font-medium">
-                        <div 
-                          className="bg-blue-300 px-3 py-2 flex items-center justify-center"
-                          style={{ width: `${(item.sourcedCount / item.count) * 100}%` }}
-                        >
-                          {item.sourcedCount?.toLocaleString()}
-                        </div>
-                        <div 
-                          className="bg-blue-500 px-3 py-2 flex items-center justify-center text-white"
-                          style={{ width: `${(item.appliedCount / item.count) * 100}%` }}
-                        >
-                          {item.appliedCount?.toLocaleString()}
-                        </div>
+                      <div className="h-7 rounded-md overflow-hidden flex" style={{ width: `${widthPct}%` }}>
+                        <div className="h-full bg-primary/40" style={{ width: `${(item.sourcedCount / item.count) * 100}%` }} />
+                        <div className="h-full bg-primary" style={{ width: `${(item.appliedCount / item.count) * 100}%` }} />
                       </div>
                     ) : (
-                      <div className={`${item.color} px-3 py-2 text-center text-sm font-medium`}>
-                        {item.count.toLocaleString()}
-                      </div>
+                      <div className="h-7 rounded-md bg-primary" style={{ width: `${widthPct}%`, opacity: Math.max(1 - index * 0.12, 0.25) }} />
                     )}
                   </div>
-                ))}
-              </div>
-            </div>
-            {/* Legend */}
-            <div className="ml-4 space-y-2">
-              {funnelData.map((item) => (
-                <div key={item.stage}>
-                  {item.isSplit ? (
-                    <div className="space-y-1">
-                      <div className="flex items-center text-sm font-medium">
-                        <span>{item.stage}</span>
-                      </div>
-                      {splitLegendData.map((split) => (
-                        <div key={split.label} className="flex items-center text-xs">
-                          <div className={`w-3 h-3 ${split.color} mr-2 rounded-sm`}></div>
-                          <span>{split.label} ({split.count.toLocaleString()})</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex items-center text-sm">
-                      <div className={`w-3 h-3 ${item.color} mr-2 rounded-sm`}></div>
-                      <span>{item.stage}</span>
-                    </div>
-                  )}
+                  <span className="w-14 shrink-0 text-sm font-semibold text-right">{item.count.toLocaleString()}</span>
                 </div>
-              ))}
+              );
+            })}
+          </div>
+          {/* Sourced vs Applied breakdown */}
+          <div className="flex items-center gap-4 mt-4 pt-3 border-t border-border text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded-sm bg-primary/40" />
+              <span>Sourced ({funnelData[0].sourcedCount.toLocaleString()})</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded-sm bg-primary" />
+              <span>Applied ({funnelData[0].appliedCount.toLocaleString()})</span>
             </div>
           </div>
         </CardContent>

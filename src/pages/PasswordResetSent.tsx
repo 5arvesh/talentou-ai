@@ -25,10 +25,9 @@ export function PasswordResetSent() {
             We just sent you an email with a link to reset your password
           </p>
           
-          <button 
+          <button
             onClick={handleLogin}
-            style={{ color: "#22C55E" }}
-            className="font-medium hover:underline res-1200:text-xs"
+            className="font-medium text-success hover:underline res-1200:text-xs"
           >
             Click here to login
           </button>

@@ -136,7 +136,7 @@ export const SalesPlanDashboard_TA_Associate = () => {
         <div className="mt-8 res-1200:mt-2 res-1400:mt-7 res-1600:mt-10 flex justify-center gap-4">
           <Button
             onClick={handleAssignTATeam}
-            className="py-4 h-12 res-1200:py-0 res-1200:h-8 res-1400:h-8 res-1400:py-3 res-1600:py-6 px-6 res-1200:px-2 res-1400:px-6 res-1600:px-8 text-base res-1200:text-xs res-1400:text-base res-1600:text-lg flex items-center gap-2 bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white"
+            className="py-4 h-12 res-1200:py-0 res-1200:h-8 res-1400:h-8 res-1400:py-3 res-1600:py-6 px-6 res-1200:px-2 res-1400:px-6 res-1600:px-8 text-base res-1200:text-xs res-1400:text-base res-1600:text-lg flex items-center gap-2 bg-primary hover:bg-primary/90 text-white"
             size="lg"
           >
             <UserPlus size={20} className="w-4 h-4 res-1200:w-1 res-1200:h-1 res-1400:w-5 res-1400:h-5 res-1600:w-6 res-1600:h-6" />

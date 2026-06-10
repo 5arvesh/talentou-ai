@@ -84,20 +84,20 @@ export function MarketDatabase() {
                       <circle 
                         cx="30" cy="30" r="26" 
                         strokeWidth="6" 
-                        stroke="#22c55e" 
-                        fill="none" 
+                        stroke="hsl(var(--success))"
+                        fill="none"
                         strokeLinecap="round"
                         strokeDasharray={`${marketDatabaseScore * 1.64} 164`}
                         strokeDashoffset="41"
                         transform="rotate(-90 30 30)"
                       />
-                      <text 
-                        x="30" y="30" 
-                        dominantBaseline="middle" 
-                        textAnchor="middle" 
-                        fontSize="16" 
+                      <text
+                        x="30" y="30"
+                        dominantBaseline="middle"
+                        textAnchor="middle"
+                        fontSize="16"
                         fontWeight="bold"
-                        fill="#22c55e"
+                        fill="hsl(var(--success))"
                       >
                         {marketDatabaseScore}
                       </text>

@@ -365,15 +365,15 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
   return (
     <div className="flex-1 flex flex-col bg-gradient-to-br from-background via-background to-primary/5">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-border bg-gradient-to-r from-[#58bb6b]/10 via-primary/5 to-background flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58bb6b]/30 to-[#58bb6b]/10 flex items-center justify-center border border-[#58bb6b]/30">
-          <Bot className="w-6 h-6 text-[#58bb6b]" />
+      <div className="px-6 py-4 border-b border-border bg-gradient-to-r from-success/10 via-primary/5 to-background flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-success/30 to-success/10 flex items-center justify-center border border-success/30">
+          <Bot className="w-6 h-6 text-success" />
         </div>
         <div className="flex-1">
           <h2 className="font-semibold text-foreground">Your Talentou AI Coach</h2>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#58bb6b] animate-pulse" />
-            <span className="text-xs text-[#58bb6b] font-medium">Online</span>
+            <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+            <span className="text-xs text-success font-medium">Online</span>
           </div>
         </div>
       </div>
@@ -401,14 +401,14 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
                   }}
                   className="flex items-center gap-4 py-6 animate-fade-in"
                 >
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#58bb6b]/30 to-transparent" />
-                  <div className="flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-[#58bb6b]/20 to-[#58bb6b]/10 border border-[#58bb6b]/30 rounded-full">
-                    <CheckCircle2 className="w-4 h-4 text-[#58bb6b]" />
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-success/30 to-transparent" />
+                  <div className="flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-success/20 to-success/10 border border-success/30 rounded-full">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
                     <span className="text-xs font-medium text-foreground">
                       Stage {(message.stageIndex || 0) + 1}
                     </span>
                   </div>
-                  <div className="flex-1 h-px bg-gradient-to-r from-[#58bb6b]/30 via-transparent to-transparent" />
+                  <div className="flex-1 h-px bg-gradient-to-r from-success/30 via-transparent to-transparent" />
                 </div>
               )}
 
@@ -421,7 +421,7 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
                 <div className={cn(
                   "w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold",
                   message.sender === 'ai' 
-                    ? "bg-gradient-to-br from-[#58bb6b]/20 to-primary/20 border border-[#58bb6b]/30 text-[#58bb6b]" 
+                    ? "bg-gradient-to-br from-success/20 to-primary/20 border border-success/30 text-success" 
                     : "bg-gradient-to-br from-primary to-primary/80 border border-primary/30 text-primary-foreground"
                 )}>
                   {message.sender === 'ai' ? <Bot className="w-5 h-5" /> : 'You'}
@@ -432,9 +432,9 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
                   "max-w-[70%] rounded-lg px-4 py-3",
                   message.sender === 'ai' 
                     ? isCompletionMessage
-                      ? "bg-gradient-to-br from-[#58bb6b]/10 to-[#58bb6b]/5 text-foreground border border-[#58bb6b]/30"
+                      ? "bg-gradient-to-br from-success/10 to-success/5 text-foreground border border-success/30"
                       : "bg-gradient-to-br from-muted to-muted/50 text-foreground border border-border/50"
-                    : "bg-gradient-to-br from-[#58bb6b] to-[#4aa75c] text-white shadow-md"
+                    : "bg-gradient-to-br from-success to-success/80 text-white shadow-md"
                 )}>
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                 </div>
@@ -454,7 +454,7 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
               <button
                 key={index}
                 onClick={() => handleQuickSuggestion(suggestion)}
-                className="px-3 py-1.5 text-xs rounded-full bg-gradient-to-r from-accent/50 to-accent/30 hover:from-[#58bb6b]/20 hover:to-[#58bb6b]/10 text-foreground hover:text-[#58bb6b] border border-border hover:border-[#58bb6b]/40 transition-all duration-200 hover:shadow-sm"
+                className="px-3 py-1.5 text-xs rounded-full bg-gradient-to-r from-accent/50 to-accent/30 hover:from-success/20 hover:to-success/10 text-foreground hover:text-success border border-border hover:border-success/40 transition-all duration-200 hover:shadow-sm"
               >
                 {suggestion}
               </button>
@@ -470,7 +470,7 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
             type="button" 
             variant="outline" 
             size="icon"
-            className="flex-shrink-0 hover:bg-accent/50 hover:border-[#58bb6b]/30"
+            className="flex-shrink-0 hover:bg-accent/50 hover:border-success/30"
           >
             <Paperclip className="w-4 h-4" />
           </Button>
@@ -479,14 +479,14 @@ export function TAPlanContinuousChat({ scrollToStageRef }: TAPlanContinuousChatP
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 border-border/50 focus:border-[#58bb6b]/50"
+            className="flex-1 border-border/50 focus:border-success/50"
           />
           
           <Button 
             type="submit" 
             size="icon"
             disabled={!inputValue.trim()}
-            className="bg-[#58bb6b] hover:bg-[#4aa75c] text-white disabled:opacity-50"
+            className="bg-success hover:bg-success/90 text-white disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
           </Button>

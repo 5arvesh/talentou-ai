@@ -58,11 +58,10 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "flex flex-col h-screen text-white transition-all duration-300 relative",
+        "flex flex-col h-screen text-white bg-brand-900 transition-all duration-300 relative",
         effectiveCollapsed ? "w-[45px]" : "w-[180px] res-1200:w-[148px] res-1400:w-[170px]",
         className
       )}
-      style={{ background: "#2d005f" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -190,7 +189,7 @@ export function Sidebar({ className }: SidebarProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="p-3 h-5 w-5 bg-white rounded-full text-[#2d005f] hover:bg-purple-100 hover:text-[#2d005f]"
+          className="p-3 h-5 w-5 bg-white rounded-full text-brand-900 hover:bg-primary/10 hover:text-brand-900"
           onClick={() => setCollapsed(!collapsed)}
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}

@@ -1,6 +1,6 @@
 ﻿
 import { useState } from "react";
-import { ArrowLeft, Eye, Phone, Mail, Linkedin, MapPin, ChevronUp, ChevronDown } from "lucide-react";
+import { ArrowLeft, Eye, Phone, Mail, Linkedin, MapPin, ChevronUp, ChevronDown, User, Building2, Bookmark, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -96,7 +96,7 @@ export function ContactDetail() {
               <CardContent className="p-6">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-green-600">ðŸ‘¤</div>
+                    <div className="w-5 h-5 mt-1 text-green-600"><User size={16} /></div>
                     <div>
                       <p className="text-gray-500 text-sm">Contact Name</p>
                       <p className="font-medium text-lg">{contactData.name}</p>
@@ -104,7 +104,7 @@ export function ContactDetail() {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-green-600">ðŸ¢</div>
+                    <div className="w-5 h-5 mt-1 text-green-600"><Building2 size={16} /></div>
                     <div>
                       <p className="text-gray-500 text-sm">Company Name</p>
                       <p className="font-medium">{contactData.company}</p>
@@ -112,7 +112,7 @@ export function ContactDetail() {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-green-600">ðŸ”–</div>
+                    <div className="w-5 h-5 mt-1 text-green-600"><Bookmark size={16} /></div>
                     <div>
                       <p className="text-gray-500 text-sm">Designation</p>
                       <p className="font-medium">{contactData.designation}</p>
@@ -128,7 +128,7 @@ export function ContactDetail() {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-emerald-600">â­</div>
+                    <div className="w-5 h-5 mt-1 text-emerald-600"><Star size={16} /></div>
                     <div className="flex-1">
                       <p className="text-gray-500 text-sm">Buyer Intent Score</p>
                       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-md mt-1">

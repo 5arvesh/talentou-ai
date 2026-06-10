@@ -71,7 +71,7 @@ export function RoleSelection() {
                   key={role.id}
                   onClick={() => setSelectedRole(role.id)}
                   className={cn(
-                    "w-full text-left px-4 py-3.5 rounded-[10px] border transition-all duration-150",
+                    "w-full text-left px-4 py-3.5 rounded-btn border transition-all duration-150",
                     isSelected
                       ? "border-primary bg-purple-50 shadow-sm"
                       : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50/60"
@@ -89,7 +89,7 @@ export function RoleSelection() {
           <button
             onClick={handleContinue}
             disabled={!selectedRole}
-            className="w-full h-11 rounded-[10px] text-sm font-semibold transition-all duration-150 bg-primary text-white disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90"
+            className="w-full h-11 rounded-btn text-sm font-semibold transition-all duration-150 bg-primary text-white disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90"
           >
             Continue to workspace
           </button>

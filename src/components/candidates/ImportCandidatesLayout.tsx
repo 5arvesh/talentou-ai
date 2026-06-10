@@ -213,7 +213,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
               {/* Stage: download */}
               {stage === "download" && (
                 <div className="space-y-5">
-                  <div className="bg-accent rounded-2xl p-6 border border-primary/10">
+                  <div className="bg-accent rounded-card p-6 border border-primary/10">
                     <div className="flex items-start gap-4">
                       <FileSpreadsheet className="h-10 w-10 text-primary shrink-0 mt-0.5" />
                       <div>
@@ -264,7 +264,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
               {/* Stage: upload */}
               {stage === "upload" && (
                 <div className="space-y-5">
-                  <div className="border border-gray-200 rounded-2xl p-5 bg-white">
+                  <div className="border border-gray-200 rounded-card p-5 bg-white">
                     <p className="text-sm font-semibold text-gray-800 mb-3">Import Summary</p>
                     <div className="flex flex-wrap gap-x-5 gap-y-2">
                       {[["Upload Files", 0], ["Total Rows", 0], ["Processed", 0], ["Skipped", 0]].map(([label, val]) => (
@@ -278,9 +278,9 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
 
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full border-2 border-dashed border-primary/30 hover:border-primary/60 hover:bg-accent/50 rounded-2xl p-10 flex flex-col items-center gap-4 transition-all group"
+                    className="w-full border-2 border-dashed border-primary/30 hover:border-primary/60 hover:bg-accent/50 rounded-card p-10 flex flex-col items-center gap-4 transition-all group"
                   >
-                    <div className="w-14 h-14 rounded-full bg-[#ebdbfc] flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <Upload className="h-6 w-6 text-primary" />
                     </div>
                     <div className="text-center">
@@ -386,7 +386,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
             <div className="flex-1 overflow-y-auto p-4">
               {(stage === "download" || stage === "upload") ? (
                 <div className="h-full flex flex-col items-center justify-center gap-3 text-center px-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-card bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center">
                     <Upload className="h-7 w-7 text-gray-300" />
                   </div>
                   <p className="text-sm font-medium text-gray-400">Candidates will appear here after import</p>

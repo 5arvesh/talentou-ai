@@ -27,7 +27,7 @@ export function JobOpenings() {
       jobRole: "Product Manager",
       project: "Platform Beta",
       requiredSkills: "Strategy, Analytics, Agile",
-      status: "Pending Approval",
+      status: "In Review",
       statusTooltip: "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
       taAssociate: "David Wilson",
       interviewer: "Lisa Zhang"
@@ -107,7 +107,7 @@ export function JobOpenings() {
       jobRole: "Sales Representative",
       project: "Sales Operations",
       requiredSkills: "CRM, Communication, Lead Generation",
-      status: "Pending Approval",
+      status: "In Review",
       statusTooltip: "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
       taAssociate: "Sophie Chen",
       interviewer: "Michael Johnson"
@@ -157,7 +157,7 @@ export function JobOpenings() {
       jobRole: "Technical Writer",
       project: "Documentation",
       requiredSkills: "Technical Writing, API Documentation",
-      status: "Pending Approval",
+      status: "In Review",
       statusTooltip: "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
       taAssociate: "Amy Foster",
       interviewer: "Tom Brady"
@@ -254,10 +254,6 @@ export function JobOpenings() {
   const endIndex = startIndex + itemsPerPage;
   const currentJobs = allJobs.slice(startIndex, endIndex);
 
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const goToPrevious = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -274,11 +270,11 @@ export function JobOpenings() {
     <TooltipProvider>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Job Openings</h1>
+          <h1 className="text-3xl font-bold text-foreground">Job Openings</h1>
         </div>
 
         {/* Job Openings Table */}
-        <div className="bg-white rounded-lg border shadow-sm">
+        <div className="bg-card rounded-lg border shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
@@ -302,19 +298,19 @@ export function JobOpenings() {
                       className="p-1 h-8 w-8"
                       onClick={() => handlePinClick(job.id)}
                     >
-                      <Pin 
-                        size={14} 
+                      <Pin
+                        size={14}
                         className={`transition-colors ${
-                          pinnedItems.has(job.id) 
-                            ? 'text-blue-600 fill-blue-600' 
-                            : 'text-gray-400 hover:text-blue-500'
-                        }`} 
+                          pinnedItems.has(job.id)
+                            ? 'text-primary fill-primary'
+                            : 'text-muted-foreground hover:text-primary'
+                        }`}
                       />
                     </Button>
                   </TableCell>
                   <TableCell className="font-medium">{job.jobRole}</TableCell>
-                  <TableCell className="text-gray-600">{job.project}</TableCell>
-                  <TableCell className="text-gray-600">{job.requiredSkills}</TableCell>
+                  <TableCell className="text-muted-foreground">{job.project}</TableCell>
+                  <TableCell className="text-muted-foreground">{job.requiredSkills}</TableCell>
                   <TableCell>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -347,10 +343,10 @@ export function JobOpenings() {
 
         {/* Pagination */}
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-muted-foreground">
             Showing {startIndex + 1} to {Math.min(endIndex, allJobs.length)} of {allJobs.length} results
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               size="sm"
@@ -360,17 +356,9 @@ export function JobOpenings() {
               <ChevronLeft size={14} />
               Previous
             </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
-                onClick={() => goToPage(page)}
-                className="w-8 h-8 p-0"
-              >
-                {page}
-              </Button>
-            ))}
+            <span className="text-sm text-muted-foreground">
+              Page {currentPage} of {totalPages}
+            </span>
             <Button
               variant="outline"
               size="sm"

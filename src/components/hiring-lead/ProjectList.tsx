@@ -196,10 +196,6 @@ export function ProjectList() {
     setSelectAll(allSelected);
   }, [pinnedProjects, currentProjects]);
 
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const goToPrevious = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -272,9 +268,9 @@ export function ProjectList() {
     <TooltipProvider>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Projects</h1>
+          <h1 className="text-3xl font-bold text-foreground">Projects</h1>
         </div>
-        <div className="bg-white rounded-lg border shadow-sm">
+        <div className="bg-card rounded-lg border shadow-sm">
           <Table>
             <TableHeader>
               <TableRow className="h-10">
@@ -284,33 +280,33 @@ export function ProjectList() {
                       type="checkbox"
                       checked={selectAll}
                       onChange={toggleSelectAll}
-                      className="form-checkbox h-4 w-4 text-blue-600"
+                      className="form-checkbox h-4 w-4 text-primary"
                     />
                   </div>
                 </TableHead>
                 <TableHead className="w-12"></TableHead>
-                <TableHead className="text-black">
+                <TableHead className="text-foreground">
                   <div className="flex items-center">
                     Project Name
                     <FilterPopover column="projectName" placeholder="Project Name" />
                   </div>
                 </TableHead>
-                <TableHead className="text-black">No of Openings</TableHead>
-                <TableHead className="text-black">
+                <TableHead className="text-foreground">No of Openings</TableHead>
+                <TableHead className="text-foreground">
                   <div className="flex items-center">
                     Location
                     <FilterPopover column="location" placeholder="Location" />
                   </div>
                 </TableHead>
-                <TableHead className="text-black">
+                <TableHead className="text-foreground">
                   <div className="flex items-center">
                     Hiring Lead
                     <FilterPopover column="hiringLead" placeholder="Hiring Lead" />
                   </div>
                 </TableHead>
-                <TableHead className="text-black">Created</TableHead>
-                <TableHead className="text-black">Modified</TableHead>
-                <TableHead className="text-center text-black">Actions</TableHead>
+                <TableHead className="text-foreground">Created</TableHead>
+                <TableHead className="text-foreground">Modified</TableHead>
+                <TableHead className="text-center text-foreground">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -328,7 +324,7 @@ export function ProjectList() {
                           type="checkbox"
                           checked={pinnedProjects.has(project.id)}
                           onChange={() => handlePinToggle(project.id)}
-                          className="form-checkbox h-4 w-4 text-blue-600"
+                          className="form-checkbox h-4 w-4 text-primary"
                         />
                       </Button>
                     </TableCell>
@@ -354,18 +350,18 @@ export function ProjectList() {
                       {project.projectName}
                     </TableCell>
                     <TableCell className="p-2">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-info/10 text-info">
                         {project.numberOfOpenings}
                       </span>
                     </TableCell>
-                    <TableCell className="text-gray-600 p-2">
+                    <TableCell className="text-muted-foreground p-2">
                       {project.location}
                     </TableCell>
                     <TableCell className="p-2">{project.hiringLead}</TableCell>
-                    <TableCell className="text-gray-600 p-2">
+                    <TableCell className="text-muted-foreground p-2">
                       {project.created}
                     </TableCell>
-                    <TableCell className="text-gray-600 p-2">
+                    <TableCell className="text-muted-foreground p-2">
                       {project.modified}
                     </TableCell>
                     <TableCell className="p-2">
@@ -381,21 +377,21 @@ export function ProjectList() {
                   </TableRow>
                   {expandedRows.has(project.id) && (
                     <TableRow>
-                      <TableCell colSpan={9} className="p-4 bg-gray-50 border-t">
+                      <TableCell colSpan={9} className="p-4 bg-muted/50 border-t">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Project Description</h4>
-                            <p className="text-gray-600 text-sm mb-3">{project.description}</p>
-                            
-                            <h4 className="font-semibold text-gray-900 mb-2">Hiring Lead Contact</h4>
-                            <p className="text-gray-600 text-sm mb-3">{project.hiringLeadEmail}</p>
-                            
-                            <h4 className="font-semibold text-gray-900 mb-2">Collaterals</h4>
+                            <h4 className="font-semibold text-foreground mb-2">Project Description</h4>
+                            <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
+
+                            <h4 className="font-semibold text-foreground mb-2">Hiring Lead Contact</h4>
+                            <p className="text-muted-foreground text-sm mb-3">{project.hiringLeadEmail}</p>
+
+                            <h4 className="font-semibold text-foreground mb-2">Collaterals</h4>
                             <div className="flex flex-wrap gap-2">
                               {project.collaterals.map((collateral, index) => (
                                 <span
                                   key={index}
-                                  className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800"
+                                  className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-info/10 text-info"
                                 >
                                   {collateral}
                                 </span>
@@ -403,14 +399,14 @@ export function ProjectList() {
                             </div>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Created</h4>
-                            <p className="text-gray-600 text-sm mb-3">{project.created}</p>
-                            
-                            <h4 className="font-semibold text-gray-900 mb-2">Modified</h4>
-                            <p className="text-gray-600 text-sm mb-3">{project.modified}</p>
-                            
-                            <h4 className="font-semibold text-gray-900 mb-2">Owner (Hiring Lead)</h4>
-                            <p className="text-gray-600 text-sm">{project.owner}</p>
+                            <h4 className="font-semibold text-foreground mb-2">Created</h4>
+                            <p className="text-muted-foreground text-sm mb-3">{project.created}</p>
+
+                            <h4 className="font-semibold text-foreground mb-2">Modified</h4>
+                            <p className="text-muted-foreground text-sm mb-3">{project.modified}</p>
+
+                            <h4 className="font-semibold text-foreground mb-2">Owner (Hiring Lead)</h4>
+                            <p className="text-muted-foreground text-sm">{project.owner}</p>
                           </div>
                         </div>
                       </TableCell>
@@ -422,16 +418,16 @@ export function ProjectList() {
           </Table>
         </div>
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-muted-foreground">
             Showing {startIndex + 1} to {Math.min(endIndex, sortedProjects.length)}{" "}
             of {sortedProjects.length} results
             {filteredProjects.length !== allProjects.length && (
-              <span className="text-blue-600 ml-2">
+              <span className="text-info ml-2">
                 (filtered from {allProjects.length} total)
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               size="sm"
@@ -441,17 +437,9 @@ export function ProjectList() {
               <ChevronLeft size={14} />
               Previous
             </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
-                onClick={() => goToPage(page)}
-                className="w-8 h-8 p-0"
-              >
-                {page}
-              </Button>
-            ))}
+            <span className="text-sm text-muted-foreground">
+              Page {currentPage} of {totalPages}
+            </span>
             <Button
               variant="outline"
               size="sm"

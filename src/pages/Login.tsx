@@ -67,7 +67,7 @@ export function Login() {
         <AuthHeader />
 
         {/* Auth card */}
-        <div className="max-w-[440px] mx-auto w-full mt-6 rounded-[16px] border border-gray-100 shadow-raised p-10 res-1200:p-6 res-1200:max-w-xs res-1400:max-w-[440px]">
+        <div className="max-w-[440px] mx-auto w-full mt-6 rounded-card border border-gray-100 shadow-raised p-10 res-1200:p-6 res-1200:max-w-xs res-1400:max-w-[440px]">
           <h1 className="text-xl font-semibold text-gray-900 mb-7 text-center res-1200:text-base res-1200:mb-4">
             Welcome to Talentou
           </h1>
@@ -79,7 +79,7 @@ export function Login() {
                 id="email"
                 type="email"
                 placeholder="Enter your email address"
-                className="rounded-[10px] h-12 res-1200:h-8 res-1200:text-xs focus:border-purple-700 focus:ring-2 focus:ring-purple-700/20"
+                className="rounded-input h-12 res-1200:h-8 res-1200:text-xs focus:border-purple-700 focus:ring-2 focus:ring-purple-700/20"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -92,7 +92,7 @@ export function Login() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="rounded-[10px] h-12 pr-10 res-1200:h-8 res-1200:text-xs focus:border-purple-700 focus:ring-2 focus:ring-purple-700/20"
+                  className="rounded-input h-12 pr-10 res-1200:h-8 res-1200:text-xs focus:border-purple-700 focus:ring-2 focus:ring-purple-700/20"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -120,7 +120,7 @@ export function Login() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-12 font-medium rounded-[10px] hover:opacity-90 res-1200:h-8 res-1200:text-xs"
+              className="w-full h-12 font-medium rounded-btn hover:opacity-90 res-1200:h-8 res-1200:text-xs"
             >
               {loading ? "Loading..." : "Login"}
             </Button>

@@ -14,7 +14,6 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
@@ -66,9 +65,16 @@ export function InterviewSchedulingDrawer({
     '8h': 'Send in 8 hours',
   };
 
+  const sendOptionShortLabels: Record<SendOption, string> = {
+    now: 'Now',
+    '2h': '2h',
+    '4h': '4h',
+    '8h': '8h',
+  };
+
   return (
     <Sheet open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
-      <SheetContent side="right" className="w-[460px] sm:max-w-[460px] flex flex-col p-0">
+      <SheetContent side="right" className="w-[420px] sm:max-w-[420px] flex flex-col p-0">
         <SheetHeader className="px-6 py-5 border-b border-border">
           <SheetTitle className="text-lg font-bold text-primary">Schedule Interview</SheetTitle>
           <SheetDescription className="text-sm text-muted-foreground">
@@ -85,14 +91,14 @@ export function InterviewSchedulingDrawer({
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
               <span>
                 <span className="text-muted-foreground">Technical: </span>
-                <span className="font-semibold text-blue-600">~{technicalMins} min</span>
+                <span className="font-semibold text-info">~{technicalMins} min</span>
               </span>
               {behavioralMins > 0 && (
                 <>
                   <span className="text-muted-foreground">|</span>
                   <span>
                     <span className="text-muted-foreground">Behavioral: </span>
-                    <span className="font-semibold text-orange-600">~{behavioralMins} min</span>
+                    <span className="font-semibold text-warning">~{behavioralMins} min</span>
                   </span>
                 </>
               )}
@@ -149,31 +155,26 @@ export function InterviewSchedulingDrawer({
           </div>
 
           {/* Send Options */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label className="text-sm font-medium text-foreground">When to send the link</Label>
-            <RadioGroup
-              value={sendOption}
-              onValueChange={(v) => setSendOption(v as SendOption)}
-              className="space-y-2"
-            >
-              {(Object.keys(sendOptionLabels) as SendOption[]).map((key) => (
-                <div
+            <div className="flex rounded-chip border border-border p-1 bg-muted/30">
+              {(Object.keys(sendOptionShortLabels) as SendOption[]).map((key) => (
+                <button
                   key={key}
-                  className={cn(
-                    'flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors',
-                    sendOption === key
-                      ? 'border-primary bg-[#faf5ff]'
-                      : 'border-border hover:bg-muted/30'
-                  )}
+                  type="button"
+                  aria-label={sendOptionLabels[key]}
                   onClick={() => setSendOption(key)}
+                  className={cn(
+                    'flex-1 rounded-chip px-3 py-2 text-sm font-medium transition-colors',
+                    sendOption === key
+                      ? 'bg-primary text-white'
+                      : 'text-muted-foreground hover:text-foreground'
+                  )}
                 >
-                  <RadioGroupItem value={key} id={`send-${key}`} />
-                  <Label htmlFor={`send-${key}`} className="cursor-pointer text-sm">
-                    {sendOptionLabels[key]}
-                  </Label>
-                </div>
+                  {sendOptionShortLabels[key]}
+                </button>
               ))}
-            </RadioGroup>
+            </div>
           </div>
         </div>
 
@@ -186,7 +187,7 @@ export function InterviewSchedulingDrawer({
           <Button
             disabled={!expiryDate || !expiryTime}
             onClick={handleSubmit}
-            className="flex-1 bg-green-500 hover:bg-[#8FD378] text-white disabled:opacity-50"
+            className="flex-1 bg-primary hover:bg-primary/90 text-white disabled:opacity-50"
           >
             Schedule Interview & Send Link
           </Button>

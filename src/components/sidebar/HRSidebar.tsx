@@ -141,11 +141,11 @@ export function HRSidebar({ className }: HRSidebarProps) {
 
       {/* Sidebar collapse toggle button */}
       <div className="absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
-        <div className="rounded-full flex items-center justify-center hover:text-white hover:bg-[#0a92ff] transition-transform transform hover:scale-125 ease-in">
+        <div className="rounded-full flex items-center justify-center hover:text-white hover:bg-talentou-blue transition-transform transform hover:scale-125 ease-in">
           <Button
             variant="ghost"
             size="icon"
-            className="p-3 h-5 w-5 bg-white rounded-full text-purple-600 hover:bg-[#0a92ff] hover:text-white"
+            className="p-3 h-5 w-5 bg-white rounded-full text-purple-600 hover:bg-talentou-blue hover:text-white"
             onClick={toggleSidebar}
           >
             {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
