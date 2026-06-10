@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Layout } from "@/components/layout/Layout";
+﻿import React, { useEffect } from 'react';
+import { AppLayout } from "@/components/layout/AppLayout";
 import { JobListSalesPlan } from "@/components/sales-plan/JobListSalesPlan";
 import { useTourStore, TourStep } from "@/store/tour-store";
 
@@ -32,11 +32,11 @@ export function JobListPage_TALeader() {
   }, []);
 
   return (
-    <Layout>
+    <AppLayout>
       <div data-tour-id="job-list">
         <JobListSalesPlan />
       </div>
-    </Layout>
+    </AppLayout>
   );
 }
 

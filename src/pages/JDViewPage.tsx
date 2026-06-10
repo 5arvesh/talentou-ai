@@ -1,5 +1,5 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
+﻿import { useParams, useNavigate } from "react-router-dom";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Copy, Download, MapPin, Calendar, Briefcase, Users } from "lucide-react";
@@ -27,7 +27,7 @@ const mockJDData: Record<string, {
   "JOB-0001": {
     id: "JOB-0001",
     role: "Senior Frontend Developer",
-    client: "Amgen – Data Platform",
+    client: "Amgen â€“ Data Platform",
     location: "San Francisco, CA",
     workMode: "Hybrid",
     status: "Active",
@@ -58,7 +58,7 @@ const mockJDData: Record<string, {
   "JOB-0002": {
     id: "JOB-0002",
     role: "Backend Engineer",
-    client: "TechCorp – API Gateway",
+    client: "TechCorp â€“ API Gateway",
     location: "Remote",
     workMode: "Remote",
     status: "Active",
@@ -155,7 +155,7 @@ export function JDViewPage() {
   };
 
   return (
-    <Layout>
+    <AppLayout>
       <div className="p-6 max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -198,7 +198,7 @@ export function JDViewPage() {
             <div className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4 text-muted-foreground" />
               <span className="text-muted-foreground">
-                {jobInfo.workMode === "Remote" ? "Remote" : `${jobInfo.location} · ${jobInfo.workMode}`}
+                {jobInfo.workMode === "Remote" ? "Remote" : `${jobInfo.location} Â· ${jobInfo.workMode}`}
               </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
@@ -240,7 +240,7 @@ export function JDViewPage() {
           <ul className="space-y-2">
             {jobInfo.responsibilities.map((item, index) => (
               <li key={index} className="flex items-start gap-2 text-muted-foreground">
-                <span className="text-primary mt-1">•</span>
+                <span className="text-primary mt-1">â€¢</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -253,7 +253,7 @@ export function JDViewPage() {
           <ul className="space-y-2">
             {jobInfo.qualifications.map((item, index) => (
               <li key={index} className="flex items-start gap-2 text-muted-foreground">
-                <span className="text-primary mt-1">•</span>
+                <span className="text-primary mt-1">â€¢</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -272,7 +272,7 @@ export function JDViewPage() {
           <p className="text-muted-foreground">{jobInfo.salary}</p>
         </div>
       </div>
-    </Layout>
+    </AppLayout>
   );
 }
 

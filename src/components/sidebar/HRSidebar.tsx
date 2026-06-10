@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
@@ -40,7 +40,7 @@ export function HRSidebar({ className }: HRSidebarProps) {
           : "w-[180px] res-1200:w-[148px] res-1400:w-[170px]",
         className
       )}
-      style={{ background: "linear-gradient(45deg, #7E00FC, #0A92FE)" }}
+      style={{ background: "hsl(var(--nav-bg))" }}
     >
       {/* Logo */}
       <div className="py-3 px-4 border-b border-white/20 flex items-center justify-center h-[73px] res-1200:h-[50px] res-1200:py-1 res-1200:px-2">

@@ -1,12 +1,12 @@
-
-import { Layout } from "@/components/layout/Layout";
+﻿
+import { AppLayout } from "@/components/layout/AppLayout";
 import { LeadTracker } from "@/components/lead-tracker/LeadTracker";
 
 const LeadTrackerPage = () => {
   return (
-    <Layout>
+    <AppLayout>
       <LeadTracker />
-    </Layout>
+    </AppLayout>
   );
 };
 

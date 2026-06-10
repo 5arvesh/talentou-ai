@@ -1,15 +1,15 @@
-
+﻿
 import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { AssignTATeamChat } from '@/components/assign/AssignTATeamChat';
 
 export function AssignTATeamPage() {
   return (
-    <Layout>
+    <AppLayout>
       <div className="w-full mx-auto">
         <AssignTATeamChat />
       </div>
-    </Layout>
+    </AppLayout>
   );
 }
 

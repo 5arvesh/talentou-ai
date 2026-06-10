@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+﻿import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Button } from "@/components/ui/button";
@@ -125,7 +125,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
         <ChevronRight className="h-3.5 w-3.5 text-gray-300" />
         <span className="text-sm font-medium text-gray-700">Import Candidates</span>
         <ChevronRight className="h-3.5 w-3.5 text-gray-300" />
-        <span className="text-sm font-semibold text-[#7800D3]">{jobRole}</span>
+        <span className="text-sm font-semibold text-primary">{jobRole}</span>
       </div>
 
       {/* 3-panel body */}
@@ -134,10 +134,10 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
         {/* LEFT: Job context + progress steps */}
         <ResizablePanel defaultSize={20} minSize={15} maxSize={28}>
           <div className="h-full bg-white border-r border-gray-100 flex flex-col">
-            <div className="p-6 border-b border-[#7800D3]/10">
+            <div className="p-6 border-b border-primary/10">
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">Importing for</p>
-              <h2 className="text-xl font-bold text-[#7800D3] mb-3 leading-tight">{jobRole}</h2>
-              <Badge variant="outline" className="text-xs bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20">
+              <h2 className="text-xl font-bold text-primary mb-3 leading-tight">{jobRole}</h2>
+              <Badge variant="outline" className="text-xs bg-green-500/10 text-green-600 border-green-500/20">
                 Job #{String(jobId).padStart(4, "0")}
               </Badge>
             </div>
@@ -151,15 +151,15 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                     key={i}
                     className={cn(
                       "flex items-start gap-3 p-3 rounded-xl transition-all border",
-                      isActive ? "bg-[#7800D3]/8 border-[#7800D3]/15" :
-                      isCompleted ? "bg-[#4EAD3B]/5 border-[#4EAD3B]/15" :
+                      isActive ? "bg-primary/8 border-primary/15" :
+                      isCompleted ? "bg-green-500/5 border-green-500/15" :
                       "bg-gray-50 border-transparent opacity-50"
                     )}
                   >
                     <div className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0",
-                      isCompleted ? "bg-[#4EAD3B] text-white" :
-                      isActive ? "bg-[#7800D3] text-white" :
+                      isCompleted ? "bg-green-500 text-white" :
+                      isActive ? "bg-primary text-white" :
                       "bg-gray-200 text-gray-500"
                     )}>
                       {isCompleted ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
@@ -167,7 +167,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                     <div>
                       <p className={cn(
                         "text-sm font-semibold",
-                        isActive ? "text-[#7800D3]" : isCompleted ? "text-[#4EAD3B]" : "text-gray-500"
+                        isActive ? "text-primary" : isCompleted ? "text-green-600" : "text-gray-500"
                       )}>
                         {step.label}
                       </p>
@@ -193,13 +193,13 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                   <React.Fragment key={s}>
                     <div className={cn(
                       "flex items-center gap-1.5 text-[10px] font-semibold px-3 py-1.5 rounded-full",
-                      i < stepIndex ? "bg-[#4EAD3B]/20 text-[#4EAD3B]" :
-                      i === stepIndex ? "bg-[#7800D3] text-white" : "bg-gray-100 text-gray-400"
+                      i < stepIndex ? "bg-green-500/20 text-green-600" :
+                      i === stepIndex ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
                     )}>
                       <span className={cn(
                         "w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold",
-                        i < stepIndex ? "bg-[#4EAD3B] text-white" :
-                        i === stepIndex ? "bg-white text-[#7800D3]" : "bg-gray-300 text-white"
+                        i < stepIndex ? "bg-green-500 text-white" :
+                        i === stepIndex ? "bg-white text-primary" : "bg-gray-300 text-white"
                       )}>
                         {i < stepIndex ? <CheckCircle2 className="h-3 w-3" /> : i + 1}
                       </span>
@@ -213,13 +213,13 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
               {/* Stage: download */}
               {stage === "download" && (
                 <div className="space-y-5">
-                  <div className="bg-[#f5efff] rounded-2xl p-6 border border-[#7800D3]/10">
+                  <div className="bg-accent rounded-2xl p-6 border border-primary/10">
                     <div className="flex items-start gap-4">
-                      <FileSpreadsheet className="h-10 w-10 text-[#7800D3] shrink-0 mt-0.5" />
+                      <FileSpreadsheet className="h-10 w-10 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-base font-semibold text-[#7800D3] mb-1.5">Start with our sample template</p>
+                        <p className="text-base font-semibold text-primary mb-1.5">Start with our sample template</p>
                         <p className="text-sm text-gray-600 leading-relaxed">
-                          Download the sample CSV to see the exact format required. Fill in your candidate data and upload it — the system will import all entries automatically.
+                          Download the sample CSV to see the exact format required. Fill in your candidate data and upload it â€” the system will import all entries automatically.
                         </p>
                       </div>
                     </div>
@@ -237,7 +237,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                   </div>
 
                   <Button
-                    className="w-full bg-[#7800D3] hover:bg-[#6200ad] text-white h-12 text-sm font-semibold gap-2"
+                    className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-sm font-semibold gap-2"
                     onClick={() => { downloadSampleCSV(); setSampleDownloaded(true); }}
                   >
                     <Download className="h-4 w-4" />
@@ -245,14 +245,14 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                   </Button>
 
                   {sampleDownloaded && (
-                    <p className="text-xs text-[#4EAD3B] flex items-center gap-1.5 font-medium">
+                    <p className="text-xs text-green-600 flex items-center gap-1.5 font-medium">
                       <CheckCircle2 className="h-3.5 w-3.5" /> sample_candidates.csv downloaded
                     </p>
                   )}
 
                   <Button
                     variant="outline"
-                    className="w-full border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/5 gap-2 h-11"
+                    className="w-full border-primary/30 text-primary hover:bg-primary/5 gap-2 h-11"
                     onClick={() => setStage("upload")}
                   >
                     Continue to Upload
@@ -278,13 +278,13 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
 
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full border-2 border-dashed border-[#7800D3]/30 hover:border-[#7800D3]/60 hover:bg-[#f5efff]/50 rounded-2xl p-10 flex flex-col items-center gap-4 transition-all group"
+                    className="w-full border-2 border-dashed border-primary/30 hover:border-primary/60 hover:bg-accent/50 rounded-2xl p-10 flex flex-col items-center gap-4 transition-all group"
                   >
-                    <div className="w-14 h-14 rounded-full bg-[#ebdbfc] flex items-center justify-center group-hover:bg-[#7800D3]/20 transition-colors">
-                      <Upload className="h-6 w-6 text-[#7800D3]" />
+                    <div className="w-14 h-14 rounded-full bg-[#ebdbfc] flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Upload className="h-6 w-6 text-primary" />
                     </div>
                     <div className="text-center">
-                      <p className="text-sm font-semibold text-[#7800D3]">Click to upload your file</p>
+                      <p className="text-sm font-semibold text-primary">Click to upload your file</p>
                       <p className="text-xs text-muted-foreground mt-1">Supports .csv, .xlsx, .xls</p>
                     </div>
                   </button>
@@ -298,7 +298,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                   />
 
                   <Button
-                    className="w-full bg-[#7800D3] hover:bg-[#6200ad] text-white h-12 gap-2 font-semibold"
+                    className="w-full bg-primary hover:bg-primary/90 text-white h-12 gap-2 font-semibold"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <Upload className="h-4 w-4" />
@@ -309,7 +309,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                     onClick={() => setStage("download")}
                     className="w-full text-xs text-muted-foreground hover:text-gray-700 text-center"
                   >
-                    ← Back to sample download
+                    â† Back to sample download
                   </button>
                 </div>
               )}
@@ -327,7 +327,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                       )}
                     </div>
                     {stage === "done" && (
-                      <div className="flex items-center gap-1.5 text-[#4EAD3B]">
+                      <div className="flex items-center gap-1.5 text-green-600">
                         <CheckCircle2 className="h-5 w-5" />
                         <span className="text-sm font-bold">{MOCK_IMPORT_CANDIDATES.length} added</span>
                       </div>
@@ -344,17 +344,17 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
 
                   {stage === "done" && (
                     <>
-                      <div className="bg-[#4EAD3B]/10 border border-[#4EAD3B]/25 rounded-xl p-4 flex items-center gap-2">
-                        <Sparkles className="h-4 w-4 text-[#4EAD3B] shrink-0" />
-                        <p className="text-sm font-semibold text-[#4EAD3B]">
+                      <div className="bg-green-500/10 border border-green-500/25 rounded-xl p-4 flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-green-600 shrink-0" />
+                        <p className="text-sm font-semibold text-green-600">
                           {MOCK_IMPORT_CANDIDATES.length} candidates imported successfully.
                         </p>
                       </div>
                       <Button
-                        className="w-full bg-[#4EAD3B] hover:bg-[#3D9630] text-white h-12 font-semibold"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white h-12 font-semibold"
                         onClick={handleDone}
                       >
-                        Done — View Candidates
+                        Done â€” View Candidates
                       </Button>
                     </>
                   )}
@@ -371,12 +371,12 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
           <div className="h-full bg-white flex flex-col">
             <div className="p-5 border-b border-gray-100 shrink-0">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-[#7800D3]/10">
-                  <Users className="h-4 w-4 text-[#7800D3]" />
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <Users className="h-4 w-4 text-primary" />
                 </div>
                 <h3 className="text-sm font-semibold text-gray-800">Candidate Preview</h3>
                 {stage === "done" && (
-                  <Badge className="ml-auto bg-[#4EAD3B]/10 text-[#4EAD3B] border border-[#4EAD3B]/20 text-xs font-semibold">
+                  <Badge className="ml-auto bg-green-500/10 text-green-600 border border-green-500/20 text-xs font-semibold">
                     {MOCK_IMPORT_CANDIDATES.length} imported
                   </Badge>
                 )}
@@ -404,7 +404,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                           : "opacity-0 translate-y-2 pointer-events-none"
                       )}
                     >
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#7800D3] to-[#0A92FE] flex items-center justify-center text-white text-sm font-bold shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-indigo-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
                         {c.name.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -412,7 +412,7 @@ export function ImportCandidatesLayout({ jobId, jobRole, role }: ImportCandidate
                         <p className="text-xs text-muted-foreground truncate">{c.role}</p>
                       </div>
                       {i < visibleRows && (
-                        <CheckCircle2 className="h-4 w-4 text-[#4EAD3B] shrink-0" />
+                        <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
                       )}
                     </div>
                   ))}

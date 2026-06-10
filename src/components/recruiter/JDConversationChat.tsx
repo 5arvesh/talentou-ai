@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Send, Download, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,30 +32,30 @@ Join a company where you'll work with cutting-edge technologies in a flexible en
 As a Full Stack Developer, you will be integral to developing and maintaining web applications, collaborating closely with teams across functions. You will have the opportunity to drive features from conception to deployment and play a key part in delivering high-quality software solutions.
 
 <strong>Key Responsibilities</strong>
-• Develop and maintain web applications
-• Collaborate with cross-functional teams
-• Participate in code reviews
+â€¢ Develop and maintain web applications
+â€¢ Collaborate with cross-functional teams
+â€¢ Participate in code reviews
 
 <strong>Required Skills</strong>
-• JavaScript
-• React
-• Node.js
+â€¢ JavaScript
+â€¢ React
+â€¢ Node.js
 
 <strong>Preferred Skills</strong>
-• TypeScript
-• GraphQL
+â€¢ TypeScript
+â€¢ GraphQL
 
 <strong>Soft Skills</strong>
-• Communication
-• Problem-solving
+â€¢ Communication
+â€¢ Problem-solving
 
 <strong>Preferred Qualifications</strong>
-• B.Tech, M.Tech (preferably from IIT, NIT)
+â€¢ B.Tech, M.Tech (preferably from IIT, NIT)
 
 <strong>Preferred Experience</strong>
-• Experience in the IT industry, especially within Fintech or SaaS domains
-• Exposure to agile development methodologies
-• Familiarity with large-scale distributed systems
+â€¢ Experience in the IT industry, especially within Fintech or SaaS domains
+â€¢ Exposure to agile development methodologies
+â€¢ Familiarity with large-scale distributed systems
 
 <strong>Who Should Apply</strong>
 This role is ideal for Full Stack Developers with at least 2 years of relevant experience who are passionate about technology, thrive in collaborative settings, and are looking for opportunities to learn and grow in a dynamic environment.`;
@@ -95,12 +95,12 @@ This role is ideal for Full Stack Developers with at least 2 years of relevant e
           currentMessage.toLowerCase().includes("finalize")) {
         aiResponse = `Excellent! I've finalized the Job Description for Job #${String(jobId).padStart(4, "0")}. The JD is now ready for posting and can be used for recruitment activities.
 
-✅ **Job Description Status: FINALIZED**
+âœ… **Job Description Status: FINALIZED**
 
 You can now:
-• Copy the JD to clipboard using the "Copy JD" button below
-• Download it as a text document using the "Download JD" button
-• Use this JD for posting on job boards and recruitment platforms
+â€¢ Copy the JD to clipboard using the "Copy JD" button below
+â€¢ Download it as a text document using the "Download JD" button
+â€¢ Use this JD for posting on job boards and recruitment platforms
 
 The finalized JD includes all the requirements from the TA Plan and incorporates the hiring lead's specifications. You're all set to start recruiting!`;
         setJdFinalized(true);
@@ -232,11 +232,11 @@ Just say "finalize this as JD" when you're satisfied with the content.`;
               }}
               rows={1}
               style={{ minHeight: "40px", maxHeight: "120px" }}
-              className="flex-1 resize-none overflow-y-auto scrollbar-hide px-4 py-2 border rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#7E00FC] transition-all duration-200 res-1200:text-[10px] res-1400:text-xs"
+              className="flex-1 resize-none overflow-y-auto scrollbar-hide px-4 py-2 border rounded-3xl focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ai-purple))] transition-all duration-200 res-1200:text-[10px] res-1400:text-xs"
             />
             <button
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white rounded-full h-10 w-10 cursor-pointer flex items-center justify-center bg-gradient-to-br from-[#7E00FC] to-[#0A92FE] hover:from-[#0A92FE] hover:to-[#7E00FC] 
+              className="bg-green-500 hover:bg-green-600 text-white rounded-full h-10 w-10 cursor-pointer flex items-center justify-center bg-gradient-to-br from-primary to-indigo-400 hover:from-primary hover:to-ai-purple 
               res-1200:h-7 res-1200:w-7 res-1400:h-7 res-1400:w-7"
               disabled={!currentMessage.trim()}
             >

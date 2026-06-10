@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { useNavigate } from 'react-router-dom';
 import { Label } from '@/components/ui/label';
@@ -69,7 +69,7 @@ export function TeamInvitationPanel() {
                 type="button"
                 variant={selectedRoles.includes('recruiter') ? 'default' : 'outline'}
                 onClick={() => toggleRole('recruiter')}
-                className={`flex-1 h-11 border-transparent ${selectedRoles.includes('recruiter') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff]'}`}
+                className={`flex-1 h-11 border-transparent ${selectedRoles.includes('recruiter') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-primary hover:bg-[#e9d1ff]'}`}
               >
                 Recruiter
               </Button>
@@ -77,7 +77,7 @@ export function TeamInvitationPanel() {
                 type="button"
                 variant={selectedRoles.includes('hiring_lead') ? 'default' : 'outline'}
                 onClick={() => toggleRole('hiring_lead')}
-                className={`flex-1 h-11 border-transparent ${selectedRoles.includes('hiring_lead') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff]'}`}
+                className={`flex-1 h-11 border-transparent ${selectedRoles.includes('hiring_lead') ? 'bg-[#7800d4] text-white hover:bg-[#7800d4]/90' : 'bg-[#f3eeff] font-bold text-primary hover:bg-[#e9d1ff]'}`}
               >
                 Hiring Lead
               </Button>
@@ -89,7 +89,7 @@ export function TeamInvitationPanel() {
                         type="button"
                         disabled
                         variant="outline"
-                        className="w-full h-11 opacity-50 cursor-not-allowed bg-[#f3eeff] border-transparent font-bold text-[#7800D3]"
+                        className="w-full h-11 opacity-50 cursor-not-allowed bg-[#f3eeff] border-transparent font-bold text-primary"
                       >
                         HR
                       </Button>
@@ -111,7 +111,7 @@ export function TeamInvitationPanel() {
           <Button
             onClick={addMember}
             disabled={!canAddMember}
-            className="w-full h-11 bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff] border-transparent"
+            className="w-full h-11 bg-[#f3eeff] font-bold text-primary hover:bg-[#e9d1ff] border-transparent"
             variant="outline"
           >
             <Mail className="h-5 w-5 mr-2" />

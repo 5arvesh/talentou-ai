@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Calendar, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -146,7 +146,7 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
 
   return (
     <>
-      {/* Bulk action bar — only visible for recruiter when candidates are selected */}
+      {/* Bulk action bar â€” only visible for recruiter when candidates are selected */}
       {isRecruiter && selectedIds.size > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-[#1e1e2e] text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
           <div className="flex items-center gap-2">
@@ -166,7 +166,7 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
           </Button>
           <Button
             size="sm"
-            className="bg-[#7800D3] hover:bg-[#6600bb] text-white text-xs h-8 gap-1.5"
+            className="bg-primary hover:bg-[#6600bb] text-white text-xs h-8 gap-1.5"
             onClick={handleBulkSchedule}
           >
             <Calendar className="h-3.5 w-3.5" />

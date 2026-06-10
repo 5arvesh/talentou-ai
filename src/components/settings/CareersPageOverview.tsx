@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Plus, X, Copy, Check, RefreshCw, AlertCircle } from 'lucide-react';
 
-// TODO: connect to API — GET /settings/careers
+// TODO: connect to API â€” GET /settings/careers
 const MOCK_SNIPPET_ID = 'tal_snip_abc123xyz';
 const MOCK_TOKEN = 'tok_live_9f8e7d6c5b';
 
@@ -68,7 +68,7 @@ export function CareersPageOverview() {
           <Button
             type="button"
             size="icon"
-            className="h-9 w-9 shrink-0 bg-[#4EAD3B] hover:bg-[#3d9e2c] text-white"
+            className="h-9 w-9 shrink-0 bg-green-500 hover:bg-[#3d9e2c] text-white"
             onClick={handleAddDomain}
           >
             <Plus className="h-4 w-4" />
@@ -77,7 +77,7 @@ export function CareersPageOverview() {
         {domains.length === 0 ? (
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-700">
             <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-            No domain restrictions — the widget will work on any website.
+            No domain restrictions â€” the widget will work on any website.
           </div>
         ) : (
           <div className="flex flex-wrap gap-2">
@@ -99,17 +99,17 @@ export function CareersPageOverview() {
         <Card>
           <CardContent className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
-              <div className={`h-2.5 w-2.5 rounded-full ${isActive ? 'bg-[#4EAD3B] animate-pulse' : 'bg-gray-400'}`} />
+              <div className={`h-2.5 w-2.5 rounded-full ${isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
               <div>
                 <p className="text-sm font-semibold">Careers Page Status</p>
-                <p className="text-xs text-muted-foreground">{isActive ? 'Active and visible to visitors' : 'Inactive — not visible to visitors'}</p>
+                <p className="text-xs text-muted-foreground">{isActive ? 'Active and visible to visitors' : 'Inactive â€” not visible to visitors'}</p>
               </div>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={handleToggleStatus}
-              className={isActive ? 'text-red-600 border-red-300 hover:bg-red-50' : 'text-[#4EAD3B] border-[#4EAD3B]/40 hover:bg-green-50'}
+              className={isActive ? 'text-red-600 border-red-300 hover:bg-red-50' : 'text-green-600 border-green-500/40 hover:bg-green-50'}
             >
               {isActive ? 'Disable' : 'Enable'}
             </Button>

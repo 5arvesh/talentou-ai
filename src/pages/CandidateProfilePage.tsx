@@ -1,5 +1,5 @@
-import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+﻿import React from 'react';
+import { AppLayout } from "@/components/layout/AppLayout";
 import { CandidateProfile } from "@/components/sales-plan/CandidateProfile";
 
 export function CandidateProfilePage() {
@@ -30,9 +30,9 @@ export function CandidateProfilePage() {
   ];
 
   return (
-    <Layout>
+    <AppLayout>
       <CandidateProfile jobs={jobs} />
-    </Layout>
+    </AppLayout>
   );
 }
 

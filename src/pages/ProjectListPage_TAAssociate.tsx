@@ -1,12 +1,12 @@
-import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+﻿import React from 'react';
+import { AppLayout } from "@/components/layout/AppLayout";
 import { ProjectList } from "@/components/hiring-lead/ProjectList";
 
 export function ProjectListPage_TAAssociate() {
   return (
-    <Layout>
+    <AppLayout>
       <ProjectList />
-    </Layout>
+    </AppLayout>
   );
 }
 

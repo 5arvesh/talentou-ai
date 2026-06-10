@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { HiringLeadConversationProvider, useHiringLeadConversation } from "@/context/HiringLeadConversationContext";
 import { HiringLeadConversationProgress } from "./HiringLeadConversationProgress";
 import { HiringLeadConversationChat } from "./HiringLeadConversationChat";
@@ -48,15 +47,7 @@ function ConversationContent() {
         </div>
       </ResizablePanel>
 
-      <ResizableHandle>
-        <div 
-          className="absolute z-50 flex h-6 w-5 items-center justify-center rounded-full border border-gray-200 bg-white cursor-pointer shadow-md text-gray-500 hover:text-gray-800 hover:bg-gray-50"
-          onClick={() => useChatPanelStore.getState().toggleChat()}
-          title="Toggle Chat"
-        >
-          {isChatOpen ? <ChevronLeft className="h-4 w-4 pr-0.5" /> : <ChevronRight className="h-4 w-4 pl-0.5" />}
-        </div>
-      </ResizableHandle>
+      <ResizableHandle />
 
       {isChatOpen && (
         <>

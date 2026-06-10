@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -31,10 +31,10 @@ export function JDPreviewStage() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="p-6 border-b border-border flex items-center justify-between">
+      <div className="px-5 py-4 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-[#7800D3]">Job Description</h2>
-          <p className="text-xs text-muted-foreground mt-1">Submitted by {jobDetails.hiringLead}</p>
+          <h2 className="text-base font-medium tracking-tight text-gray-900">Job Description</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">Submitted by {jobDetails.hiringLead}</p>
         </div>
         <Button
           variant="ghost"
@@ -122,7 +122,7 @@ export function JDPreviewStage() {
             </Card>
 
             {/* About the Role */}
-            <Card className="p-5 border border-[#7800D3]/20 bg-[#7800D3]/4">
+            <Card className="p-5 border border-primary/20 bg-primary/4">
               <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
                 <Star className="h-5 w-5 text-primary" />
                 About the Role
@@ -220,9 +220,9 @@ export function JDPreviewStage() {
 
             {/* Screening Questions */}
             {jobDetails.screeningQuestions && jobDetails.screeningQuestions.length > 0 && (
-              <Card className="p-5 border border-[#7800D3]/20">
+              <Card className="p-5 border border-primary/20">
                 <h3 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2">
-                  <ClipboardList className="h-5 w-5 text-[#7800D3]" />
+                  <ClipboardList className="h-5 w-5 text-primary" />
                   Screening Questions
                   <Badge variant="secondary" className="text-xs font-normal ml-1">
                     {jobDetails.screeningQuestions.length}
@@ -234,7 +234,7 @@ export function JDPreviewStage() {
                 <div className="space-y-2">
                   {jobDetails.screeningQuestions.map((q, index) => (
                     <div key={q.id} className="flex items-start gap-3 p-3 bg-muted/20 rounded-lg border border-border/60">
-                      <span className="text-[10px] font-bold text-[#7800D3] bg-[#7800D3]/10 rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="text-[10px] font-bold text-primary bg-primary/10 rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
                         {index + 1}
                       </span>
                       <p className="flex-1 text-sm text-foreground leading-snug">{q.text}</p>
@@ -259,7 +259,7 @@ export function JDPreviewStage() {
 
       {/* Approve/Reject Buttons - Fixed at bottom of right panel */}
       {showApprovalButtons && !showRejectionInput && (
-        <div className="border-t border-border p-4 bg-white">
+        <div className="p-4 bg-[#F8F7FF] flex justify-center gap-3">
           <div className="flex gap-3">
             <Button 
               onClick={handleReject}
@@ -271,7 +271,7 @@ export function JDPreviewStage() {
             </Button>
             <Button 
               onClick={handleApprove}
-              className="flex-1 bg-[#4ead3b] hover:bg-[#8FD378] text-white"
+              className="flex-1 bg-green-500 hover:bg-[#8FD378] text-white"
             >
               <ThumbsUp className="h-4 w-4 mr-2" />
               Approve Position

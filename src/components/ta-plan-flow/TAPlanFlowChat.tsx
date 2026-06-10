@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Send, Loader2, PanelRightClose } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import talentouMascot from '@/assets/talentou-mascot-new.png';
@@ -15,8 +15,10 @@ export function TAPlanFlowChat({ scrollToStageRef }: TAPlanFlowChatProps) {
   const { chatMessages, currentStage, addChatMessage, updatePlanData } = useTAPlanFlow();
   const [userInput, setUserInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [sendPulse, setSendPulse] = useState(false);
 
   useEffect(() => {
     if (chatMessages.length === 0) {
@@ -30,6 +32,12 @@ export function TAPlanFlowChat({ scrollToStageRef }: TAPlanFlowChatProps) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatMessages, isTyping]);
+
+  const handleAutoResize = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    const el = e.currentTarget;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  };
 
   const processUserResponse = (input: string) => {
     const lowerInput = input.toLowerCase();
@@ -105,6 +113,12 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
     const message = userInput.trim();
     addChatMessage({ sender: 'user', content: message });
     setUserInput('');
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
+
+    setSendPulse(true);
+    setTimeout(() => setSendPulse(false), 400);
 
     if (currentStage === 0) {
       const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -125,17 +139,17 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
   };
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full flex flex-col bg-[#FEFEFF] shadow-[inset_4px_0_12px_rgba(120,0,211,0.04)]">
       {/* Chat Header */}
       <div className="px-5 py-4 border-b border-border">
         <div className="flex items-center gap-3">
           <img
             src={talentouMascot}
             alt="Talentou Agent"
-            className="h-10 w-auto object-contain shrink-0"
+            className={`h-10 w-auto object-contain shrink-0 ${isTyping ? 'mascot-talking' : 'mascot-idle'}`}
           />
           <div className="flex-1 min-w-0">
-            <h2 className="text-[15px] font-semibold text-gray-800">Talentou Agent</h2>
+            <h2 className="text-base font-medium tracking-tight text-gray-800">Talentou Agent</h2>
             <div className="flex items-center gap-2 mt-0.5">
               <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs text-muted-foreground">Online</span>
@@ -155,7 +169,7 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
       <div className="flex-1 relative overflow-hidden">
         {isProcessing && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm">
-            <Loader2 className="h-9 w-9 text-[#7800D3] animate-spin" />
+            <Loader2 className="h-9 w-9 text-primary animate-spin" />
             <p className="text-sm text-muted-foreground mt-3 font-medium">Extracting from website…</p>
           </div>
         )}
@@ -169,10 +183,11 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
                 <div
                   className={`
                     max-w-[80%] rounded-2xl px-5 py-4
+                    animate-in fade-in slide-in-from-bottom-1 duration-200
                     ${
                       message.sender === 'user'
-                        ? 'bg-[#7800D3] text-white shadow-sm'
-                        : 'bg-white text-slate-700 shadow-[0_2px_12px_rgba(0,0,0,0.08)]'
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'bg-[#F3E8FF] border border-[#E0C7FF] text-slate-700 shadow-[0_2px_12px_rgba(120,0,211,0.06)]'
                     }
                   `}
                 >
@@ -183,11 +198,11 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
 
             {isTyping && (
               <div className="flex justify-start">
-                <div className="bg-white rounded-2xl px-4 py-3.5 shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
+                <div className="bg-[#F3E8FF] border border-[#E0C7FF] rounded-2xl px-4 py-3.5 shadow-[0_2px_12px_rgba(120,0,211,0.06)]">
                   <div className="flex gap-1.5 items-center">
-                    <span className="h-2 w-2 rounded-full bg-slate-400 animate-bounce [animation-delay:0ms]" />
-                    <span className="h-2 w-2 rounded-full bg-slate-400 animate-bounce [animation-delay:150ms]" />
-                    <span className="h-2 w-2 rounded-full bg-slate-400 animate-bounce [animation-delay:300ms]" />
+                    <span className="h-2 w-2 rounded-full bg-[#7800D3]/60 animate-bounce [animation-delay:0ms]" />
+                    <span className="h-2 w-2 rounded-full bg-[#7800D3]/60 animate-bounce [animation-delay:150ms]" />
+                    <span className="h-2 w-2 rounded-full bg-[#7800D3]/60 animate-bounce [animation-delay:300ms]" />
                   </div>
                 </div>
               </div>
@@ -199,22 +214,30 @@ Our company culture has been recognized as a Great Place to Work in 2024, reflec
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t border-border bg-white">
-        <div className="flex gap-2 max-w-3xl mx-auto items-center">
-          <Button type="button" variant="ghost" size="icon" className="text-gray-400 hover:text-gray-600 shrink-0">
+      <div className="p-4 border-t border-border bg-[#FAFAFA]">
+        <div className="flex gap-2 max-w-3xl mx-auto items-end">
+          <Button type="button" variant="ghost" size="icon" className="text-gray-400 hover:text-gray-600 shrink-0 mb-0.5">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
           </Button>
-          <Input
+          <Textarea
+            ref={textareaRef}
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Type your message..."
-            className="h-11 bg-gray-50 border-gray-200 rounded-full text-sm"
+            onInput={handleAutoResize}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+            placeholder="Type your message…"
+            className="min-h-[44px] max-h-[120px] rounded-2xl resize-none bg-gray-50/80 border-gray-200 text-sm py-3"
+            rows={1}
           />
           <Button
             onClick={handleSendMessage}
             disabled={isProcessing || isTyping}
-            className="h-10 w-10 rounded-full p-0 shrink-0 bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0 disabled:opacity-50"
+            className={`h-10 w-10 rounded-full p-0 shrink-0 mb-0.5 bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white border-0 disabled:opacity-50 ${sendPulse ? 'send-pulse' : ''}`}
           >
             <Send className="h-4 w-4" />
           </Button>

@@ -1,5 +1,5 @@
-
-import { Layout } from "@/components/layout/Layout";
+﻿
+import { AppLayout } from "@/components/layout/AppLayout";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowUp } from "lucide-react";
@@ -35,7 +35,7 @@ const CompaniesAdded = () => {
   };
 
   return (
-    <Layout>
+    <AppLayout>
       <div className="flex flex-col space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Companies Added</h1>
@@ -153,7 +153,7 @@ const CompaniesAdded = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </AppLayout>
   );
 };
 

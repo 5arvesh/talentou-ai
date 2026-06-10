@@ -1,4 +1,4 @@
-
+﻿
 import * as React from "react"
 import * as ProgressPrimitive from "@radix-ui/react-progress"
 
@@ -20,7 +20,7 @@ const Progress = React.forwardRef<
       className="h-full w-full flex-1 transition-all progress-indicator"
       style={{ 
         transform: `translateX(-${100 - (value || 0)}%)`,
-        backgroundColor: "#7800D3"
+        backgroundColor: "hsl(var(--primary))"
       }}
     />
   </ProgressPrimitive.Root>

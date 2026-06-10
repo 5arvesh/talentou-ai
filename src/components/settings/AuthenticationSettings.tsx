@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -42,7 +42,7 @@ export function AuthenticationSettings() {
           </div>
 
           {ssoEnabled && (
-            <div className="space-y-4 mt-4 p-4 bg-[#7800D3]/5 rounded-lg border border-[#7800D3]/20">
+            <div className="space-y-4 mt-4 p-4 bg-primary/5 rounded-lg border border-primary/20">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Microsoft Entra ID</label>
                 <p className="text-xs text-muted-foreground">

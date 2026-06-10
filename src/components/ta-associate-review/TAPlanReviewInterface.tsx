@@ -17,14 +17,14 @@ export function TAPlanReviewInterface() {
           <ReviewProgressSidebar />
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle />
 
         {/* Middle: Feedback Chat */}
         <ResizablePanel defaultSize={40} minSize={30}>
           <ReviewChatPanel />
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle />
 
         {/* Right: Plan Details */}
         <ResizablePanel defaultSize={40} minSize={35}>

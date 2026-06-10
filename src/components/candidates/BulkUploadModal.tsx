@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+﻿import React, { useState, useRef, useEffect } from "react";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 interface BulkUploadModalProps {
   open: boolean;
   onClose: () => void;
-  // Legacy props accepted but unused — dialog manages its own file input
+  // Legacy props accepted but unused â€” dialog manages its own file input
   file?: File | null;
   onImport?: () => void;
 }
@@ -122,11 +122,11 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); }}>
       <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-2xl border-0 shadow-2xl">
-        <div className="h-1.5 w-full bg-gradient-to-r from-[#0A92FE] to-[#7E00FC]" />
+        <div className="h-1.5 w-full bg-gradient-to-r from-primary to-ai-purple" />
 
         <div className="px-6 pt-5 pb-6 space-y-5">
           <DialogHeader>
-            <DialogTitle className="text-base font-semibold text-[#7800D3] flex items-center gap-2">
+            <DialogTitle className="text-base font-semibold text-primary flex items-center gap-2">
               <Users className="h-4 w-4" />
               Bulk Import Candidates
             </DialogTitle>
@@ -140,10 +140,10 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                   <React.Fragment key={s}>
                     <div className={cn(
                       "flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full",
-                      i === 0 ? "bg-[#7800D3] text-white" : "bg-gray-100 text-gray-400"
+                      i === 0 ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
                     )}>
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold",
-                        i === 0 ? "bg-white text-[#7800D3]" : "bg-gray-300 text-white"
+                        i === 0 ? "bg-white text-primary" : "bg-gray-300 text-white"
                       )}>{i + 1}</span>
                       {s}
                     </div>
@@ -152,13 +152,13 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                 ))}
               </div>
 
-              <div className="bg-[#f5efff] rounded-xl p-4 border border-[#7800D3]/10">
+              <div className="bg-accent rounded-xl p-4 border border-primary/10">
                 <div className="flex items-start gap-3">
-                  <FileSpreadsheet className="h-8 w-8 text-[#7800D3] shrink-0 mt-0.5" />
+                  <FileSpreadsheet className="h-8 w-8 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-[#7800D3] mb-1">Start with our sample template</p>
+                    <p className="text-sm font-semibold text-primary mb-1">Start with our sample template</p>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      Download the sample CSV file to see the exact format required. Fill in your candidate data and upload it back — the system will import all entries automatically.
+                      Download the sample CSV file to see the exact format required. Fill in your candidate data and upload it back â€” the system will import all entries automatically.
                     </p>
                   </div>
                 </div>
@@ -178,14 +178,14 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                   Download the sample Excel file to update and format your data according to this structure
                 </p>
                 <Button
-                  className="w-full bg-[#7800D3] hover:bg-[#6200ad] text-white h-11 text-sm font-semibold gap-2"
+                  className="w-full bg-primary hover:bg-primary/90 text-white h-11 text-sm font-semibold gap-2"
                   onClick={() => { downloadSampleCSV(); setSampleDownloaded(true); }}
                 >
                   <Download className="h-4 w-4" />
                   Download Sample Format
                 </Button>
                 {sampleDownloaded && (
-                  <p className="text-[10px] text-[#4ead3b] text-center font-medium flex items-center justify-center gap-1">
+                  <p className="text-[10px] text-green-600 text-center font-medium flex items-center justify-center gap-1">
                     <CheckCircle2 className="h-3 w-3" /> sample_candidates.csv downloaded
                   </p>
                 )}
@@ -193,7 +193,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
 
               <Button
                 variant="outline"
-                className="w-full border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/5 gap-2 text-sm"
+                className="w-full border-primary/30 text-primary hover:bg-primary/5 gap-2 text-sm"
                 onClick={() => setStage("upload")}
               >
                 Continue to Upload
@@ -210,12 +210,12 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                   <React.Fragment key={s}>
                     <div className={cn(
                       "flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full",
-                      i === 0 ? "bg-[#4ead3b]/20 text-[#4ead3b]" :
-                      i === 1 ? "bg-[#7800D3] text-white" : "bg-gray-100 text-gray-400"
+                      i === 0 ? "bg-green-500/20 text-green-600" :
+                      i === 1 ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
                     )}>
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold",
-                        i === 0 ? "bg-[#4ead3b] text-white" :
-                        i === 1 ? "bg-white text-[#7800D3]" : "bg-gray-300 text-white"
+                        i === 0 ? "bg-green-500 text-white" :
+                        i === 1 ? "bg-white text-primary" : "bg-gray-300 text-white"
                       )}>
                         {i === 0 ? <CheckCircle2 className="h-3 w-3" /> : i + 1}
                       </span>
@@ -243,13 +243,13 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
 
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full border-2 border-dashed border-[#7800D3]/30 hover:border-[#7800D3]/60 hover:bg-[#f5efff]/50 rounded-xl p-8 flex flex-col items-center gap-3 transition-all group"
+                className="w-full border-2 border-dashed border-primary/30 hover:border-primary/60 hover:bg-accent/50 rounded-xl p-8 flex flex-col items-center gap-3 transition-all group"
               >
-                <div className="w-12 h-12 rounded-full bg-[#ebdbfc] flex items-center justify-center group-hover:bg-[#7800D3]/20 transition-colors">
-                  <Upload className="h-5 w-5 text-[#7800D3]" />
+                <div className="w-12 h-12 rounded-full bg-[#ebdbfc] flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <Upload className="h-5 w-5 text-primary" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-semibold text-[#7800D3]">Click to upload your file</p>
+                  <p className="text-sm font-semibold text-primary">Click to upload your file</p>
                   <p className="text-xs text-muted-foreground mt-0.5">Supports .csv, .xlsx, .xls</p>
                 </div>
               </button>
@@ -263,7 +263,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
               />
 
               <Button
-                className="w-full bg-[#7800D3] hover:bg-[#6200ad] text-white h-11 text-sm font-semibold gap-2"
+                className="w-full bg-primary hover:bg-primary/90 text-white h-11 text-sm font-semibold gap-2"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="h-4 w-4" />
@@ -271,7 +271,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
               </Button>
 
               <button onClick={() => setStage("download")} className="w-full text-xs text-muted-foreground hover:text-gray-700 text-center">
-                ← Back to sample download
+                â† Back to sample download
               </button>
             </div>
           )}
@@ -287,7 +287,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                   <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[300px]">{fileName}</p>
                 </div>
                 {stage === "done" && (
-                  <div className="flex items-center gap-1.5 text-[#4ead3b]">
+                  <div className="flex items-center gap-1.5 text-green-600">
                     <CheckCircle2 className="h-5 w-5" />
                     <span className="text-sm font-bold">{MOCK_IMPORT_CANDIDATES.length} added</span>
                   </div>
@@ -298,7 +298,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                 <Progress
                   value={progress}
                   className="h-2"
-                  style={{ "--progress-background": stage === "done" ? "#4ead3b" : "#7800D3" } as React.CSSProperties}
+                  style={{ "--progress-background": stage === "done" ? "#22C55E" : "hsl(var(--primary))" } as React.CSSProperties}
                 />
                 <div className="flex justify-between text-[10px] text-muted-foreground">
                   <span>{visibleRows} of {MOCK_IMPORT_CANDIDATES.length} candidates</span>
@@ -322,14 +322,14 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
                       )}
                     >
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#7800D3] to-[#0A92FE] flex items-center justify-center text-white text-[9px] font-bold shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-indigo-400 flex items-center justify-center text-white text-[9px] font-bold shrink-0">
                           {c.name.charAt(0)}
                         </div>
                         <span className="text-xs font-medium text-gray-800 truncate">{c.name}</span>
                       </div>
                       <span className="text-xs text-muted-foreground truncate">{c.role}</span>
                       {i < visibleRows ? (
-                        <CheckCircle2 className="h-4 w-4 text-[#4ead3b] shrink-0" />
+                        <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
                       ) : (
                         <div className="h-4 w-4 rounded-full border-2 border-gray-200 shrink-0" />
                       )}
@@ -339,9 +339,9 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
               </div>
 
               {stage === "done" && (
-                <div className="bg-[#4ead3b]/10 border border-[#4ead3b]/25 rounded-xl p-3 flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-[#4ead3b] shrink-0" />
-                  <p className="text-xs font-semibold text-[#4ead3b]">
+                <div className="bg-green-500/10 border border-green-500/25 rounded-xl p-3 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-green-600 shrink-0" />
+                  <p className="text-xs font-semibold text-green-600">
                     {MOCK_IMPORT_CANDIDATES.length} candidates imported successfully and added to your candidate list.
                   </p>
                 </div>
@@ -349,7 +349,7 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
 
               {stage === "done" && (
                 <Button
-                  className="w-full bg-[#4ead3b] hover:bg-[#3d9630] text-white h-11 text-sm font-semibold"
+                  className="w-full bg-green-500 hover:bg-green-600 text-white h-11 text-sm font-semibold"
                   onClick={handleClose}
                 >
                   Done

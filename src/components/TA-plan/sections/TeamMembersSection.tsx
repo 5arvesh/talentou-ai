@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Check, UserPlus } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
@@ -41,13 +41,13 @@ export function TeamMembersSection() {
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    className="hover:bg-[#7800D3]/10 hover:text-[#7800D3]"
+                    className="hover:bg-primary/10 hover:text-primary"
                   >
                     <UserPlus className="w-3 h-3 mr-1" />
                     Invite
                   </Button>
                 </div>
-                <div className="p-3 bg-[#7800D3]/5 rounded-md min-h-[60px] border border-[#7800D3]/10">
+                <div className="p-3 bg-primary/5 rounded-md min-h-[60px] border border-primary/10">
                   {role.members.length > 0 ? (
                     <div className="space-y-2">
                       {role.members.map((member: any, index: number) => (

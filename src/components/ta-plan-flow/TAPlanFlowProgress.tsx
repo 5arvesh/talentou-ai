@@ -48,7 +48,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
       {/* Header */}
       <div className="px-5 py-4 flex items-center justify-between">
         <div>
-          <h2 className="text-[15px] font-semibold text-gray-900">Planning Desk</h2>
+          <h2 className="text-base font-medium tracking-tight text-gray-900">Planning Desk</h2>
           <p className="text-xs text-muted-foreground mt-0.5">Navigate your planning journey</p>
         </div>
         {!isChatOpen && (
@@ -72,7 +72,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
               key={stage.id}
               onClick={() => handleStageClick(stage.id)}
               className={`
-                rounded-card transition-all duration-200
+                rounded-card transition-all duration-300
                 ${status === 'completed' ? 'p-4 bg-white border-2 border-emerald-500 cursor-pointer hover:shadow-md' : ''}
                 ${status === 'in-progress' ? 'p-4 bg-white border-2 border-primary shadow-sm cursor-pointer hover:shadow-md' : ''}
                 ${status === 'upcoming' ? 'p-4 bg-white border border-border opacity-50 cursor-not-allowed' : ''}
@@ -129,7 +129,7 @@ export function TAPlanFlowProgress({ scrollToStageRef }: TAPlanFlowProgressProps
           <div className="flex items-center gap-3 bg-white border border-border rounded-full px-4 py-2.5 shadow-sm">
             <span className="text-xs text-gray-600 font-medium flex-1">
               Hi {userName}, Just{' '}
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary text-white text-[10px] font-bold mx-0.5">
+              <span key={stepsLeft} className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary text-white text-[10px] font-bold mx-0.5 animate-in fade-in duration-300">
                 {stepsLeft}
               </span>{' '}
               steps left

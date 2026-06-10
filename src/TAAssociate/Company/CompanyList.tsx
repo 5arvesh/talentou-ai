@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Eye, Pencil, Paperclip } from "lucide-react";
 import {
   Table,
@@ -53,7 +53,7 @@ const CompanyList = () => {
         <TabsContent value="company">
           <div className="rounded-2xl shadow-2xl overflow-hidden border border-brand-300 bg-gradient-to-br from-brand-100 to-blue-100">
             <Table className="rounded-2xl">
-              <TableHeader className="bg-gradient-to-br from-[#7E00FC] to-[#0A92FE] text-white">
+              <TableHeader className="bg-gradient-to-br from-primary to-indigo-400 text-white">
                 <TableRow>
                   <TableHead>Project Name</TableHead>
                   <TableHead>No of Openings</TableHead>

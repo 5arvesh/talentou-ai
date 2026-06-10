@@ -1,4 +1,4 @@
-
+﻿
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,7 @@ export function ThemeSettings() {
   const navigate = useNavigate();
   const [companyName, setCompanyName] = useState("Ignitho Technologies");
   const [logo, setLogo] = useState<string | null>(null);
-  const [primaryColor, setPrimaryColor] = useState("#7E00FC");
+  const [primaryColor, setPrimaryColor] = useState("hsl(var(--ai-purple))");
   const [secondaryColor, setSecondaryColor] = useState("#0a92ff");
   const [tertiaryColor, setTertiaryColor] = useState("#56BB6B");
 
@@ -216,7 +216,7 @@ export function ThemeSettings() {
                 style={{ backgroundColor: primaryColor }}
               ></div>
               
-              <h3 className="text-base font-medium mb-1">Hi Roney Soloman👋</h3>
+              <h3 className="text-base font-medium mb-1">Hi Roney SolomanðŸ‘‹</h3>
               
               <p className="text-sm text-gray-500 mb-3">
                 Welcome to your launchpad! Define a winning message, lock in your ICP, set the right media mix, and track success with precision.

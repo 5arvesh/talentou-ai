@@ -1,13 +1,13 @@
-
+﻿
 import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { CandidateCreationConversation } from "@/components/candidates/CandidateCreationConversation";
 
 export function CandidateCreationPage() {
   return (
-    <Layout>
+    <AppLayout>
       <CandidateCreationConversation />
-    </Layout>
+    </AppLayout>
   );
 }
 

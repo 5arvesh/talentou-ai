@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -27,7 +27,7 @@ export function PriorityManagementStage() {
   return (
     <>
       <div className="p-6 border-b border-border">
-        <h2 className="text-xl font-bold text-[#7800D3]">{selectedRecruiter.name}'s Jobs</h2>
+        <h2 className="text-xl font-bold text-primary">{selectedRecruiter.name}'s Jobs</h2>
         <p className="text-xs text-muted-foreground mt-1">Set priorities for assigned positions</p>
       </div>
       <ScrollArea className="flex-1">
@@ -48,9 +48,9 @@ export function PriorityManagementStage() {
           )}
 
           {/* New Job - Highlighted */}
-          <Card className="p-4 border-2 border-[#7800D3] bg-primary/5">
+          <Card className="p-4 border-2 border-primary bg-primary/5">
             <div className="flex items-center gap-2 mb-3">
-              <Badge className="bg-[#7800D3] text-white">New</Badge>
+              <Badge className="bg-primary text-white">New</Badge>
               <span className="text-xs text-muted-foreground">Just approved</span>
             </div>
             <div className="flex items-center justify-between">
@@ -94,7 +94,7 @@ export function PriorityManagementStage() {
                       <p className="font-medium text-foreground">{job.title}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-sm text-muted-foreground">{job.project}</span>
-                        <span className="text-xs text-muted-foreground">• {job.daysOpen} days open</span>
+                        <span className="text-xs text-muted-foreground">â€¢ {job.daysOpen} days open</span>
                       </div>
                     </div>
                     <div className="flex gap-1">
@@ -150,7 +150,7 @@ export function PriorityManagementStage() {
         <Button
           onClick={handleSavePriorities}
           disabled={!priority}
-          className="w-full h-12 text-base font-semibold bg-[#4ead3b] hover:bg-[#8FD378] text-black disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-12 text-base font-semibold bg-green-500 hover:bg-[#8FD378] text-black disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Save Priorities
         </Button>

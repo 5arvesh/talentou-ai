@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -31,7 +31,7 @@ interface RecruiterScreeningDrawerProps {
 
 const HL_PRESET_QUESTIONS: ScreeningQuestion[] = [
   { id: 'hl-1', text: 'Do you have at least 3 years of relevant experience?', type: 'yesno', source: 'hl' },
-  { id: 'hl-2', text: 'Are you comfortable working in a hybrid setup (2–3 days on-site)?', type: 'yesno', source: 'hl' },
+  { id: 'hl-2', text: 'Are you comfortable working in a hybrid setup (2â€“3 days on-site)?', type: 'yesno', source: 'hl' },
   { id: 'hl-3', text: 'Briefly describe your most relevant past project.', type: 'text', source: 'hl' },
 ];
 
@@ -57,7 +57,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
     setRecruiterQuestions(prev => prev.filter(q => q.id !== id));
   };
 
-  // Cancel — does NOT confirm; toggle stays OFF
+  // Cancel â€” does NOT confirm; toggle stays OFF
   const handleClose = () => {
     setIsAdding(false);
     setText('');
@@ -66,7 +66,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
     onClose();
   };
 
-  // Confirm — called on skip or save; turns the toggle ON
+  // Confirm â€” called on skip or save; turns the toggle ON
   const handleConfirm = () => {
     onConfirm();
     // reset internal state (onConfirm already closes via parent)
@@ -82,17 +82,17 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
     <Sheet open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
       <SheetContent side="right" className="w-[540px] sm:max-w-[540px] flex flex-col p-0">
         <SheetHeader className="px-6 py-5 border-b border-border">
-          <SheetTitle className="text-lg font-bold text-[#7800D3]">Screening Questions</SheetTitle>
+          <SheetTitle className="text-lg font-bold text-primary">Screening Questions</SheetTitle>
           <SheetDescription className="text-sm text-muted-foreground">
-            {jobRole} — Questions candidates answer when applying
+            {jobRole} â€” Questions candidates answer when applying
           </SheetDescription>
         </SheetHeader>
 
-        {/* ── Prompt screen ── */}
+        {/* â”€â”€ Prompt screen â”€â”€ */}
         {!hasAnsweredPrompt ? (
           <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 gap-6 text-center">
-            <div className="h-14 w-14 rounded-full bg-[#7800D3]/10 flex items-center justify-center">
-              <ClipboardList className="h-7 w-7 text-[#7800D3]" />
+            <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center">
+              <ClipboardList className="h-7 w-7 text-primary" />
             </div>
             <div>
               <h3 className="text-base font-semibold text-foreground mb-1">Add Screening Questions?</h3>
@@ -102,7 +102,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
             </div>
             <div className="flex flex-col gap-3 w-full max-w-xs">
               <Button
-                className="w-full bg-[#7800D3] hover:bg-[#6600bb] text-white"
+                className="w-full bg-primary hover:bg-[#6600bb] text-white"
                 onClick={() => setHasAnsweredPrompt(true)}
               >
                 Yes, add questions
@@ -117,7 +117,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
             </div>
           </div>
         ) : (
-          /* ── Questions screen ── */
+          /* â”€â”€ Questions screen â”€â”€ */
           <>
             <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
               {/* HL-set questions */}
@@ -140,14 +140,14 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <ClipboardList className="h-3.5 w-3.5 text-[#7800D3]" />
-                    <p className="text-xs font-semibold text-[#7800D3] uppercase tracking-wide">Your Questions</p>
+                    <ClipboardList className="h-3.5 w-3.5 text-primary" />
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wide">Your Questions</p>
                   </div>
                   <Button
                     type="button"
                     size="sm"
                     variant="outline"
-                    className="text-xs h-7 border-[#7800D3]/30 text-[#7800D3] hover:bg-[#faf5ff]"
+                    className="text-xs h-7 border-primary/30 text-primary hover:bg-[#faf5ff]"
                     onClick={() => setIsAdding(true)}
                     disabled={isAdding}
                   >
@@ -182,7 +182,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
                   ))}
 
                   {isAdding && (
-                    <Card className="p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
+                    <Card className="p-4 border-2 border-dashed border-primary/30 bg-[#faf5ff]/50">
                       <div className="space-y-3">
                         <Textarea
                           placeholder="Enter screening question..."
@@ -210,7 +210,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
                           </RadioGroup>
                         </div>
                         <div className="flex gap-2">
-                          <Button type="button" size="sm" onClick={handleAdd} className="bg-[#7800D3] hover:bg-[#6600bb] text-white">
+                          <Button type="button" size="sm" onClick={handleAdd} className="bg-primary hover:bg-[#6600bb] text-white">
                             Add Question
                           </Button>
                           <Button type="button" size="sm" variant="outline" onClick={() => { setIsAdding(false); setText(''); }}>
@@ -225,7 +225,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
 
               {allQuestions.length > 0 && (
                 <p className="text-xs text-muted-foreground text-center pt-2">
-                  {allQuestions.length} total question{allQuestions.length !== 1 ? 's' : ''} —
+                  {allQuestions.length} total question{allQuestions.length !== 1 ? 's' : ''} â€”
                   candidates will answer all of these when applying
                 </p>
               )}
@@ -237,7 +237,7 @@ export function RecruiterScreeningDrawer({ isOpen, onClose, onConfirm, jobRole }
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 bg-[#7800D3] hover:bg-[#6600bb] text-white"
+                  className="flex-1 bg-primary hover:bg-[#6600bb] text-white"
                   onClick={handleConfirm}
                 >
                   {recruiterQuestions.length === 0 ? 'Skip for now' : 'Save Questions'}

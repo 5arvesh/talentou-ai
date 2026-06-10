@@ -7,7 +7,7 @@ export function NewPositionPanel() {
   const { showRecruiterPanel } = useNewPosition();
 
   return (
-    <div className="h-full bg-background flex flex-col">
+    <div className="h-full bg-[#F8F7FF] flex flex-col">
       {showRecruiterPanel && <RecruiterAssignmentStage />}
       {!showRecruiterPanel && <JDPreviewStage />}
     </div>

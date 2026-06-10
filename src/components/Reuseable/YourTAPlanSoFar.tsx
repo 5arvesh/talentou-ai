@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAlignment } from "@/context/AlignmentContext";
@@ -191,7 +191,7 @@ const progressWidth =
       <div className="flex justify-center w-full items-center">
         <div className="w-full max-w-lg h-4  bg-gray-200 rounded-full overflow-hidden res-1200:h-3 res-1400:h-[13px] res-1600:h-3.5">
         <div
-          className="h-full bg-[#7E00FC] flex items-center justify-end pr-2 transition-all duration-500 ease-in-out rounded-full relative"
+          className="h-full bg-[hsl(var(--ai-purple))] flex items-center justify-end pr-2 transition-all duration-500 ease-in-out rounded-full relative"
           style={{ width: `${Math.max(progressPercentage, 0)}%` }}
         >
           <span className="text-xs text-white font-bold res-1200:text-[10px] res-1400:text-xs res-1600:text-xs">

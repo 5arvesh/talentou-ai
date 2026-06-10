@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,7 @@ export function AssignSDRs() {
         <div className="flex-1 p-6 overflow-y-auto bg-gray-50 dark:bg-gray-900">
           <Card className="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#7800D3" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "hsl(var(--primary))" }}>
                 <span className="text-white font-semibold">P</span>
               </div>
               <div>
@@ -42,7 +42,7 @@ export function AssignSDRs() {
             
             <div className="mb-6">
               <p className="text-gray-800 dark:text-gray-200 mb-4">
-                Your talent strategy is live – let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
+                Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 mb-4">
                 As the TA Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.

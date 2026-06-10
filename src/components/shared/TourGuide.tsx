@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -84,7 +84,7 @@ export function TourGuide() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[#7800D3]">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
                   Step {currentStep + 1} of {steps.length}
                 </span>
                 <button onClick={skipTour} className="text-gray-400 hover:text-gray-600 transition-colors p-0.5 rounded">
@@ -94,7 +94,7 @@ export function TourGuide() {
               <div className="flex gap-1 mb-3">
                 {steps.map((_, i) => (
                   <div key={i} className="h-1 rounded-full transition-all duration-300"
-                    style={{ width: i === currentStep ? "16px" : "6px", backgroundColor: i <= currentStep ? "#7800D3" : "#e5e7eb" }} />
+                    style={{ width: i === currentStep ? "16px" : "6px", backgroundColor: i <= currentStep ? "hsl(var(--primary))" : "#e5e7eb" }} />
                 ))}
               </div>
               <h4 className="text-sm font-semibold text-gray-900 leading-snug mb-1">{step.title}</h4>
@@ -111,7 +111,7 @@ export function TourGuide() {
                   <ChevronLeft className="h-3.5 w-3.5" /> Back
                 </Button>
               )}
-              <Button size="sm" onClick={nextStep} className="h-8 px-4 text-xs gap-1 text-white" style={{ backgroundColor: "#7800D3" }}>
+              <Button size="sm" onClick={nextStep} className="h-8 px-4 text-xs gap-1 text-white" style={{ backgroundColor: "hsl(var(--primary))" }}>
                 {isLast ? "Finish" : "Next"}{!isLast && <ChevronRight className="h-3.5 w-3.5" />}
               </Button>
             </div>
@@ -121,7 +121,7 @@ export function TourGuide() {
     );
   }
 
-  // Spotlight mode — SVG overlay with mask cutout
+  // Spotlight mode â€” SVG overlay with mask cutout
   const sx = targetRect.left - PADDING;
   const sy = targetRect.top - PADDING;
   const sw = targetRect.width + PADDING * 2;
@@ -129,7 +129,7 @@ export function TourGuide() {
 
   return createPortal(
     <>
-      {/* SVG overlay — dims everything except the spotlight */}
+      {/* SVG overlay â€” dims everything except the spotlight */}
       <svg
         style={{ position: "fixed", top: 0, left: 0, width: windowSize.w, height: windowSize.h, zIndex: 9998, pointerEvents: "all" }}
         onClick={(e) => {
@@ -158,7 +158,7 @@ export function TourGuide() {
         <rect width="100%" height="100%" fill="rgba(0,0,0,0.72)" mask="url(#tour-spotlight-mask)" style={{ pointerEvents: "all" }} />
         {/* Purple dashed highlight border */}
         <rect x={sx} y={sy} width={sw} height={sh} rx="10" fill="none"
-          stroke="#7800D3" strokeWidth="2" strokeDasharray="6 3" opacity="0.8"
+          stroke="hsl(var(--primary))" strokeWidth="2" strokeDasharray="6 3" opacity="0.8"
           style={{ pointerEvents: "none" }} />
       </svg>
 
@@ -166,7 +166,7 @@ export function TourGuide() {
       <div
         data-tour-tooltip
         style={{ position: "fixed", top: tooltipPos.top, left: tooltipPos.left, width: TOOLTIP_WIDTH, zIndex: 9999, pointerEvents: "all" }}
-        className="bg-white rounded-2xl shadow-2xl border border-[#7800D3]/20 overflow-hidden"
+        className="bg-white rounded-2xl shadow-2xl border border-primary/20 overflow-hidden"
       >
         <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #7800D3, #503afd)" }} />
         <div className="flex gap-4 p-5">
@@ -175,7 +175,7 @@ export function TourGuide() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-semibold text-[#7800D3] bg-[#ebdbfc] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-semibold text-primary bg-[#ebdbfc] px-2 py-0.5 rounded-full">
                 Step {currentStep + 1} of {steps.length}
               </span>
               <button onClick={skipTour} className="text-gray-400 hover:text-gray-600 transition-colors p-0.5 rounded">
@@ -184,10 +184,10 @@ export function TourGuide() {
             </div>
             <div className="flex gap-1 mb-3">
               {steps.map((_, i) => (
-                <div key={i} className={cn("h-1.5 rounded-full transition-all", i === currentStep ? "w-5 bg-[#7800D3]" : i < currentStep ? "w-1.5 bg-[#4ead3b]" : "w-1.5 bg-gray-200")} />
+                <div key={i} className={cn("h-1.5 rounded-full transition-all", i === currentStep ? "w-5 bg-primary" : i < currentStep ? "w-1.5 bg-green-500" : "w-1.5 bg-gray-200")} />
               ))}
             </div>
-            <h3 className="text-sm font-semibold text-[#7800D3] leading-snug mb-1">{step.title}</h3>
+            <h3 className="text-sm font-semibold text-primary leading-snug mb-1">{step.title}</h3>
             <p className="text-xs text-gray-600 leading-relaxed">{step.description}</p>
           </div>
         </div>
@@ -197,15 +197,15 @@ export function TourGuide() {
           </button>
           <div className="flex items-center gap-2">
             {step?.hideNext ? (
-              <span className="text-[10px] text-[#7800D3] italic">Click the highlighted element to continue</span>
+              <span className="text-[10px] text-primary italic">Click the highlighted element to continue</span>
             ) : (
               <>
                 {!isFirst && (
-                  <Button variant="outline" size="sm" onClick={prevStep} className="h-7 px-3 text-xs border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/10 gap-1">
+                  <Button variant="outline" size="sm" onClick={prevStep} className="h-7 px-3 text-xs border-primary/30 text-primary hover:bg-primary/10 gap-1">
                     <ChevronLeft className="h-3 w-3" /> Back
                   </Button>
                 )}
-                <Button size="sm" onClick={nextStep} className="h-7 px-3 text-xs bg-[#7800D3] hover:bg-[#6200ad] text-white gap-1">
+                <Button size="sm" onClick={nextStep} className="h-7 px-3 text-xs bg-primary hover:bg-primary/90 text-white gap-1">
                   {isLast ? "Done" : "Next"}{!isLast && <ChevronRight className="h-3 w-3" />}
                 </Button>
               </>

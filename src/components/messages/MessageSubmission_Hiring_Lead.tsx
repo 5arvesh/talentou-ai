@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+﻿import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAlignment } from "@/context/AlignmentContext";
 import { toast } from "@/components/ui/use-toast";
@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { cn } from "@/lib/utils";
 import {
   ResizablePanelGroup,
@@ -129,7 +129,7 @@ Thanks! What is the internal title you'd like to use for this position?`,
       from: "user",
     },
     {
-      content: `Thank you. Based on the role, experience level, company size, and location, the market-standard salary range is approximately ₹12 to ₹15 LPA.
+      content: `Thank you. Based on the role, experience level, company size, and location, the market-standard salary range is approximately â‚¹12 to â‚¹15 LPA.
 
 What is the maximum budget allowed for ths position?`,
       from: "ai",
@@ -219,7 +219,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
     },
   ]);
   const [submittedMessage, setSubmittedMessage] = useState(
-    `Product Engineer position for Amgen project. Looking for Full Stack Developer with MongoDB, Node.js, AWS, and TypeScript skills. 0+ years experience in Chennai (onsite only) with ₹12-15 LPA budget. Preference for candidates from NITs/VIT with fintech/SaaS experience.`
+    `Product Engineer position for Amgen project. Looking for Full Stack Developer with MongoDB, Node.js, AWS, and TypeScript skills. 0+ years experience in Chennai (onsite only) with â‚¹12-15 LPA budget. Preference for candidates from NITs/VIT with fintech/SaaS experience.`
   );
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -335,7 +335,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
   };
 
   return (
-    <Layout>
+    <AppLayout>
       <div className="flex h-full">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           {/* Left side - Chat panel */}
@@ -376,7 +376,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
 
               {/* Divider */}
               <div className="relative w-full">
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-br from-[#7E00FC] to-[#0A92FE] z-10 res-1200:h-[1.5px]" />
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-br from-primary to-indigo-400 z-10 res-1200:h-[1.5px]" />
 
                 {/* Suggestions below divider - aligned right */}
                 <div className="bg-white dark:bg-gray-800 w-full flex justify-end px-6 pt-4 pb-2 res-1200:px-3 res-1200:pt-2">
@@ -410,7 +410,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
                               <strong>Employment Type:</strong> Full-Time
                             </p>
                             <p>
-                              <strong>Experience Level:</strong> 0–1 year
+                              <strong>Experience Level:</strong> 0â€“1 year
                             </p>
                           </div>
 
@@ -422,7 +422,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
                               You'll be part of a high-growth, product-led
                               company that offers the agility of a startup and
                               the stability of a growth-stage venture. Here, we
-                              don't just build digital products — we create
+                              don't just build digital products â€” we create
                               purposeful solutions powered by AI and driven by
                               user impact.
                             </p>
@@ -529,12 +529,12 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
                             <h4 className="font-semibold text-base mb-2">
                               Work Mode
                             </h4>
-                            <p>On-site – Chennai, India</p>
+                            <p>On-site â€“ Chennai, India</p>
                           </div>
 
                           <div>
                             <p>
-                              📩 Apply now and be part of something impactful –
+                              ðŸ“© Apply now and be part of something impactful â€“
                               [Insert the Job Order hyperlink once added to the
                               careers page]
                             </p>
@@ -673,7 +673,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
                                 Maximum Budget
                               </TableCell>
                               <TableCell className="text-gray-900 dark:text-gray-100">
-                                ₹15 LPA
+                                â‚¹15 LPA
                               </TableCell>
                             </TableRow>
                             <TableRow className="bg-[#ae6bf2]/10">
@@ -849,7 +849,7 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
-    </Layout>
+    </AppLayout>
   );
 };
 

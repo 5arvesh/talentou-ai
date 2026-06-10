@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useHiringLeadConversation } from '@/context/HiringLeadConversationContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -31,14 +31,14 @@ const AI_SCREENING_POOL: Omit<ScreeningQ, 'id'>[] = [
   { text: 'Do you have at least 3 years of relevant experience?', type: 'yesno' },
   { text: 'Are you open to relocation if required?', type: 'yesno' },
   { text: 'What is your current notice period?', type: 'text' },
-  { text: 'Are you comfortable working in a hybrid setup (2–3 days on-site)?', type: 'yesno' },
+  { text: 'Are you comfortable working in a hybrid setup (2â€“3 days on-site)?', type: 'yesno' },
   { text: 'Why are you looking for a change at this time?', type: 'text' },
   { text: 'What are your salary expectations for this role?', type: 'text' },
   { text: 'Do you have experience working in an agile / scrum environment?', type: 'yesno' },
   { text: 'Are you authorised to work in this country without sponsorship?', type: 'yesno' },
 ];
 
-// ── Sortable card ──────────────────────────────────────────────────────────────
+// â”€â”€ Sortable card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface SortableScreeningItemProps {
   q: ScreeningQ;
@@ -98,7 +98,7 @@ function SortableScreeningItem({
             </RadioGroup>
           </div>
           <div className="flex gap-2">
-            <Button type="button" size="sm" className="h-7 bg-[#7800D3] hover:bg-[#6600bb] text-white" onClick={() => onSave(q.id)}>
+            <Button type="button" size="sm" className="h-7 bg-primary hover:bg-[#6600bb] text-white" onClick={() => onSave(q.id)}>
               <Check className="h-3 w-3 mr-1" /> Save
             </Button>
             <Button type="button" size="sm" variant="outline" className="h-7" onClick={onCancelEdit}>
@@ -118,7 +118,7 @@ function SortableScreeningItem({
             >
               <GripVertical className="h-4 w-4" />
             </button>
-            <span className="text-[10px] font-bold text-[#7800D3] bg-[#7800D3]/10 rounded-full w-5 h-5 flex items-center justify-center leading-none shrink-0">
+            <span className="text-[10px] font-bold text-primary bg-primary/10 rounded-full w-5 h-5 flex items-center justify-center leading-none shrink-0">
               {index + 1}
             </span>
           </div>
@@ -129,7 +129,7 @@ function SortableScreeningItem({
             <Badge variant="outline" className={`text-xs ${q.type === 'yesno' ? 'border-emerald-300 text-emerald-700 bg-emerald-50' : 'border-gray-300 text-gray-700 bg-gray-50'}`}>
               {q.type === 'yesno' ? 'Yes / No' : 'Text'}
             </Badge>
-            <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-[#7800D3]" onClick={() => onStartEdit(q)} title="Edit">
+            <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-primary" onClick={() => onStartEdit(q)} title="Edit">
               <Pencil className="h-3 w-3" />
             </Button>
             <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-purple-600" onClick={() => onRegenerate(q.id)} title="Regenerate">
@@ -145,7 +145,7 @@ function SortableScreeningItem({
   );
 }
 
-// ── Main panel ────────────────────────────────────────────────────────────────
+// â”€â”€ Main panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function ScreeningQuestionsPanel() {
   const {
@@ -181,7 +181,7 @@ export function ScreeningQuestionsPanel() {
 
   const questions = interviewSetup.screeningQuestions as ScreeningQ[];
 
-  // ── Handlers ──
+  // â”€â”€ Handlers â”€â”€
 
   const handleDelete = (id: string) => {
     updateInterviewSetup({ screeningQuestions: questions.filter(q => q.id !== id) });
@@ -244,7 +244,7 @@ export function ScreeningQuestionsPanel() {
     addChatMessage({
       id: Date.now(),
       sender: 'ai',
-      content: "Great! Now let's set up the interview — add your preset questions, choose AI assistance, and set the duration.",
+      content: "Great! Now let's set up the interview â€” add your preset questions, choose AI assistance, and set the duration.",
       name: 'Talentou AI',
       stageIndex: 3,
     });
@@ -260,7 +260,7 @@ export function ScreeningQuestionsPanel() {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#7800D3]">Screening Questions</h3>
+            <h3 className="text-base font-semibold text-primary">Screening Questions</h3>
             {questions.length > 0 && (
               <Badge variant="secondary" className="text-xs font-normal">
                 {questions.length} question{questions.length !== 1 ? 's' : ''}
@@ -269,7 +269,7 @@ export function ScreeningQuestionsPanel() {
           </div>
           <Button
             type="button" variant="ghost" size="sm"
-            className="h-7 text-xs text-muted-foreground hover:text-[#7800D3] gap-1.5 px-2"
+            className="h-7 text-xs text-muted-foreground hover:text-primary gap-1.5 px-2"
             onClick={handleRegenerateAll}
             title="Regenerate all questions"
           >
@@ -279,7 +279,7 @@ export function ScreeningQuestionsPanel() {
         </div>
 
         <p className="text-xs text-muted-foreground mb-4">
-          Drag questions to reprioritize. Candidates answer these when applying — use them to pre-screen before the interview.
+          Drag questions to reprioritize. Candidates answer these when applying â€” use them to pre-screen before the interview.
         </p>
 
         {/* Sortable list */}
@@ -311,7 +311,7 @@ export function ScreeningQuestionsPanel() {
         <div className="flex items-center justify-center gap-3 mt-4">
           <Button
             type="button" variant="outline" size="sm"
-            className="h-8 text-xs border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/8 gap-1.5"
+            className="h-8 text-xs border-primary/30 text-primary hover:bg-primary/8 gap-1.5"
             onClick={handleAddAI}
             disabled={poolExhausted}
           >
@@ -332,7 +332,7 @@ export function ScreeningQuestionsPanel() {
 
         {/* Manual add form */}
         {isAddingManual && (
-          <Card className="mt-3 p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
+          <Card className="mt-3 p-4 border-2 border-dashed border-primary/30 bg-[#faf5ff]/50">
             <div className="space-y-3">
               <Textarea
                 placeholder="Enter screening question..."
@@ -360,7 +360,7 @@ export function ScreeningQuestionsPanel() {
                 </RadioGroup>
               </div>
               <div className="flex gap-2">
-                <Button type="button" size="sm" onClick={handleAddManual} className="bg-[#7800D3] hover:bg-[#6600bb] text-white">
+                <Button type="button" size="sm" onClick={handleAddManual} className="bg-primary hover:bg-[#6600bb] text-white">
                   Add Question
                 </Button>
                 <Button type="button" size="sm" variant="outline" onClick={() => { setIsAddingManual(false); setNewText(''); }}>
@@ -375,7 +375,7 @@ export function ScreeningQuestionsPanel() {
       <div className="pt-1">
         <Button
           onClick={handleNext}
-          className="w-full h-12 text-base font-semibold bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0"
+          className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white border-0"
         >
           Next: Interview Setup
         </Button>

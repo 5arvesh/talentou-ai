@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChatWindow } from "@/components/Reuseable/ChatWindow";
@@ -104,10 +104,10 @@ export function CandidateCreationConversation() {
             content: `Perfect! I've successfully parsed the CV and extracted the candidate information. You can see all the auto-filled details in the form on the right.
 
 I've filled in:
-✅ Personal Information (Name, Email, Phone, Location)
-✅ Current Position: ${parsed.currentPosition}
-✅ Skills: ${parsed.skills?.length || 0} technical skills identified
-✅ Experience Summary: Work history and achievements
+âœ… Personal Information (Name, Email, Phone, Location)
+âœ… Current Position: ${parsed.currentPosition}
+âœ… Skills: ${parsed.skills?.length || 0} technical skills identified
+âœ… Experience Summary: Work history and achievements
 
 Just need a couple more details from you:
 
@@ -165,10 +165,10 @@ Just need a couple more details from you:
         sender: "ai",
         content: `Excellent! I've successfully created the candidate profile for ${parsedCVData?.firstName} ${parsedCVData?.lastName}. 
 
-✅ All information from the CV has been saved
-✅ Hiring manager assigned
-✅ Interview stage set
-✅ Candidate added to your pipeline
+âœ… All information from the CV has been saved
+âœ… Hiring manager assigned
+âœ… Interview stage set
+âœ… Candidate added to your pipeline
 
 The candidate is now ready for the interview process. You can view their complete profile in the candidates list.
 
@@ -220,9 +220,9 @@ Would you like to create another candidate or return to the candidates dashboard
       )}
 
       <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
-        <AlertDialogContent className="border-[#7800D3]/20">
+        <AlertDialogContent className="border-primary/20">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-xl text-[#7800D3]">
+            <AlertDialogTitle className="text-xl text-primary">
               Are you sure you want to leave?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-base">
@@ -230,12 +230,12 @@ Would you like to create another candidate or return to the candidates dashboard
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="border-[#7800D3]/30 hover:bg-[#7800D3]/10">
+            <AlertDialogCancel className="border-primary/30 hover:bg-primary/10">
               No
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConfirmLeave}
-              className="bg-[#4ead3b] text-black hover:bg-[#4ead3b]/90"
+              className="bg-green-500 text-black hover:bg-green-500/90"
             >
               Yes
             </AlertDialogAction>

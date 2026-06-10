@@ -1,4 +1,4 @@
-import { Users, Settings, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
+﻿import { Users, Settings, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,7 @@ export function SuperAdminSidebar() {
         "flex flex-col h-screen text-white transition-all duration-300 relative",
         collapsed ? "w-[45px]" : "w-[180px]"
       )}
-      style={{ background: "linear-gradient(45deg, #0A92FE, #7E00FC)" }}
+      style={{ background: "hsl(var(--nav-bg))" }}
     >
       {/* Sidebar collapse toggle button */}
       <div className="absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">

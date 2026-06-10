@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -27,8 +27,8 @@ export function SuccessMetricsPanel() {
       {/* Closing Targets */}
       <Card className="p-4 border-transparent shadow-none bg-white">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg bg-[#7800D3]/10">
-            <Target className="h-5 w-5 text-[#7800D3]" />
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Target className="h-5 w-5 text-primary" />
           </div>
           <Label className="text-sm font-semibold text-gray-800 m-0">Closing Targets</Label>
         </div>
@@ -63,8 +63,8 @@ export function SuccessMetricsPanel() {
       {/* Quality & Volume */}
       <Card className="p-4 border-transparent shadow-none bg-white">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg bg-[#4EAD3B]/10">
-            <Award className="h-5 w-5 text-[#4EAD3B]" />
+          <div className="p-2 rounded-lg bg-green-500/10">
+            <Award className="h-5 w-5 text-green-600" />
           </div>
           <Label className="text-sm font-semibold text-gray-800 m-0">Quality & Volume</Label>
         </div>
@@ -120,8 +120,8 @@ export function SuccessMetricsPanel() {
       {/* Workload */}
       <Card className="p-4 border-transparent shadow-none bg-white">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg bg-[#0A92FE]/10">
-            <Users className="h-5 w-5 text-[#0A92FE]" />
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Users className="h-5 w-5 text-primary" />
           </div>
           <Label className="text-sm font-semibold text-gray-800 m-0">Workload</Label>
         </div>
@@ -143,9 +143,9 @@ export function SuccessMetricsPanel() {
 
       {/* Summary review */}
       {isValid && (
-        <Card className="p-4 bg-[#f3eeff] border-[#7800D3]/20">
+        <Card className="p-4 bg-[#f3eeff] border-primary/20">
           <div className="flex items-center gap-2 mb-3">
-            <CheckCircle2 className="h-4 w-4 text-[#7800D3]" />
+            <CheckCircle2 className="h-4 w-4 text-primary" />
             <p className="text-sm font-semibold text-gray-700">Plan Summary</p>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -104,7 +104,7 @@ export function CareersPageDesign() {
               onClick={() => update('widgetMode', m.id)}
               className={`px-4 py-2 rounded-lg border-2 text-sm transition-all text-left ${
                 state.widgetMode === m.id
-                  ? 'border-[#4EAD3B] bg-green-50 text-[#4EAD3B] font-medium'
+                  ? 'border-green-500 bg-green-50 text-green-600 font-medium'
                   : 'border-gray-200 text-gray-600 hover:border-gray-300'
               }`}
             >
@@ -211,7 +211,7 @@ export function CareersPageDesign() {
       </section>
 
       {/* Save Button */}
-      <Button onClick={handleSave} className="w-full bg-[#4EAD3B] hover:bg-[#3d9e2c] text-white h-10 font-semibold">
+      <Button onClick={handleSave} className="w-full bg-green-500 hover:bg-[#3d9e2c] text-white h-10 font-semibold">
         Save Changes
       </Button>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { format } from 'date-fns';
 import {
   Sheet,
@@ -139,7 +139,7 @@ export function BehavioralQuestionsDrawer({
       <Sheet open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
         <SheetContent side="right" className="w-[580px] sm:max-w-[580px] flex flex-col p-0">
           <SheetHeader className="px-6 py-5 border-b border-border">
-            <SheetTitle className="text-lg font-bold text-[#7800D3]">
+            <SheetTitle className="text-lg font-bold text-primary">
               Behavioral Questions
             </SheetTitle>
             <SheetDescription className="text-sm text-muted-foreground">
@@ -270,7 +270,7 @@ export function BehavioralQuestionsDrawer({
                 ))}
 
                 {isAddingManually && (
-                  <Card className="p-4 border-2 border-dashed border-[#7800D3]/30 bg-[#faf5ff]/50">
+                  <Card className="p-4 border-2 border-dashed border-primary/30 bg-[#faf5ff]/50">
                     <div className="space-y-3">
                       <Textarea
                         placeholder="Enter your behavioral question..."
@@ -291,7 +291,7 @@ export function BehavioralQuestionsDrawer({
                           type="button"
                           size="sm"
                           onClick={handleAddManual}
-                          className="bg-[#7800D3] text-white"
+                          className="bg-primary text-white"
                         >
                           Add Question
                         </Button>
@@ -351,7 +351,7 @@ export function BehavioralQuestionsDrawer({
                     <p className="text-xs text-orange-700">
                       You can extend the interview by up to{' '}
                       <span className="font-semibold">{maxExtension} mins</span> (recruiter limit).
-                      No HL re-approval required — HL will be notified of the change.
+                      No HL re-approval required â€” HL will be notified of the change.
                     </p>
                     <div className="flex items-center gap-2">
                       <Label htmlFor="extension-input" className="text-xs text-orange-800 shrink-0">
@@ -393,7 +393,7 @@ export function BehavioralQuestionsDrawer({
           <SheetFooter className="px-6 py-4 border-t border-border">
             <Button
               onClick={() => onProceedToScheduling(behavioralQuestions)}
-              className="w-full bg-[#7800D3] hover:bg-[#6600bb] text-white"
+              className="w-full bg-primary hover:bg-[#6600bb] text-white"
             >
               Continue to Scheduling
             </Button>
@@ -418,7 +418,7 @@ export function BehavioralQuestionsDrawer({
                 handleClose();
                 onSkip();
               }}
-              className="bg-[#7800D3] text-white hover:bg-[#6600bb]"
+              className="bg-primary text-white hover:bg-[#6600bb]"
             >
               Yes, skip
             </AlertDialogAction>

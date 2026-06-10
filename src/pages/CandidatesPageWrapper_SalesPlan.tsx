@@ -1,6 +1,6 @@
-
+﻿
 import React, { useEffect } from 'react';
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { CandidatesPageSalesPlan } from "@/components/sales-plan/CandidatesPageSalesPlan";
 import { useTourStore, TourStep } from "@/store/tour-store";
 
@@ -58,11 +58,11 @@ export function CandidatesPageWrapper_SalesPlan() {
   ];
 
   return (
-    <Layout>
+    <AppLayout>
       <div data-tour-id="candidate-list">
         <CandidatesPageSalesPlan jobs={jobs} />
       </div>
-    </Layout>
+    </AppLayout>
   );
 }
 

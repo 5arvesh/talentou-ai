@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import { CheckCircle } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useTAPlanReview } from '@/context/TAPlanReviewContext';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import mascotImg from '@/assets/talentou-mascot-new.png';
 
 const sections = [
   { id: 1 as const, title: 'Company USP', number: 1 },
@@ -10,7 +11,7 @@ const sections = [
 ];
 
 export function ReviewProgressSidebar() {
-  const { currentSection, setCurrentSection, sectionViewed, isAligned } = useTAPlanReview();
+  const { currentSection, setCurrentSection, sectionViewed } = useTAPlanReview();
 
   const getSectionStatus = (sectionId: 1 | 2) => {
     if (currentSection === sectionId) return 'active';
@@ -19,69 +20,69 @@ export function ReviewProgressSidebar() {
     return 'pending';
   };
 
-  const handleSectionClick = (sectionId: 1 | 2) => {
-    setCurrentSection(sectionId);
-  };
+  const rawName = localStorage.getItem('userName') ?? 'there';
+  const userName = rawName.split(' ')[0];
+  const viewedCount = (sectionViewed.companyUSP ? 1 : 0) + (sectionViewed.talentPool ? 1 : 0);
+  const stepsLeft = sections.length - viewedCount;
 
   return (
-    <div className="h-full flex flex-col bg-gradient-to-b from-[#7800D3]/5 via-background to-background border-r">
+    <div className="h-full flex flex-col bg-[#F8F7FF]">
       {/* Header */}
-      <div className="p-6 border-b bg-gradient-to-r from-[#7800D3]/10 to-transparent">
-        <h2 className="text-xl font-bold text-foreground mb-1">TA Plan Review</h2>
-        <p className="text-sm text-muted-foreground">Review and provide feedback</p>
+      <div className="px-5 py-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-base font-medium tracking-tight text-gray-900">TA Plan Review</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Review and provide feedback</p>
+        </div>
       </div>
 
       {/* Sections */}
-      <ScrollArea className="flex-1 px-4 py-6">
-        <div className="space-y-4">
+      <ScrollArea className="flex-1 px-4 py-2">
+        <div className="space-y-3">
           {sections.map((section) => {
             const status = getSectionStatus(section.id);
             const isActive = status === 'active';
             const isViewed = status === 'viewed';
-            const isPending = status === 'pending';
 
             return (
               <Card
                 key={section.id}
-                onClick={() => handleSectionClick(section.id)}
+                onClick={() => setCurrentSection(section.id)}
                 className={`
-                  p-4 cursor-pointer transition-all duration-200 border-2
-                  ${isActive ? 'border-[#7800d3] bg-[#7800d3]/5 shadow-md' : ''}
-                  ${isViewed ? 'border-[#4ead3b] bg-[#4ead3b]/5' : ''}
-                  ${isPending ? 'border-black bg-white dark:border-white dark:bg-gray-900' : ''}
-                  hover:shadow-lg
+                  rounded-card p-4 cursor-pointer transition-all duration-300
+                  ${isActive ? 'bg-white border-2 border-primary shadow-sm hover:shadow-md' : ''}
+                  ${isViewed ? 'bg-white border-2 border-emerald-500 hover:shadow-md' : ''}
+                  ${!isActive && !isViewed ? 'bg-white border border-border opacity-50' : ''}
                 `}
               >
                 <div className="flex items-center gap-3">
-                  {/* Number/Check icon */}
                   <div
                     className={`
-                      w-10 h-10 rounded-full flex items-center justify-center
-                      font-bold text-lg transition-all
-                      ${isActive ? 'bg-[#7800d3] text-white' : ''}
-                      ${isViewed ? 'bg-[#4ead3b] text-white' : ''}
-                      ${isPending ? 'bg-muted text-muted-foreground' : ''}
+                      w-9 h-9 rounded-full flex items-center justify-center shrink-0
+                      font-bold text-base transition-all
+                      ${isActive ? 'bg-primary text-white' : ''}
+                      ${isViewed ? 'bg-emerald-500 text-white' : ''}
+                      ${!isActive && !isViewed ? 'bg-muted text-muted-foreground' : ''}
                     `}
                   >
-                    {isViewed ? (
-                      <CheckCircle className="w-6 h-6" />
-                    ) : (
-                      section.number
-                    )}
+                    {isViewed ? <Check className="h-4 w-4" /> : section.number}
                   </div>
-
-                  {/* Section title */}
-                  <div className="flex-1">
-                    <span
-                      className={`
-                        font-semibold text-sm
-                        ${isActive ? 'text-[#7800d3]' : ''}
-                        ${isViewed ? 'text-[#4ead3b]' : ''}
-                        ${isPending ? 'text-black dark:text-white' : ''}
-                      `}
-                    >
+                  <div className="flex-1 min-w-0">
+                    <span className={`font-semibold text-sm
+                      ${isActive ? 'text-gray-900' : ''}
+                      ${isViewed ? 'text-gray-700' : ''}
+                      ${!isActive && !isViewed ? 'text-gray-400' : ''}
+                    `}>
                       {section.title}
                     </span>
+                    <p className={`text-xs mt-0.5
+                      ${isActive ? 'text-primary/70' : ''}
+                      ${isViewed ? 'text-emerald-600' : ''}
+                      ${!isActive && !isViewed ? 'text-muted-foreground' : ''}
+                    `}>
+                      {isActive && 'In Progress...'}
+                      {isViewed && 'Reviewed'}
+                      {!isActive && !isViewed && 'Upcoming'}
+                    </p>
                   </div>
                 </div>
               </Card>
@@ -89,6 +90,27 @@ export function ReviewProgressSidebar() {
           })}
         </div>
       </ScrollArea>
+
+      {/* Steps left pill */}
+      <div className="p-4">
+        {stepsLeft > 0 ? (
+          <div className="flex items-center gap-3 bg-white border border-border rounded-full px-4 py-2.5 shadow-sm">
+            <span className="text-xs text-gray-600 font-medium flex-1">
+              Hi {userName}, Just{' '}
+              <span key={stepsLeft} className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary text-white text-[10px] font-bold mx-0.5 animate-in fade-in duration-300">
+                {stepsLeft}
+              </span>{' '}
+              steps left
+            </span>
+            <img src={mascotImg} alt="" className="h-7 w-auto object-contain" />
+          </div>
+        ) : (
+          <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-2.5">
+            <span className="text-xs text-emerald-700 font-medium flex-1">Review complete!</span>
+            <img src={mascotImg} alt="" className="h-7 w-auto object-contain" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

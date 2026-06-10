@@ -1,13 +1,13 @@
-
+﻿
 import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { JobOpenings } from "@/components/hiring-lead/JobOpenings";
 
 export function JobOpeningsPage() {
   return (
-    <Layout>
+    <AppLayout>
       <JobOpenings />
-    </Layout>
+    </AppLayout>
   );
 }
 

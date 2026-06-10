@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { format } from 'date-fns';
 import {
   Sheet,
@@ -88,13 +88,13 @@ export function RecruiterScheduleDrawer({
   };
 
   const drawerTitle = isBulk
-    ? `Bulk Schedule — ${candidates.length} candidates`
+    ? `Bulk Schedule â€” ${candidates.length} candidates`
     : 'Schedule Interview';
 
   const drawerDescription = isBulk
     ? 'All selected candidates will receive an interview link'
     : candidates[0]?.name
-    ? `for ${candidates[0].name}${candidates[0].jobTitle ? ` · ${candidates[0].jobTitle}` : ''}`
+    ? `for ${candidates[0].name}${candidates[0].jobTitle ? ` Â· ${candidates[0].jobTitle}` : ''}`
     : '';
 
   return (
@@ -102,7 +102,7 @@ export function RecruiterScheduleDrawer({
       <SheetContent side="right" className="w-[520px] sm:max-w-[520px] flex flex-col p-0">
         {/* Header */}
         <SheetHeader className="px-6 py-5 border-b border-border">
-          <SheetTitle className="text-lg font-bold text-[#7800D3]">{drawerTitle}</SheetTitle>
+          <SheetTitle className="text-lg font-bold text-primary">{drawerTitle}</SheetTitle>
           {drawerDescription && (
             <SheetDescription className="text-sm text-muted-foreground mt-0.5">
               {drawerDescription}
@@ -119,7 +119,7 @@ export function RecruiterScheduleDrawer({
                 <Users className="h-4 w-4 text-blue-500 shrink-0" />
                 <p className="text-sm text-blue-800">
                   Scheduling for <span className="font-semibold">{candidates.length} candidates</span>
-                  {totalDurationMins > 0 && ` · ~${totalDurationMins} min interview each`}
+                  {totalDurationMins > 0 && ` Â· ~${totalDurationMins} min interview each`}
                 </p>
               </div>
             </Card>
@@ -207,7 +207,7 @@ export function RecruiterScheduleDrawer({
                   className={cn(
                     'flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors',
                     sendDelay === value
-                      ? 'border-[#7800D3] bg-[#faf5ff]'
+                      ? 'border-primary bg-[#faf5ff]'
                       : 'border-border hover:bg-muted/30'
                   )}
                   onClick={() => setSendDelay(value)}
@@ -231,7 +231,7 @@ export function RecruiterScheduleDrawer({
               </Button>
             </SheetClose>
             <Button
-              className="flex-1 bg-[#4ead3b] hover:bg-[#3e8a2f] text-white disabled:opacity-50"
+              className="flex-1 bg-green-500 hover:bg-[#3e8a2f] text-white disabled:opacity-50"
               disabled={!expiryDate || !expiryTime}
               onClick={handleSubmit}
             >

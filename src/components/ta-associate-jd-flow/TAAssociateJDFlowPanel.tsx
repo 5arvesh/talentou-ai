@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +38,7 @@ const mockJDData: Record<string, {
   "JOB-0001": {
     id: "JOB-0001",
     role: "Senior Frontend Developer",
-    client: "Amgen – Data Platform",
+    client: "Amgen â€“ Data Platform",
     location: "San Francisco, CA",
     workMode: "Hybrid",
     status: "Active",
@@ -167,13 +167,13 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
   };
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full flex flex-col bg-[#F8F7FF]">
       {/* Stage 0: JD Review */}
       {currentStage === 0 && (
         <>
-          <div className="p-6 border-b border-[#7800D3]/15">
-            <h2 className="text-xl font-bold text-[#7800D3]">Job Description</h2>
-            <p className="text-xs text-muted-foreground mt-1">Review all details before proceeding</p>
+          <div className="px-5 py-4">
+            <h2 className="text-base font-medium tracking-tight text-gray-900">Job Description</h2>
+            <p className="text-sm text-muted-foreground mt-0.5">Review all details before proceeding</p>
           </div>
           <ScrollArea className="flex-1">
             <div className="p-6 space-y-6">
@@ -191,7 +191,7 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
                 <div className="flex flex-wrap gap-3 mt-4">
                   <Badge variant="outline" className="bg-background">
                     <MapPin className="h-3 w-3 mr-1" />
-                    {jdData.location} · {jdData.workMode}
+                    {jdData.location} Â· {jdData.workMode}
                   </Badge>
                   <Badge variant="outline" className="bg-background">
                     <Calendar className="h-3 w-3 mr-1" />
@@ -226,7 +226,7 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
                 <ul className="space-y-2">
                   {jdData.responsibilities.map((item, index) => (
                     <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="text-primary">•</span>
+                      <span className="text-primary">â€¢</span>
                       {item}
                     </li>
                   ))}
@@ -259,10 +259,10 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
               </Card>
             </div>
           </ScrollArea>
-          <div className="p-4 border-t border-border">
-            <Button 
+          <div className="px-6 py-4 bg-[#F8F7FF] flex justify-center">
+            <Button
               onClick={handleReviewComplete}
-              className="w-full bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0"
+              className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
             >
               <Check className="h-4 w-4 mr-2" />
               I've Reviewed the JD
@@ -274,9 +274,9 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
       {/* Stage 1: Screening Questions */}
       {currentStage === 1 && (
         <>
-          <div className="p-6 border-b border-[#7800D3]/15">
-            <h2 className="text-xl font-bold text-[#7800D3]">Screening Questions</h2>
-            <p className="text-xs text-muted-foreground mt-1">Configure questions for candidates</p>
+          <div className="px-5 py-4">
+            <h2 className="text-base font-medium tracking-tight text-gray-900">Screening Questions</h2>
+            <p className="text-sm text-muted-foreground mt-0.5">Configure questions for candidates</p>
           </div>
           <ScrollArea className="flex-1">
             <div className="p-6 space-y-4">
@@ -363,15 +363,18 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
               </div>
             </div>
           </ScrollArea>
-          <div className="p-4 border-t border-border">
-            <Button 
-              onClick={handleSaveQuestions}
-              className="w-full bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0"
-              disabled={screeningQuestions.length === 0}
-            >
-              <Check className="h-4 w-4 mr-2" />
-              Save Questions
-            </Button>
+          <div className="px-6 py-4 bg-[#F8F7FF] flex flex-col items-center gap-1.5">
+            {screeningQuestions.length > 0 ? (
+              <Button
+                onClick={handleSaveQuestions}
+                className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
+              >
+                <Check className="h-4 w-4 mr-2" />
+                Save Questions
+              </Button>
+            ) : (
+              <p className="text-xs text-muted-foreground">Add at least one question to continue</p>
+            )}
           </div>
         </>
       )}
@@ -379,9 +382,9 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
       {/* Stage 2: Generate Link */}
       {currentStage === 2 && (
         <>
-          <div className="p-6 border-b border-[#7800D3]/15">
-            <h2 className="text-xl font-bold text-[#7800D3]">Generate JD Link</h2>
-            <p className="text-xs text-muted-foreground mt-1">Create a shareable link for candidates</p>
+          <div className="px-5 py-4">
+            <h2 className="text-base font-medium tracking-tight text-gray-900">Generate JD Link</h2>
+            <p className="text-sm text-muted-foreground mt-0.5">Create a shareable link for candidates</p>
           </div>
           <div className="flex-1 flex flex-col items-center justify-center p-6">
             {!isLinkGenerated ? (
@@ -396,10 +399,9 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
                     Generate a shareable link for candidates to apply.
                   </p>
                 </div>
-                <Button 
+                <Button
                   onClick={handleGenerateLink}
-                  className="bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0"
-                  size="lg"
+                  className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
                 >
                   <Link2 className="h-4 w-4 mr-2" />
                   Generate Link
@@ -408,8 +410,8 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
             ) : (
               <div className="w-full max-w-md space-y-6">
                 <div className="text-center">
-                  <div className="h-16 w-16 rounded-full bg-[#4ead3b]/20 flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="h-8 w-8 text-[#4ead3b]" />
+                  <div className="h-16 w-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="h-8 w-8 text-green-600" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground">Link Generated!</h3>
                   <p className="text-muted-foreground mt-1">Share this link with potential candidates</p>

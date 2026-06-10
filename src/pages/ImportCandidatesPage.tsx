@@ -1,6 +1,6 @@
-import React from "react";
+﻿import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { ImportCandidatesLayout } from "@/components/candidates/ImportCandidatesLayout";
 
 interface ImportCandidatesPageProps {
@@ -13,13 +13,13 @@ export function ImportCandidatesPage({ role }: ImportCandidatesPageProps) {
   const jobRole = searchParams.get("jobRole") || "Open Position";
 
   return (
-    <Layout>
+    <AppLayout>
       <ImportCandidatesLayout
         jobId={jobId || ""}
         jobRole={jobRole}
         role={role}
       />
-    </Layout>
+    </AppLayout>
   );
 }
 

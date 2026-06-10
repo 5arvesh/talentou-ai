@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -39,16 +39,16 @@ const bottleneckData = [
 ];
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  'on-track': { label: 'On Track', className: 'bg-[#4EAD3B]/10 text-[#4EAD3B] border-[#4EAD3B]/20' },
+  'on-track': { label: 'On Track', className: 'bg-green-500/10 text-green-600 border-green-500/20' },
   'at-risk':  { label: 'At Risk',  className: 'bg-amber-50 text-amber-700 border-amber-200' },
   'behind':   { label: 'Behind',   className: 'bg-red-50 text-red-700 border-red-200' },
 };
 
 const kpiStats = [
-  { label: 'Total Open Positions', value: 24,     sub: '+3 this quarter',     subColor: 'text-[#4EAD3B]' },
+  { label: 'Total Open Positions', value: 24,     sub: '+3 this quarter',     subColor: 'text-green-600' },
   { label: 'Open > 3 Weeks',       value: 5,      sub: '+2 vs last month',    subColor: 'text-red-500' },
-  { label: 'Avg Time-to-Close',    value: '4.2w', sub: '✓ Below 5w target',   subColor: 'text-[#4EAD3B]' },
-  { label: 'Advancement Rate',     value: '37%',  sub: '✓ Above 30% target',  subColor: 'text-[#4EAD3B]' },
+  { label: 'Avg Time-to-Close',    value: '4.2w', sub: 'âœ“ Below 5w target',   subColor: 'text-green-600' },
+  { label: 'Advancement Rate',     value: '37%',  sub: 'âœ“ Above 30% target',  subColor: 'text-green-600' },
 ];
 
 const SalesPlanQuadrantDashboard = () => {
@@ -113,7 +113,7 @@ const SalesPlanQuadrantDashboard = () => {
                       <TableCell className="pl-6 py-3">
                         <div className="flex items-center gap-2">
                           <Avatar className="h-7 w-7">
-                            <AvatarFallback className="text-xs bg-[#7800D3] text-white">{r.initials}</AvatarFallback>
+                            <AvatarFallback className="text-xs bg-primary text-white">{r.initials}</AvatarFallback>
                           </Avatar>
                           <span className="text-sm font-medium">{r.name}</span>
                         </div>
@@ -147,7 +147,7 @@ const SalesPlanQuadrantDashboard = () => {
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="count" radius={4}>
                   {pipelineData.map((_, i) => (
-                    <Cell key={i} fill={['#0A92FE', '#f59e0b', '#7800D3', '#4EAD3B'][i]} />
+                    <Cell key={i} fill={['#0A92FE', '#f59e0b', 'hsl(var(--primary))', '#4EAD3B'][i]} />
                   ))}
                 </Bar>
               </BarChart>
@@ -187,7 +187,7 @@ const SalesPlanQuadrantDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Bottleneck Indicator — flags all stages ≥3 stalled */}
+        {/* Bottleneck Indicator â€” flags all stages â‰¥3 stalled */}
         <Card className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Bottleneck Indicator</CardTitle>

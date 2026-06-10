@@ -6,8 +6,8 @@ import { ScreeningQuestionsPanel } from './panel-stages/ScreeningQuestionsPanel'
 import { InterviewSetupPanel } from './panel-stages/InterviewSetupPanel';
 import { JDPreviewPanel } from './panel-stages/JDPreviewPanel';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Check, CheckCircle2 } from 'lucide-react';
 
 const sections = [
   { id: 0, title: 'Job Details', key: 'jobDetails' as const, component: JobDetailsForm },
@@ -19,11 +19,6 @@ const sections = [
 
 export function HiringLeadConversationPanel() {
   const { currentStage, jobDetails, stages, addChatMessage, completeStage, setCurrentStage, updateJobDetails } = useHiringLeadConversation();
-  const [openSection, setOpenSection] = React.useState<string>(`section-${currentStage}`);
-
-  React.useEffect(() => {
-    setOpenSection(`section-${currentStage}`);
-  }, [currentStage]);
 
   const getSectionStatus = (sectionId: number) => {
     const section = sections[sectionId];
@@ -76,74 +71,58 @@ export function HiringLeadConversationPanel() {
       completeStage('skillsResponsibilities');
       setCurrentStage(2);
     }
-    // Stages 2 and 3 advance via their own internal "Next" buttons
   };
 
   return (
-    <div className="h-full flex flex-col bg-white">
-      <div className="p-6 border-b border-[#7800D3]/15">
-        <h2 className="text-xl font-bold text-[#7800D3]">Position Details</h2>
-        <p className="text-xs text-muted-foreground mt-1">Fill in the details for each section</p>
+    <div className="h-full flex flex-col bg-[#F8F7FF]">
+      {/* Header */}
+      <div className="px-5 py-4">
+        <h2 className="text-base font-medium tracking-tight text-gray-900">Position Details</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">Fill in the details for each section</p>
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="p-6">
-          <Accordion
-            type="single"
-            collapsible
-            value={openSection}
-            onValueChange={(value) => {
-              setOpenSection(value);
-              if (value) {
-                const sectionId = parseInt(value.split('-')[1]);
-                if (getSectionStatus(sectionId) !== 'upcoming') setCurrentStage(sectionId);
-              }
-            }}
-            className="space-y-4"
-          >
-            {sections.map((section) => {
-              const status = getSectionStatus(section.id);
-              if (status === 'upcoming') return null;
-              const Component = section.component;
+        <div className="p-6 space-y-4">
+          {/* Completed section banners */}
+          {sections.map((section) => {
+            if (getSectionStatus(section.id) !== 'completed') return null;
+            return (
+              <div key={section.id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                <span className="text-sm font-semibold text-emerald-700">{section.title}</span>
+                <span className="ml-auto text-xs text-emerald-600 font-medium">Completed</span>
+              </div>
+            );
+          })}
 
-              return (
-                <AccordionItem
-                  key={section.id}
-                  value={`section-${section.id}`}
-                  className={`border-2 rounded-lg overflow-hidden transition-all bg-gradient-to-r from-[#faf5ff] to-white
-                    ${status === 'completed' ? 'border-[#4ead3b]/30' : ''}
-                    ${status === 'in-progress' ? 'border-[#7800D3]/30 shadow-sm' : 'border-transparent'}`}
-                >
-                  <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      {status === 'completed' && (
-                        <div className="w-6 h-6 rounded-full bg-[#4ead3b] flex items-center justify-center">
-                          <Check className="h-4 w-4 text-black" />
-                        </div>
-                      )}
-                      <h3 className={`text-lg font-bold ${status === 'completed' ? 'text-[#4ead3b]' : 'text-[#7800D3]'}`}>
-                        {section.title}
-                      </h3>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6 bg-white/50">
-                    <Component />
-                    {(section.id === 0 || section.id === 1) && status === 'in-progress' && (
-                      <div className="mt-4 pt-4 border-t border-[#7800D3]/10">
-                        <button
-                          onClick={handleNextStage}
-                          disabled={!isCurrentStageComplete()}
-                          className="w-full h-10 text-sm font-semibold bg-[#7800D3] hover:bg-[#6600B3] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                        >
-                          {section.id === 0 ? 'Generate Skills & Responsibilities →' : 'Next: Screening Questions →'}
-                        </button>
-                      </div>
+          {/* Active section — rendered directly */}
+          {sections.map((section) => {
+            if (getSectionStatus(section.id) !== 'in-progress') return null;
+            const Component = section.component;
+            return (
+              <div key={section.id} className="rounded-2xl bg-white border border-border p-6 shadow-sm">
+                <h3 className="text-base font-medium tracking-tight text-gray-800 mb-4">{section.title}</h3>
+                <Component />
+                {(section.id === 0 || section.id === 1) && (
+                  <div className="mt-6 flex flex-col items-center gap-1.5">
+                    {isCurrentStageComplete() ? (
+                      <Button
+                        onClick={handleNextStage}
+                        className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
+                      >
+                        <Check className="h-4 w-4 mr-2" />
+                        {section.id === 0 ? 'Generate Skills & Responsibilities' : 'Next: Screening Questions'}
+                      </Button>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">
+                        {section.id === 0 ? 'Fill in all required fields to continue' : 'Add at least one skill and responsibility to continue'}
+                      </p>
                     )}
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </ScrollArea>
     </div>

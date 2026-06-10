@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -123,7 +123,7 @@ export function RecruitmentChannelsPanel() {
             {planData.recruitmentChannels.recruitmentAgencies.map((agency, index) => (
               <Badge
                 key={index}
-                style={{ backgroundColor: '#7800D3' }}
+                style={{ backgroundColor: 'hsl(var(--primary))' }}
                 className="pl-3 pr-1.5 py-2 text-sm gap-2 font-medium border-transparent text-white"
               >
                 {agency}
@@ -179,7 +179,7 @@ export function RecruitmentChannelsPanel() {
         <Button
           onClick={handleNext}
           disabled={!isFormValid}
-          className="bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white rounded-full px-6 py-2 h-auto text-base font-medium border-0"
+          className="bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white rounded-full px-6 py-2 h-auto text-base font-medium border-0"
         >
           Next <ChevronRight className="w-4 h-4 ml-1" />
         </Button>

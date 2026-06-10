@@ -1,13 +1,13 @@
-
+﻿
 import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { ProjectList } from "@/components/hiring-lead/ProjectList";
 
 export function ProjectListPage() {
   return (
-    <Layout>
+    <AppLayout>
       <ProjectList />
-    </Layout>
+    </AppLayout>
   );
 }
 

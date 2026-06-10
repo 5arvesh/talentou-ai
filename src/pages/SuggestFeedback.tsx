@@ -1,6 +1,6 @@
-
+﻿
 import React, { useState } from "react";
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { FeedbackChat } from "@/components/feedback/FeedbackChat";
 import { FeedbackTable, FeedbackItem } from "@/components/feedback/FeedbackTable";
 import { Card } from "@/components/ui/card";
@@ -71,7 +71,7 @@ export function SuggestFeedback() {
   };
 
   return (
-    <Layout>
+    <AppLayout>
       {/* Back button */}
       <div className="px-2 mt-4">
         <Button 
@@ -176,7 +176,7 @@ export function SuggestFeedback() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </Layout>
+    </AppLayout>
   );
 }
 

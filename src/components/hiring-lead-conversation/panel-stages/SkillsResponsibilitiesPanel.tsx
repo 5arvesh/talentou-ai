@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useHiringLeadConversation } from "@/context/HiringLeadConversationContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -285,7 +285,7 @@ export function SkillsResponsibilitiesPanel() {
               <ul className="space-y-2">
                 {jobDetails.responsibilities.map((resp, index) => (
                   <li key={index} className="flex items-start gap-2 text-sm">
-                    <span className="text-foreground mt-1">•</span>
+                    <span className="text-foreground mt-1">â€¢</span>
                     <span className="flex-1 text-foreground">{resp}</span>
                     <button onClick={() => removeResponsibility(index)}>
                       <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
@@ -326,7 +326,7 @@ export function SkillsResponsibilitiesPanel() {
               <ul className="space-y-2">
                 {jobDetails.preferredQualifications.map((qual, index) => (
                   <li key={index} className="flex items-start gap-2 text-sm">
-                    <span className="text-foreground mt-1">•</span>
+                    <span className="text-foreground mt-1">â€¢</span>
                     <span className="flex-1 text-foreground">{qual}</span>
                     <button onClick={() => removeQualification(index)}>
                       <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
@@ -357,7 +357,7 @@ export function SkillsResponsibilitiesPanel() {
         <Button
           onClick={handleNext}
           disabled={jobDetails.keySkills.length === 0 || jobDetails.responsibilities.length === 0}
-          className="w-full h-12 text-base font-semibold bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next: Set Up Interview
         </Button>

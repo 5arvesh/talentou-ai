@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHiringLeadConversation } from '@/context/HiringLeadConversationContext';
 import type { CoreQuestion } from '@/context/HiringLeadConversationContext';
@@ -82,7 +82,7 @@ function SortableQuestionItem({
             autoFocus
           />
           <div className="flex gap-2">
-            <Button type="button" size="sm" className="h-7 bg-[#7800D3] hover:bg-[#6600bb] text-white" onClick={() => onSaveEdit(q.id)}>
+            <Button type="button" size="sm" className="h-7 bg-primary hover:bg-[#6600bb] text-white" onClick={() => onSaveEdit(q.id)}>
               <Check className="h-3 w-3 mr-1" /> Save
             </Button>
             <Button type="button" size="sm" variant="outline" className="h-7" onClick={onCancelEdit}>
@@ -92,7 +92,7 @@ function SortableQuestionItem({
         </div>
       ) : (
         <div className="flex items-start gap-2">
-          {/* Drag handle + number — horizontal */}
+          {/* Drag handle + number â€” horizontal */}
           <div className="flex items-center gap-1 shrink-0 pt-0.5">
             <button
               {...attributes}
@@ -102,7 +102,7 @@ function SortableQuestionItem({
             >
               <GripVertical className="h-4 w-4" />
             </button>
-            <span className="text-[10px] font-bold text-[#7800D3] bg-[#7800D3]/10 rounded-full w-5 h-5 flex items-center justify-center leading-none shrink-0">
+            <span className="text-[10px] font-bold text-primary bg-primary/10 rounded-full w-5 h-5 flex items-center justify-center leading-none shrink-0">
               {index + 1}
             </span>
           </div>
@@ -116,7 +116,7 @@ function SortableQuestionItem({
             <Badge variant="outline" className="text-xs flex items-center gap-1 text-muted-foreground">
               <Clock className="h-3 w-3" />{q.estimatedMinutes} min
             </Badge>
-            <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-[#7800D3]" onClick={() => onStartEdit(q)} title="Edit">
+            <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-primary" onClick={() => onStartEdit(q)} title="Edit">
               <Pencil className="h-3 w-3" />
             </Button>
             <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-purple-600" onClick={() => onRegenerate(q.id)} title="Regenerate">
@@ -228,7 +228,7 @@ export function InterviewSetupPanel() {
       <Card className="p-5 border border-border">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#7800D3]">Interview Questions</h3>
+            <h3 className="text-base font-semibold text-primary">Interview Questions</h3>
             {total > 0 && (
               <Badge variant="secondary" className="text-xs font-normal">
                 {total} question{total !== 1 ? 's' : ''}
@@ -237,7 +237,7 @@ export function InterviewSetupPanel() {
           </div>
           <Button
             type="button" variant="ghost" size="sm"
-            className="h-7 text-xs text-muted-foreground hover:text-[#7800D3] gap-1.5 px-2"
+            className="h-7 text-xs text-muted-foreground hover:text-primary gap-1.5 px-2"
             onClick={handleRegenerateAll}
             title="Regenerate all questions"
           >
@@ -279,7 +279,7 @@ export function InterviewSetupPanel() {
       <div className="flex justify-center">
         <Button
           type="button" variant="outline" size="sm"
-          className="h-8 text-xs border-[#7800D3]/30 text-[#7800D3] hover:bg-[#7800D3]/8 gap-1.5"
+          className="h-8 text-xs border-primary/30 text-primary hover:bg-primary/8 gap-1.5"
           onClick={handleAddAIQuestion}
           disabled={interviewSetup.coreQuestions.length >= AI_QUESTION_POOL.length}
         >
@@ -291,7 +291,7 @@ export function InterviewSetupPanel() {
 
       {/* Interview Duration */}
       <Card className="p-5 border border-border">
-        <h3 className="text-base font-semibold text-[#7800D3] mb-4">Interview Duration</h3>
+        <h3 className="text-base font-semibold text-primary mb-4">Interview Duration</h3>
         <div className="flex items-center gap-3">
           <Button type="button" variant="outline" size="icon" className="h-8 w-8 shrink-0"
             onClick={() => updateInterviewSetup({ totalDurationMins: Math.max(1, interviewSetup.totalDurationMins - 1) })}
@@ -311,7 +311,7 @@ export function InterviewSetupPanel() {
       </Card>
 
       <div className="pt-1">
-        <Button onClick={handleSave} className="w-full h-12 text-base font-semibold bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0">
+        <Button onClick={handleSave} className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white border-0">
           Save & Finish
         </Button>
       </div>

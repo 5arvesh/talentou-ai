@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import { ArrowLeft, PaperclipIcon, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -202,7 +202,7 @@ export function ChatWindow({
 
             {/* Your existing code for Proceed Button */}
             <div className="relative w-full">
-              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-br from-[#7E00FC] to-[#0A92FE] z-10 res-1200:h-[1.5px]" />
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-br from-primary to-indigo-400 z-10 res-1200:h-[1.5px]" />
               <div className="bg-white dark:bg-gray-900 w-full flex justify-end px-3 pt-3">
                 {showProceedButton && (
                     <Button
@@ -231,7 +231,7 @@ export function ChatWindow({
                   rows={1}
                   ref={textareaRef}
                   style={{ minHeight: "40px", maxHeight: "120px" }}
-                  className="flex-1 resize-none overflow-y-auto scrollbar-hide px-4 py-2 border rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#7E00FC] transition-all duration-200 res-1200:text-[10px] res-1400:text-xs"
+                  className="flex-1 resize-none overflow-y-auto scrollbar-hide px-4 py-2 border rounded-3xl focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ai-purple))] transition-all duration-200 res-1200:text-[10px] res-1400:text-xs"
                 />
                 <Button
                   variant="ghost"
@@ -250,7 +250,7 @@ export function ChatWindow({
                 />
                 <button
                   type="submit"
-                  className="bg-green-500 hover:bg-green-600 text-white rounded-full h-10 w-10 cursor-pointer flex items-center justify-center bg-gradient-to-br from-[#7E00FC] to-[#0A92FE] hover:from-[#0A92FE] hover:to-[#7E00FC] 
+                  className="bg-green-500 hover:bg-green-600 text-white rounded-full h-10 w-10 cursor-pointer flex items-center justify-center bg-gradient-to-br from-primary to-indigo-400 hover:from-primary hover:to-ai-purple 
                   res-1200:h-7 res-1200:w-7 res-1400:h-7 res-1400:w-7"
                   disabled={!input.trim()}
                 >

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { TAAssociateJDFlowProvider } from '@/context/TAAssociateJDFlowContext';
 import { TAAssociateJDFlowProgress } from './TAAssociateJDFlowProgress';
@@ -47,15 +46,7 @@ export function TAAssociateJDFlowLayout() {
           </div>
         </ResizablePanel>
 
-        <ResizableHandle>
-          <div 
-            className="absolute z-50 flex h-6 w-5 items-center justify-center rounded-full border border-gray-200 bg-white cursor-pointer shadow-md text-gray-500 hover:text-gray-800 hover:bg-gray-50"
-            onClick={() => useChatPanelStore.getState().toggleChat()}
-            title="Toggle Chat"
-          >
-            {isChatOpen ? <ChevronLeft className="h-4 w-4 pr-0.5" /> : <ChevronRight className="h-4 w-4 pl-0.5" />}
-          </div>
-        </ResizableHandle>
+        <ResizableHandle />
 
         {isChatOpen && (
           <>
@@ -71,7 +62,7 @@ export function TAAssociateJDFlowLayout() {
 
         {/* Right Interactive Form Panel */}
         <ResizablePanel defaultSize={55} minSize={35} maxSize={70}>
-          <div data-tour-id="jd-panel" className="h-full">
+          <div data-tour-id="jd-panel" className="h-full bg-[#F8F7FF]">
             <TAAssociateJDFlowPanel jobId={jobId || ''} />
           </div>
         </ResizablePanel>

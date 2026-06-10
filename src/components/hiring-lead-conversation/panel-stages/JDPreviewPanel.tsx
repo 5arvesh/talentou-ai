@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useHiringLeadConversation } from '@/context/HiringLeadConversationContext';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
@@ -256,7 +256,7 @@ export function JDPreviewPanel() {
           </div>
 
           {/* About the Role */}
-          <Card className="p-5 border border-[#7800D3]/20 bg-[#7800D3]/4">
+          <Card className="p-5 border border-primary/20 bg-primary/4">
             <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
               <Star className="h-5 w-5 text-primary" />
               About the Role
@@ -376,7 +376,7 @@ export function JDPreviewPanel() {
         <Button 
           onClick={handleSubmitForApproval}
           disabled={!isComplete || isSubmitting}
-          className="w-full h-12 text-base font-semibold bg-gradient-to-r from-[#503afd] to-[#3857fd] hover:from-[#503afd]/90 hover:to-[#3857fd]/90 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <span className="flex items-center gap-2">
@@ -386,7 +386,7 @@ export function JDPreviewPanel() {
           ) : (
             <span className="flex items-center gap-2">
               <Send className="h-4 w-4" />
-              Send for Approval & Continue →
+              Send for Approval & Continue â†’
             </span>
           )}
         </Button>

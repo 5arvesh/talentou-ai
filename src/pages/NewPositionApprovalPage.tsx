@@ -1,11 +1,11 @@
-import { Layout } from "@/components/layout/Layout";
+﻿import { AppLayout } from "@/components/layout/AppLayout";
 import { NewPositionConversation } from "@/components/notifications/NewPositionConversation";
 
 export function NewPositionApprovalPage() {
   return (
-    <Layout>
+    <AppLayout>
       <NewPositionConversation />
-    </Layout>
+    </AppLayout>
   );
 }
 

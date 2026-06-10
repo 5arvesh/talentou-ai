@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -55,9 +55,9 @@ export function RecruiterAssignmentStage() {
 
   return (
     <>
-      <div className="p-6 border-b border-border bg-white sticky top-0 z-20 shadow-sm">
-        <h2 className="text-xl font-bold text-[#7800D3]">Assign Recruiter & Priority</h2>
-        <p className="text-xs text-muted-foreground mt-1">Select a recruiter and set priorities</p>
+      <div className="px-5 py-4 bg-[#F8F7FF] sticky top-0 z-20">
+        <h2 className="text-base font-medium tracking-tight text-gray-900">Assign Recruiter & Priority</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">Select a recruiter and set priorities</p>
       </div>
       <ScrollArea className="flex-1">
         <div className="p-6 space-y-6">
@@ -80,7 +80,7 @@ export function RecruiterAssignmentStage() {
               className={cn(
                 "p-5 cursor-pointer transition-all border-2",
                 recruiterAssignmentType === "auto"
-                  ? "border-[#7800D3]"
+                  ? "border-primary"
                   : "border-border hover:bg-muted/50"
               )}
               onClick={() => {
@@ -111,7 +111,7 @@ export function RecruiterAssignmentStage() {
                         <p className="font-semibold text-base">{selectedRecruiter.name}</p>
                         <p className="text-sm text-muted-foreground">{selectedRecruiter.activeJobs} active jobs</p>
                       </div>
-                      <CheckCircle2 className="h-6 w-6 text-[#7800D3]" />
+                      <CheckCircle2 className="h-6 w-6 text-primary" />
                     </div>
                   )}
                 </div>
@@ -123,7 +123,7 @@ export function RecruiterAssignmentStage() {
               className={cn(
                 "p-5 cursor-pointer transition-all border-2",
                 recruiterAssignmentType === "manual"
-                  ? "border-[#7800D3]"
+                  ? "border-primary"
                   : "border-border hover:bg-muted/50"
               )}
               onClick={() => {
@@ -205,7 +205,7 @@ export function RecruiterAssignmentStage() {
                             <p className="font-semibold text-base">{selectedRecruiter.name}</p>
                             <p className="text-sm text-muted-foreground">{selectedRecruiter.email}</p>
                           </div>
-                          <CheckCircle2 className="h-6 w-6 text-[#7800D3]" />
+                          <CheckCircle2 className="h-6 w-6 text-primary" />
                         </div>
                       )}
                     </div>
@@ -218,7 +218,7 @@ export function RecruiterAssignmentStage() {
           {/* Only show priority section if recruiter is selected */}
           {selectedRecruiter && (
             <div className="mt-8 space-y-4 border-t border-border pt-6">
-              <h3 className="text-lg font-bold text-[#7800D3]">{selectedRecruiter.name}'s Jobs & Priorities</h3>
+              <h3 className="text-lg font-bold text-primary">{selectedRecruiter.name}'s Jobs & Priorities</h3>
 
               {jobDetails.behavioralQuestionsEnabled && (
                 <Card className="p-4 bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800">
@@ -253,9 +253,9 @@ export function RecruiterAssignmentStage() {
               )}
 
               {/* New Job - Highlighted */}
-              <Card className={cn("p-4 border-2 shadow-sm transition-colors", getJobBgColor(priority || 'medium'), !priority && 'border-[#7800D3] bg-primary/5')}>
+              <Card className={cn("p-4 border-2 shadow-sm transition-colors", getJobBgColor(priority || 'medium'), !priority && 'border-primary bg-primary/5')}>
                 <div className="flex items-center gap-2 mb-3">
-                  <Badge className="bg-[#7800D3] text-white">New</Badge>
+                  <Badge className="bg-primary text-white">New</Badge>
                   <span className="text-xs text-muted-foreground">Just approved</span>
                 </div>
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -332,11 +332,11 @@ export function RecruiterAssignmentStage() {
           )}
 
           {/* Confirm Button */}
-          <div className="mt-6 pt-6 border-t border-border sticky bottom-0 bg-white shadow-[0_-10px_15px_-3px_rgba(255,255,255,0.9)] z-10 pb-4">
+          <div className="mt-6 pt-6 border-t border-border flex justify-center">
             <Button
               onClick={handleSavePriorities}
               disabled={!selectedRecruiter || !priority}
-              className="w-full h-12 text-base font-semibold bg-[#4ead3b] hover:bg-[#8FD378] text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+              className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Assign & Save Priorities
             </Button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import {
@@ -70,7 +70,7 @@ export function InterviewSchedulingDrawer({
     <Sheet open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
       <SheetContent side="right" className="w-[460px] sm:max-w-[460px] flex flex-col p-0">
         <SheetHeader className="px-6 py-5 border-b border-border">
-          <SheetTitle className="text-lg font-bold text-[#7800D3]">Schedule Interview</SheetTitle>
+          <SheetTitle className="text-lg font-bold text-primary">Schedule Interview</SheetTitle>
           <SheetDescription className="text-sm text-muted-foreground">
             for <span className="font-medium text-foreground">{candidateName}</span>
           </SheetDescription>
@@ -162,7 +162,7 @@ export function InterviewSchedulingDrawer({
                   className={cn(
                     'flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors',
                     sendOption === key
-                      ? 'border-[#7800D3] bg-[#faf5ff]'
+                      ? 'border-primary bg-[#faf5ff]'
                       : 'border-border hover:bg-muted/30'
                   )}
                   onClick={() => setSendOption(key)}
@@ -186,7 +186,7 @@ export function InterviewSchedulingDrawer({
           <Button
             disabled={!expiryDate || !expiryTime}
             onClick={handleSubmit}
-            className="flex-1 bg-[#4ead3b] hover:bg-[#8FD378] text-white disabled:opacity-50"
+            className="flex-1 bg-green-500 hover:bg-[#8FD378] text-white disabled:opacity-50"
           >
             Schedule Interview & Send Link
           </Button>

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Check } from 'lucide-react';
 
 interface Template {
@@ -95,11 +95,11 @@ export function TemplateSelector({ value, onChange }: TemplateSelectorProps) {
             type="button"
             onClick={() => onChange(t.id)}
             className={`relative rounded-xl border-2 p-3 text-left transition-all ${
-              selected ? 'border-[#4EAD3B] bg-green-50' : 'border-gray-200 hover:border-gray-300 bg-white'
+              selected ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300 bg-white'
             }`}
           >
             {selected && (
-              <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#4EAD3B] flex items-center justify-center">
+              <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
                 <Check className="h-3 w-3 text-white" />
               </div>
             )}

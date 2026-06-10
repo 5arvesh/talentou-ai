@@ -1,12 +1,12 @@
-import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+﻿import React from 'react';
+import { AppLayout } from "@/components/layout/AppLayout";
 import { TAAssociateJDFlowLayout } from '@/components/ta-associate-jd-flow/TAAssociateJDFlowLayout';
 
 export function TAAssociateJDFlowPage() {
   return (
-    <Layout>
+    <AppLayout>
       <TAAssociateJDFlowLayout />
-    </Layout>
+    </AppLayout>
   );
 }
 

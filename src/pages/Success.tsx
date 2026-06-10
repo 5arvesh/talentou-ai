@@ -1,12 +1,12 @@
-
-import { Layout } from "@/components/layout/Layout";
+﻿
+import { AppLayout } from "@/components/layout/AppLayout";
 import { SuccessPage } from "@/components/success/SuccessPage";
 
 export function Success() {
   return (
-    <Layout>
+    <AppLayout>
       <SuccessPage />
-    </Layout>
+    </AppLayout>
   );
 }
 

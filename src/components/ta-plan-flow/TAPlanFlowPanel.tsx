@@ -68,7 +68,7 @@ export function TAPlanFlowPanel() {
     <div className="h-full flex flex-col bg-[#F8F7FF]">
       {/* Header */}
       <div className="px-5 py-4">
-        <h2 className="text-[15px] font-semibold text-gray-900">Your Workspace</h2>
+        <h2 className="text-base font-medium tracking-tight text-gray-900">Your Workspace</h2>
         <p className="text-sm text-muted-foreground mt-0.5">{stageSubtitles[currentStage]}</p>
       </div>
 
@@ -93,7 +93,7 @@ export function TAPlanFlowPanel() {
             const Component = section.component;
             return (
               <div key={section.id} className="rounded-2xl bg-white border border-border p-6 shadow-sm">
-                <h3 className="text-[15px] font-semibold text-gray-800 mb-4">{section.title}</h3>
+                <h3 className="text-base font-medium tracking-tight text-gray-800 mb-4">{section.title}</h3>
                 <Component />
               </div>
             );
@@ -106,7 +106,7 @@ export function TAPlanFlowPanel() {
         {isCurrentStageValid ? (
           <Button
             onClick={handleNext}
-            className="px-8 h-11 rounded-full bg-[#1e1b4b] hover:bg-[#1e1b4b]/90 text-white font-semibold text-sm border-0"
+            className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
           >
             <Check className="h-4 w-4 mr-2" />
             {currentStage === 3 ? 'Finish Plan' : 'Next'}

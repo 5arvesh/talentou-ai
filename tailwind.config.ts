@@ -22,6 +22,8 @@ export default {
     extend: {
       fontFamily: {
         roboto: ["Roboto"],
+        dmSans: ["DM Sans", "system-ui", "sans-serif"],
+        sora: ["Sora", "DM Sans", "sans-serif"],
       },
       screens: {
         "res-1200": { raw: "(min-width: 1200px) and (max-width: 1400px)" },

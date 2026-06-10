@@ -1,4 +1,4 @@
-import { Layout } from "@/components/layout/Layout";
+﻿import { AppLayout } from "@/components/layout/AppLayout";
 import { InboxPage } from "@/components/inbox/InboxPage";
 import { InboxNotification } from "@/components/inbox/types";
 
@@ -96,13 +96,13 @@ const mockNotifications: InboxNotification[] = [
 
 export function NotificationsPage() {
   return (
-    <Layout>
+    <AppLayout>
       <InboxPage 
         notifications={mockNotifications} 
         defaultSection="all"
         showBackButton={true}
         backPath="/sales-plan/dashboard"
       />
-    </Layout>
+    </AppLayout>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useTAPlanFlow } from '@/context/TAPlanFlowContext';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ const MAJOR_CITIES = [
   "Melbourne", "Bangkok", "Kuala Lumpur", "Manila", "Jakarta", "Dubai",
   "Abu Dhabi", "Taipei", "Osaka", "Ho Chi Minh City", "Perth", "Brisbane",
   "Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa", "Edmonton", "Winnipeg",
-  "Mexico City", "São Paulo", "Buenos Aires", "Cape Town", "Johannesburg", "Cairo",
+  "Mexico City", "SÃ£o Paulo", "Buenos Aires", "Cape Town", "Johannesburg", "Cairo",
   "Istanbul", "Moscow", "Tel Aviv", "Riyadh", "Doha", "Auckland", "Wellington",
 ];
 
@@ -136,7 +136,7 @@ export function TalentPoolPanel() {
                 "flex-1 border-transparent",
                 planData.talentPool.workMode.includes(mode)
                   ? "bg-[#7800d4] hover:bg-[#7800d4]/90 text-white"
-                  : "bg-[#f3eeff] font-bold text-[#7800D3] hover:bg-[#e9d1ff]"
+                  : "bg-[#f3eeff] font-bold text-primary hover:bg-[#e9d1ff]"
               )}
             >
               {mode}
@@ -165,7 +165,7 @@ export function TalentPoolPanel() {
         <Popover open={openCityPopover} onOpenChange={setOpenCityPopover}>
           <PopoverTrigger asChild>
             <Button variant="outline" role="combobox" aria-expanded={openCityPopover}
-              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#7800D3]">
+              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-primary">
               {citySearchValue || "Select or type city..."}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -216,7 +216,7 @@ export function TalentPoolPanel() {
         <Popover open={openIndustryPopover} onOpenChange={setOpenIndustryPopover}>
           <PopoverTrigger asChild>
             <Button variant="outline" role="combobox" aria-expanded={openIndustryPopover}
-              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#7800D3]">
+              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-primary">
               {industrySearchValue || "Select or type industry..."}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -267,7 +267,7 @@ export function TalentPoolPanel() {
         <Popover open={openInstitutionPopover} onOpenChange={setOpenInstitutionPopover}>
           <PopoverTrigger asChild>
             <Button variant="outline" role="combobox" aria-expanded={openInstitutionPopover}
-              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-[#7800D3]">
+              className="w-full justify-between h-11 bg-[#f3eeff] border-transparent hover:bg-[#e9d1ff] font-bold text-primary">
               {institutionSearchValue || "Select or type institution..."}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>

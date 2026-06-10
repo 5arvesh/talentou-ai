@@ -1,4 +1,4 @@
-
+﻿
 import { useState } from "react";
 import { ArrowLeft, Eye, Phone, Mail, Linkedin, MapPin, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 
 export function ContactDetail() {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ export function ContactDetail() {
   ];
   
   return (
-    <Layout>
+    <AppLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
@@ -96,7 +96,7 @@ export function ContactDetail() {
               <CardContent className="p-6">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-green-600">👤</div>
+                    <div className="w-5 h-5 mt-1 text-green-600">ðŸ‘¤</div>
                     <div>
                       <p className="text-gray-500 text-sm">Contact Name</p>
                       <p className="font-medium text-lg">{contactData.name}</p>
@@ -104,7 +104,7 @@ export function ContactDetail() {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-green-600">🏢</div>
+                    <div className="w-5 h-5 mt-1 text-green-600">ðŸ¢</div>
                     <div>
                       <p className="text-gray-500 text-sm">Company Name</p>
                       <p className="font-medium">{contactData.company}</p>
@@ -112,7 +112,7 @@ export function ContactDetail() {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-green-600">🔖</div>
+                    <div className="w-5 h-5 mt-1 text-green-600">ðŸ”–</div>
                     <div>
                       <p className="text-gray-500 text-sm">Designation</p>
                       <p className="font-medium">{contactData.designation}</p>
@@ -128,7 +128,7 @@ export function ContactDetail() {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-5 h-5 mt-1 text-emerald-600">⭐</div>
+                    <div className="w-5 h-5 mt-1 text-emerald-600">â­</div>
                     <div className="flex-1">
                       <p className="text-gray-500 text-sm">Buyer Intent Score</p>
                       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-md mt-1">
@@ -266,6 +266,6 @@ export function ContactDetail() {
           </div>
         </div>
       </div>
-    </Layout>
+    </AppLayout>
   );
 }

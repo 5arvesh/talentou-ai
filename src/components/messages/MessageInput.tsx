@@ -1,4 +1,4 @@
-
+﻿
 import React, { useRef } from 'react';
 import { PaperclipIcon, Mic, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -45,7 +45,7 @@ export const MessageInput = ({ message, setMessage, onSend, onFileSelect }: Mess
             size="icon"
             className="rounded-full bg-purple-600 hover:bg-purple-700 text-white"
             onClick={onSend}
-            style={{ backgroundColor: "#7800D3" }}
+            style={{ backgroundColor: "hsl(var(--primary))" }}
           >
             <Send className="h-5 w-5" />
           </Button>

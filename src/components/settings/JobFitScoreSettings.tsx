@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
@@ -58,7 +58,7 @@ export function JobFitScoreSettings() {
       {/* Criteria sliders */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
         <div className="p-5 border-b border-gray-100 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#ebdbfc] flex items-center justify-center text-[#7800D3]">
+          <div className="w-9 h-9 rounded-lg bg-[#ebdbfc] flex items-center justify-center text-primary">
             <Target className="h-4 w-4" />
           </div>
           <div>
@@ -77,7 +77,7 @@ export function JobFitScoreSettings() {
                 </div>
                 <span className={cn(
                   "text-sm font-semibold tabular-nums w-12 text-right",
-                  weights[criterion.key] === 0 ? "text-gray-400" : "text-[#7800D3]"
+                  weights[criterion.key] === 0 ? "text-gray-400" : "text-primary"
                 )}>
                   {weights[criterion.key]}%
                 </span>
@@ -107,7 +107,7 @@ export function JobFitScoreSettings() {
               : <AlertCircle className="h-4 w-4 text-red-500" />
             }
             <span className={cn("text-sm font-medium", isValid ? "text-green-700" : "text-red-600")}>
-              {isValid ? "Total is 100% — ready to save" : `Total is ${total}% — must equal 100%`}
+              {isValid ? "Total is 100% â€” ready to save" : `Total is ${total}% â€” must equal 100%`}
             </span>
           </div>
           <span className={cn("text-lg font-bold tabular-nums", isValid ? "text-green-700" : "text-red-600")}>
@@ -121,7 +121,7 @@ export function JobFitScoreSettings() {
         <Button
           onClick={handleSave}
           disabled={!isValid}
-          style={{ backgroundColor: isValid ? "#4ead3b" : undefined, color: isValid ? "black" : undefined }}
+          style={{ backgroundColor: isValid ? "#22C55E" : undefined, color: isValid ? "black" : undefined }}
           className="hover:opacity-90 font-medium disabled:opacity-50"
         >
           <CheckCircle2 className="h-4 w-4 mr-2" />

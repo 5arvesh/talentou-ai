@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { useTAPlanFlow } from "@/context/TAPlanFlowContext";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,7 +22,7 @@ export function CompanyUSPPanel() {
             value={planData.companyUSP.elevatorPitch}
             onChange={(e) => updatePlanData("companyUSP", { elevatorPitch: e.target.value })}
             placeholder="Write your company elevator pitch covering: work culture, perks & benefits, performance-based rewards/recognition, awards won by the company, etc."
-            className="min-h-[200px] resize-none bg-[#f3eeff] border-[#7800D3]/20 text-gray-800 placeholder:font-normal placeholder:text-muted-foreground"
+            className="min-h-[200px] resize-none bg-[#f3eeff] border-primary/20 text-gray-800 placeholder:font-normal placeholder:text-muted-foreground"
             maxLength={1000}
           />
           <p className="text-xs text-muted-foreground">

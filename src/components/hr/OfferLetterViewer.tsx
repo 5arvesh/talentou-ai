@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -99,7 +99,7 @@ export function OfferLetterViewer() {
           <CardContent className="p-12">
             {/* Header with Logo */}
             <div className="mb-12">
-              <h1 className="text-4xl font-bold text-[#7800D3] mb-8">Talentou</h1>
+              <h1 className="text-4xl font-bold text-primary mb-8">Talentou</h1>
               
               <div className="space-y-1 text-sm">
                 <p><strong>September 01, 2025</strong></p>
@@ -132,7 +132,7 @@ export function OfferLetterViewer() {
 
               <div className="space-y-3">
                 <div>
-                  <span className="font-bold">1.</span> Your joining date is <strong>September 03, 2025</strong> as a <strong>Product – owner intern</strong>. The offer letter will be
+                  <span className="font-bold">1.</span> Your joining date is <strong>September 03, 2025</strong> as a <strong>Product â€“ owner intern</strong>. The offer letter will be
                   under <strong>Talentou</strong>.
                 </div>
                 
@@ -341,7 +341,7 @@ export function OfferLetterViewer() {
                     <div className="mt-8">
                       <div className="w-32 h-16 border-b border-black mb-2"></div>
                       <p className="font-bold">Sriviihya B</p>
-                      <p><strong>Head – Finance & Ops</strong></p>
+                      <p><strong>Head â€“ Finance & Ops</strong></p>
                     </div>
                   </div>
                 </div>

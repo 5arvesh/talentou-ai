@@ -1,11 +1,11 @@
-
-import { Layout } from "@/components/layout/Layout";
+﻿
+import { AppLayout } from "@/components/layout/AppLayout";
 import { LeadTracker } from "../lead-tracker/LeadTracker";
 
 export function DatabaseBuilder() {
   return (
-    <Layout>
+    <AppLayout>
       <LeadTracker />
-    </Layout>
+    </AppLayout>
   );
 }

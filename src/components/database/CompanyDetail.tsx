@@ -1,10 +1,10 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { ArrowLeft, ChevronUp, ChevronDown, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import { Layout } from "@/components/layout/Layout";
+import { AppLayout } from "@/components/layout/AppLayout";
 
 export function CompanyDetail() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export function CompanyDetail() {
   const [contactDetailsOpen, setContactDetailsOpen] = useState(true);
   
   return (
-    <Layout>
+    <AppLayout>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
           <Button 
@@ -32,7 +32,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">🏢</span>
+                  <span className="text-emerald-600 text-sm">ðŸ¢</span>
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Company Name</span>
               </div>
@@ -42,7 +42,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">🌐</span>
+                  <span className="text-emerald-600 text-sm">ðŸŒ</span>
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Headquarters</span>
               </div>
@@ -52,7 +52,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">👥</span>
+                  <span className="text-emerald-600 text-sm">ðŸ‘¥</span>
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Employee Size</span>
               </div>
@@ -62,7 +62,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">🏭</span>
+                  <span className="text-emerald-600 text-sm">ðŸ­</span>
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Industry</span>
               </div>
@@ -72,7 +72,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">💰</span>
+                  <span className="text-emerald-600 text-sm">ðŸ’°</span>
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Revenue</span>
               </div>
@@ -82,7 +82,7 @@ export function CompanyDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="text-emerald-600 text-sm">⭐</span>
+                  <span className="text-emerald-600 text-sm">â­</span>
                 </div>
                 <span className="text-gray-500 dark:text-gray-400">Company Fitment Score</span>
               </div>
@@ -362,6 +362,6 @@ export function CompanyDetail() {
           </Button>
         </div>
       </div>
-    </Layout>
+    </AppLayout>
   );
 }

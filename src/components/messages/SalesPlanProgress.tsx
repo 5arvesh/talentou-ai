@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 import { Check } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
@@ -88,7 +88,7 @@ export const SalesPlanProgress = ({
           {/* Company USP Content - Simplified without tabs */}
           <div className="mt-4 flex-1 flex flex-col res-1200:mt-2">
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm flex-1 flex flex-col">
-              <div className="p-3 bg-[#7800D3] rounded-t-lg res-1200:p-2">
+              <div className="p-3 bg-primary rounded-t-lg res-1200:p-2">
                 <div className="flex items-center">
                   <Check className="h-5 w-5 text-white mr-2 res-1200:mr-1 res-1200:h-4 res-1200:w-4" />
                   <span className="text-white font-medium res-1200:text-md">Company USP</span>

@@ -21,6 +21,8 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const effectiveCollapsed = collapsed && !isHovered;
   const location = useLocation();
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState(
@@ -57,14 +59,16 @@ export function Sidebar({ className }: SidebarProps) {
     <div
       className={cn(
         "flex flex-col h-screen text-white transition-all duration-300 relative",
-        collapsed ? "w-[45px]" : "w-[180px] res-1200:w-[148px] res-1400:w-[170px]",
+        effectiveCollapsed ? "w-[45px]" : "w-[180px] res-1200:w-[148px] res-1400:w-[170px]",
         className
       )}
       style={{ background: "#2d005f" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Logo */}
       <div className="py-3 px-4 border-b border-white/10 flex items-center justify-center h-[73px] res-1200:h-[50px] res-1200:py-1 res-1200:px-2">
-        {!collapsed ? (
+        {!effectiveCollapsed ? (
           <div className="flex justify-center">
             <div className="bg-white py-1.5 px-2.5 rounded res-1200:py-1">
               <img src={logo} alt="Talentou" className="h-9 res-1400:h-8 res-1200:h-7" />
@@ -88,7 +92,7 @@ export function Sidebar({ className }: SidebarProps) {
         <ul
           className={cn(
             "space-y-2 res-1200:space-y-1",
-            collapsed ? "px-[6px] res-1200:px-[4px]" : "px-3 res-1200:px-2 res-1400:px-2",
+            effectiveCollapsed ? "px-[6px] res-1200:px-[4px]" : "px-3 res-1200:px-2 res-1400:px-2",
             "res-1200:text-[10px] res-1400:text-xs res-1600:text-[14px]"
           )}
         >
@@ -96,7 +100,7 @@ export function Sidebar({ className }: SidebarProps) {
             icon={<LayoutDashboard size={20} />}
             label={userRole === "hiring-lead" ? "Home" : "TA Plan"}
             to={getTAPlanRoute()}
-            collapsed={collapsed}
+            collapsed={effectiveCollapsed}
             active={
               location.pathname.includes("/sales-plan") ||
               location.pathname.includes("/ta-associate-plan") ||
@@ -113,7 +117,7 @@ export function Sidebar({ className }: SidebarProps) {
               icon={<FileText size={20} />}
               label="Collaterals"
               to="/ta-associate-plan/collaterals"
-              collapsed={collapsed}
+              collapsed={effectiveCollapsed}
               active={location.pathname.includes("/collaterals")}
             />
           )}
@@ -122,7 +126,7 @@ export function Sidebar({ className }: SidebarProps) {
             icon={<Briefcase size={20} />}
             label="Jobs"
             to={`${getBaseRoute()}/jobs`}
-            collapsed={collapsed}
+            collapsed={effectiveCollapsed}
             active={location.pathname.includes("/job-list") || location.pathname.includes("/jobs")}
           />
 
@@ -130,7 +134,7 @@ export function Sidebar({ className }: SidebarProps) {
             icon={<Users size={20} />}
             label="Candidates"
             to={`${getBaseRoute()}/candidates`}
-            collapsed={collapsed}
+            collapsed={effectiveCollapsed}
             active={location.pathname.includes("/candidates")}
           />
 
@@ -144,7 +148,7 @@ export function Sidebar({ className }: SidebarProps) {
                 ? "/hiring-lead/dashboard"
                 : "/sales-plan/dashboard"
             }
-            collapsed={collapsed}
+            collapsed={effectiveCollapsed}
             active={
               userRole === "ta-associate"
                 ? location.pathname === "/ta-associate/dashboard"
@@ -163,7 +167,7 @@ export function Sidebar({ className }: SidebarProps) {
             icon={<Settings size={20} />}
             label="Settings"
             to="/settings"
-            collapsed={collapsed}
+            collapsed={effectiveCollapsed}
             active={location.pathname.startsWith("/settings")}
           />
           <li>
@@ -171,11 +175,11 @@ export function Sidebar({ className }: SidebarProps) {
               onClick={handleLogout}
               className={cn(
                 "flex items-center px-3 py-2 rounded-md w-full transition-colors hover:bg-white/10",
-                collapsed ? "justify-center" : ""
+                effectiveCollapsed ? "justify-center" : ""
               )}
             >
-              <span className={collapsed ? "" : "mr-2"}><LogOut size={20} /></span>
-              {!collapsed && <span>Logout</span>}
+              <span className={effectiveCollapsed ? "" : "mr-2"}><LogOut size={20} /></span>
+              {!effectiveCollapsed && <span>Logout</span>}
             </button>
           </li>
         </ul>
@@ -211,7 +215,7 @@ const NavItem = ({ icon, label, to, collapsed, active }: NavItemProps) => (
       title={label}
       className={cn(
         "flex items-center px-3 py-2 rounded-md transition-colors",
-        active ? "bg-white/15" : "hover:bg-white/10"
+        active ? "bg-white/15 border-l-2 border-white/70" : "hover:bg-white/10 border-l-2 border-transparent"
       )}
     >
       <div className={cn("flex items-center", collapsed ? "justify-center w-full" : "")}>

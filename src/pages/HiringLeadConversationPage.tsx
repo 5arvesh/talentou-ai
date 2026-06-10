@@ -1,12 +1,12 @@
-import React from 'react';
-import { Layout } from "@/components/layout/Layout";
+﻿import React from 'react';
+import { AppLayout } from "@/components/layout/AppLayout";
 import { HiringLeadConversationLayout } from "@/components/hiring-lead-conversation/HiringLeadConversationLayout";
 
 export function HiringLeadConversationPage() {
   return (
-    <Layout>
+    <AppLayout>
       <HiringLeadConversationLayout />
-    </Layout>
+    </AppLayout>
   );
 }
 

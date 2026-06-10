@@ -1,4 +1,4 @@
-
+﻿
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AuthRightLayout } from "@/Layout/AuthLayout/AuthRightLayout";
@@ -27,7 +27,7 @@ export function RegistrationSuccess() {
           
           <button 
             onClick={handleLogin}
-            style={{ color: "#4ead3b" }}
+            style={{ color: "#22C55E" }}
             className="font-medium hover:underline res-1200:text-xs"
           >
             Click here to login
