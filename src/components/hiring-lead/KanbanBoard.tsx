@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Mail, Link2, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical, Lock } from 'lucide-react';
 import { RoleType } from '@/components/shared/ModernJobList';
+import { getAvatarColor, getInitials } from '@/lib/avatar';
 
 type Stage = 'Applied' | 'Shortlisted' | 'Phone Screen' | 'Interview' | 'Offered';
 
@@ -80,23 +81,6 @@ const FIT_LABEL_CONFIG: Record<string, string> = {
   'Strong Fit': 'bg-blue-50 text-blue-700 border-blue-200',
   'Excellent Fit': 'bg-green-50 text-green-600 border-green-200',
 };
-
-const AVATAR_COLORS = [
-  'from-primary to-purple-700',
-  'from-blue-500 to-blue-700',
-  'from-emerald-500 to-teal-600',
-  'from-amber-500 to-orange-600',
-  'from-rose-500 to-red-600',
-];
-
-function getInitials(name: string) {
-  return name.split(' ').map((n) => n[0]).join('').toUpperCase();
-}
-
-function getAvatarColor(name: string) {
-  const idx = name.charCodeAt(0) % AVATAR_COLORS.length;
-  return AVATAR_COLORS[idx];
-}
 
 // Droppable column wrapper â€” registers the column as a dnd-kit drop target
 function DroppableColumn({ id, children, className }: { id: string; children: React.ReactNode; className: string }) {

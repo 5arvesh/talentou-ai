@@ -11,11 +11,11 @@ interface KPIStat {
 
 interface KPIStripProps {
   stats: KPIStat[];
-  cols?: 2 | 3 | 4;
+  cols?: 2 | 3 | 4 | 5;
 }
 
 export function KPIStrip({ stats, cols = 4 }: KPIStripProps) {
-  const colClass = cols === 2 ? "grid-cols-2" : cols === 3 ? "grid-cols-3" : "grid-cols-2 lg:grid-cols-4";
+  const colClass = cols === 2 ? "grid-cols-2" : cols === 3 ? "grid-cols-3" : cols === 5 ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" : "grid-cols-2 lg:grid-cols-4";
   return (
     <div className={`grid ${colClass} gap-px bg-border rounded-xl overflow-hidden border border-border`}>
       {stats.map((stat) => (

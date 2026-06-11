@@ -20,7 +20,9 @@ import {
   PlayCircle,
   Phone,
   Mail,
-  Linkedin
+  Linkedin,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,9 +33,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 import { RoleType } from "./ModernJobList";
 import { getCandidateStatusColor } from "@/constants/statuses";
+import { CandidateCard } from "./CandidateCard";
+import { CandidateSummaryBar } from "./CandidateSummaryBar";
+import { TriageChipsBar, ChipDef } from "./TriageChipsBar";
 
 export interface CandidateItem {
   id: string | number;
@@ -81,7 +87,7 @@ type ColumnDef = {
   label: string;
 };
 
-const ALL_COLUMNS: ColumnDef[] = [
+export const ALL_COLUMNS: ColumnDef[] = [
   { id: "name", label: "Candidate Name" },
   { id: "yearsOfExperience", label: "Experience" },
   { id: "skills", label: "Relevant Skills" },
@@ -106,6 +112,56 @@ const ALL_COLUMNS: ColumnDef[] = [
 
 const DEFAULT_COLUMNS = ["name", "currentTitle", "yearsOfExperience", "skills", "roleFitScore", "status", "source", "dateAdded"];
 
+export const getFieldValue = (candidate: CandidateItem, field: string): string => {
+  if (field === 'name') return candidate.name;
+  if (field === 'yearsOfExperience') return String(candidate.yearsOfExperience ?? "3");
+  if (field === 'roleFitScore') return String(candidate.roleFitScore);
+  if (field === 'status') return candidate.status;
+  if (field === 'email') return candidate.email || `${candidate.name.toLowerCase().replace(' ', '.')}@example.com`;
+  if (field === 'phone') return candidate.phone || "+1 (555) 000-0000";
+  if (field === 'location') return candidate.location || "San Francisco, CA";
+  if (field === 'currentCTC') return candidate.currentCTC || "$80,000";
+  if (field === 'expectedCTC') return candidate.expectedCTC || "$100,000";
+  if (field === 'earliestJoiningDate') return candidate.earliestJoiningDate || "Immediate";
+  if (field === 'dateAdded') return candidate.dateAdded || "-";
+  if (field === 'skills') return candidate.skills.join(", ");
+  if (field === 'source') return candidate.source || "Direct";
+  if (field === 'currentTitle') return candidate.currentTitle || "-";
+  if (field === 'currentCompany') return candidate.currentCompany || "-";
+  if (field === 'recruiterAssigned') return candidate.recruiterAssigned || "-";
+  if (field === 'lastActivity') return candidate.lastActivity || "-";
+  if (field === 'daysInStage') return String(candidate.daysInStage ?? 0);
+  if (field === 'tags') return candidate.tags ? candidate.tags.join(", ") : "-";
+  if (field === 'interviewScheduledDate') return candidate.interviewScheduledDate || "-";
+  return String((candidate as any)[field] || "-");
+};
+
+export const getRoleFitColor = (score: number) => {
+  if (score >= 70) return "text-success";
+  if (score >= 40) return "text-warning";
+  return "text-destructive";
+};
+
+export const getRoleFitBgColor = (score: number) => {
+  if (score >= 70) return "bg-success/10";
+  if (score >= 40) return "bg-warning/10";
+  return "bg-destructive/10";
+};
+
+export const getRoleFitFillColor = (score: number) => {
+  if (score >= 70) return "bg-success";
+  if (score >= 40) return "bg-warning";
+  return "bg-destructive";
+};
+
+const CANDIDATE_CHIPS: ChipDef<CandidateItem>[] = [
+  { id: "all", label: "All Candidates", filter: () => true },
+  { id: "new", label: "New", dotColorClass: "bg-info", filter: (c) => !!c.isNew },
+  { id: "high-fit", label: "High Fit (80%+)", dotColorClass: "bg-success", filter: (c) => c.roleFitScore >= 80 },
+  { id: "shortlisted", label: "Shortlisted", filter: (c) => c.status === "Shortlisted" },
+  { id: "interview-scheduled", label: "Interview Scheduled", filter: (c) => c.status === "Interview Scheduled" },
+];
+
 export function ModernCandidateList({ role, candidates, title = "Candidate List", onAction, onAddCandidate, selectedIds, onSelectionChange, onSelectAll }: ModernCandidateListProps) {
   const navigate = useNavigate();
   const [globalSearch, setGlobalSearch] = useState("");
@@ -120,6 +176,8 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
   const [selectedStatus, setSelectedStatus] = useState("All Statuses");
   const [globalSort, setGlobalSort] = useState("Match Score");
   const [viewedCandidates, setViewedCandidates] = useState<Set<string | number>>(new Set());
+  const [viewMode, setViewMode] = useState<"card" | "table">("card");
+  const [activeChip, setActiveChip] = useState("all");
 
   // Derive filter options from data
   const uniqueJobs = useMemo(() => {
@@ -133,30 +191,6 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
     candidates.forEach(c => statuses.add(c.status));
     return Array.from(statuses).sort();
   }, [candidates]);
-
-  const getFieldValue = (candidate: CandidateItem, field: string): string => {
-    if (field === 'name') return candidate.name;
-    if (field === 'yearsOfExperience') return String(candidate.yearsOfExperience ?? "3");
-    if (field === 'roleFitScore') return String(candidate.roleFitScore);
-    if (field === 'status') return candidate.status;
-    if (field === 'email') return candidate.email || `${candidate.name.toLowerCase().replace(' ', '.')}@example.com`;
-    if (field === 'phone') return candidate.phone || "+1 (555) 000-0000";
-    if (field === 'location') return candidate.location || "San Francisco, CA";
-    if (field === 'currentCTC') return candidate.currentCTC || "$80,000";
-    if (field === 'expectedCTC') return candidate.expectedCTC || "$100,000";
-    if (field === 'earliestJoiningDate') return candidate.earliestJoiningDate || "Immediate";
-    if (field === 'dateAdded') return candidate.dateAdded || "-";
-    if (field === 'skills') return candidate.skills.join(", ");
-    if (field === 'source') return candidate.source || "Direct";
-    if (field === 'currentTitle') return candidate.currentTitle || "-";
-    if (field === 'currentCompany') return candidate.currentCompany || "-";
-    if (field === 'recruiterAssigned') return candidate.recruiterAssigned || "-";
-    if (field === 'lastActivity') return candidate.lastActivity || "-";
-    if (field === 'daysInStage') return String(candidate.daysInStage ?? 0);
-    if (field === 'tags') return candidate.tags ? candidate.tags.join(", ") : "-";
-    if (field === 'interviewScheduledDate') return candidate.interviewScheduledDate || "-";
-    return String((candidate as any)[field] || "-");
-  };
 
   const processedCandidates = useMemo(() => {
     let result = [...candidates];
@@ -223,18 +257,6 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
   }, [candidates, globalSearch, columnFilters, sortConfig, selectedJob, selectedStatus, globalSort]);
 
   const getStatusColor = getCandidateStatusColor;
-
-  const getRoleFitColor = (score: number) => {
-    if (score >= 70) return "text-success";
-    if (score >= 40) return "text-warning";
-    return "text-destructive";
-  };
-
-  const getRoleFitBgColor = (score: number) => {
-    if (score >= 70) return "bg-success/10";
-    if (score >= 40) return "bg-warning/10";
-    return "bg-destructive/10";
-  };
 
   const markAsViewed = (id: string | number) => {
     const newSet = new Set(viewedCandidates);
@@ -512,13 +534,67 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
             </Popover>
           </div>
 
+          {/* View toggle */}
+          <ToggleGroup
+            type="single"
+            value={viewMode}
+            onValueChange={(value) => { if (value) setViewMode(value as "card" | "table"); }}
+            className="shrink-0 rounded-lg border border-gray-200 bg-white p-0.5 shadow-sm"
+          >
+            <ToggleGroupItem value="card" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
+              <LayoutGrid className="h-3.5 w-3.5" />
+              Cards
+            </ToggleGroupItem>
+            <ToggleGroupItem value="table" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
+              <List className="h-3.5 w-3.5" />
+              Table
+            </ToggleGroupItem>
+          </ToggleGroup>
+
           {/* Add Candidate button */}
           <Button className="bg-primary hover:bg-primary/90 text-white shrink-0" onClick={onAddCandidate}>
             <Plus className="h-4 w-4 mr-2" /> Add Candidate
           </Button>
         </div>
 
-        {/* Main Table Content */}
+        {viewMode === "card" && (
+          <div className="space-y-4">
+            <CandidateSummaryBar candidates={processedCandidates} />
+            <TriageChipsBar chips={CANDIDATE_CHIPS} activeChip={activeChip} onChipChange={setActiveChip} />
+
+            {(() => {
+              const activeFilter = CANDIDATE_CHIPS.find((c) => c.id === activeChip)?.filter ?? (() => true);
+              const cardCandidates = processedCandidates.filter(activeFilter);
+
+              if (cardCandidates.length === 0) {
+                return (
+                  <div className="rounded-card border border-border bg-card p-12 text-center text-gray-500">
+                    No candidates found matching your criteria.
+                  </div>
+                );
+              }
+
+              return (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                  {cardCandidates.map((candidate, index) => (
+                    <CandidateCard
+                      key={candidate.id}
+                      candidate={candidate}
+                      role={role}
+                      index={index}
+                      onAction={handleActionClick}
+                      selected={selectedIds?.has(candidate.id)}
+                      onSelectionChange={onSelectionChange}
+                      isNewUnviewed={!!candidate.isNew && !viewedCandidates.has(candidate.id)}
+                    />
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {viewMode === "table" && (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
           <Table className="w-full min-w-max">
             <TableHeader>
@@ -804,6 +880,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
             </TableBody>
           </Table>
         </div>
+        )}
       </div>
     </TooltipProvider>
   );

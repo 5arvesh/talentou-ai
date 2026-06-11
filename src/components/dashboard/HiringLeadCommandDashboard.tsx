@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
 
 const jobOpenings = [
-  { id: 1, title: 'Senior React Developer', location: 'Bangalore',  experience: '4â€“7y', totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14 },
-  { id: 2, title: 'Product Manager',        location: 'Remote',     experience: '5â€“8y', totalCandidates: 8,  stages: { interview: 2, selected: 0 }, daysOpen: 21 },
-  { id: 3, title: 'Data Scientist',         location: 'Mumbai',     experience: '3â€“6y', totalCandidates: 15, stages: { interview: 4, selected: 2 }, daysOpen: 9  },
-  { id: 4, title: 'DevOps Engineer',        location: 'Hyderabad',  experience: '3â€“5y', totalCandidates: 6,  stages: { interview: 1, selected: 0 }, daysOpen: 30 },
-  { id: 5, title: 'UX Designer',            location: 'Pune',       experience: '2â€“5y', totalCandidates: 9,  stages: { interview: 2, selected: 0 }, daysOpen: 18 },
-  { id: 6, title: 'QA Engineer',            location: 'Chennai',    experience: '2â€“4y', totalCandidates: 11, stages: { interview: 3, selected: 0 }, daysOpen: 7  },
+  { id: 1, title: 'Senior React Developer', location: 'Bangalore',  experience: '4â€“7y', totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14, stalledCount: 2 },
+  { id: 2, title: 'Product Manager',        location: 'Remote',     experience: '5â€“8y', totalCandidates: 8,  stages: { interview: 2, selected: 0 }, daysOpen: 21, stalledCount: 0 },
+  { id: 3, title: 'Data Scientist',         location: 'Mumbai',     experience: '3â€“6y', totalCandidates: 15, stages: { interview: 4, selected: 2 }, daysOpen: 9,  stalledCount: 1 },
+  { id: 4, title: 'DevOps Engineer',        location: 'Hyderabad',  experience: '3â€“5y', totalCandidates: 6,  stages: { interview: 1, selected: 0 }, daysOpen: 30, stalledCount: 3 },
+  { id: 5, title: 'UX Designer',            location: 'Pune',       experience: '2â€“5y', totalCandidates: 9,  stages: { interview: 2, selected: 0 }, daysOpen: 18, stalledCount: 0 },
+  { id: 6, title: 'QA Engineer',            location: 'Chennai',    experience: '2â€“4y', totalCandidates: 11, stages: { interview: 3, selected: 0 }, daysOpen: 7,  stalledCount: 0 },
 ];
 
 const upcomingInterviews = [
@@ -86,6 +86,11 @@ export function HiringLeadCommandDashboard() {
                       {job.stages.selected > 0 && (
                         <Badge variant="outline" className="text-xs px-1.5 py-0.5 bg-success/10 text-success border-success/20">
                           {job.stages.selected} Selected
+                        </Badge>
+                      )}
+                      {job.stalledCount > 0 && (
+                        <Badge variant="outline" className="text-xs px-1.5 py-0.5 bg-warning/10 text-warning border-warning/20">
+                          <Clock className="h-3 w-3 mr-1" />{job.stalledCount} stalled
                         </Badge>
                       )}
                     </div>

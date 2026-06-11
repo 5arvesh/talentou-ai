@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, TrendingUp, CheckCircle2, XCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
+import { cn } from "@/lib/utils";
+import { getRoleFitColor, getRoleFitFillColor } from "@/components/shared/ModernCandidateList";
 
 const assignedRoles = [
-  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 } },
-  { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 } },
-  { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 } },
-  { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 } },
+  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88 },
+  { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 }, topCandidateFit: 64 },
+  { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 }, topCandidateFit: 92 },
+  { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 }, topCandidateFit: 45 },
 ];
 
 const performanceMetrics = [
@@ -80,6 +82,13 @@ const TAAssociateDashboard = () => {
                         {role.pipeline.applied} Applied Â· {role.pipeline.shortlisted} Shortlisted Â· {role.pipeline.interview} Interview
                         <span className="ml-2 text-foreground font-medium">({total} total)</span>
                       </p>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">Top match:</span>
+                        <div className="h-[5px] w-16 overflow-hidden rounded-full bg-muted">
+                          <div className={cn("h-full rounded-full", getRoleFitFillColor(role.topCandidateFit))} style={{ width: `${role.topCandidateFit}%` }} />
+                        </div>
+                        <span className={cn("text-xs font-semibold", getRoleFitColor(role.topCandidateFit))}>{role.topCandidateFit}%</span>
+                      </div>
                     </div>
                     <div className="shrink-0 text-right">
                       <p className={`text-sm font-bold ${isUrgent ? 'text-red-600' : 'text-foreground'}`}>{role.daysLeft}d left</p>

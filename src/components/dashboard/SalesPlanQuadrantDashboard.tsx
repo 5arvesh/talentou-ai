@@ -50,7 +50,18 @@ const kpiStats = [
   { label: 'Open > 3 Weeks',       value: 5,      sub: '+2 vs last month',   subColor: 'text-destructive', icon: TrendingUp },
   { label: 'Avg Time-to-Close',    value: '4.2w', sub: 'Below 5w target',    subColor: 'text-success', icon: CheckCircle2 },
   { label: 'Advancement Rate',     value: '37%',  sub: 'Above 30% target',   subColor: 'text-success', icon: CheckCircle2 },
+  { label: 'Offer Acceptance Rate', value: '83%', sub: 'Above 75% target',   subColor: 'text-success', icon: CheckCircle2 },
 ];
+
+const sourceOfHireData = [
+  { source: 'Referral',        count: 9 },
+  { source: 'LinkedIn',        count: 7 },
+  { source: 'Job Boards',      count: 5 },
+  { source: 'Career Site',     count: 3 },
+  { source: 'Direct Sourcing', count: 2 },
+];
+
+const SOURCE_OF_HIRE_COLORS = ['hsl(var(--primary))', 'hsl(var(--info))', 'hsl(var(--success))', 'hsl(var(--warning))', 'hsl(var(--chart-2))'];
 
 const SalesPlanQuadrantDashboard = () => {
   const navigate = useNavigate();
@@ -78,7 +89,7 @@ const SalesPlanQuadrantDashboard = () => {
       </div>
 
       {/* KPI Strip */}
-      <KPIStrip stats={kpiStats} />
+      <KPIStrip stats={kpiStats} cols={5} />
 
       {/* Quadrant Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -209,6 +220,28 @@ const SalesPlanQuadrantDashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Source of Hire */}
+      <Card className="rounded-card border border-border shadow-card">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base font-semibold">Source of Hire</CardTitle>
+          <p className="text-xs text-muted-foreground">Hires this quarter by channel</p>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={{ count: { label: 'Hires', color: 'hsl(var(--chart-1))' } }} className="h-[220px]">
+            <BarChart data={sourceOfHireData} layout="vertical">
+              <XAxis type="number" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis type="category" dataKey="source" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={90} />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="count" radius={4}>
+                {sourceOfHireData.map((_, i) => (
+                  <Cell key={i} fill={SOURCE_OF_HIRE_COLORS[i]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
     </div>
   );
 };

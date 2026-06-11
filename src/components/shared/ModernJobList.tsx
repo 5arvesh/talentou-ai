@@ -18,6 +18,8 @@ import {
   Briefcase,
   Loader2,
   Kanban,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import { RecruiterScreeningDrawer } from "@/components/recruiter/RecruiterScreeningDrawer";
 import { Button } from "@/components/ui/button";
@@ -29,9 +31,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { getJobStatusColor } from "@/constants/statuses";
+import { JobCard } from "./JobCard";
+import { JobSummaryBar } from "./JobSummaryBar";
+import { TriageChipsBar, ChipDef } from "./TriageChipsBar";
 
 export type RoleType = "ta-leader" | "recruiter" | "hiring-lead";
 
@@ -59,6 +65,12 @@ export interface JobItem {
   createdDate?: string;
   employmentType?: string;
 
+  // Pipeline funnel (card view)
+  appliedCount?: number;
+  screenedCount?: number;
+  interviewCount?: number;
+  selectedCount?: number;
+
   // Compatibility
   openCandidates?: number;
 
@@ -78,7 +90,7 @@ type ColumnDef = {
   label: string;
 };
 
-const ALL_COLUMNS: ColumnDef[] = [
+export const ALL_COLUMNS: ColumnDef[] = [
   { id: "id", label: "Job ID" },
   { id: "jobRole", label: "Job Role" },
   { id: "experience", label: "Experience" },
@@ -106,7 +118,7 @@ const DEFAULT_COLUMNS: Record<RoleType, string[]> = {
   "hiring-lead": ["id", "jobRole", "experience", "status", "applicants", "openings", "department"],
 };
 
-const DROPDOWN_FIELDS: Record<RoleType, string[]> = {
+export const DROPDOWN_FIELDS: Record<RoleType, string[]> = {
   "ta-leader": ["recruiter", "hiringLead", "budget", "daysOpen", "createdDate", "employmentType"],
   "recruiter": ["hiringLead", "budget", "newApplicants", "createdDate", "employmentType"],
   "hiring-lead": ["recruiter", "budget", "daysOpen", "createdDate", "employmentType"],
@@ -117,6 +129,45 @@ const FILTER_COLUMNS_AVAILABLE: Record<RoleType, string[]> = {
   "recruiter": [...DEFAULT_COLUMNS["recruiter"], ...DROPDOWN_FIELDS["recruiter"], "project", "skills", "location"],
   "hiring-lead": [...DEFAULT_COLUMNS["hiring-lead"], ...DROPDOWN_FIELDS["hiring-lead"], "project", "skills", "location"],
 };
+
+export const getFieldValue = (job: JobItem, field: string): string => {
+  if (field === 'id') return String(job.id);
+  if (field === 'jobRole') return job.jobRole;
+  if (field === 'status') return job.status;
+  if (field === 'priority') return job.priority || "-";
+  if (field === 'experience') return job.experience || "3-5";
+  if (field === 'applicants') return String(job.applicants ?? job.openCandidates ?? Math.floor(Math.random() * 50) + 10);
+  if (field === 'openings') return String(job.openings ?? Math.floor(Math.random() * 5) + 1);
+  if (field === 'recruiter') return job.recruiter || "Sarah Johnson";
+  if (field === 'hiringLead') return job.hiringLead || "Emma Rodriguez";
+  if (field === 'interviewer') return job.interviewer || "Mike Chen";
+  if (field === 'budget') return job.budget || "$90k - $120k";
+  if (field === 'daysOpen') return String(job.daysOpen ?? 14);
+  if (field === 'newApplicants') return String(job.newApplicants ?? 3);
+  if (field === 'project') return job.project || "Core Product";
+  if (field === 'skills') return job.skills ? job.skills.join(", ") : "React, TypeScript";
+  if (field === 'location') return job.location || "San Francisco, CA";
+  if (field === 'department') return job.department || "Engineering";
+  if (field === 'createdDate') return job.createdDate || "-";
+  if (field === 'employmentType') return job.employmentType || "Full-time";
+  return String((job as any)[field] || "-");
+};
+
+export const getPriorityColor = (priority?: string) => {
+  const p = (priority || "").toLowerCase();
+  if (p === "high") return "bg-red-50 text-red-600 border-red-200";
+  if (p === "medium") return "bg-yellow-50 text-yellow-600 border-yellow-200";
+  if (p === "low") return "bg-green-500/10 text-green-600 border-green-500/20";
+  return "bg-gray-50 text-gray-600";
+};
+
+const JOB_CHIPS: ChipDef<JobItem>[] = [
+  { id: "all", label: "All Jobs", filter: () => true },
+  { id: "stale", label: "Stale (21d+)", dotColorClass: "bg-warning", filter: (j) => (j.daysOpen ?? 14) >= 21 },
+  { id: "high-priority", label: "High Priority", dotColorClass: "bg-destructive", filter: (j) => (j.priority || "").toLowerCase() === "high" },
+  { id: "has-new", label: "Has New Applicants", dotColorClass: "bg-info", filter: (j) => (j.newApplicants ?? 0) > 0 },
+  { id: "active", label: "Active", dotColorClass: "bg-success", filter: (j) => j.status === "Active" },
+];
 
 export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListProps) {
   const navigate = useNavigate();
@@ -131,33 +182,12 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
   const [careersEnabled, setCareersEnabled] = useState<Record<string | number, boolean>>({});
   const [screeningDrawerJob, setScreeningDrawerJob] = useState<JobItem | null>(null);
   const [loadingFile, setLoadingFile] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"card" | "table">("card");
+  const [activeChip, setActiveChip] = useState("all");
 
   const isCareerEnabled = (job: JobItem) => {
     if (job.id in careersEnabled) return careersEnabled[job.id];
     return false;
-  };
-
-  const getFieldValue = (job: JobItem, field: string): string => {
-    if (field === 'id') return String(job.id);
-    if (field === 'jobRole') return job.jobRole;
-    if (field === 'status') return job.status;
-    if (field === 'priority') return job.priority || "-";
-    if (field === 'experience') return job.experience || "3-5";
-    if (field === 'applicants') return String(job.applicants ?? job.openCandidates ?? Math.floor(Math.random() * 50) + 10);
-    if (field === 'openings') return String(job.openings ?? Math.floor(Math.random() * 5) + 1);
-    if (field === 'recruiter') return job.recruiter || "Sarah Johnson";
-    if (field === 'hiringLead') return job.hiringLead || "Emma Rodriguez";
-    if (field === 'interviewer') return job.interviewer || "Mike Chen";
-    if (field === 'budget') return job.budget || "$90k - $120k";
-    if (field === 'daysOpen') return String(job.daysOpen ?? 14);
-    if (field === 'newApplicants') return String(job.newApplicants ?? 3);
-    if (field === 'project') return job.project || "Core Product";
-    if (field === 'skills') return job.skills ? job.skills.join(", ") : "React, TypeScript";
-    if (field === 'location') return job.location || "San Francisco, CA";
-    if (field === 'department') return job.department || "Engineering";
-    if (field === 'createdDate') return job.createdDate || "-";
-    if (field === 'employmentType') return job.employmentType || "Full-time";
-    return String((job as any)[field] || "-");
   };
 
   const availableColumns = FILTER_COLUMNS_AVAILABLE[role] || DEFAULT_COLUMNS[role];
@@ -210,14 +240,6 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
   };
 
   const getStatusColor = getJobStatusColor;
-
-  const getPriorityColor = (priority?: string) => {
-    const p = (priority || "").toLowerCase();
-    if (p === "high") return "bg-red-50 text-red-600 border-red-200";
-    if (p === "medium") return "bg-yellow-50 text-yellow-600 border-yellow-200";
-    if (p === "low") return "bg-green-500/10 text-green-600 border-green-500/20";
-    return "bg-gray-50 text-gray-600";
-  };
 
   const handleOpenFile = (url: string, fileKey: string, fileName: string) => {
     setLoadingFile(fileKey);
@@ -385,8 +407,24 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
           <p className="text-gray-500 mt-1">Manage and track your open positions</p>
         </div>
         <div className="flex items-center gap-3">
-          <Popover 
-            open={isColumnFilterOpen} 
+          <ToggleGroup
+            type="single"
+            value={viewMode}
+            onValueChange={(value) => { if (value) setViewMode(value as "card" | "table"); }}
+            className="rounded-lg border border-gray-200 bg-white p-0.5 shadow-sm"
+          >
+            <ToggleGroupItem value="card" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
+              <LayoutGrid className="h-3.5 w-3.5" />
+              Cards
+            </ToggleGroupItem>
+            <ToggleGroupItem value="table" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
+              <List className="h-3.5 w-3.5" />
+              Table
+            </ToggleGroupItem>
+          </ToggleGroup>
+
+          <Popover
+            open={isColumnFilterOpen}
             onOpenChange={(open) => {
               if (open) setTempVisibleColumns(visibleColumns);
               setIsColumnFilterOpen(open);
@@ -461,6 +499,48 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         </div>
       </div>
 
+      {viewMode === "card" && (
+        <div className="space-y-4">
+          <JobSummaryBar jobs={processedJobs} />
+          <TriageChipsBar chips={JOB_CHIPS} activeChip={activeChip} onChipChange={setActiveChip} />
+
+          {(() => {
+            const activeFilter = JOB_CHIPS.find((c) => c.id === activeChip)?.filter ?? (() => true);
+            const cardJobs = processedJobs.filter(activeFilter);
+
+            if (cardJobs.length === 0) {
+              return (
+                <div className="rounded-card border border-border bg-card p-12 text-center text-gray-500">
+                  No jobs found matching your criteria.
+                </div>
+              );
+            }
+
+            return (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                {cardJobs.map((job, index) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    role={role}
+                    index={index}
+                    onAction={handleAction}
+                    isCareerEnabled={isCareerEnabled(job)}
+                    onToggleCareer={(enable) => {
+                      if (enable) setScreeningDrawerJob(job);
+                      else setCareersEnabled((prev) => ({ ...prev, [job.id]: false }));
+                    }}
+                    onOpenFile={handleOpenFile}
+                    loadingFile={loadingFile}
+                  />
+                ))}
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
+      {viewMode === "table" && (
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-x-auto text-sm custom-scrollbar">
         <Table className="w-full min-w-max">
           <TableHeader>
@@ -688,6 +768,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
           </TableBody>
         </Table>
       </div>
+      )}
 
       <RecruiterScreeningDrawer
         isOpen={!!screeningDrawerJob}
