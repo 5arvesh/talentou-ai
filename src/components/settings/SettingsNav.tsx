@@ -16,7 +16,8 @@ import {
   FileText,
   Award,
   Target,
-  Globe
+  Globe,
+  ClipboardList
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +42,11 @@ const navItems = [
     icon: Globe,
     label: "Careers Page",
     path: "/settings/careers"
+  },
+  {
+    icon: ClipboardList,
+    label: "Application Form",
+    path: "/settings/application-form"
   },
   {
     icon: Link2,
