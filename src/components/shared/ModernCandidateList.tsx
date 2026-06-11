@@ -158,6 +158,7 @@ const CANDIDATE_CHIPS: ChipDef<CandidateItem>[] = [
   { id: "all", label: "All Candidates", filter: () => true },
   { id: "new", label: "New", dotColorClass: "bg-info", filter: (c) => !!c.isNew },
   { id: "high-fit", label: "High Fit (80%+)", dotColorClass: "bg-success", filter: (c) => c.roleFitScore >= 80 },
+  { id: "stalled", label: "Stalled 10d+", dotColorClass: "bg-warning", filter: (c) => (c.daysInStage ?? 0) >= 10 },
   { id: "shortlisted", label: "Shortlisted", filter: (c) => c.status === "Shortlisted" },
   { id: "interview-scheduled", label: "Interview Scheduled", filter: (c) => c.status === "Interview Scheduled" },
 ];

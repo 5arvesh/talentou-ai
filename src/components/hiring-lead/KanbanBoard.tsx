@@ -25,6 +25,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Mail, Link2, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical, Lock } from 'lucide-react';
 import { RoleType } from '@/components/shared/ModernJobList';
 import { getAvatarColor, getInitials } from '@/lib/avatar';
+import { cn } from '@/lib/utils';
 
 type Stage = 'Applied' | 'Shortlisted' | 'Phone Screen' | 'Interview' | 'Offered';
 
@@ -59,9 +60,9 @@ function isTransitionAllowed(from: Stage, to: Stage): { allowed: boolean; reason
 const INITIAL_CANDIDATES: KanbanCandidate[] = [
   { id: 'c1', name: 'Arun Sharma', title: 'Senior Frontend Dev', company: 'Infosys', experience: '6y', location: 'Bangalore', fitScore: 88, fitLabel: 'Excellent Fit', daysAdded: 12, daysInStage: 2, stage: 'Applied' },
   { id: 'c2', name: 'Priya Nair', title: 'React Developer', company: 'Wipro', experience: '4y', location: 'Pune', fitScore: 74, fitLabel: 'Strong Fit', daysAdded: 8, daysInStage: 4, stage: 'Applied' },
-  { id: 'c3', name: 'Vikram Patel', title: 'Full Stack Engineer', company: 'TCS', experience: '5y', location: 'Mumbai', fitScore: 61, fitLabel: 'Good Fit', daysAdded: 15, daysInStage: 7, stage: 'Applied' },
+  { id: 'c3', name: 'Vikram Patel', title: 'Full Stack Engineer', company: 'TCS', experience: '5y', location: 'Mumbai', fitScore: 61, fitLabel: 'Good Fit', daysAdded: 15, daysInStage: 11, stage: 'Applied' },
   { id: 'c4', name: 'Sneha Reddy', title: 'Frontend Architect', company: 'HCL', experience: '7y', location: 'Hyderabad', fitScore: 91, fitLabel: 'Excellent Fit', daysAdded: 10, daysInStage: 3, stage: 'Shortlisted' },
-  { id: 'c5', name: 'Rahul Verma', title: 'UI Engineer', company: 'Tech Mahindra', experience: '4y', location: 'Chennai', fitScore: 70, fitLabel: 'Strong Fit', daysAdded: 18, daysInStage: 9, stage: 'Shortlisted' },
+  { id: 'c5', name: 'Rahul Verma', title: 'UI Engineer', company: 'Tech Mahindra', experience: '4y', location: 'Chennai', fitScore: 70, fitLabel: 'Strong Fit', daysAdded: 18, daysInStage: 11, stage: 'Shortlisted' },
   { id: 'c6', name: 'Deepa Menon', title: 'React Native Dev', company: 'Capgemini', experience: '5y', location: 'Kochi', fitScore: 65, fitLabel: 'Good Fit', daysAdded: 20, daysInStage: 6, stage: 'Shortlisted' },
   { id: 'c7', name: 'Karan Singh', title: 'Senior Dev', company: 'Accenture', experience: '6y', location: 'Delhi', fitScore: 82, fitLabel: 'Excellent Fit', daysAdded: 7, daysInStage: 2, stage: 'Interview' },
   { id: 'c8', name: 'Meera Joshi', title: 'Tech Lead', company: 'Mindtree', experience: '8y', location: 'Bangalore', fitScore: 77, fitLabel: 'Strong Fit', daysAdded: 9, daysInStage: 1, stage: 'Interview' },
@@ -125,6 +126,9 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold leading-snug truncate">{candidate.name}</p>
               <p className="text-xs text-muted-foreground truncate">{candidate.title} Â· {candidate.company}</p>
+              <p className={cn("text-[10px] mt-0.5", candidate.daysInStage >= 10 ? "text-warning font-medium" : "text-muted-foreground")}>
+                {candidate.daysInStage}d in stage
+              </p>
             </div>
             <div className="flex items-center gap-1 shrink-0">
               {isStalled && (

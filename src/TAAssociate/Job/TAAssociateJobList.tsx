@@ -3,11 +3,11 @@ import { ModernJobList, JobItem } from "@/components/shared/ModernJobList";
 
 export function TAAssociateJobList() {
   const mockJobs: JobItem[] = [
-    { id: "JOB-0001", jobRole: "Senior Frontend Developer", priority: "High", status: "Active", hiringLead: "Jennifer Adams", sampleCVUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF1.pdf", sampleJDUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF2.pdf" },
+    { id: "JOB-0001", jobRole: "Senior Frontend Developer", priority: "High", status: "Active", hiringLead: "Jennifer Adams", sampleCVUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF1.pdf", sampleJDUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF2.pdf", stalledCount: 3 },
     { id: "JOB-0002", jobRole: "Backend Engineer", priority: "Medium", status: "Active", hiringLead: "Michael Brown", sampleCVUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF1.pdf" },
     { id: "JOB-0003", jobRole: "DevOps Engineer", priority: "High", status: "Active", hiringLead: "Sarah Johnson" },
     { id: "JOB-0004", jobRole: "Product Manager", priority: "Low", status: "Filled", hiringLead: "Rachel Green" },
-    { id: "JOB-0005", jobRole: "UI/UX Designer", priority: "Medium", status: "Active", hiringLead: "David Miller" },
+    { id: "JOB-0005", jobRole: "UI/UX Designer", priority: "Medium", status: "Active", hiringLead: "David Miller", stalledCount: 1 },
     { id: "JOB-0006", jobRole: "Data Scientist", priority: "Low", status: "Cancelled", hiringLead: "Andrew Wilson" },
     { id: "JOB-0007", jobRole: "Full Stack Developer", priority: "High", status: "Active", hiringLead: "Emily Davis" },
   ];

@@ -214,6 +214,12 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
               +{getFieldValue(job, "newApplicants")} new
             </span>
           )}
+          {(job.stalledCount ?? 0) > 0 && (
+            <span className="inline-flex items-center gap-1 font-medium text-warning">
+              <Clock className="h-3.5 w-3.5" />
+              {job.stalledCount} stalled
+            </span>
+          )}
         </div>
 
         {/* Pipeline funnel */}

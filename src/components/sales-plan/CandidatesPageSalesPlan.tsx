@@ -636,6 +636,7 @@ export function CandidatesPageSalesPlan({ jobs }: CandidatesPageSalesPlanProps) 
     ...c,
     yearsOfExperience: (c.id % 8) + 2,
     dateAdded: `${DAYS[c.id % DAYS.length]} ${MONTHS[c.id % MONTHS.length]} 2025`,
+    daysInStage: c.id === 11 || c.id === 1 ? 12 : 2 + (c.id % 6),
   }));
 
   return (

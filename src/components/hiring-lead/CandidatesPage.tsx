@@ -102,6 +102,7 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
     status: c.status,
     hasRecording: c.id % 2 === 0,
     jobTitle: c.jobRole,
+    daysInStage: c.id === 3 || c.id === 12 ? 12 : 2 + (c.id % 6),
   }));
 
   const handleSelectionChange = (id: string | number, selected: boolean) => {

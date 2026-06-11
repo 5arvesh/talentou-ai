@@ -347,6 +347,7 @@ export function CandidatesPageRecruiter() {
     roleFitScore: 70 + (c.id % 25),
     status: c.status,
     hasRecording: c.id % 3 === 0,
+    daysInStage: c.id === 3 || c.id === 9 ? 12 : 2 + (c.id % 6),
   }));
 
   return (

@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils";
 import { getRoleFitColor, getRoleFitFillColor } from "@/components/shared/ModernCandidateList";
 
 const assignedRoles = [
-  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88 },
-  { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 }, topCandidateFit: 64 },
-  { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 }, topCandidateFit: 92 },
-  { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 }, topCandidateFit: 45 },
+  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88, hasStalled: true },
+  { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 }, topCandidateFit: 64, hasStalled: false },
+  { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 }, topCandidateFit: 92, hasStalled: false },
+  { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 }, topCandidateFit: 45, hasStalled: true },
 ];
 
 const performanceMetrics = [
@@ -70,7 +70,7 @@ const TAAssociateDashboard = () => {
             const isUrgent = role.daysLeft <= 7;
             const total = role.pipeline.applied + role.pipeline.shortlisted + role.pipeline.interview;
             return (
-              <Card key={role.id} className="border border-border shadow-sm hover:shadow-md transition-all">
+              <Card key={role.id} className={cn("border border-border shadow-sm hover:shadow-md transition-all", role.hasStalled && "border-l-[3px] border-l-warning")}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">

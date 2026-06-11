@@ -56,6 +56,7 @@ export interface JobItem {
   budget?: string;
   daysOpen?: number;
   newApplicants?: number;
+  stalledCount?: number;
   
   project?: string;
   skills?: string[];
