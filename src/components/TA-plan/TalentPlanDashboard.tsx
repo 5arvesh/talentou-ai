@@ -108,7 +108,7 @@ export const SalesPlanDashboard = () => {
                 Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-lg res-1200:text-sm res-1400:text-md res-1600:text-xl font-medium pr-4">
-                As the TA Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
+                As the Recruitment Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
               </p>
             </>
           ) : (
@@ -117,7 +117,7 @@ export const SalesPlanDashboard = () => {
                 Welcome to your hiring launchpad! Create Strong messages, define your ideal candidate, set your recruitment channels, and track key metrics. With Talentou Ai, hiring is smarter and teams perform better.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-xl font-medium mt-2 res-1200:text-sm res-1400:text-md">
-                As a TA Lead, your mission is to build a winning hiring strategy:
+                As a Recruitment Lead, your mission is to build a winning hiring strategy:
               </p>
             </>
           )}

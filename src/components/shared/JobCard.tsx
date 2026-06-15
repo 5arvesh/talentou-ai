@@ -14,6 +14,8 @@ import {
   Loader2,
   Globe,
   Info,
+  Sparkles,
+  CheckCircle2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -98,6 +100,18 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
         {/* Top row: priority + status badges, kebab menu */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-wrap items-center gap-1.5">
+            {job.approvalMethod === "auto" && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#0e0020] text-[#c084fc] text-[10px] font-medium">
+                <Sparkles className="h-3 w-3" />
+                AI-handled
+              </span>
+            )}
+            {job.approvalMethod === "manual" && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success/10 text-success text-[10px] font-medium">
+                <CheckCircle2 className="h-3 w-3" />
+                Manually approved
+              </span>
+            )}
             {job.priority && (
               <Badge variant="outline" className={cn("font-medium px-2 py-0.5 text-xs", getPriorityColor(job.priority))}>
                 {job.priority}
@@ -270,15 +284,26 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
             <Building className="h-3.5 w-3.5" />
             {getFieldValue(job, "department")}
           </span>
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1.5 border-primary/30 text-primary hover:bg-primary/5 hover:text-primary"
-            onClick={(e) => { e.stopPropagation(); onAction("view-pipeline", job); }}
-          >
-            View Pipeline
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1.5 border-primary/30 text-primary hover:bg-primary/5 hover:text-primary"
+              onClick={(e) => { e.stopPropagation(); onAction("view-dashboard", job); }}
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              View Plan
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1.5 border-primary/30 text-primary hover:bg-primary/5 hover:text-primary"
+              onClick={(e) => { e.stopPropagation(); onAction("view-pipeline", job); }}
+            >
+              View Pipeline
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Button>
+          </div>
         </div>
       </div>
 

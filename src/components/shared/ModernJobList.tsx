@@ -78,6 +78,9 @@ export interface JobItem {
   // Document attachments
   sampleCVUrl?: string;
   sampleJDUrl?: string;
+
+  // Position approval (Screen 1)
+  approvalMethod?: 'auto' | 'manual';
 }
 
 interface ModernJobListProps {
@@ -294,6 +297,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/pipeline`);
         else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/pipeline`);
         else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/pipeline`);
+        break;
+      case "view-dashboard":
+        if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/dashboard`, { state: { job } });
+        else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/dashboard`, { state: { job } });
+        else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/dashboard`, { state: { job } });
         break;
     }
   };

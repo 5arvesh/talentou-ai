@@ -17,7 +17,8 @@ import {
   Award,
   Target,
   Globe,
-  ClipboardList
+  ClipboardList,
+  History
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -92,6 +93,11 @@ const navItems = [
     icon: Award,
     label: "License",
     path: "/settings/license"
+  },
+  {
+    icon: History,
+    label: "Approval History",
+    path: "/settings/approval-history"
   }
   // {
   //   icon: Clock,

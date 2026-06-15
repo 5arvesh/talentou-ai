@@ -201,7 +201,7 @@ const TALeaderDashboard = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">TA Leader Dashboard</h1>
+          <h1 className="text-2xl font-bold">Recruitment Lead Dashboard</h1>
           <p className="text-muted-foreground">Monitor recruitment performance and team metrics</p>
         </div>
         <div className="flex gap-4">

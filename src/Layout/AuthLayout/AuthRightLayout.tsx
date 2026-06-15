@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from "react";
 import { authImg } from "@/constants/Constant";
 
-const ROLES = ["Recruiters", "TA Leaders", "Hiring Teams", "Interviewers"];
+const ROLES = ["Recruiters", "Recruitment Leads", "Hiring Teams", "Interviewers"];
 
 export function AuthRightLayout() {
   const [roleIndex, setRoleIndex] = useState(0);

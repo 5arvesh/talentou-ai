@@ -20,14 +20,14 @@ type Member = {
 };
 
 export function MembersSettings() {
-  const roles = ["TA Leader", "Recruiter", "Hiring Lead", "Interviewer", "HR"];
+  const roles = ["Recruitment Lead", "Recruiter", "Hiring Lead", "Interviewer", "HR"];
   
   const [members, setMembers] = useState<Member[]>([
     {
       id: "1",
       name: "Roney Soloman",
       email: "joseph.olassa@ignitho.com",
-      roles: ["TA Leader", "Recruiter"],
+      roles: ["Recruitment Lead", "Recruiter"],
       avatarLetter: "RS",
       dateAdded: "2024-01-15",
       isCurrentUser: true
@@ -157,7 +157,7 @@ export function MembersSettings() {
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead className="text-center">TA Leader</TableHead>
+              <TableHead className="text-center">Recruitment Lead</TableHead>
               <TableHead className="text-center">Recruiter</TableHead>
               <TableHead className="text-center">Hiring Lead</TableHead>
               <TableHead className="text-center">Interviewer</TableHead>
@@ -192,16 +192,16 @@ export function MembersSettings() {
                   <TableCell className="text-center">
                     <Badge 
                       className={
-                        member.roles.includes("TA Leader")
+                        member.roles.includes("Recruitment Lead")
                           ? "hover:bg-[#dcfce7]"
                           : "hover:bg-[#fee2e2]"
                       }
                       style={{
-                        backgroundColor: member.roles.includes("TA Leader") ? "#dcfce7" : "#fee2e2",
-                        color: member.roles.includes("TA Leader") ? "#1b8c69" : "#dc2626"
+                        backgroundColor: member.roles.includes("Recruitment Lead") ? "#dcfce7" : "#fee2e2",
+                        color: member.roles.includes("Recruitment Lead") ? "#1b8c69" : "#dc2626"
                       }}
                     >
-                      {member.roles.includes("TA Leader") ? "Yes" : "No"}
+                      {member.roles.includes("Recruitment Lead") ? "Yes" : "No"}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-center">

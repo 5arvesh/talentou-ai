@@ -58,7 +58,7 @@ const CompanyList = () => {
                   <TableHead>Project Name</TableHead>
                   <TableHead>No of Openings</TableHead>
                   <TableHead>Location</TableHead>
-                  <TableHead>TA Lead</TableHead>
+                  <TableHead>Recruitment Lead</TableHead>
                   <TableHead>Hiring Lead</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead>Modified</TableHead>

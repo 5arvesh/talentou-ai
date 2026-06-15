@@ -54,7 +54,7 @@ import JobListPage from "./pages/JobListPage";
 import JobOpeningsPage from "./pages/JobOpeningsPage";
 import CandidatesPageWrapper from "./pages/CandidatesPageWrapper";
 import ProjectListPage from "./pages/ProjectListPage";
-import NewPositionApprovalPage from "./pages/NewPositionApprovalPage";
+import PositionApprovalPage from "./pages/PositionApprovalPage";
 import RecruiterJobsPage from "./pages/RecruiterJobsPage";
 import JDConversationPage from "./pages/JDConversationPage";
 import { JobDetailsAccordion } from "./components/recruiter/JobDetailsAccordion";
@@ -75,6 +75,7 @@ import CandidatesPageWrapper_SalesPlan from "./pages/CandidatesPageWrapper_Sales
 import ImportCandidatesPage from "./pages/ImportCandidatesPage";
 import InterviewRecordingPage from "./pages/InterviewRecordingPage";
 import CandidatePipelinePage from "./pages/CandidatePipelinePage";
+import JobDashboardPage from "./pages/JobDashboardPage";
 import CandidateProfilePage from "./pages/CandidateProfilePage";
 import HRHomePage from "./pages/hr/HRHomePage";
 import HRTemplatesPage from "./pages/hr/HRTemplatesPage";
@@ -127,6 +128,7 @@ const App = () => (
                 {/* Hiring Lead specific routes */}
                 <Route path="/hiring-lead/jobs" element={<JobListPage />} />
                 <Route path="/hiring-lead/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
+                <Route path="/hiring-lead/jobs/:jobId/dashboard" element={<JobDashboardPage />} />
                 <Route path="/hiring-lead/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="hiring-lead" />} />
                 <Route path="/hiring-lead/job-openings" element={<JobOpeningsPage />} />
                 <Route path="/hiring-lead/candidates" element={<CandidatesPageWrapper />} />
@@ -139,6 +141,7 @@ const App = () => (
                 <Route path="/ta-associate/projects" element={<ProjectListPage_TAAssociate />} />
                 <Route path="/ta-associate/jobs" element={<JobListPage_TAAssociate />} />
                 <Route path="/ta-associate/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
+                <Route path="/ta-associate/jobs/:jobId/dashboard" element={<JobDashboardPage />} />
                 <Route path="/ta-associate/candidates" element={<CandidatesPageWrapper_TAAssociate />} />
                 <Route path="/ta-associate/jd/:jobId" element={<TAAssociateJDFlowPage />} />
                 <Route path="/ta-associate/dashboard" element={
@@ -168,6 +171,7 @@ const App = () => (
                 <Route path="/sales-plan/projects" element={<ProjectListPage_TALeader />} />
                 <Route path="/sales-plan/jobs" element={<JobListPage_TALeader />} />
                 <Route path="/sales-plan/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
+                <Route path="/sales-plan/jobs/:jobId/dashboard" element={<JobDashboardPage />} />
                 <Route path="/sales-plan/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="ta-leader" />} />
                 <Route path="/sales-plan/candidates" element={<CandidatesPageWrapper_SalesPlan />} />
                 
@@ -256,11 +260,12 @@ const App = () => (
                 <Route path="/settings/job-fit-score" element={<Settings />} />
                 <Route path="/settings/careers" element={<Settings />} />
                 <Route path="/settings/application-form" element={<Settings />} />
+                <Route path="/settings/approval-history" element={<Settings />} />
                 
                 <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/suggest-feedback" element={<SuggestFeedback />} />
                 <Route path="/lead-tracker" element={<LeadTrackerPage />} />
-                <Route path="/notifications/new-position" element={<NewPositionApprovalPage />} />
+                <Route path="/notifications/new-position" element={<PositionApprovalPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

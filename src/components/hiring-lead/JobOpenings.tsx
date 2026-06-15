@@ -28,7 +28,7 @@ export function JobOpenings() {
       project: "Platform Beta",
       requiredSkills: "Strategy, Analytics, Agile",
       status: "In Review",
-      statusTooltip: "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
+      statusTooltip: "Awaiting review or sign-off from a Recruitment Lead or Hiring Manager.",
       taAssociate: "David Wilson",
       interviewer: "Lisa Zhang"
     },
@@ -108,7 +108,7 @@ export function JobOpenings() {
       project: "Sales Operations",
       requiredSkills: "CRM, Communication, Lead Generation",
       status: "In Review",
-      statusTooltip: "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
+      statusTooltip: "Awaiting review or sign-off from a Recruitment Lead or Hiring Manager.",
       taAssociate: "Sophie Chen",
       interviewer: "Michael Johnson"
     },
@@ -158,7 +158,7 @@ export function JobOpenings() {
       project: "Documentation",
       requiredSkills: "Technical Writing, API Documentation",
       status: "In Review",
-      statusTooltip: "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
+      statusTooltip: "Awaiting review or sign-off from a Recruitment Lead or Hiring Manager.",
       taAssociate: "Amy Foster",
       interviewer: "Tom Brady"
     },

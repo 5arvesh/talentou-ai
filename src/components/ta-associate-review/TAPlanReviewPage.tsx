@@ -95,7 +95,7 @@ export function TAPlanReviewPage() {
     }
     toast({
       title: "Feedback Submitted",
-      description: `Your feedback for ${getSectionTitle(section)} has been sent to the TA Leader.`
+      description: `Your feedback for ${getSectionTitle(section)} has been sent to the Recruitment Lead.`
     });
     handleFeedbackChange(section, "");
   };

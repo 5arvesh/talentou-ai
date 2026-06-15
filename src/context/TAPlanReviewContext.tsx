@@ -40,7 +40,7 @@ interface TAPlanReviewContextType {
 const TAPlanReviewContext = createContext<TAPlanReviewContextType | undefined>(undefined);
 
 const SECTION_AI_MESSAGES = {
-  1: "Welcome! Please review the Company USP section. The TA Leader has outlined Ignitho's unique value propositions. You can provide feedback here in the chat or use the feedback box at the end of the section.",
+  1: "Welcome! Please review the Company USP section. The Recruitment Lead has outlined Ignitho's unique value propositions. You can provide feedback here in the chat or use the feedback box at the end of the section.",
   2: "Great! Now let's review the Talent Pool criteria. Check the work arrangements, hiring regions, and target criteria. Share feedback if you have suggestions, then align with the plan when ready."
 };
 
@@ -127,7 +127,7 @@ export function TAPlanReviewProvider({ children }: { children: ReactNode }) {
         setChatMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           sender: 'ai',
-          content: "Thank you for your feedback. It has been noted and will be shared with the TA Leader.",
+          content: "Thank you for your feedback. It has been noted and will be shared with the Recruitment Lead.",
           timestamp: new Date(),
         }]);
       }, 500);

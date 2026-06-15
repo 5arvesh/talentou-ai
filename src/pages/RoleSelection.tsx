@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const ROLES = [
   {
     id: "ta-leader",
-    label: "TA Leader",
+    label: "Recruitment Lead",
     description: "Manage recruiting team, pipelines, and analytics",
     path: "/sales-plan",
   },

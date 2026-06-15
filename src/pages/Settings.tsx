@@ -23,6 +23,7 @@ import { PolicyDocumentSettings } from "@/components/settings/PolicyDocumentSett
 import { LicenseSettings } from "@/components/settings/LicenseSettings";
 import { CareersPage } from "@/components/settings/CareersPage";
 import { ApplicationFormSettings } from "@/components/settings/ApplicationFormSettings";
+import { ApprovalHistorySettings } from "@/components/settings/ApprovalHistorySettings";
 import { useLocation } from "react-router-dom";
 
 const subPages: Record<string, React.ReactNode> = {
@@ -39,6 +40,7 @@ const subPages: Record<string, React.ReactNode> = {
   "/settings/license": <LicenseSettings />,
   "/settings/careers": <CareersPage />,
   "/settings/application-form": <ApplicationFormSettings />,
+  "/settings/approval-history": <ApprovalHistorySettings />,
 };
 
 const narrowPages = new Set(["/settings/interview", "/settings/job-fit-score"]);

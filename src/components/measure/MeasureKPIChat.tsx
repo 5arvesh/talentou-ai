@@ -189,7 +189,7 @@ export function MeasureKPIChat({
         id: index * 2 + 2,
         sender: "user",
         content: step.expectedResponse,
-        name: "TA Leader",
+        name: "Recruitment Lead",
       });
     }
 

@@ -44,7 +44,7 @@ export function HiringLeadDashboard() {
       requiredSkills: "Strategy, Analytics, Agile",
       status: "In Review",
       statusTooltip:
-        "Awaiting review or sign-off from a TA Leader or Hiring Manager.",
+        "Awaiting review or sign-off from a Recruitment Lead or Hiring Manager.",
       taAssociate: "David Wilson",
       interviewer: "Lisa Zhang",
       progress: 25,

@@ -25,7 +25,7 @@ export const JobDetailsTable = () => {
     { field: "Required Skills (Ranked)", details: "MongoDB, Node.js, AWS, TypeScript" },
     { field: "Industry", details: "IT Services" },
     { field: "Preferred Domain Experience", details: "Fintech, SaaS" },
-    { field: "Preferred Institutions", details: "NITs, VIT (TA Lead selected Tier 2)" },
+    { field: "Preferred Institutions", details: "NITs, VIT (Recruitment Lead selected Tier 2)" },
     { field: "Preferred Companies", details: "Mindtree, Wipro" },
     { field: "Sample Profile Provided", details: "N/A" },
     { 
@@ -33,7 +33,7 @@ export const JobDetailsTable = () => {
       details: "- Build and maintain scalable backend APIs\n- Integrate with cloud infrastructure (AWS)\n- Collaborate with frontend & DevOps teams\n- Mentor junior developers" 
     },
     { field: "Interviewer Assigned", details: "Ramachandran S (ramachandran.s@company.com)" },
-    { field: "Job Order Status", details: "Awaiting TA Lead Approval" },
+    { field: "Job Order Status", details: "Awaiting Recruitment Lead Approval" },
   ];
 
   return (

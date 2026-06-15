@@ -185,7 +185,7 @@ export function MediaOutreachChat({
         id: index * 2 + 2,
         sender: "user",
         content: step.expectedResponse,
-        name: "TA Lead",
+        name: "Recruitment Lead",
       });
     }
 

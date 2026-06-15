@@ -157,10 +157,21 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "focus-pulse": {
+          "0%, 100%": { borderColor: "rgba(192,132,252,0.2)" },
+          "50%": { borderColor: "rgba(192,132,252,0.5)" },
+        },
+        "plan-loading": {
+          "0%": { transform: "translateX(-100%)", width: "40%" },
+          "50%": { transform: "translateX(60%)", width: "55%" },
+          "100%": { transform: "translateX(220%)", width: "40%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "focus-pulse": "focus-pulse 1s ease-in-out 3",
+        "plan-loading": "plan-loading 1.4s ease-in-out infinite",
       },
     },
   },

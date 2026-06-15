@@ -86,7 +86,7 @@ Thanks! What is the internal title you'd like to use for this position?`,
       from: "user",
     },
     {
-      content: `Got it. Your TA Leader has provided Banglore and Chennai as the hiring regions, what will be the job location for this position?`,
+      content: `Got it. Your Recruitment Lead has provided Banglore and Chennai as the hiring regions, what will be the job location for this position?`,
       from: "ai",
     },
     {
@@ -94,7 +94,7 @@ Thanks! What is the internal title you'd like to use for this position?`,
       from: "user",
     },
     {
-      content: `Thanks for confirming the job location. Your TA Leader has allowed for positions to be open to onsite, remote or hybrids, what is your preferred work arrangement?`,
+      content: `Thanks for confirming the job location. Your Recruitment Lead has allowed for positions to be open to onsite, remote or hybrids, what is your preferred work arrangement?`,
       from: "ai",
     },
     {
@@ -154,7 +154,7 @@ Would you like to keep this or make changes?`,
       from: "user",
     },
     {
-      content: `Based on the plan set by your TA Lead, we're focusing on IT Services Industries. Would you like to add any specific Industries you'd prefer candidates to come from?`,
+      content: `Based on the plan set by your Recruitment Lead, we're focusing on IT Services Industries. Would you like to add any specific Industries you'd prefer candidates to come from?`,
       from: "ai",
     },
     {
@@ -170,7 +170,7 @@ Would you like to keep this or make changes?`,
       from: "user",
     },
     {
-      content: `Your TA Lead has already selected Tier 2 colleges as part of the sourcing strategy. Are there any specific institutions you'd like to prioritize in addition to this?`,
+      content: `Your Recruitment Lead has already selected Tier 2 colleges as part of the sourcing strategy. Are there any specific institutions you'd like to prioritize in addition to this?`,
       from: "ai",
     },
     {
@@ -178,7 +178,7 @@ Would you like to keep this or make changes?`,
       from: "user",
     },
     {
-      content: `Based on the plan set by your TA Lead, we're focusing on product-based firms. Would you like to add any specific companies you'd prefer candidates to come from?`,
+      content: `Based on the plan set by your Recruitment Lead, we're focusing on product-based firms. Would you like to add any specific companies you'd prefer candidates to come from?`,
       from: "ai",
     },
     {
@@ -214,7 +214,7 @@ Would you like to keep this or make changes?`,
 
 Thanks for sharing all the details. Based on your inputs, I've generated a draft Job Description for this position.
 
-Would you like to review it before it's sent to your TA Lead for approval?`,
+Would you like to review it before it's sent to your Recruitment Lead for approval?`,
       from: "ai",
     },
   ]);
@@ -556,10 +556,10 @@ Would you like to review it before it's sent to your TA Lead for approval?`,
                       size="sm"
                       className="rounded-full text-sm px-4 py-2 hover:bg-purple-500/10 border-gray-300 transition-colors"
                       onClick={() =>
-                        handleSuggestionClick("Submit for TA Lead Approval")
+                        handleSuggestionClick("Submit for Recruitment Lead Approval")
                       }
                     >
-                      Submit for TA Lead Approval
+                      Submit for Recruitment Lead Approval
                     </Button>
                   </div>
                 </div>

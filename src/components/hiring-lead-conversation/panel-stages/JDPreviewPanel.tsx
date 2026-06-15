@@ -178,7 +178,7 @@ export function JDPreviewPanel() {
     setIsSubmitting(true);
     addChatMessage({
       id: Date.now(), sender: 'ai',
-      content: "Your Job Description has been sent to the TA Leader for approval. You can now set up the interview questions for this role.",
+      content: "Your Job Description has been sent to the Recruitment Lead for approval. You can now set up the interview questions for this role.",
       name: 'Talentou Agent', stageIndex: 4,
     });
     setTimeout(() => {
