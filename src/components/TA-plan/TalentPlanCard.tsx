@@ -95,7 +95,7 @@ export const TalentPlanCard = ({
     );
   }
 
-  // TA Associate variant: fixed-height flex card with "Aligned" badge
+  // Recruiter variant: fixed-height flex card with "Aligned" badge
   if (role === "ta-associate") {
     return (
       <Card
@@ -167,7 +167,7 @@ export const TalentPlanCard = ({
     );
   }
 
-  // TA Leader (default) variant
+  // Recruitment Lead (default) variant
   return (
     <Card
       className={cn(

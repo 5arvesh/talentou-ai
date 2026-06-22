@@ -42,6 +42,14 @@ import { MarketDatabaseChat } from "./components/market/MarketDatabaseChat";
 import { AssignSDRs } from "./components/assign/AssignSDRs";
 import Register from "./pages/Register";
 import { AuthProvider } from "./context/AuthContext";
+import { RLRegister } from "./components/onboarding/screens/RLRegister";
+import { RLSetupFlow } from "./components/onboarding/screens/RLSetupFlow";
+import { WelcomeRouter } from "./components/onboarding/WelcomeRouter";
+import { RecruiterCategories } from "./components/onboarding/screens/RecruiterCategories";
+import { RecruiterSubRoles } from "./components/onboarding/screens/RecruiterSubRoles";
+import { HiringLeadProfile } from "./components/onboarding/screens/HiringLeadProfile";
+import RecruiterProfile from "./components/onboarding/recruiter/RecruiterProfile";
+import HLProfile from "./components/onboarding/hl/HLProfile";
 import TAPlan_Hiring_Lead from "./pages/TAPlan_Hiring_Lead";
 import OnboardingStep2_Hiring_Lead from "./pages/onboarding/Step2_Hiring_Lead";
 import OnboardingStep3_Hiring_Lead from "./pages/onboarding/Step3_Hiring_Lead";
@@ -55,6 +63,7 @@ import JobOpeningsPage from "./pages/JobOpeningsPage";
 import CandidatesPageWrapper from "./pages/CandidatesPageWrapper";
 import ProjectListPage from "./pages/ProjectListPage";
 import PositionApprovalPage from "./pages/PositionApprovalPage";
+import PlaybookLibraryPage from "./pages/PlaybookLibraryPage";
 import RecruiterJobsPage from "./pages/RecruiterJobsPage";
 import JDConversationPage from "./pages/JDConversationPage";
 import { JobDetailsAccordion } from "./components/recruiter/JobDetailsAccordion";
@@ -101,6 +110,17 @@ const App = () => (
                 <Route path="/registration" element={<Register />} />
                 <Route path="/eula" element={<EULA />} />
                 <Route path="/registration-success" element={<RegistrationSuccess />} />
+                {/* New onboarding flows */}
+                <Route path="/register" element={<RLRegister />} />
+                <Route path="/onboarding/company-pitch" element={<RLSetupFlow initialStep="pitch" />} />
+                <Route path="/onboarding/invite-team" element={<RLSetupFlow initialStep="invite" />} />
+                <Route path="/welcome" element={<WelcomeRouter />} />
+                <Route path="/onboarding/specialities" element={<RecruiterCategories />} />
+                <Route path="/onboarding/sub-roles" element={<RecruiterSubRoles />} />
+                <Route path="/onboarding/hiring-profile" element={<HiringLeadProfile />} />
+                {/* v3 onboarding flows */}
+                <Route path="/onboarding/recruiter/profile" element={<RecruiterProfile />} />
+                <Route path="/onboarding/hiring-lead/profile" element={<HLProfile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/password-reset-sent" element={<PasswordResetSent />} />
@@ -108,7 +128,7 @@ const App = () => (
                 {/* App routes */}
                 <Route path="/role-selection" element={<RoleSelection />} />
                 
-                {/* TA Leader Onboarding */}
+                {/* Recruitment Lead Onboarding */}
                 <Route path="/onboarding/step1" element={<OnboardingStep1 />} />
                 <Route path="/onboarding/step2" element={<OnboardingStep2 />} />
                 <Route path="/onboarding/step3" element={<OnboardingStep3 />} />
@@ -167,7 +187,7 @@ const App = () => (
                   </div>
                 } />
                 
-                {/* TA Leader specific routes */}
+                {/* Recruitment Lead specific routes */}
                 <Route path="/sales-plan/projects" element={<ProjectListPage_TALeader />} />
                 <Route path="/sales-plan/jobs" element={<JobListPage_TALeader />} />
                 <Route path="/sales-plan/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
@@ -198,7 +218,7 @@ const App = () => (
                 
                 <Route path="/companies-added" element={<CompaniesAdded />} />
                 
-                {/* TA Leader Plan Routes */}
+                {/* Recruitment Lead Plan Routes */}
                 <Route path="/sales-plan/*" element={<TAPlan />} />
                 
                 {/* Recruiter Plan Routes */}
@@ -261,11 +281,14 @@ const App = () => (
                 <Route path="/settings/careers" element={<Settings />} />
                 <Route path="/settings/application-form" element={<Settings />} />
                 <Route path="/settings/approval-history" element={<Settings />} />
-                
+                <Route path="/settings/playbooks" element={<Settings />} />
+                <Route path="/settings/profile" element={<Settings />} />
+
                 <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/suggest-feedback" element={<SuggestFeedback />} />
                 <Route path="/lead-tracker" element={<LeadTrackerPage />} />
                 <Route path="/notifications/new-position" element={<PositionApprovalPage />} />
+                <Route path="/notifications/new-position/playbooks" element={<PlaybookLibraryPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

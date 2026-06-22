@@ -18,28 +18,10 @@ const ROLES = [
     path: "/ta-associate-plan",
   },
   {
-    id: "interviewer",
-    label: "Interviewer",
-    description: "Conduct interviews and evaluate candidates",
-    path: "/interviewer",
-  },
-  {
     id: "hiring-lead",
     label: "Hiring Lead",
     description: "Open positions, review candidates, approve JDs",
     path: "/hiring-lead-plan/dashboard",
-  },
-  {
-    id: "hr",
-    label: "HR",
-    description: "Manage offer letters, templates, and onboarding",
-    path: "/hr/home",
-  },
-  {
-    id: "super-admin",
-    label: "Super Admin",
-    description: "Tenant management and platform configuration",
-    path: "/super-admin/tenants",
   },
 ];
 
@@ -51,6 +33,16 @@ export function RoleSelection() {
     const role = ROLES.find((r) => r.id === selectedRole);
     if (!role) return;
     localStorage.setItem("userRole", role.id);
+
+    const isFirstTime = localStorage.getItem('isFirstTime') === 'true';
+    localStorage.removeItem('isFirstTime');
+
+    if (isFirstTime) {
+      if (role.id === 'ta-leader') return navigate('/onboarding/company-pitch');
+      if (role.id === 'ta-associate') return navigate('/onboarding/recruiter/profile');
+      if (role.id === 'hiring-lead') return navigate('/onboarding/hiring-lead/profile');
+    }
+
     navigate(role.path);
   };
 

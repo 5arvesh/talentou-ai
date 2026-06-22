@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Briefcase, CheckCircle2, IndianRupee, MapPin, Users } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { FileText, Send, Sparkles } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
-import { getPriorityColor } from '@/components/shared/ModernJobList';
-import { getJobStatusColor } from '@/constants/statuses';
 import { usePositionApproval } from '@/context/PositionApprovalContext';
-import { AutoApproveConfirmPopover } from './AutoApproveConfirmPopover';
-import { PlanLoadingCard } from './PlanLoadingCard';
+import { RecruitmentBrief } from './RecruitmentBrief';
 
 export function PositionDetailPanel() {
-  const navigate = useNavigate();
-  const { selected, viewState, openAutoApproveConfirm, reviewAndApprove } = usePositionApproval();
+  const { selected, viewState, openAutoApproveSummary, confirmApproval } = usePositionApproval();
   const [jdOpen, setJdOpen] = useState(false);
 
   if (!selected || !selected.position) {
@@ -27,96 +19,49 @@ export function PositionDetailPanel() {
   const { position } = selected;
 
   return (
-    <div className="flex flex-1 flex-col h-full overflow-hidden">
-      <div className="shrink-0 border-b border-border px-4 py-3">
+    <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+      {/* Sticky header */}
+      <div className="shrink-0 border-b border-border bg-background px-4 py-3">
         <h3 className="font-sora text-[13px] font-semibold text-foreground">{position.jobTitle}</h3>
-        <p className="text-[11px] text-muted-foreground">
-          Requested by {position.requestedBy} · {position.dept} · Submitted {position.submittedHoursAgo}h ago
+        <p className="text-[10px] text-muted-foreground mt-0.5">
+          Requested by {position.requestedBy} · {position.dept} · {position.priority} · {position.budget} · {position.location} · {position.experience}
         </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
-        {viewState === 'generating' ? (
-          <PlanLoadingCard />
-        ) : viewState === 'ready' ? (
-          <div className="space-y-3 rounded-card border border-border bg-card p-4 animate-in fade-in slide-in-from-bottom-1">
-            <div className="flex items-center gap-2 text-success">
-              <CheckCircle2 className="h-5 w-5" />
-              <span className="text-[13px] font-semibold text-foreground">
-                Recruitment plan ready for {position.jobTitle}
-              </span>
-            </div>
-            <Button
-              className="h-9 gap-1.5 bg-primary text-white hover:bg-primary/90"
-              onClick={() => navigate(`/sales-plan/jobs/${selected.relatedJobId}/dashboard`)}
-            >
-              Review plan
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-3 rounded-card border border-border bg-card p-4 animate-in fade-in slide-in-from-bottom-1">
-            <div className="flex items-start justify-between gap-2">
-              <h4 className="text-[14px] font-semibold text-foreground">{position.jobTitle}</h4>
-              <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
-                <Badge variant="outline" className={cn('font-medium px-2 py-0.5 text-xs', getPriorityColor(position.priority))}>
-                  {position.priority}
-                </Badge>
-                <Badge variant="outline" className={cn('font-medium px-2 py-0.5 text-xs', getJobStatusColor(position.status))}>
-                  {position.status}
-                </Badge>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-muted-foreground">
-              <span className="inline-flex items-center gap-1">
-                <MapPin className="h-3.5 w-3.5" />
-                {position.location}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Briefcase className="h-3.5 w-3.5" />
-                {position.experience}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <IndianRupee className="h-3.5 w-3.5" />
-                {position.budget}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Users className="h-3.5 w-3.5" />
-                {position.openings} opening{position.openings === 1 ? '' : 's'}
-              </span>
-            </div>
-
-            <div className="rounded-md bg-muted p-2.5 text-[11px] leading-relaxed text-foreground/80">
-              {position.jdSummary}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 border-t border-border pt-3">
-              <Button variant="outline" size="sm" className="h-8 text-[12px]" onClick={() => setJdOpen(true)}>
-                View JD
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 border border-primary/30 text-[12px] text-primary hover:bg-primary/5 hover:text-primary"
-                onClick={openAutoApproveConfirm}
-              >
-                Auto-approve & let AI handle
-              </Button>
-              <Button
-                size="sm"
-                className="h-8 bg-primary text-[12px] text-white hover:bg-primary/90"
-                onClick={reviewAndApprove}
-              >
-                Review & approve
-              </Button>
-            </div>
-
-            {viewState === 'auto-approve-confirm' && <AutoApproveConfirmPopover />}
-          </div>
-        )}
+      {/* Scrollable brief body */}
+      <div className="flex-1 overflow-y-auto p-4 bg-muted/20">
+        <RecruitmentBrief />
       </div>
 
+      {/* Sticky approve bar — Path A only */}
+      {viewState === 'brief' && (
+        <div className="shrink-0 border-t border-border bg-background px-4 py-2.5 flex items-center gap-2">
+          <button
+            onClick={() => setJdOpen(true)}
+            className="border border-border text-[11px] text-muted-foreground rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-muted transition-colors"
+          >
+            <FileText className="h-3 w-3" />
+            View JD
+          </button>
+          <div className="flex-1" />
+          <button
+            onClick={openAutoApproveSummary}
+            className="border border-primary/30 text-primary text-[11px] font-medium rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-primary/5 transition-colors"
+          >
+            <Sparkles className="h-3 w-3" />
+            Auto-approve
+          </button>
+          <button
+            onClick={() => confirmApproval('manual')}
+            className="bg-primary text-white text-[11px] font-medium rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-primary/90 transition-colors"
+          >
+            <Send className="h-3 w-3" />
+            Approve & send to recruiter
+          </button>
+        </div>
+      )}
+
+      {/* JD Dialog */}
       <Dialog open={jdOpen} onOpenChange={setJdOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>

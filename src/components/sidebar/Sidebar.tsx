@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
-  FileText,
   Settings,
   LogOut,
   Users,
@@ -37,14 +35,6 @@ export function Sidebar({ className }: SidebarProps) {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
-  };
-
-  const getTAPlanRoute = () => {
-    switch (userRole) {
-      case "ta-associate": return "/ta-associate-plan";
-      case "hiring-lead": return "/hiring-lead-plan/home";
-      default: return "/sales-plan";
-    }
   };
 
   const getBaseRoute = () => {
@@ -96,48 +86,6 @@ export function Sidebar({ className }: SidebarProps) {
           )}
         >
           <NavItem
-            icon={<LayoutDashboard size={20} />}
-            label={userRole === "hiring-lead" ? "Home" : "TA Plan"}
-            to={getTAPlanRoute()}
-            collapsed={effectiveCollapsed}
-            active={
-              location.pathname.includes("/sales-plan") ||
-              location.pathname.includes("/ta-associate-plan") ||
-              location.pathname.includes("/hiring-lead-plan") ||
-              location.pathname.includes("/message") ||
-              location.pathname.includes("/market") ||
-              location.pathname.includes("/media") ||
-              location.pathname.includes("/measure")
-            }
-          />
-
-          {userRole === "ta-associate" && (
-            <NavItem
-              icon={<FileText size={20} />}
-              label="Collaterals"
-              to="/ta-associate-plan/collaterals"
-              collapsed={effectiveCollapsed}
-              active={location.pathname.includes("/collaterals")}
-            />
-          )}
-
-          <NavItem
-            icon={<Briefcase size={20} />}
-            label="Jobs"
-            to={`${getBaseRoute()}/jobs`}
-            collapsed={effectiveCollapsed}
-            active={location.pathname.includes("/job-list") || location.pathname.includes("/jobs")}
-          />
-
-          <NavItem
-            icon={<Users size={20} />}
-            label="Candidates"
-            to={`${getBaseRoute()}/candidates`}
-            collapsed={effectiveCollapsed}
-            active={location.pathname.includes("/candidates")}
-          />
-
-          <NavItem
             icon={<MessageCircle size={20} />}
             label="Dashboard"
             to={
@@ -155,6 +103,22 @@ export function Sidebar({ className }: SidebarProps) {
                 ? location.pathname === "/hiring-lead/dashboard"
                 : location.pathname === "/sales-plan/dashboard"
             }
+          />
+
+          <NavItem
+            icon={<Briefcase size={20} />}
+            label="Jobs"
+            to={`${getBaseRoute()}/jobs`}
+            collapsed={effectiveCollapsed}
+            active={location.pathname.includes("/job-list") || location.pathname.includes("/jobs")}
+          />
+
+          <NavItem
+            icon={<Users size={20} />}
+            label="Candidates"
+            to={`${getBaseRoute()}/candidates`}
+            collapsed={effectiveCollapsed}
+            active={location.pathname.includes("/candidates")}
           />
         </ul>
       </nav>

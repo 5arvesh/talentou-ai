@@ -176,7 +176,7 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
 
         {pendingChange && targetChangeRequest && role === 'recruiter' && (
           <div className="mt-3 rounded-btn bg-warning/10 text-warning p-2.5 text-[11px]">
-            ⏳ Your change request is awaiting TA Leader approval. Targets paused — pace tracker shows "pending" state.
+            ⏳ Your change request is awaiting Recruitment Lead approval. Targets paused — pace tracker shows "pending" state.
           </div>
         )}
 

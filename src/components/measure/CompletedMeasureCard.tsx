@@ -10,7 +10,7 @@ export const CompletedMeasureCard = ({ score = 85, className }: CompletedMeasure
   return (
     <CompletedCards
       title="Success Metrics"
-      description="What gets tracked, gets optimized. Define TA Team KPIs that drive progress, turning consistent efforts into repeatable hiring success"
+      description="What gets tracked, gets optimized. Define Recruitment team KPIs that drive progress, turning consistent efforts into repeatable hiring success"
       score={score}
       viewPlanPath="/sales-plan/success-metrics"
       enhanceScorePath="/sales-plan/measure-kpi-chat"

@@ -8,7 +8,8 @@ export function EULA() {
   const navigate = useNavigate();
   
   const handleAgree = () => {
-    navigate("/registration-success");
+    localStorage.setItem('isFirstTime', 'true');
+    navigate('/role-selection');
   };
   
   const handleCancel = () => {

@@ -20,38 +20,38 @@ function NotificationItem({ notification }: { notification: ApprovalNotification
     <div
       onClick={handleClick}
       className={cn(
-        'rounded-card p-3 mb-2 transition-colors animate-in fade-in slide-in-from-bottom-1',
-        isNew ? 'cursor-pointer hover:bg-muted/50' : 'cursor-default',
-        isSelected && 'border-l-[3px] border-l-primary rounded-l-none bg-muted/40'
+        'border border-border rounded-lg p-[9px_10px] mb-[6px] transition-colors animate-in fade-in slide-in-from-bottom-1',
+        isNew ? 'cursor-pointer hover:bg-muted/50' : 'cursor-default opacity-70',
+        isSelected && 'border-l-[2.5px] border-l-primary rounded-l-none bg-muted/40'
       )}
     >
       <div className="flex items-start gap-2">
         <span
           className={cn(
-            'mt-1.5 h-1.5 w-1.5 rounded-full shrink-0',
+            'mt-[5px] h-[6px] w-[6px] rounded-full shrink-0',
             notification.isRead ? 'bg-border' : 'bg-primary'
           )}
         />
         <div className="flex-1 min-w-0 space-y-1">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[12.5px] font-medium text-foreground line-clamp-1">{notification.title}</span>
-          </div>
+          <span className="text-[11px] font-medium text-foreground line-clamp-2 leading-[1.3] block">
+            {notification.title}
+          </span>
           {notification.deptBadge && (
-            <span className="inline-flex items-center rounded-full bg-[#EEEDFE] px-2 py-0.5 text-[10px] font-medium text-[#3C3489]">
+            <span className="inline-flex items-center rounded-full bg-[#EEEDFE] px-[6px] py-[1px] text-[9px] font-medium text-[#3C3489]">
               {notification.deptBadge}
             </span>
           )}
           {notification.earlierBadge && (
             <span
               className={cn(
-                'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium',
+                'inline-flex items-center rounded-full px-[6px] py-[1px] text-[9px] font-medium',
                 notification.earlierBadge.className
               )}
             >
               {notification.earlierBadge.label}
             </span>
           )}
-          <p className="text-[11px] text-muted-foreground">
+          <p className="text-[10px] text-muted-foreground">
             {notification.sender} · {notification.timestamp}
           </p>
         </div>
@@ -67,15 +67,15 @@ export function PositionApprovalNotificationList() {
   const earlierItems = notifications.filter((n) => n.group === 'earlier');
 
   return (
-    <div className="h-full flex flex-col w-[340px] flex-shrink-0 border-r border-border">
+    <div className="h-full flex flex-col w-[190px] flex-shrink-0 border-r border-border">
       <div className="border-b border-border p-3.5 space-y-1 shrink-0">
-        <h2 className="font-sora text-[13px] font-medium text-foreground">Notifications</h2>
-        <p className="text-[11px] text-muted-foreground">{unreadCount} unread · new positions</p>
+        <h2 className="font-sora text-[12px] font-medium text-foreground">Notifications</h2>
+        <p className="text-[10px] text-muted-foreground">{unreadCount} unread · new positions</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-3">
         {newItems.length > 0 && (
-          <div className="px-1 pb-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+          <div className="px-1 pb-1 text-[9px] font-semibold uppercase tracking-[0.06em] text-muted-foreground mb-1">
             New positions
           </div>
         )}
@@ -84,7 +84,7 @@ export function PositionApprovalNotificationList() {
         ))}
 
         {earlierItems.length > 0 && (
-          <div className="px-1 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+          <div className="px-1 pt-2 pb-1 text-[9px] font-semibold uppercase tracking-[0.06em] text-muted-foreground mb-1">
             Earlier
           </div>
         )}

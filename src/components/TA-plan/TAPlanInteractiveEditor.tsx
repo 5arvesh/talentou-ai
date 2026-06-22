@@ -21,10 +21,10 @@ export function TAPlanInteractiveEditor() {
       {/* Header */}
       <div className="p-6 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xl font-semibold text-foreground">Your TA Plan</h2>
+          <h2 className="text-xl font-semibold text-foreground">Your Recruitment Plan</h2>
           <CheckCircle2 className="w-5 h-5 text-success" />
         </div>
-        <p className="text-sm text-muted-foreground">Your Personalized TA Plan - Powered by AI, Perfected by You.</p>
+        <p className="text-sm text-muted-foreground">Your Personalized Recruitment Plan - Powered by AI, Perfected by You.</p>
       </div>
 
       {/* Sections */}

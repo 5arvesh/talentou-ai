@@ -30,7 +30,7 @@ export const SalesPlanProgress_TA_Associate = () => {
     <Card className="h-fit sticky top-4 m-4">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <h4 className="font-semibold text-lg">Your TA Plan So Far</h4>
+          <h4 className="font-semibold text-lg">Your Recruitment Plan So Far</h4>
           <Button
             variant="ghost"
             size="sm"

@@ -3,7 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { InboxSection, InboxNotification } from "./types";
@@ -30,7 +30,7 @@ const sectionItems: SectionItem[] = [
   {
     id: "feedback" as InboxSection,
     label: "Feedback",
-    description: "TA Plan suggestions"
+    description: "Recruitment Plan suggestions"
   },
   {
     id: "approval" as InboxSection,
@@ -47,7 +47,6 @@ const sectionItems: SectionItem[] = [
 export function InboxPage({ notifications, defaultSection = "all", showBackButton = false, backPath = "/" }: InboxPageProps) {
   const navigate = useNavigate();
   const [selectedSection, setSelectedSection] = useState<InboxSection>(defaultSection);
-  const [selectedNotificationId, setSelectedNotificationId] = useState<string | null>(null);
 
   const getFilteredNotifications = (section: InboxSection) => {
     if (section === "all") return notifications;
@@ -66,17 +65,6 @@ export function InboxPage({ notifications, defaultSection = "all", showBackButto
     if (notification.type === "approval") {
       navigate("/notifications/new-position");
     }
-  };
-
-  const handleQuickApprove = (option: "auto" | "manual", notificationId: string) => {
-    if (option === "auto") {
-      console.log("Auto-assigning recruiter for notification:", notificationId);
-    } else {
-      navigate("/notifications/new-position", { 
-        state: { mode: "manual-recruiter-selection", notificationId } 
-      });
-    }
-    setSelectedNotificationId(null);
   };
 
   const getInitials = (name: string) => {
@@ -238,40 +226,14 @@ export function InboxPage({ notifications, defaultSection = "all", showBackButto
                       </div>
                       
                       {notification.type === "approval" && notification.actionRequired && (
-                        <div className="mt-3 flex space-x-2">
-                          <Button size="sm" className="bg-gradient-to-r from-brand-500 to-blue-500 hover:from-brand-600 hover:to-blue-600">
-                            Review Request
-                          </Button>
-                          <DropdownMenu 
-                            open={selectedNotificationId === notification.id}
-                            onOpenChange={(open) => setSelectedNotificationId(open ? notification.id : null)}
+                        <div className="mt-3">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); navigate("/notifications/new-position"); }}
+                            className="inline-flex items-center gap-1.5 bg-[#7800D3] text-white text-[12px] font-medium px-4 py-[9px] rounded-[9px] hover:opacity-90 transition-opacity"
                           >
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                Quick Approve
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-80 bg-white border border-border shadow-lg">
-                              <DropdownMenuItem 
-                                onClick={() => handleQuickApprove("auto", notification.id)}
-                                className="cursor-pointer hover:bg-accent p-3"
-                              >
-                                <div className="flex flex-col">
-                                  <span className="font-medium">Let Talentou AI auto-assign recruiter</span>
-                                  <span className="text-xs text-muted-foreground mt-1">AI will automatically assign the best recruiter</span>
-                                </div>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem 
-                                onClick={() => handleQuickApprove("manual", notification.id)}
-                                className="cursor-pointer hover:bg-accent p-3"
-                              >
-                                <div className="flex flex-col">
-                                  <span className="font-medium">I want to choose the recruiter</span>
-                                  <span className="text-xs text-muted-foreground mt-1">Select which recruiter to assign to this role</span>
-                                </div>
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                            <Sparkles className="h-3.5 w-3.5" />
+                            Create Plan
+                          </button>
                         </div>
                       )}
                     </div>

@@ -294,9 +294,9 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
         break;
       case "view-pipeline":
-        if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/pipeline`);
-        else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/pipeline`);
-        else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/pipeline`);
+        if (role === "ta-leader") navigate(`/sales-plan/candidates?view=kanban&jobId=${job.id}`);
+        else if (role === "recruiter") navigate(`/ta-associate/candidates?view=kanban&jobId=${job.id}`);
+        else if (role === "hiring-lead") navigate(`/hiring-lead/candidates?view=kanban&jobId=${job.id}`);
         break;
       case "view-dashboard":
         if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/dashboard`, { state: { job } });
@@ -428,7 +428,7 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
             </ToggleGroupItem>
             <ToggleGroupItem value="table" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
               <List className="h-3.5 w-3.5" />
-              Table
+              List
             </ToggleGroupItem>
           </ToggleGroup>
 

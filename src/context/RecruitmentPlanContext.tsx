@@ -169,7 +169,7 @@ const SENIOR_REACT_DEVELOPER: RecruitmentPlanData = {
   hiringLeadName: 'Priya Menon',
   recruiter: {
     name: 'Rohan Kapoor',
-    title: 'TA Associate · Bangalore',
+    title: 'Recruiter · Bangalore',
     bandwidthPct: 78,
     openReqs: 2,
     closesCount: 3,
@@ -283,7 +283,7 @@ const SENIOR_REACT_DEVELOPER: RecruitmentPlanData = {
     {
       day: 'Yesterday',
       items: [
-        { time: '17:30', type: 'alert', icon: 'alert-triangle', text: 'Pace alert: sourcing 40% below daily target — escalation sent to TA Leader & Hiring Lead' },
+        { time: '17:30', type: 'alert', icon: 'alert-triangle', text: 'Pace alert: sourcing 40% below daily target — escalation sent to Recruitment Lead & Hiring Lead' },
         { time: '11:00', type: 'resurface', icon: 'rotate-cw', text: 'Resurfaced 4 candidates from past Backend/React hires (fit scores: 87%, 81%, 74%, 69%)' },
       ],
     },
@@ -333,7 +333,7 @@ export function getDefaultPlanData(jobId: string, jobOverride?: JobOverride): Re
     hiringLeadName: 'Hiring Lead',
     recruiter: {
       name: recruiterName,
-      title: 'TA Associate',
+      title: 'Recruiter',
       bandwidthPct: 55,
       openReqs: 1,
       closesCount: 2,
@@ -421,7 +421,7 @@ export function RecruitmentPlanProvider({ jobId, jobOverride, children }: Recrui
         status: 'pending',
       },
     }));
-    toast.success('Target change request sent to TA Leader for approval.');
+    toast.success('Target change request sent to Recruitment Lead for approval.');
   };
 
   const approveTargetChange = () => {

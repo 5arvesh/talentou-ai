@@ -148,11 +148,11 @@ export function MeasureKPIChat({
 
   const conversationFlow = [
     {
-      ai: "You're at the final step of your TA Plan, setting a success benchmark to help monitor overall progress and hiring effectiveness.\nTo begin, what's the maximum number of open positions you'd prefer each Recruiter to handle at a time?",
+      ai: "You're at the final step of your Recruitment Plan, setting a success benchmark to help monitor overall progress and hiring effectiveness.\nTo begin, what's the maximum number of open positions you'd prefer each Recruiter to handle at a time?",
       expectedResponse: "Let's keep it at 4 active positions per Associate.",
     },
     {
-      ai: "Glad to hear that! Now, let's define productivity goals for your TA Team\nTo begin with, how many CVs would you like each Recruiter to add to the ATS on a daily basis?",
+      ai: "Glad to hear that! Now, let's define productivity goals for your Recruitment team\nTo begin with, how many CVs would you like each Recruiter to add to the ATS on a daily basis?",
       expectedResponse: "Let's go with 5 per day.",
     },
     {
@@ -168,7 +168,7 @@ export function MeasureKPIChat({
       expectedResponse: "Let's go with 10 LinkedIn outreaches per day.",
     },
     {
-      ai: "Understood. I'll also track detailed metrics for each position, such - Number of open positions, Average time of open positions, Profiles sourced, Candidates shortlisted, One-way interviews completed\nAll these activity metrics will be tracked and made visible through your Talentou dashboard in real time, so you can easily monitor progress, identify trends, and make adjustments where needed.\n\nWould you like to: Edit or refine this, or; Finalize my TA Plan",
+      ai: "Understood. I'll also track detailed metrics for each position, such - Number of open positions, Average time of open positions, Profiles sourced, Candidates shortlisted, One-way interviews completed\nAll these activity metrics will be tracked and made visible through your Talentou dashboard in real time, so you can easily monitor progress, identify trends, and make adjustments where needed.\n\nWould you like to: Edit or refine this, or; Finalize my Recruitment Plan",
     },
   ];
 
@@ -281,14 +281,14 @@ export function MeasureKPIChat({
 
   const sidebarComponent = (
     <div className="h-full overflow-y-hidden flex flex-col">
-      {/* Your TA Plan So Far Section with Border and Collapsible */}
+      {/* Your Recruitment Plan So Far Section with Border and Collapsible */}
       <div className="border border-gray-200 rounded-lg p-2.5 m-2.5">
         <div
           className="flex justify-between items-center cursor-pointer mb-4 res-1200:mb-2"
           onClick={() => setIsPlanSectionCollapsed(!isPlanSectionCollapsed)}
         >
           <h3 className="font-semibold text-[19px] res-1200:text-[13px] res-1400:text-[15px] res-1600:text-[17px]">
-            Your TA Plan So Far
+            Your Recruitment Plan So Far
           </h3>
           {isPlanSectionCollapsed ? (
             <ChevronDown className="h-5 w-5 res-1200:h-3 res-1200:w-3 res-1400:h-4 res-1400:w-4" />
@@ -464,7 +464,7 @@ export function MeasureKPIChat({
       sidebarComponent={sidebarComponent}
       showProceedButton={true}
       progressTitle={"successMetrics"}
-      proceedButtonText="Finalize TA Plan"
+      proceedButtonText="Finalize Recruitment Plan"
     />
   );
 }

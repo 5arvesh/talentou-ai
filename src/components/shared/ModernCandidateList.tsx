@@ -1,5 +1,5 @@
 ﻿import React, { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import {
   Search,
@@ -23,6 +23,7 @@ import {
   Linkedin,
   LayoutGrid,
   List,
+  Columns3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +41,7 @@ import { getCandidateStatusColor } from "@/constants/statuses";
 import { CandidateCard } from "./CandidateCard";
 import { CandidateSummaryBar } from "./CandidateSummaryBar";
 import { TriageChipsBar, ChipDef } from "./TriageChipsBar";
+import { KanbanBoard } from "@/components/hiring-lead/KanbanBoard";
 
 export interface CandidateItem {
   id: string | number;
@@ -177,7 +179,12 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
   const [selectedStatus, setSelectedStatus] = useState("All Statuses");
   const [globalSort, setGlobalSort] = useState("Match Score");
   const [viewedCandidates, setViewedCandidates] = useState<Set<string | number>>(new Set());
-  const [viewMode, setViewMode] = useState<"card" | "table">("card");
+  const [searchParams] = useSearchParams();
+  const kanbanJobId = searchParams.get("jobId") ?? "1";
+  const [viewMode, setViewMode] = useState<"card" | "table" | "kanban">(() => {
+    const v = searchParams.get("view");
+    return v === "card" || v === "table" ? v : "kanban";
+  });
   const [activeChip, setActiveChip] = useState("all");
 
   // Derive filter options from data
@@ -539,7 +546,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           <ToggleGroup
             type="single"
             value={viewMode}
-            onValueChange={(value) => { if (value) setViewMode(value as "card" | "table"); }}
+            onValueChange={(value) => { if (value) setViewMode(value as "card" | "table" | "kanban"); }}
             className="shrink-0 rounded-lg border border-gray-200 bg-white p-0.5 shadow-sm"
           >
             <ToggleGroupItem value="card" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
@@ -548,7 +555,11 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
             </ToggleGroupItem>
             <ToggleGroupItem value="table" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
               <List className="h-3.5 w-3.5" />
-              Table
+              List
+            </ToggleGroupItem>
+            <ToggleGroupItem value="kanban" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
+              <Columns3 className="h-3.5 w-3.5" />
+              Kanban
             </ToggleGroupItem>
           </ToggleGroup>
 
@@ -557,6 +568,12 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
             <Plus className="h-4 w-4 mr-2" /> Add Candidate
           </Button>
         </div>
+
+        {viewMode === "kanban" && (
+          <div className="h-[calc(100vh-220px)] min-h-[520px] -mx-1 rounded-xl border border-gray-100 overflow-hidden">
+            <KanbanBoard jobId={kanbanJobId} role={role} embedded />
+          </div>
+        )}
 
         {viewMode === "card" && (
           <div className="space-y-4">

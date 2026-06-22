@@ -66,7 +66,7 @@ This role is ideal for Full Stack Developers with at least 2 years of relevant e
       {
         id: 1,
         sender: "ai",
-        content: `Hi! I've prepared a sample Job Description based on the TA Plan and Hiring Lead requirements for Full Stack Developer. Please review it and let me know if you'd like any changes:\n\n${sampleJD}\n\nWould you like to make any edits to this job description?`
+        content: `Hi! I've prepared a sample Job Description based on the Recruitment Plan and Hiring Lead requirements for Full Stack Developer. Please review it and let me know if you'd like any changes:\n\n${sampleJD}\n\nWould you like to make any edits to this job description?`
       }
     ]);
   }, [jobId]);
@@ -102,7 +102,7 @@ You can now:
 â€¢ Download it as a text document using the "Download JD" button
 â€¢ Use this JD for posting on job boards and recruitment platforms
 
-The finalized JD includes all the requirements from the TA Plan and incorporates the hiring lead's specifications. You're all set to start recruiting!`;
+The finalized JD includes all the requirements from the Recruitment Plan and incorporates the hiring lead's specifications. You're all set to start recruiting!`;
         setJdFinalized(true);
         setFinalJD(sampleJD);
       } else if (currentMessage.toLowerCase().includes("no changes") || 

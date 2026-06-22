@@ -95,7 +95,7 @@ Would you like to invite team members now, or skip this for later?`,
   // Completion
   completion: {
     sender: 'ai',
-    content: `🎉 **TA Plan Complete!** 
+    content: `🎉 **Recruitment Plan Complete!** 
 
 You've successfully built a comprehensive Talent Acquisition plan covering:
 ✅ Company USP

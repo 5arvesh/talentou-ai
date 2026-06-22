@@ -30,7 +30,7 @@ function getFocusContent(data: RecruitmentPlanData, role: RoleType): FocusConten
       };
     }
     return {
-      text: `Pace alert flagged for this role — projected close ${pace.projectedCloseDate} (${pace.escalationDaysLate} days later than planned). The TA Leader is reviewing options.`,
+      text: `Pace alert flagged for this role — projected close ${pace.projectedCloseDate} (${pace.escalationDaysLate} days later than planned). The Recruitment Lead is reviewing options.`,
     };
   }
 
@@ -43,7 +43,7 @@ function getFocusContent(data: RecruitmentPlanData, role: RoleType): FocusConten
     }
     if (role === 'recruiter') {
       return {
-        text: `Your request to extend the timeline to ${targetChangeRequest.proposedDays} days is awaiting TA Leader approval. The pace tracker is paused until then.`,
+        text: `Your request to extend the timeline to ${targetChangeRequest.proposedDays} days is awaiting Recruitment Lead approval. The pace tracker is paused until then.`,
       };
     }
     return {

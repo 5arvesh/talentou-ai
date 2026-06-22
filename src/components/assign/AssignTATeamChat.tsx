@@ -47,10 +47,10 @@ export function AssignTATeamChat({
       id: 1,
       sender: "ai",
       content: `Hi Roney Soloman,
-Now that you've defined your Company USP and Talent Pool, it's time to proceed with onboarding and assigning your TA Associates.
+Now that you've defined your Company USP and Talent Pool, it's time to proceed with onboarding and assigning your Recruiters.
 
 Email ID
-Please provide the email IDs of your TA Associates.`,
+Please provide the email IDs of your Recruiters.`,
       name: "Talentou AI",
     },
     {

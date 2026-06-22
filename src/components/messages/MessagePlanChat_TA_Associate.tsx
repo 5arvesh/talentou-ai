@@ -170,7 +170,7 @@ export function MessagePlanChat_TA_Associate() {
             </CardHeader>
             <CardContent className="flex flex-col flex-1">
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm mb-3 flex-1">
-                This section highlights the heart of who we are our mission, our vision, and the culture that drives us. It gives candidates a clear sense of what we stand for, what we're working toward, and what it feels like to be part of our journey. From our inclusive and collaborative work environment to the awards and industry recognition we've earned, this message is designed to inspire. It helps the TA team confidently pitch our story - why we exist, how we make a difference, and why this is a great place to build a meaningful career. In this section, you can also suggest feedback or align with existing messaging based on what you observe.
+                This section highlights the heart of who we are our mission, our vision, and the culture that drives us. It gives candidates a clear sense of what we stand for, what we're working toward, and what it feels like to be part of our journey. From our inclusive and collaborative work environment to the awards and industry recognition we've earned, this message is designed to inspire. It helps the Recruitment team confidently pitch our story - why we exist, how we make a difference, and why this is a great place to build a meaningful career. In this section, you can also suggest feedback or align with existing messaging based on what you observe.
               </p>
               <div className="flex gap-3 mt-auto">
                 <Button 
@@ -199,7 +199,7 @@ export function MessagePlanChat_TA_Associate() {
             </CardHeader>
             <CardContent className="flex flex-col flex-1">
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm mb-3 flex-1">
-                This section includes decks, documents and other materials that reinforce your message and help drive consistent, impactful communication. These assets provide visual and narrative support to your employer value proposition, enabling TA teams to confidently present your organization to candidates, address their motivations and concerns, and accelerate decision-making through well-crafted, purpose-driven content.
+                This section includes decks, documents and other materials that reinforce your message and help drive consistent, impactful communication. These assets provide visual and narrative support to your employer value proposition, enabling Recruitment teams to confidently present your organization to candidates, address their motivations and concerns, and accelerate decision-making through well-crafted, purpose-driven content.
               </p>
               <Button 
                 className="w-fit flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white mt-auto disabled:bg-gray-600"

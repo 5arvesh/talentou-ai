@@ -1,20 +1,8 @@
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SectionBlock } from "./SectionBlock";
 import type { NewFieldInput } from "./AddCustomFieldDialog";
-import { CUSTOM_FIELD_TYPES, FIELD_TYPE_LABELS } from "@/constants/defaultFormTemplate";
-import type { FieldType, FormField, FormSection } from "@/types/applicationForm";
+import { FormFieldsPanel } from "./FormFieldsPanel";
+import { FormPreview } from "./FormPreview";
+import type { FormField, FormSection } from "@/types/applicationForm";
 
 interface TemplateEditorProps {
   sections: FormSection[];
@@ -23,122 +11,8 @@ interface TemplateEditorProps {
   sectionFilter?: (sectionId: string) => boolean;
 }
 
-interface EditFieldState {
-  label: string;
-  fieldType: FieldType;
-  options: string[];
-}
-
-function EditFieldDialog({
-  field,
-  onClose,
-  onSave,
-}: {
-  field: FormField;
-  onClose: () => void;
-  onSave: (id: string, updates: EditFieldState) => void;
-}) {
-  const [label, setLabel] = useState(field.label);
-  const [fieldType, setFieldType] = useState<FieldType>(field.fieldType);
-  const [options, setOptions] = useState<string[]>(field.options && field.options.length > 0 ? field.options : [""]);
-
-  const typeOptions = Array.from(new Set<FieldType>([field.fieldType, ...CUSTOM_FIELD_TYPES]));
-
-  const handleSave = () => {
-    if (!label.trim()) return;
-    onSave(field.id, {
-      label: label.trim(),
-      fieldType,
-      options: options.map((o) => o.trim()).filter(Boolean),
-    });
-  };
-
-  return (
-    <Dialog open onOpenChange={(next) => !next && onClose()}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Edit field</DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="edit-field-label">Field name</Label>
-            <Input id="edit-field-label" value={label} onChange={(e) => setLabel(e.target.value)} />
-          </div>
-
-          <div className="space-y-1.5">
-            <Label>Field type</Label>
-            <Select value={fieldType} onValueChange={(value) => setFieldType(value as FieldType)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {typeOptions.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {FIELD_TYPE_LABELS[type]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {fieldType === "dropdown" && (
-            <div className="space-y-1.5">
-              <Label>Options</Label>
-              <div className="space-y-2">
-                {options.map((option, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <Input
-                      value={option}
-                      onChange={(e) =>
-                        setOptions((prev) => prev.map((o, i) => (i === index ? e.target.value : o)))
-                      }
-                      placeholder={`Option ${index + 1}`}
-                    />
-                    {options.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-                        onClick={() => setOptions((prev) => prev.filter((_, i) => i !== index))}
-                      >
-                        <X className="h-3.5 w-3.5" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="text-primary hover:text-primary"
-                onClick={() => setOptions((prev) => [...prev, ""])}
-              >
-                <Plus className="mr-1 h-3.5 w-3.5" />
-                Add option
-              </Button>
-            </div>
-          )}
-        </div>
-
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button className="bg-primary text-white hover:bg-primary/90" onClick={handleSave} disabled={!label.trim()}>
-            Save changes
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 export function TemplateEditor({ sections, fields, onFieldsChange, sectionFilter }: TemplateEditorProps) {
-  const [editingFieldId, setEditingFieldId] = useState<string | null>(null);
-  const editingField = fields.find((f) => f.id === editingFieldId) ?? null;
+  const [, forceRender] = useState(0);
 
   const visibleSections = sections
     .filter((s) => !sectionFilter || sectionFilter(s.id))
@@ -168,18 +42,6 @@ export function TemplateEditor({ sections, fields, onFieldsChange, sectionFilter
     onFieldsChange(fields.filter((f) => f.id !== id));
   };
 
-  const handleReorder = (sectionId: string, orderedIds: string[]) => {
-    const lockedCount = fields.filter((f) => f.sectionId === sectionId && f.locked).length;
-    const orderMap = new Map(orderedIds.map((id, idx) => [id, lockedCount + idx]));
-    onFieldsChange(
-      fields.map((f) => {
-        if (f.sectionId !== sectionId || f.locked) return f;
-        const order = orderMap.get(f.id);
-        return order === undefined ? f : { ...f, order };
-      })
-    );
-  };
-
   const handleAddField = (sectionId: string, input: NewFieldInput) => {
     const sectionFields = fields.filter((f) => f.sectionId === sectionId);
     const maxOrder = sectionFields.length > 0 ? Math.max(...sectionFields.map((f) => f.order)) : -1;
@@ -198,40 +60,37 @@ export function TemplateEditor({ sections, fields, onFieldsChange, sectionFilter
     onFieldsChange([...fields, newField]);
   };
 
-  const handleEditSave = (id: string, updates: EditFieldState) => {
-    onFieldsChange(
-      fields.map((f) => {
-        if (f.id !== id) return f;
-        return {
-          ...f,
-          label: updates.label,
-          fieldType: updates.fieldType,
-          options: updates.fieldType === "dropdown" ? updates.options : undefined,
-        };
-      })
-    );
-    setEditingFieldId(null);
+  const handleRenameField = (id: string, newLabel: string) => {
+    onFieldsChange(fields.map((f) => (f.id === id ? { ...f, label: newLabel } : f)));
+    forceRender((n) => n + 1);
   };
 
   return (
-    <div className="space-y-4">
-      {visibleSections.map((section) => (
-        <SectionBlock
-          key={section.id}
-          section={section}
-          fields={fields.filter((f) => f.sectionId === section.id)}
+    <div className="flex min-h-[600px] border border-border rounded-lg overflow-hidden">
+      {/* Left panel — field toggles */}
+      <div className="w-[280px] shrink-0 border-r border-border overflow-y-auto bg-background">
+        <div className="p-3 border-b border-border">
+          <h3 className="text-[12px] font-semibold text-foreground">Form fields</h3>
+          <p className="text-[10px] text-muted-foreground mt-0.5">Toggle fields on or off for this form</p>
+        </div>
+        <FormFieldsPanel
+          sections={visibleSections}
+          fields={fields}
           onToggleVisible={handleToggleVisible}
           onToggleRequired={handleToggleRequired}
-          onEdit={setEditingFieldId}
-          onDelete={handleDelete}
-          onReorder={handleReorder}
           onAddField={handleAddField}
+          onDeleteField={handleDelete}
         />
-      ))}
+      </div>
 
-      {editingField && (
-        <EditFieldDialog field={editingField} onClose={() => setEditingFieldId(null)} onSave={handleEditSave} />
-      )}
+      {/* Right panel — careers-page preview */}
+      <div className="flex-1 overflow-y-auto bg-muted/20 p-5">
+        <FormPreview
+          sections={visibleSections}
+          fields={fields}
+          onRenameField={handleRenameField}
+        />
+      </div>
     </div>
   );
 }

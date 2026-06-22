@@ -25,7 +25,7 @@ export function AssignSDRs() {
       {/* Main chat area */}
       <div className="flex-1 flex flex-col">
         <ChatHeader 
-          title="Assign TA Team" 
+          title="Assign Recruitment Team" 
           onBackClick={() => navigate("/sales-plan")}
         />
         
@@ -45,7 +45,7 @@ export function AssignSDRs() {
                 Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 mb-4">
-                As the Recruitment Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
+                As the Recruitment Lead, you have defined your Recruitment Plan. Let's get the Recruitment team excited and onboarded.
               </p>
               <p className="text-gray-800 dark:text-gray-200 mb-4">
                 Now that you have defined your Message and Market / Databases, it's time to

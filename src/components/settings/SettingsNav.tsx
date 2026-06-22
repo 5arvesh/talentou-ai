@@ -18,7 +18,9 @@ import {
   Target,
   Globe,
   ClipboardList,
-  History
+  History,
+  BookMarked,
+  IdCard
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +30,11 @@ const navItems = [
     icon: User,
     label: "Account",
     path: "/settings"
+  },
+  {
+    icon: IdCard,
+    label: "Profile",
+    path: "/settings/profile"
   },
   {
     icon: PaintBucket,
@@ -98,6 +105,11 @@ const navItems = [
     icon: History,
     label: "Approval History",
     path: "/settings/approval-history"
+  },
+  {
+    icon: BookMarked,
+    label: "Playbooks",
+    path: "/settings/playbooks"
   }
   // {
   //   icon: Clock,

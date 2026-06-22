@@ -3,7 +3,7 @@ export const onboardingContent = {
     step1: {
       title: "Company USP",
       checklistItems: [
-        "Ensure TA Team use the AI-recommended messaging framework for consistency and personalization.",
+        "Ensure Recruitment team use the AI-recommended messaging framework for consistency and personalization.",
         "Experiment with different messaging variations to identify what resonates most with different candidate personas.",
         "Analyze the responses and refine the messaging accordingly: double down on approaches that work and optimize those that don't."
       ],
@@ -14,14 +14,14 @@ export const onboardingContent = {
       checklistItems: [
         "Use Talentou AI to set your strategy to identify the top candidates.",
         "Choose candidates based on criteria like demographics, experience, target companies/educational institutions, salary range, etc.",
-        "Guide your TA Team to zero in on the right candidate profiles."
+        "Guide your Recruitment team to zero in on the right candidate profiles."
       ],
       nextRoute: "/onboarding/step3"
     },
     step3: {
       title: "Recruitment Channels",
       checklistItems: [
-        "Guide your TA Team to use the optimal mix of emails, LinkedIn messages, and calls for maximum candidate engagement.",
+        "Guide your Recruitment team to use the optimal mix of emails, LinkedIn messages, and calls for maximum candidate engagement.",
         "Monitor outreach process - check if emails are being opened and if calls are sparking conversations.",
         "Refine outreach channels using Talentou AI's insights: double down on those driving the best outcomes and adjust where needed."
       ],
@@ -30,9 +30,9 @@ export const onboardingContent = {
     step4: {
       title: "Success Metrics",
       checklistItems: [
-        "Stay on top of TA Team activity metrics: emails sent, responses received, calls made, and interviews scheduled.",
+        "Stay on top of Recruitment team activity metrics: emails sent, responses received, calls made, and interviews scheduled.",
         "Spot pipeline bottlenecks - understand exactly where candidate engagement is falling off.",
-        "Use Talentou AI's insights to guide the TA Team, refining their strategies to recruit the right candidates quickly."
+        "Use Talentou AI's insights to guide the Recruitment team, refining their strategies to recruit the right candidates quickly."
       ],
       nextRoute: "/sales-plan",
       isLastStep: true

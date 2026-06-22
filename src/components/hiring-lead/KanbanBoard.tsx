@@ -191,6 +191,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
 interface KanbanBoardProps {
   jobId: string;
   role?: RoleType;
+  embedded?: boolean;
 }
 
 const JOB_TITLES: Record<string, string> = {
@@ -206,19 +207,20 @@ const JOB_DAYS_OPEN: Record<string, number> = {
   '1': 14, '2': 21, '3': 9, '4': 30, '5': 18, '6': 7,
 };
 
-export function KanbanBoard({ jobId, role = 'hiring-lead' }: KanbanBoardProps) {
+export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: KanbanBoardProps) {
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState<KanbanCandidate[]>(INITIAL_CANDIDATES);
   const [search, setSearch] = useState('');
   const [fitFilter, setFitFilter] = useState('all');
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [selectedJobId, setSelectedJobId] = useState(jobId);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
-  const jobTitle = JOB_TITLES[jobId] || `Job #${jobId}`;
-  const daysOpen = JOB_DAYS_OPEN[jobId] || 0;
+  const jobTitle = JOB_TITLES[selectedJobId] || `Job #${selectedJobId}`;
+  const daysOpen = JOB_DAYS_OPEN[selectedJobId] || 0;
   const backRoute = role === 'ta-leader' ? '/sales-plan/jobs' : role === 'recruiter' ? '/ta-associate/jobs' : '/hiring-lead/jobs';
-  const jdRoute = role === 'ta-leader' ? `/sales-plan/jd/${jobId}` : role === 'recruiter' ? `/ta-associate/jd/${jobId}` : `/hiring-lead/jd/${jobId}`;
+  const jdRoute = role === 'ta-leader' ? `/sales-plan/jd/${selectedJobId}` : role === 'recruiter' ? `/ta-associate/jd/${selectedJobId}` : `/hiring-lead/jd/${selectedJobId}`;
 
   const filtered = candidates.filter((c) => {
     const matchSearch = search === '' || c.name.toLowerCase().includes(search.toLowerCase());
@@ -270,15 +272,31 @@ export function KanbanBoard({ jobId, role = 'hiring-lead' }: KanbanBoardProps) {
     <div className="flex flex-col h-full bg-background">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(backRoute)}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <div>
-            <h1 className="text-lg font-bold text-foreground">{jobTitle}</h1>
-            <p className="text-xs text-muted-foreground">Candidate Pipeline Â· {daysOpen} days open</p>
+        {embedded ? (
+          <div className="flex items-center gap-3">
+            <Select value={selectedJobId} onValueChange={setSelectedJobId}>
+              <SelectTrigger className="w-[220px] h-9 text-sm font-medium">
+                <SelectValue placeholder="Select a job" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(JOB_TITLES).map(([id, title]) => (
+                  <SelectItem key={id} value={id}>{title}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground hidden sm:block">Pipeline · {daysOpen} days open</p>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(backRoute)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-lg font-bold text-foreground">{jobTitle}</h1>
+              <p className="text-xs text-muted-foreground">Candidate Pipeline · {daysOpen} days open</p>
+            </div>
+          </div>
+        )}
         <div className="flex items-center gap-3">
           <div className="relative w-56">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />

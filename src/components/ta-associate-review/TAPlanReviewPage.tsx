@@ -109,8 +109,8 @@ export function TAPlanReviewPage() {
     setSectionStatus(updatedStatus);
     
     toast({
-      title: "Aligned to TA Plan",
-      description: "You've successfully aligned with the complete TA Plan!"
+      title: "Aligned to Recruitment Plan",
+      description: "You've successfully aligned with the complete Recruitment Plan!"
     });
     navigate("/ta-associate/jobs");
   };
@@ -278,7 +278,7 @@ export function TAPlanReviewPage() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div>
-                <h1 className="text-xl font-bold text-foreground">TA Plan Review</h1>
+                <h1 className="text-xl font-bold text-foreground">Recruitment Plan Review</h1>
                 <p className="text-sm text-muted-foreground">Senior Frontend Developer • Ignitho Technologies</p>
               </div>
             </div>

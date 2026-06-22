@@ -90,7 +90,7 @@ export const SalesPlanDashboard_TA_Associate = () => {
                 Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-lg res-1200:text-sm res-1400:text-md res-1600:text-xl font-medium pr-4">
-                As the Recruiter, you have defined your TA Plan. Let's get started with execution.
+                As the Recruiter, you have defined your Recruitment Plan. Let's get started with execution.
               </p>
             </>
           ) : (
@@ -100,7 +100,7 @@ export const SalesPlanDashboard_TA_Associate = () => {
                 Your Recruitment Lead has set the hiring strategyâ€”now it's your turn to bring it to life. Nail your reach-outs, engage the right candidates, and track your results. With <strong>Talentou AI</strong>, every interaction countsâ€”stay focused, move fast, and hire smarter!
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-xl font-medium mt-2 res-1200:text-sm res-1400:text-md">
-                As a TA Team, your role is to execute the recruitment plan with precision:
+                As a Recruitment team, your role is to execute the recruitment plan with precision:
               </p>
             </>
           )}

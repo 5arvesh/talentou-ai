@@ -123,7 +123,7 @@ export function MediaOutreachChat({
 
   const conversationFlow = [
     {
-      ai: "You’re doing great! The third step in your TA Plan is defining your Recruitment Channels, this will guide your TA Team on where to source candidates for this role.",
+      ai: "You’re doing great! The third step in your Recruitment Plan is defining your Recruitment Channels, this will guide your Recruitment team on where to source candidates for this role.",
       expectedResponse: "",
     },
     {
@@ -220,14 +220,14 @@ export function MediaOutreachChat({
 
   const sidebarComponent = (
     <div className="h-full overflow-y-hidden flex flex-col">
-      {/* Your TA Plan So Far Section with Border and Collapsible */}
+      {/* Your Recruitment Plan So Far Section with Border and Collapsible */}
       <div className="border border-gray-200 rounded-lg p-2.5 m-2.5">
         <div
           className="flex justify-between items-center cursor-pointer mb-4 res-1200:mb-2"
           onClick={() => setIsPlanSectionCollapsed(!isPlanSectionCollapsed)}
         >
           <h3 className="font-semibold text-[19px] res-1200:text-[13px] res-1400:text-[15px] res-1600:text-[17px]">
-            Your TA Plan So Far
+            Your Recruitment Plan So Far
           </h3>
           {isPlanSectionCollapsed ? (
             <ChevronDown className="h-5 w-5 res-1200:h-3 res-1200:w-3 res-1400:h-4 res-1400:w-4" />

@@ -23,7 +23,7 @@ const sectionItems: SectionItem[] = [
   {
     id: "feedback" as InboxSection,
     label: "Feedback",
-    description: "TA Plan suggestions"
+    description: "Recruitment Plan suggestions"
   },
   {
     id: "approval" as InboxSection,

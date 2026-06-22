@@ -52,7 +52,7 @@ export function ReviewDetailsPanel() {
     }
     markSectionAsViewed('talentPool');
     setIsAligned(true);
-    toast.success('Successfully aligned with TA Plan!');
+    toast.success('Successfully aligned with Recruitment Plan!');
     setTimeout(() => navigate('/ta-associate/jobs'), 1000);
   };
 
@@ -60,7 +60,7 @@ export function ReviewDetailsPanel() {
     <div className="h-full flex flex-col bg-[#F8F7FF]">
       {/* Header */}
       <div className="px-5 py-4">
-        <h2 className="text-base font-medium tracking-tight text-gray-900">TA Plan Review</h2>
+        <h2 className="text-base font-medium tracking-tight text-gray-900">Recruitment Plan Review</h2>
         <p className="text-sm text-muted-foreground mt-0.5">Review the plan and provide feedback</p>
       </div>
 
@@ -219,7 +219,7 @@ export function ReviewDetailsPanel() {
                   className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0 disabled:opacity-40"
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
-                  Align to TA Plan
+                  Align to Recruitment Plan
                 </Button>
                 {!sectionViewed.companyUSP && (
                   <p className="text-xs text-center text-muted-foreground">

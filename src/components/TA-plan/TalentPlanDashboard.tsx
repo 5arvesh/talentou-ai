@@ -73,7 +73,7 @@ export const SalesPlanDashboard = () => {
     {
       key: "successMetrics",
       title: "Success Metrics",
-      description: "What gets tracked, gets optimized. Define TA Team KPIs that drive progress, turning consistent efforts into repeatable hiring success.",
+      description: "What gets tracked, gets optimized. Define Recruitment team KPIs that drive progress, turning consistent efforts into repeatable hiring success.",
       completedDescription: "KPIs established, target metrics set, tracking system ready",
       icon: ChartBar,
       path: "/sales-plan/measure-kpi-chat",
@@ -92,7 +92,7 @@ export const SalesPlanDashboard = () => {
             className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-white"
           >
             <Plus className="mr-2 h-5 w-5" />
-            Create New TA Plan
+            Create New Recruitment Plan
           </Button>
         </div>
       )}
@@ -108,7 +108,7 @@ export const SalesPlanDashboard = () => {
                 Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-lg res-1200:text-sm res-1400:text-md res-1600:text-xl font-medium pr-4">
-                As the Recruitment Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
+                As the Recruitment Lead, you have defined your Recruitment Plan. Let's get the Recruitment team excited and onboarded.
               </p>
             </>
           ) : (

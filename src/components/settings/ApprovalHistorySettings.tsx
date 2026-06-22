@@ -59,7 +59,7 @@ export function ApprovalHistorySettings() {
           <TableHeader>
             <TableRow>
               <TableHead>Position Title</TableHead>
-              <TableHead>Approving TA Leader</TableHead>
+              <TableHead>Approving Recruitment Lead</TableHead>
               <TableHead>Timestamp</TableHead>
               <TableHead>Method</TableHead>
             </TableRow>

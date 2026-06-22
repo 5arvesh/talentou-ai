@@ -30,7 +30,7 @@ export function ReviewProgressSidebar() {
       {/* Header */}
       <div className="px-5 py-4 flex items-center justify-between">
         <div>
-          <h2 className="text-base font-medium tracking-tight text-gray-900">TA Plan Review</h2>
+          <h2 className="text-base font-medium tracking-tight text-gray-900">Recruitment Plan Review</h2>
           <p className="text-xs text-muted-foreground mt-0.5">Review and provide feedback</p>
         </div>
       </div>

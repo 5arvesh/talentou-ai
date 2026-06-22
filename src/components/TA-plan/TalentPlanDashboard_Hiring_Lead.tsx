@@ -31,7 +31,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
   const allPlansCompleted = isMessageFullyAligned && isMarketCriteriaAligned && isMediaOutreachFullyAligned && isMilestonesAligned;
 
   const handleAssignTATeam = () => {
-    // Set all progress to 100% when navigating to assign TA team
+    // Set all progress to 100% when navigating to assign Recruitment team
     setComponentProgress('companyUSP', 100);
     setComponentProgress('talentPool', 100);
     setComponentProgress('recruitmentChannels', 100);
@@ -52,7 +52,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
                 Your talent strategy is live â€“ let's refine and win! Talentou AI will provide real-time insights, uncover sourcing patterns, and suggest optimizations to keep you ahead in recruiting top talent.
               </p>
               <p className="text-gray-800 dark:text-gray-200 text-lg res-1200:text-sm res-1400:text-md res-1600:text-xl font-medium pr-4">
-                As the Hiring Lead, you have defined your TA Plan. Let's get the TA team excited and onboarded.
+                As the Hiring Lead, you have defined your Recruitment Plan. Let's get the Recruitment team excited and onboarded.
               </p>
             </>
           ) : (
@@ -120,7 +120,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
         ) : (
           <TalentPlanCard
             title="Success Metrics"
-            description="What gets tracked, gets optimized. Define TA Team KPIs that drive progress, turning consistent efforts into repeatable hiring success."
+            description="What gets tracked, gets optimized. Define Recruitment team KPIs that drive progress, turning consistent efforts into repeatable hiring success."
             icon={ChartBar}
             path="/hiring-lead-plan/measure-kpi"
             isCompleted={isMilestonesAligned}
@@ -140,7 +140,7 @@ export const SalesPlanDashboard_Hiring_Lead = () => {
             size="lg"
           >
             <UserPlus size={20} className="w-4 h-4 res-1200:w-1 res-1200:h-1 res-1400:w-5 res-1400:h-5 res-1600:w-6 res-1600:h-6" />
-            Assign TA Team
+            Assign Recruitment Team
           </Button>
           
           <Button 

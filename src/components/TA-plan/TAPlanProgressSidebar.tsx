@@ -50,7 +50,7 @@ export function TAPlanProgressSidebar({ scrollToStageRef }: TAPlanProgressSideba
       {/* Header */}
       <div className="p-6 border-b border-border">
         <h2 className="text-xl font-semibold text-foreground">Your Progress</h2>
-        <p className="text-sm text-muted-foreground mt-1">TA Plan Journey</p>
+        <p className="text-sm text-muted-foreground mt-1">Recruitment Plan Journey</p>
       </div>
 
       {/* Stages List */}

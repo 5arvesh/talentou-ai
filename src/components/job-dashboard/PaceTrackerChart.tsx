@@ -78,7 +78,7 @@ export function PaceTrackerChart({ role }: PaceTrackerChartProps) {
 
       {pendingChange && (
         <div className="rounded-btn bg-warning/10 text-warning px-2.5 py-1.5 text-[10px]">
-          Target change pending TA Leader review — pace tracker paused
+          Target change pending Recruitment Lead review — pace tracker paused
         </div>
       )}
 

@@ -7,8 +7,8 @@ const mockNotifications: InboxNotification[] = [
   {
     id: "1",
     type: "feedback",
-    title: "TA Plan Feedback Submitted",
-    description: "Sarah Johnson (Recruiter) has provided feedback on the TA Plan strategy for Q4 hiring goals",
+    title: "Recruitment Plan Feedback Submitted",
+    description: "Sarah Johnson (Recruiter) has provided feedback on the Recruitment Plan strategy for Q4 hiring goals",
     sender: "Sarah Johnson",
     senderRole: "Recruiter",
     timestamp: new Date(Date.now() - 2 * 60 * 1000).toISOString(), // 2 minutes ago
@@ -40,7 +40,7 @@ const mockNotifications: InboxNotification[] = [
   {
     id: "4",
     type: "feedback",
-    title: "TA Plan Review Needed",
+    title: "Recruitment Plan Review Needed",
     description: "Mike Chen (Recruiter) suggests modifications to the talent acquisition strategy",
     sender: "Mike Chen",
     senderRole: "Recruiter",
@@ -51,8 +51,8 @@ const mockNotifications: InboxNotification[] = [
   {
     id: "5",
     type: "activity",
-    title: "Recruiter Aligned to TA Plan",
-    description: "Anna Davis has aligned to the Q4 TA Plan for Backend Developer hiring",
+    title: "Recruiter Aligned to Recruitment Plan",
+    description: "Anna Davis has aligned to the Q4 Recruitment Plan for Backend Developer hiring",
     sender: "System",
     senderRole: "System",
     timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago

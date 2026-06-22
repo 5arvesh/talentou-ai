@@ -191,7 +191,7 @@ export function JDPreviewPanel() {
   const isComplete = stages.jobDetails.completed &&
                      stages.skillsResponsibilities.completed;
 
-  // Mock company data - would come from TA Plan context
+  // Mock company data - would come from Recruitment Plan context
   const companyInfo = {
     name: "TechCorp Inc.",
     mission: "We're on a mission to revolutionize how businesses leverage technology. Our team is passionate about creating innovative solutions that make a real impact.",

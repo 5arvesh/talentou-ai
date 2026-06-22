@@ -60,7 +60,7 @@ export function MessageChat({ currentStageIndex = 0, onStageChange }: WorkspaceP
 
   const conversationFlow = [
     {
-      ai: "Hi there! Let's begin with your TA Plan. The first step is defining your Company's Unique Selling Proposition, or simply, why a candidate should join your organization.\nYou can chat with me about your company's USP, attach a pre-written company profile or brand document, or share your company's website link. An ideal USP will cover these four broad topics Elevator Pitch, Career growth & development, Compensation & Benefits, Awards & Brand Recognition.\nSuggestions : Let's chat, Attach pre-written company profile.",
+      ai: "Hi there! Let's begin with your Recruitment Plan. The first step is defining your Company's Unique Selling Proposition, or simply, why a candidate should join your organization.\nYou can chat with me about your company's USP, attach a pre-written company profile or brand document, or share your company's website link. An ideal USP will cover these four broad topics Elevator Pitch, Career growth & development, Compensation & Benefits, Awards & Brand Recognition.\nSuggestions : Let's chat, Attach pre-written company profile.",
       expectedResponse: "Let's chat",
     },
     {
@@ -197,7 +197,7 @@ export function MessageChat({ currentStageIndex = 0, onStageChange }: WorkspaceP
                 className="flex justify-between items-center cursor-pointer mb-4"
                 onClick={() => setIsPlanSectionCollapsed(!isPlanSectionCollapsed)}
               >
-                <h3 className="font-semibold text-lg">Your TA Plan So Far</h3>
+                <h3 className="font-semibold text-lg">Your Recruitment Plan So Far</h3>
                 {isPlanSectionCollapsed ? (
                   <ChevronDown className="h-5 w-5" />
                 ) : (

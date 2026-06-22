@@ -15,7 +15,7 @@ const TA_PLAN_TOUR_STEPS = [
   },
   {
     title: "Your plan builds here in real time",
-    description: "This panel reflects your TA plan as it's created. You can edit any section directly — click the Edit button on any field to update it.",
+    description: "This panel reflects your Recruitment plan as it's created. You can edit any section directly — click the Edit button on any field to update it.",
     targetSelector: '[data-tour-id="ta-plan-panel"]',
   },
   {
