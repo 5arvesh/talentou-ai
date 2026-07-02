@@ -5,23 +5,31 @@ import { Button } from "@/components/ui/button";
 import { Briefcase, Users, Calendar, CheckCircle2, ChevronRight, MapPin, Clock, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
+import { SampleDataBadge } from "@/components/dashboard/SampleDataBadge";
+import { HiringLeadScorecard, ScorecardCandidate } from "@/components/dashboard/HiringLeadScorecard";
 
 const jobOpenings = [
-  { id: 1, title: 'Senior React Developer', location: 'Bangalore',  experience: '4â€“7y', totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14, stalledCount: 2 },
-  { id: 2, title: 'Product Manager',        location: 'Remote',     experience: '5â€“8y', totalCandidates: 8,  stages: { interview: 2, selected: 0 }, daysOpen: 21, stalledCount: 0 },
-  { id: 3, title: 'Data Scientist',         location: 'Mumbai',     experience: '3â€“6y', totalCandidates: 15, stages: { interview: 4, selected: 2 }, daysOpen: 9,  stalledCount: 1 },
-  { id: 4, title: 'DevOps Engineer',        location: 'Hyderabad',  experience: '3â€“5y', totalCandidates: 6,  stages: { interview: 1, selected: 0 }, daysOpen: 30, stalledCount: 3 },
-  { id: 5, title: 'UX Designer',            location: 'Pune',       experience: '2â€“5y', totalCandidates: 9,  stages: { interview: 2, selected: 0 }, daysOpen: 18, stalledCount: 0 },
-  { id: 6, title: 'QA Engineer',            location: 'Chennai',    experience: '2â€“4y', totalCandidates: 11, stages: { interview: 3, selected: 0 }, daysOpen: 7,  stalledCount: 0 },
+  { id: 1, title: 'Senior React Developer', location: 'Bangalore',  experience: '4–7y', totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14, stalledCount: 2 },
+  { id: 2, title: 'Product Manager',        location: 'Remote',     experience: '5–8y', totalCandidates: 8,  stages: { interview: 2, selected: 0 }, daysOpen: 21, stalledCount: 0 },
+  { id: 3, title: 'Data Scientist',         location: 'Mumbai',     experience: '3–6y', totalCandidates: 15, stages: { interview: 4, selected: 2 }, daysOpen: 9,  stalledCount: 1 },
+  { id: 4, title: 'DevOps Engineer',        location: 'Hyderabad',  experience: '3–5y', totalCandidates: 6,  stages: { interview: 1, selected: 0 }, daysOpen: 30, stalledCount: 3 },
+  { id: 5, title: 'UX Designer',            location: 'Pune',       experience: '2–5y', totalCandidates: 9,  stages: { interview: 2, selected: 0 }, daysOpen: 18, stalledCount: 0 },
+  { id: 6, title: 'QA Engineer',            location: 'Chennai',    experience: '2–4y', totalCandidates: 11, stages: { interview: 3, selected: 0 }, daysOpen: 7,  stalledCount: 0 },
 ];
 
 const upcomingInterviews = [
-  { candidate: 'Arun Sharma',  role: 'Senior React Developer', type: 'Technical',   date: 'Today',        time: '3:00 PM' },
-  { candidate: 'Priya Nair',   role: 'Data Scientist',         type: 'HR Round',    date: 'Tomorrow',     time: '11:00 AM' },
-  { candidate: 'Rahul Verma',  role: 'Senior React Developer', type: 'Final Round', date: 'Wed, 21 May',  time: '2:30 PM' },
-  { candidate: 'Sneha Patel',  role: 'Product Manager',        type: 'Technical',   date: 'Thu, 22 May',  time: '4:00 PM' },
-  { candidate: 'Kiran Reddy',  role: 'DevOps Engineer',        type: 'Technical',   date: 'Fri, 23 May',  time: '10:00 AM' },
+  { candidate: 'Arun Sharma',  role: 'Senior React Developer', type: 'Technical',   date: 'Today',        time: '3:00 PM',  exp: '6y', fitScore: 88, aiSummary: 'Strong React and TypeScript depth; led a design-system migration. Probe system-design tradeoffs at scale.' },
+  { candidate: 'Priya Nair',   role: 'Data Scientist',         type: 'HR Round',    date: 'Tomorrow',     time: '11:00 AM', exp: '5y', fitScore: 92, aiSummary: 'Excellent ML fundamentals and clear communication. Compensation expectations slightly above band — confirm in HR round.' },
+  { candidate: 'Rahul Verma',  role: 'Senior React Developer', type: 'Final Round', date: 'Wed, 21 May',  time: '2:30 PM',  exp: '7y', fitScore: 81, aiSummary: 'Solid frontend craft, mentored juniors. Earlier rounds flagged shallow testing habits — validate before offer.' },
+  { candidate: 'Sneha Patel',  role: 'Product Manager',        type: 'Technical',   date: 'Thu, 22 May',  time: '4:00 PM',  exp: '4y', fitScore: 64, aiSummary: 'Good stakeholder instincts but thin on quantitative rigor. Push on metrics ownership and prioritization frameworks.' },
+  { candidate: 'Kiran Reddy',  role: 'DevOps Engineer',        type: 'Technical',   date: 'Fri, 23 May',  time: '10:00 AM', exp: '5y', fitScore: 76, aiSummary: 'Strong CI/CD and Kubernetes experience. Limited exposure to multi-cloud — assess adaptability.' },
 ];
+
+const roundLabel: Record<string, string> = {
+  Technical: 'Technical Round',
+  'HR Round': 'HR Round',
+  'Final Round': 'Final Round',
+};
 
 const interviewTypeBadge: Record<string, string> = {
   Technical:    'bg-info/10 text-info border-info/20',
@@ -38,15 +46,32 @@ const kpiStats = [
 
 export function HiringLeadCommandDashboard() {
   const navigate = useNavigate();
+  const [scorecard, setScorecard] = React.useState<ScorecardCandidate | null>(null);
 
   // Sort jobs by urgency: longest open first
   const sortedJobs = [...jobOpenings].sort((a, b) => b.daysOpen - a.daysOpen);
+
+  const openScorecard = (iv: typeof upcomingInterviews[number]) => {
+    setScorecard({
+      name: iv.candidate,
+      initials: iv.candidate.split(' ').map((n) => n[0]).join(''),
+      role: iv.role,
+      round: roundLabel[iv.type] || iv.type,
+      exp: iv.exp,
+      statusLabel: 'In Interview',
+      fitScore: iv.fitScore,
+      aiSummary: iv.aiSummary,
+    });
+  };
 
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Your Hiring Activity</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-bold text-foreground">Your Hiring Activity</h1>
+          <SampleDataBadge />
+        </div>
         <p className="text-sm text-muted-foreground mt-0.5">Open positions and upcoming interviews</p>
       </div>
 
@@ -120,7 +145,12 @@ export function HiringLeadCommandDashboard() {
             </CardHeader>
             <CardContent className="space-y-3">
               {upcomingInterviews.map((iv, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => openScorecard(iv)}
+                  className="w-full text-left flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+                >
                   <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0">
                     <span className="text-xs font-bold text-white">
                       {iv.candidate.split(' ').map((n) => n[0]).join('')}
@@ -133,15 +163,21 @@ export function HiringLeadCommandDashboard() {
                       <Badge variant="outline" className={`text-xs px-1.5 py-0 ${interviewTypeBadge[iv.type] || 'bg-muted text-muted-foreground'}`}>
                         {iv.type}
                       </Badge>
-                      <span className="text-xs text-muted-foreground">{iv.date} Â· {iv.time}</span>
+                      <span className="text-xs text-muted-foreground">{iv.date} · {iv.time}</span>
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </CardContent>
           </Card>
         </div>
       </div>
+
+      <HiringLeadScorecard
+        open={scorecard !== null}
+        onClose={() => setScorecard(null)}
+        candidate={scorecard}
+      />
     </div>
   );
 }

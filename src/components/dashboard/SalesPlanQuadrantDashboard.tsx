@@ -6,9 +6,10 @@ import { BarChart, Bar, XAxis, YAxis, Cell } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Timer, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Timer, TrendingUp, CheckCircle2, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
+import { SampleDataBadge } from "@/components/dashboard/SampleDataBadge";
 
 const recruiters = [
   { name: 'Sarah Chen', initials: 'SC', active: 4, max: 5, closed: 3, avgClose: '3.8w', status: 'on-track' },
@@ -61,31 +62,40 @@ const sourceOfHireData = [
   { source: 'Direct Sourcing', count: 2 },
 ];
 
-const SOURCE_OF_HIRE_COLORS = ['hsl(var(--primary))', 'hsl(var(--info))', 'hsl(var(--success))', 'hsl(var(--warning))', 'hsl(var(--chart-2))'];
+// Purple → blue token ramp, strongest channel first
+const SOURCE_OF_HIRE_FILLS = ['bg-primary', 'bg-primary/70', 'bg-info', 'bg-info/70', 'bg-info/40'];
 
 const SalesPlanQuadrantDashboard = () => {
   const navigate = useNavigate();
   const [selectedRecruiter, setSelectedRecruiter] = useState('all');
+  const totalHires = sourceOfHireData.reduce((sum, s) => sum + s.count, 0);
 
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Pipeline Overview</h1>
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-2xl font-bold text-foreground">Pipeline Overview</h1>
+            <SampleDataBadge />
+          </div>
           <p className="text-sm text-muted-foreground mt-0.5">Team recruiting activity at a glance</p>
         </div>
-        <Select value={selectedRecruiter} onValueChange={setSelectedRecruiter}>
-          <SelectTrigger className="w-[160px] h-9">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Recruiters</SelectItem>
-            {recruiters.map((r) => (
-              <SelectItem key={r.name} value={r.name}>{r.name}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {/* Per-recruiter filter not yet wired to API — shown disabled */}
+        <div className="flex items-center gap-2">
+          <Select value={selectedRecruiter} onValueChange={setSelectedRecruiter} disabled>
+            <SelectTrigger className="w-[160px] h-9 opacity-70 cursor-not-allowed">
+              <SelectValue placeholder="All Recruiters" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Recruiters</SelectItem>
+              {recruiters.map((r) => (
+                <SelectItem key={r.name} value={r.name}>{r.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Badge variant="outline" className="text-xs bg-muted text-muted-foreground border-border shrink-0">Coming soon</Badge>
+        </div>
       </div>
 
       {/* KPI Strip */}
@@ -191,7 +201,7 @@ const SalesPlanQuadrantDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Bottleneck Indicator â€” flags all stages â‰¥3 stalled */}
+        {/* Bottleneck Indicator — flags all stages ≥3 stalled */}
         <Card className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Bottleneck Indicator</CardTitle>
@@ -224,22 +234,40 @@ const SalesPlanQuadrantDashboard = () => {
       {/* Source of Hire */}
       <Card className="rounded-card border border-border shadow-card">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold">Source of Hire</CardTitle>
-          <p className="text-xs text-muted-foreground">Hires this quarter by channel</p>
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <CardTitle className="text-base font-semibold">Source of Hire</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Where your hires came from · last 90 days</p>
+            </div>
+            <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/20 shrink-0">
+              {totalHires} hires
+            </Badge>
+          </div>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={{ count: { label: 'Hires', color: 'hsl(var(--chart-1))' } }} className="h-[220px]">
-            <BarChart data={sourceOfHireData} layout="vertical">
-              <XAxis type="number" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis type="category" dataKey="source" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={90} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Bar dataKey="count" radius={4}>
-                {sourceOfHireData.map((_, i) => (
-                  <Cell key={i} fill={SOURCE_OF_HIRE_COLORS[i]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ChartContainer>
+          <div className="space-y-3">
+            {sourceOfHireData.map((s, i) => {
+              const share = Math.round((s.count / totalHires) * 100);
+              return (
+                <div key={s.source} className="flex items-center gap-3">
+                  <span className="w-28 shrink-0 text-xs font-medium text-foreground truncate">{s.source}</span>
+                  <div className="relative h-6 flex-1 overflow-hidden rounded-md bg-muted">
+                    <div
+                      className={`flex h-full items-center rounded-md ${SOURCE_OF_HIRE_FILLS[i]} transition-all`}
+                      style={{ width: `${share}%` }}
+                    >
+                      <span className="pl-2 text-[11px] font-semibold text-white">{share}%</span>
+                    </div>
+                  </div>
+                  <span className="w-6 shrink-0 text-right text-xs font-semibold text-foreground tabular-nums">{s.count}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-4 flex items-start gap-1.5 text-xs text-muted-foreground">
+            <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+            <span>Requires a candidate <span className="font-medium text-foreground">source</span> captured at creation. Channels without a source are excluded.</span>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -37,11 +37,10 @@ export function Header() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <img
-              src="/lovable-uploads/2bb78c6b-8f23-47b5-bb77-dfc1894adc9e.png"
-              alt="Ignitho"
-              className="h-8 res-1200:h-6 res-1400:h-8 res-1600:h-8"
-            />
+            <div className="w-8 h-8 bg-primary rounded-[7px] flex items-center justify-center shrink-0 res-1200:w-7 res-1200:h-7">
+              <span className="font-sora text-sm font-bold text-white">T</span>
+            </div>
+            <span className="font-sora text-lg font-semibold text-foreground res-1200:text-base">Talentou</span>
           </div>
         </div>
 

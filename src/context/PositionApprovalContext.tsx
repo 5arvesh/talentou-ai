@@ -95,6 +95,7 @@ export const CHANNEL_IDS = {
   github: 'GitHub Jobs',
   naukri: 'Naukri.com',
   angellist: 'AngelList',
+  stackoverflow: 'Stack Overflow Jobs',
   referrals: 'Employee Referrals',
   indeed: 'Indeed',
   glassdoor: 'Glassdoor',
@@ -180,6 +181,8 @@ const SENIOR_REACT_DEVELOPER_BRIEF: Brief = {
     { rank: 2, name: 'GitHub Jobs', aiTag: 'Tech', yield: 'high' },
     { rank: 3, name: 'Employee Referrals', yield: 'medium' },
     { rank: 4, name: 'Naukri.com', yield: 'medium' },
+    { rank: 5, name: 'Stack Overflow Jobs', aiTag: 'Tech', yield: 'medium' },
+    { rank: 6, name: 'AngelList', yield: 'low' },
   ],
   recruiter: {
     id: 'rohan-kapoor',

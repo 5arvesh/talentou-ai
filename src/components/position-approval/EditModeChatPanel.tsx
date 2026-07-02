@@ -20,7 +20,6 @@ function CollapsedPill({ brief, expanded, onToggle }: {
     { Icon: Target, text: `${targets.closeDays}d to close · ${targets.dailySourcingGoal}/day · ${targets.confidence}% confidence` },
     { Icon: ListOrdered, text: recruiter.planSteps[0]?.split('.')[0] + '…' },
   ];
-
   const pillLabel = `Plan: ${recruiter.name} · ${targets.closeDays}d close · ${targets.dailySourcingGoal}/day · ${targets.confidence}% confidence`;
 
   return (
@@ -84,8 +83,8 @@ const DEFAULT_OPENING =
 
 export function EditModeChatPanel() {
   const { brief, chatMessages, sendChatMessage, appliedPlaybookName, appliedPlaybookNote } = usePositionApproval();
-  const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [expanded, setExpanded] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -133,7 +132,6 @@ export function EditModeChatPanel() {
 
   return (
     <div className="flex flex-col overflow-hidden border-r border-border" style={{ flex: 1, maxWidth: '380px' }}>
-      {/* Collapsed pill summary */}
       <CollapsedPill brief={brief} expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
 
       {/* Chat messages */}

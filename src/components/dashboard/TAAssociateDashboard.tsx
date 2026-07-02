@@ -4,18 +4,23 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { BarChart, Bar, XAxis, YAxis, ReferenceLine } from 'recharts';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, TrendingUp, CheckCircle2, XCircle } from 'lucide-react';
+import { ChevronRight, TrendingUp, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
 import { cn } from "@/lib/utils";
-import { getRoleFitColor, getRoleFitFillColor } from "@/components/shared/ModernCandidateList";
+import { getRoleFitColor } from "@/components/shared/ModernCandidateList";
+import { getInitials, getAvatarSolidColor } from "@/lib/avatar";
+import { SampleDataBadge } from "@/components/dashboard/SampleDataBadge";
 
 const assignedRoles = [
-  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88, hasStalled: true },
-  { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 }, topCandidateFit: 64, hasStalled: false },
-  { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 }, topCandidateFit: 92, hasStalled: false },
-  { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 }, topCandidateFit: 45, hasStalled: true },
+  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88, topMatch: { name: 'Arun Sharma',  skills: 'React · TypeScript', exp: '6y', stage: 'Interview' },   stalled: { count: 1, stage: 'Shortlisted', days: 12 } },
+  { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 }, topCandidateFit: 64, topMatch: { name: 'Sneha Patel',  skills: 'Roadmapping · SQL',  exp: '4y', stage: 'Shortlisted' }, stalled: null },
+  { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 }, topCandidateFit: 92, topMatch: { name: 'Priya Nair',   skills: 'ML · Python',       exp: '5y', stage: 'Interview' },   stalled: null },
+  { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 }, topCandidateFit: 45, topMatch: { name: 'Kiran Reddy',  skills: 'K8s · Terraform',    exp: '5y', stage: 'Applied' },      stalled: { count: 2, stage: 'Applied', days: 14 } },
 ];
+
+const stalledRoles = assignedRoles.filter((r) => r.stalled);
+const stalledTotal = stalledRoles.reduce((sum, r) => sum + (r.stalled?.count ?? 0), 0);
 
 const performanceMetrics = [
   { label: 'Time-to-First-Outreach',    target: '2d',  mine: '1.5d', passing: true },
@@ -53,9 +58,35 @@ const TAAssociateDashboard = () => {
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Your Active Roles</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-bold text-foreground">Your Active Roles</h1>
+          <SampleDataBadge />
+        </div>
         <p className="text-sm text-muted-foreground mt-0.5">Performance and workload this week</p>
       </div>
+
+      {/* Stalled-candidate alert */}
+      {stalledTotal > 0 && (
+        <div className="flex items-start gap-3 rounded-card bg-warning/10 border-[1.5px] border-warning/40 p-4">
+          <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-foreground">
+              {stalledTotal} candidate{stalledTotal === 1 ? ' has' : 's have'} been in the same stage for 10+ days
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Across {stalledRoles.map((r) => r.title).join(', ')}. Re-engage or move them forward to keep pipelines healthy.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 text-xs text-warning border-warning/40 hover:bg-warning/10 shrink-0"
+            onClick={() => navigate('/ta-associate/candidates?filter=stalled')}
+          >
+            Review stalled
+          </Button>
+        </div>
+      )}
 
       {/* KPI Strip */}
       <KPIStrip stats={kpiStats} />
@@ -70,7 +101,7 @@ const TAAssociateDashboard = () => {
             const isUrgent = role.daysLeft <= 7;
             const total = role.pipeline.applied + role.pipeline.shortlisted + role.pipeline.interview;
             return (
-              <Card key={role.id} className={cn("border border-border shadow-sm hover:shadow-md transition-all", role.hasStalled && "border-l-[3px] border-l-warning")}>
+              <Card key={role.id} className={cn("border shadow-sm hover:shadow-md transition-all", role.stalled ? "border-warning/40" : "border-border")}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -79,22 +110,37 @@ const TAAssociateDashboard = () => {
                         <Badge variant="outline" className={`text-xs shrink-0 ${pCfg.className}`}>{pCfg.label}</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {role.pipeline.applied} Applied Â· {role.pipeline.shortlisted} Shortlisted Â· {role.pipeline.interview} Interview
+                        {role.pipeline.applied} Applied · {role.pipeline.shortlisted} Shortlisted · {role.pipeline.interview} Interview
                         <span className="ml-2 text-foreground font-medium">({total} total)</span>
                       </p>
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground">Top match:</span>
-                        <div className="h-[5px] w-16 overflow-hidden rounded-full bg-muted">
-                          <div className={cn("h-full rounded-full", getRoleFitFillColor(role.topCandidateFit))} style={{ width: `${role.topCandidateFit}%` }} />
-                        </div>
-                        <span className={cn("text-xs font-semibold", getRoleFitColor(role.topCandidateFit))}>{role.topCandidateFit}%</span>
-                      </div>
                     </div>
                     <div className="shrink-0 text-right">
                       <p className={`text-sm font-bold ${isUrgent ? 'text-red-600' : 'text-foreground'}`}>{role.daysLeft}d left</p>
                       <p className="text-xs text-muted-foreground">to close</p>
                     </div>
                   </div>
+
+                  {/* Top-match candidate */}
+                  <div className="mt-3 flex items-center gap-2.5 rounded-lg bg-muted/40 p-2.5">
+                    <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", getAvatarSolidColor(role.topMatch.name))}>
+                      <span className="text-xs font-bold text-white">{getInitials(role.topMatch.name)}</span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-semibold text-foreground truncate">
+                        {role.topMatch.name} <span className="font-normal text-muted-foreground">· top match</span>
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">{role.topMatch.skills} · {role.topMatch.exp} · {role.topMatch.stage}</p>
+                    </div>
+                    <span className={cn("text-sm font-bold shrink-0", getRoleFitColor(role.topCandidateFit))}>{role.topCandidateFit}%</span>
+                  </div>
+
+                  {role.stalled && (
+                    <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-warning">
+                      <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                      {role.stalled.count} candidate{role.stalled.count === 1 ? '' : 's'} stalled in {role.stalled.stage} for {role.stalled.days} days
+                    </p>
+                  )}
+
                   <div className="mt-3">
                     <Button
                       variant="outline"
@@ -125,10 +171,17 @@ const TAAssociateDashboard = () => {
                     <p className="text-xs font-medium truncate">{m.label}</p>
                     <p className="text-xs text-muted-foreground">Target: {m.target}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-xs font-semibold">{m.mine}</span>
-                    {m.passing ? <CheckCircle2 className="h-4 w-4 text-green-600" /> : <XCircle className="h-4 w-4 text-red-500" />}
-                  </div>
+                  {m.passing ? (
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="text-xs font-semibold">{m.mine}</span>
+                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 shrink-0 rounded-full bg-destructive/10 text-destructive px-2 py-0.5">
+                      <span className="text-xs font-semibold">{m.mine}</span>
+                      <XCircle className="h-3.5 w-3.5" />
+                    </div>
+                  )}
                 </div>
               ))}
             </CardContent>

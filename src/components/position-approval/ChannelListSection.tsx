@@ -50,7 +50,7 @@ export function ChannelListSection() {
       }
     >
       <div>
-        <div className="grid grid-cols-2 gap-1 mb-2">
+        <div className="flex flex-col gap-1 mb-2">
           {brief.channels.map((channel) => (
             <div
               key={channel.rank}

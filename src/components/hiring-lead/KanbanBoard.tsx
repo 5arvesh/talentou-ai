@@ -83,7 +83,7 @@ const FIT_LABEL_CONFIG: Record<string, string> = {
   'Excellent Fit': 'bg-green-50 text-green-600 border-green-200',
 };
 
-// Droppable column wrapper â€” registers the column as a dnd-kit drop target
+// Droppable column wrapper — registers the column as a dnd-kit drop target
 function DroppableColumn({ id, children, className }: { id: string; children: React.ReactNode; className: string }) {
   const { setNodeRef, isOver } = useDroppable({ id });
   return (
@@ -125,7 +125,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold leading-snug truncate">{candidate.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{candidate.title} Â· {candidate.company}</p>
+              <p className="text-xs text-muted-foreground truncate">{candidate.title} · {candidate.company}</p>
               <p className={cn("text-[10px] mt-0.5", candidate.daysInStage >= 10 ? "text-warning font-medium" : "text-muted-foreground")}>
                 {candidate.daysInStage}d in stage
               </p>
@@ -136,7 +136,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
                   <Clock className="h-3.5 w-3.5 text-amber-500" />
                 </div>
               )}
-              {/* Drag handle â€” only this element triggers drag */}
+              {/* Drag handle — only this element triggers drag */}
               <div
                 {...attributes}
                 {...listeners}
@@ -301,7 +301,7 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
           <div className="relative w-56">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
-              placeholder="Search candidatesâ€¦"
+              placeholder="Search candidates…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-8 h-8 text-sm"
@@ -325,7 +325,7 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
         <div className="mx-6 mt-4 flex items-start gap-2 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
           <Info className="h-4 w-4 text-yellow-600 shrink-0 mt-0.5" />
           <p className="text-xs text-yellow-700">
-            This role may benefit from reviewing the job description â€” it has been open {daysOpen} days with few candidates.{' '}
+            This role may benefit from reviewing the job description — it has been open {daysOpen} days with few candidates.{' '}
             <button className="underline font-medium" onClick={() => navigate(jdRoute)}>
               Review JD
             </button>
@@ -346,7 +346,7 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
               const colCandidates = getColumnCandidates(col.id);
               return (
                 <div key={col.id} className="flex flex-col flex-1 min-w-[220px]">
-                  {/* Column header â€” shows lock hint for auto-managed columns during drag */}
+                  {/* Column header — shows lock hint for auto-managed columns during drag */}
                   {(() => {
                     const isLocked = activeId !== null && (col.id === 'Interview' || col.id === 'Offered');
                     return (
@@ -366,7 +366,7 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
                     );
                   })()}
 
-                  {/* Droppable zone â€” registered with dnd-kit, works even when empty */}
+                  {/* Droppable zone — registered with dnd-kit, works even when empty */}
                   <DroppableColumn id={col.id} className={`flex-1 rounded-lg p-2 min-h-[300px] transition-all ${col.color}`}>
                     <SortableContext items={colCandidates.map((c) => c.id)} strategy={verticalListSortingStrategy}>
                       {colCandidates.length > 0 ? (

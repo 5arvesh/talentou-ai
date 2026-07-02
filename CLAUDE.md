@@ -28,7 +28,7 @@
 | Notifications | Sonner 1.5.0 |
 | Drag & Drop | @dnd-kit |
 | ML/NLP | @huggingface/transformers 3.7.0 |
-| Deployment | Lovable.dev platform |
+| Deployment | Vercel (GitHub integration, deploys on push to `main`) |
 
 ---
 
@@ -38,14 +38,16 @@ The app has 6 distinct roles, each with separate dashboards, onboarding flows, a
 
 | Role | Route Prefix | Responsibilities |
 |---|---|---|
-| TA Leader | `/sales-plan` | Strategic planning, team management, analytics |
-| TA Associate / Recruiter | `/ta-associate` | Daily recruiting, JD creation, candidate sourcing |
+| Recruitment Lead | `/sales-plan` | Strategic planning, team management, analytics |
+| Recruiter | `/ta-associate` | Daily recruiting, JD creation, candidate sourcing |
 | Hiring Lead | `/hiring-lead` | Job creation, candidate screening, collaborative planning |
 | Interviewer | `/interviewer` | Questionnaire creation, video interviews, AI scoring |
 | HR | `/hr` | Offer letter generation, templates, candidate management |
 | Super Admin | `/super-admin` | Tenant/org management, multi-tenancy |
 
 Role is stored in `localStorage` after login. Users with multiple roles select on the `/role-selection` page.
+
+> **Terminology note:** user-facing "TA" wording was renamed to "Recruitment" ("TA Leader" → **Recruitment Lead**, "TA Associate" → **Recruiter**, "TA Plan" → **Recruitment Plan**). This is **visible-text only** — route prefixes, component/context names, and localStorage role keys still use the original identifiers (`/sales-plan`, `/ta-associate`, `ta-leader`, `ta-associate`, `TAPlanContext`, etc.). The 3 primary roles (Recruitment Lead, Recruiter, Hiring Lead) have the redesigned onboarding flows and per-role dashboards.
 
 ---
 
@@ -59,28 +61,30 @@ src/
 ├── common/common.ts         # localStorage helpers (setAuthData, etc.)
 ├── context/
 │   ├── AuthContext.tsx      # JWT auth, token expiry checking (60s interval)
-│   ├── AlignmentContext.tsx # Tracks completion of planning stages
-│   ├── TAPlanContext.tsx    # TA planning multi-stage state
-│   ├── NewPositionContext.tsx
+│   ├── PositionApprovalContext.tsx  # Per-position recruitment plan + Playbooks (Position Approval flow)
 │   ├── TAAssociateJDFlowContext.tsx  # JD creation flow state
-│   └── HiringLeadConversationContext.tsx
+│   ├── HiringLeadConversationContext.tsx
+│   ├── AlignmentContext.tsx # LEGACY — old planning-stage completion tracking
+│   ├── TAPlanContext.tsx    # LEGACY — old multi-stage TA-plan flow (removed from UI)
+│   └── NewPositionContext.tsx
 ├── pages/
 │   ├── Login.tsx / Register.tsx / RoleSelection.tsx
 │   └── [role-specific dashboard pages]
 ├── components/
 │   ├── ui/                  # shadcn/ui base components
-│   ├── shared/              # Shared reusable components
+│   ├── shared/              # Shared reusable components (ModernJobList/ModernCandidateList, KPIStrip, cards)
 │   ├── layout/ / sidebar/ / header/
-│   ├── dashboard/           # Role-specific dashboards
+│   ├── dashboard/           # Role-specific dashboards (SalesPlanQuadrant / TAAssociate / HiringLeadCommand)
+│   ├── onboarding/          # Redesigned onboarding (OnboardingShell, LeftPanel, HorizontalStepper, RL/recruiter/HL wizards)
+│   ├── position-approval/   # Per-position Recruitment Plan flow + Playbooks (PositionApprovalPage)
+│   ├── candidates/          # Candidate management + bulk-import/ (4-stage CV upload modal)
+│   ├── settings/            # Settings sub-pages (Profile, Playbooks, Application Form, Approval History, …)
 │   ├── interviewer/         # Interview recording, questionnaires, scoring
 │   ├── hr/                  # Offer letter generation and templates
-│   ├── hiring-lead/         # Job openings, hiring conversations
-│   ├── recruiter/           # TA Associate features
-│   ├── market/              # Market database and criteria
-│   ├── media/               # Media outreach campaigns
-│   ├── measure/             # KPI and performance metrics
-│   ├── candidates/          # Candidate management
-│   ├── ta-plan-flow/        # Multi-step TA planning flow
+│   ├── hiring-lead/         # Job openings, KanbanBoard (candidate pipeline)
+│   ├── recruiter/           # Recruiter features
+│   ├── market/ / media/ / measure/   # LEGACY — market DB, outreach, KPI (old TA-plan flow)
+│   ├── ta-plan-flow/        # LEGACY — old multi-step TA-plan flow
 │   └── super-admin/         # Tenant management
 ├── hooks/                   # use-mobile, use-toast
 └── constants/               # App-wide constants and assets
@@ -130,13 +134,23 @@ src/
 - Proctoring alerts: multiple faces, tab switching, clipboard activity
 - Written response capture alongside video
 
-### TA Planning (Multi-Stage)
-Managed by `TAPlanContext`. 5 stages:
-1. Company USP
-2. Talent Pool definition
-3. Recruitment Channels
-4. Success Metrics
-5. Team Invitation
+### Recruitment Plan (per-position) — Position Approval flow
+At `/notifications/new-position` (entry: the **"Create Plan"** button on an approval notification). Managed by `PositionApprovalContext`. The old standalone multi-stage TA-plan flow has been **removed** — recruitment plans are now built **per position**:
+- **Default state:** AI-generated plan summary (recruiter, channels, targets) + confirm/approve.
+- **Edit mode:** a live AI chat (left) drives a fully editable brief (right) — company pitch, talent pool, channels, recruiter & plan steps, targets.
+- Approve → plan sent to the assigned recruiter.
+
+### Playbooks (reusable recruitment plans)
+Reusable per-position plans. On the Position Approval screen the AI suggests the best-matching Playbooks (with Job ID, when the source job closed, and an AI "what's different" note); a **Playbook Library** page (`/notifications/new-position/playbooks`) lists all and supports **creating your own**. Built-in + custom Playbooks live in `playbooks.ts`; custom ones persist in `localStorage` and are also manageable in **Settings → Playbooks**.
+
+### Bulk Candidate Import (v2)
+The **Add Candidate** button opens a 4-stage CV-upload modal (`candidates/bulk-import/`): **Upload** (drop a folder / multi-select PDF·DOC·DOCX) → **Parsing** (sub-steps + live count) → **Review & Assign** (AI-suggested position + confidence, Incomplete/duplicate flags, per-row confirm/skip, "Confirm all high-confidence") → **Complete** (Imported / Unassigned / Merged dupes). Front-end simulation — file selection is real; parsing/matching are mock.
+
+### Candidate Views & Pipeline
+The shared candidate list (`ModernCandidateList`) has three views — **Cards / List / Kanban** — with **Kanban as the default**. Kanban embeds `KanbanBoard` (drag-drop pipeline with a job selector). "View Pipeline" on a job opens the Kanban view inline (`?view=kanban&jobId=`). The Jobs list (`ModernJobList`) offers **Cards / List**.
+
+### Role Dashboards
+Per-role dashboards: Recruitment Lead `SalesPlanQuadrantDashboard` (`/sales-plan/dashboard`), Recruiter `TAAssociateDashboard` (`/ta-associate/dashboard`), Hiring Lead `HiringLeadCommandDashboard` (`/hiring-lead/dashboard`). All currently mock-data driven.
 
 ### Job Description Flow
 `TAAssociateJDFlowContext` manages a conversational multi-step JD creation workflow at `/ta-associate/jd/:jobId`.
@@ -152,11 +166,16 @@ Managed by `TAPlanContext`. 5 stages:
 - AI chat for market research (`MarketDatabaseChat`)
 - Multi-channel outreach campaigns with timeline visualization
 
-### Onboarding
-Each role has a 4-step onboarding flow:
-- `/onboarding/step1-4` — TA Leader
-- `/onboarding-ta-associate/step1-4` — TA Associate
-- `/onboarding-hiring-lead/step2-4` — Hiring Lead
+### Onboarding (redesigned)
+Centered sliding wizards built on `OnboardingShell` (dark `#0e0020` `LeftPanel` + top `HorizontalStepper`), reached after `/role-selection`:
+- **Recruitment Lead** — `RLSetupFlow` (`/onboarding/company-pitch` → `/onboarding/invite-team`): company pitch (with culture-doc attach) + invite team.
+- **Recruiter** — `RecruiterProfile` (`/onboarding/recruiter/profile`): sourcing regions (broad → specific) → expertise sectors → Tech/Non-tech domain (+ "Others") → seniority.
+- **Hiring Lead** — `HLProfile` (`/onboarding/hiring-lead/profile`): project (create-your-own) + department.
+
+Finishing routes to the role dashboard. All answers persist in `localStorage` (`recruiterProfile`, `hlProfile`, `companyPitch`) and are **editable later in Settings → Profile**. (Legacy `/onboarding/step1-4`, `/onboarding-ta-associate/*`, `/onboarding-hiring-lead/*` step pages still exist but are superseded.)
+
+### Settings
+Sub-pages under `/settings/*` (rendered by `Settings.tsx`, listed in `SettingsNav.tsx`): **Profile** (role-aware editor for onboarding answers), **Playbooks**, **Application Form** (form builder), **Approval History**, plus Account, Theme, Members, Careers, Integrations, Billing, etc.
 
 ---
 
@@ -167,7 +186,7 @@ Each role has a 4-step onboarding flow:
 | Google reCAPTCHA v3 | Login form security | Dev/prod keys in `global.ts` |
 | Azure Blob Storage | Document/resume storage | SAS token-based, returned in auth response |
 | HuggingFace Transformers | NLP tasks (resume parsing, text analysis) | `@huggingface/transformers 3.7.0` |
-| Lovable.dev | Hosting/deployment platform | Auto-deploys on git push |
+| Vercel | Hosting/deployment platform | GitHub integration; production deploys on push to `main` |
 
 ---
 
@@ -199,10 +218,12 @@ npm run lint     # ESLint
 | State Type | Tool |
 |---|---|
 | Auth / session | React Context (`AuthContext`) + localStorage |
-| Multi-step planning flows | React Context (`TAPlanContext`, `AlignmentContext`, etc.) |
+| Position approval / recruitment plan + Playbooks | React Context (`PositionApprovalContext`) |
+| Onboarding answers / Playbooks persistence | `localStorage` |
 | Server data / API calls | TanStack React Query |
 | Lightweight UI state | Zustand (where used) |
 | Form state | React Hook Form |
+| Legacy multi-step planning flows | React Context (`TAPlanContext`, `AlignmentContext`) — no longer reachable from the UI |
 
 ---
 
@@ -218,7 +239,10 @@ Super Admin role (`/super-admin/tenants`) manages tenant organizations. Each use
 - `global.ts` is the single source of truth for environment detection (localhost = dev) and API base URL switching
 - All localStorage keys for auth data are centralized in `src/common/common.ts`
 - Route guards are handled implicitly via `AuthContext` — token presence/validity determines access
-- The `AlignmentContext` tracks which planning stages are "complete" to drive progress UI across onboarding and planning flows
+- **Visible "TA" → "Recruitment" rename** is text-only: routes, component/context names, and role keys keep `ta-`/`sales-plan` identifiers (see the Terminology note under User Roles). The one intentional exception is `WelcomeRouter`, which still compares `role === 'TA Associate'`.
+- The **standalone TA-plan flow is removed** — bare `/sales-plan` and `/ta-associate-plan` redirect to the role dashboards; `TAPlanContext`/`AlignmentContext`/`ta-plan-flow/` + the `market`/`media`/`measure` components are legacy/unreachable. Recruitment plans are built per-position via `PositionApprovalContext`.
+- **Mock-data caveat:** the new flows (role dashboards, Position Approval, Playbooks, bulk import, onboarding) are front-end only — no parsing/AI/backend wiring; data is hard-coded mock or `localStorage`.
+- **Deployment is Vercel** (GitHub integration, deploys on push to `main`) — not Lovable.dev.
 
 ---
 

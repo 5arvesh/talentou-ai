@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { logo } from "@/constants/Constant";
 
 interface SidebarProps {
   className?: string;
@@ -48,36 +47,43 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "flex flex-col h-screen text-white bg-brand-900 transition-all duration-300 relative",
+        "flex flex-col h-screen text-white bg-[#0e0020] transition-all duration-300 relative",
         effectiveCollapsed ? "w-[45px]" : "w-[180px] res-1200:w-[148px] res-1400:w-[170px]",
         className
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Ambient glow — mirrors the onboarding LeftPanel; clipped to the panel so the collapse toggle isn't affected */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute"
+          style={{ top: -50, right: -50, width: 200, height: 200, background: 'radial-gradient(circle, rgba(120,0,211,0.35) 0%, transparent 70%)' }}
+        />
+        <div
+          className="absolute"
+          style={{ bottom: -40, left: -40, width: 160, height: 160, background: 'radial-gradient(circle, rgba(192,132,252,0.12) 0%, transparent 70%)' }}
+        />
+      </div>
+
       {/* Logo */}
-      <div className="py-3 px-4 border-b border-white/10 flex items-center justify-center h-[73px] res-1200:h-[50px] res-1200:py-1 res-1200:px-2">
+      <div className="relative z-10 py-3 px-4 border-b border-white/10 flex items-center justify-center h-[73px] res-1200:h-[50px] res-1200:py-1 res-1200:px-2">
         {!effectiveCollapsed ? (
-          <div className="flex justify-center">
-            <div className="bg-white py-1.5 px-2.5 rounded res-1200:py-1">
-              <img src={logo} alt="Talentou" className="h-9 res-1400:h-8 res-1200:h-7" />
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-primary rounded-[7px] flex items-center justify-center shrink-0 res-1200:w-7 res-1200:h-7">
+              <span className="font-sora text-sm font-bold text-white">T</span>
             </div>
+            <span className="font-sora text-base font-semibold text-white res-1200:text-sm">Talentou</span>
           </div>
         ) : (
-          <div className="mx-auto">
-            <div className="bg-white p-1.5 rounded w-8 h-8 flex items-center justify-center">
-              <img
-                src="/lovable-uploads/6226807a-ede2-4b19-bbd3-f5b7e56ddbd2.png"
-                alt="Talentou"
-                className="w-6 h-6 object-contain"
-              />
-            </div>
+          <div className="w-8 h-8 bg-primary rounded-[7px] flex items-center justify-center mx-auto">
+            <span className="font-sora text-sm font-bold text-white">T</span>
           </div>
         )}
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 pt-4">
+      <nav className="relative z-10 flex-1 pt-4">
         <ul
           className={cn(
             "space-y-2 res-1200:space-y-1",
@@ -124,7 +130,7 @@ export function Sidebar({ className }: SidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="mt-auto border-t border-white/10 pt-4 pb-6 px-3">
+      <div className="relative z-10 mt-auto border-t border-white/10 pt-4 pb-6 px-3">
         <ul className="space-y-2 res-1200:text-xs res-1200:space-y-1">
           <NavItem
             icon={<Settings size={20} />}
@@ -153,7 +159,7 @@ export function Sidebar({ className }: SidebarProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="p-3 h-5 w-5 bg-white rounded-full text-brand-900 hover:bg-primary/10 hover:text-brand-900"
+          className="p-3 h-5 w-5 bg-white rounded-full text-[#0e0020] hover:bg-primary/10 hover:text-[#0e0020]"
           onClick={() => setCollapsed(!collapsed)}
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}

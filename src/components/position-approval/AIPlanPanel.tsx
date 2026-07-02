@@ -80,8 +80,8 @@ export function AIPlanPanel() {
         </div>
       </div>
 
-      {/* Scrollable body — top-aligned, horizontally-centered column */}
-      <div className="flex-1 overflow-y-auto flex flex-col items-center justify-start px-5 pt-[32px] pb-[28px]">
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto flex flex-col items-center px-5 pt-[32px] pb-[28px]">
         <div className="w-full" style={{ maxWidth: '760px' }}>
           {/* AI Plan Summary card */}
           <div className="w-full rounded-[14px] border-[0.5px] border-[rgba(192,132,252,0.2)] bg-[#0e0020] p-[28px_36px]">

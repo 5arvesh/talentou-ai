@@ -15,10 +15,21 @@ export function AuthRightLayout() {
 
   return (
     <div
-      className="hidden lg:flex lg:w-1/2 flex-col justify-between min-h-screen relative overflow-hidden"
-      style={{ background: "hsl(var(--nav-bg))" }}
+      className="hidden lg:flex lg:w-1/2 flex-col justify-between min-h-screen relative overflow-hidden bg-[#0e0020]"
     >
-      <div className="max-w-full mx-auto px-8 pt-11 res-1200:pt-8 res-1400:pt-10 res-1400:px-8 res-1600:pt-3">
+      {/* Ambient glow — matches the onboarding LeftPanel / app sidebar */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute"
+          style={{ top: -80, right: -80, width: 380, height: 380, background: 'radial-gradient(circle, rgba(120,0,211,0.35) 0%, transparent 70%)' }}
+        />
+        <div
+          className="absolute"
+          style={{ bottom: -60, left: -60, width: 300, height: 300, background: 'radial-gradient(circle, rgba(192,132,252,0.12) 0%, transparent 70%)' }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-full mx-auto px-8 pt-11 res-1200:pt-8 res-1400:pt-10 res-1400:px-8 res-1600:pt-3">
         <h2 className="text-5xl font-bold text-white res-1200:text-3xl res-1400:text-4xl res-1600:text-[43px] res-1600:pt-8">
           Smarter Hiring Starts with Talentou AI
         </h2>
@@ -36,7 +47,7 @@ export function AuthRightLayout() {
       </div>
 
       {/* Hero image */}
-      <div>
+      <div className="relative z-10">
         <div className="relative overflow-hidden w-full flex justify-center px-4">
           <img
             src={authImg}

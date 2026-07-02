@@ -1,4 +1,5 @@
 import React from 'react';
+import { Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { ApprovalNotification, usePositionApproval } from '@/context/PositionApprovalContext';
@@ -54,6 +55,15 @@ function NotificationItem({ notification }: { notification: ApprovalNotification
           <p className="text-[10px] text-muted-foreground">
             {notification.sender} · {notification.timestamp}
           </p>
+          {isNew && (
+            <button
+              onClick={(e) => { e.stopPropagation(); selectNotification(notification.id); }}
+              className="mt-1.5 inline-flex items-center gap-1 bg-primary text-white text-[10px] font-medium px-[10px] py-[5px] rounded-[7px] hover:opacity-90 transition-opacity"
+            >
+              <Sparkles className="h-[9px] w-[9px]" />
+              AI Review
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -69,10 +69,10 @@ export function RecruitmentBrief() {
         )}
       </div>
 
-      {/* Scrollable body — content fills full panel width */}
+      {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto p-4 bg-muted/10">
         <div className="w-full">
-          {/* Context banner — Playbook origin or default AI copy */}
+          {/* Context banner */}
           <div className="bg-[#EEEDFE] rounded-md p-[7px_10px] mb-3 flex items-start gap-[7px] animate-in fade-in slide-in-from-bottom-1">
             <Sparkles className="h-[13px] w-[13px] text-primary shrink-0 mt-px" />
             <p className="text-[11px] text-[#3C3489] leading-[1.45]">
@@ -82,11 +82,16 @@ export function RecruitmentBrief() {
             </p>
           </div>
 
-          <CompanyUSPSection />
-          <TalentPoolSection />
-          <ChannelListSection />
-          <RecruiterPlanSection />
-          <TargetsSection />
+          {/* 2-column brief grid */}
+          <div className="grid grid-cols-2 gap-3 items-start res-1200:grid-cols-1">
+            <CompanyUSPSection />
+            <TalentPoolSection />
+            <ChannelListSection />
+            <RecruiterPlanSection />
+            <div className="col-span-2 res-1200:col-span-1">
+              <TargetsSection />
+            </div>
+          </div>
         </div>
       </div>
 
