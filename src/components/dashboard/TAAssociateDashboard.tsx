@@ -4,13 +4,16 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { BarChart, Bar, XAxis, YAxis, ReferenceLine } from 'recharts';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, TrendingUp, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import { ChevronRight, TrendingUp, CheckCircle2, XCircle, AlertTriangle, LayoutDashboard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
 import { cn } from "@/lib/utils";
 import { getRoleFitColor } from "@/components/shared/ModernCandidateList";
 import { getInitials, getAvatarSolidColor } from "@/lib/avatar";
 import { SampleDataBadge } from "@/components/dashboard/SampleDataBadge";
+import { useScreenTour } from "@/hooks/useScreenTour";
+import { TourStep } from "@/store/tour-store";
+import { RECRUITER_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
 
 const assignedRoles = [
   { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88, topMatch: { name: 'Arun Sharma',  skills: 'React · TypeScript', exp: '6y', stage: 'Interview' },   stalled: { count: 1, stage: 'Shortlisted', days: 12 } },
@@ -44,15 +47,56 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
 };
 
 const kpiStats = [
-  { label: 'Active Roles',        value: 4,      sub: 'Assigned to you',     subColor: 'text-muted-foreground' },
-  { label: 'Closed This Month',   value: 2,      sub: 'vs last month',     subColor: 'text-green-600', icon: TrendingUp },
-  { label: 'Avg Time-to-Close',   value: '3.8w', sub: 'Below 5w target',   subColor: 'text-green-600', icon: CheckCircle2 },
-  { label: 'Advancement Rate',    value: '42%',  sub: 'Above 30% target',  subColor: 'text-green-600', icon: CheckCircle2 },
+  { label: 'Active Roles',        value: 4,      sub: 'Assigned to you',     subColor: 'text-muted-foreground', id: 'kpi-active-roles' },
+  { label: 'Closed This Month',   value: 2,      sub: 'vs last month',     subColor: 'text-green-600', icon: TrendingUp, id: 'kpi-closed-this-month' },
+  { label: 'Avg Time-to-Close',   value: '3.8w', sub: 'Below 5w target',   subColor: 'text-green-600', icon: CheckCircle2, id: 'kpi-avg-time-to-close' },
+  { label: 'Advancement Rate',    value: '42%',  sub: 'Above 30% target',  subColor: 'text-green-600', icon: CheckCircle2, id: 'kpi-advancement-rate' },
+];
+
+const DASHBOARD_TOUR_STEPS: TourStep[] = [
+  {
+    variant: 'intro',
+    icon: LayoutDashboard,
+    screenSequence: RECRUITER_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'dashboard',
+    title: "Your daily workbench",
+    description: "This dashboard shows your assigned roles, how your candidates are progressing, and where things need attention today. Everything here is scoped to your workload — not the whole team's.",
+  },
+  {
+    variant: 'intro',
+    icon: LayoutDashboard,
+    screenSequence: RECRUITER_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'dashboard',
+    title: "Watch for alerts",
+    description: "Stalled candidates and missed targets show up front. If something's amber or red, that's where to start.",
+  },
+  {
+    targetSelector: '[data-tour-id="recruiter-dash-kpi-row"]',
+    title: "Your numbers",
+    description: "Active Roles, Closed This Month, Avg Time-to-Close, and Advancement Rate. These update as you work.",
+  },
+  {
+    targetSelector: '[data-tour-id="recruiter-dash-stalled-alert"]',
+    title: "Stalled candidates",
+    description: "This amber bar appears when any candidate has been sitting in the same stage for 10+ days. It's not a failure — it's a prompt to check in or move them forward.",
+  },
+  {
+    targetSelector: '[data-tour-id="recruiter-dash-role-cards"]',
+    title: "Your open roles",
+    description: "Each card shows the role, its pipeline breakdown, and the top-matched candidate (name + fit score). Click to open the full candidate list for that role.",
+  },
+  {
+    targetSelector: '[data-tour-id="recruiter-dash-performance"]',
+    title: "How you're tracking",
+    description: "Pass/fail markers against your sourcing and close-time targets. Green is on track, red needs attention.",
+  },
 ];
 
 const TAAssociateDashboard = () => {
   const navigate = useNavigate();
   const dailyTarget = 2;
+
+  useScreenTour("recruiter", "dashboard", DASHBOARD_TOUR_STEPS);
 
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
@@ -67,7 +111,7 @@ const TAAssociateDashboard = () => {
 
       {/* Stalled-candidate alert */}
       {stalledTotal > 0 && (
-        <div className="flex items-start gap-3 rounded-card bg-warning/10 border-[1.5px] border-warning/40 p-4">
+        <div data-tour-id="recruiter-dash-stalled-alert" className="flex items-start gap-3 rounded-card bg-warning/10 border-[1.5px] border-warning/40 p-4">
           <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-foreground">
@@ -89,12 +133,14 @@ const TAAssociateDashboard = () => {
       )}
 
       {/* KPI Strip */}
-      <KPIStrip stats={kpiStats} />
+      <div data-tour-id="recruiter-dash-kpi-row">
+        <KPIStrip stats={kpiStats} />
+      </div>
 
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         {/* My Assigned Roles */}
-        <div className="lg:col-span-3 space-y-3">
+        <div data-tour-id="recruiter-dash-role-cards" className="lg:col-span-3 space-y-3">
           <h2 className="text-sm font-semibold text-foreground px-1">My Assigned Roles</h2>
           {assignedRoles.map((role) => {
             const pCfg = priorityConfig[role.priority];
@@ -160,7 +206,7 @@ const TAAssociateDashboard = () => {
         {/* Right column */}
         <div className="lg:col-span-2 space-y-4">
           {/* Performance vs Targets */}
-          <Card className="border border-border shadow-sm">
+          <Card data-tour-id="recruiter-dash-performance" className="border border-border shadow-sm">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-semibold">Performance vs Targets</CardTitle>
             </CardHeader>

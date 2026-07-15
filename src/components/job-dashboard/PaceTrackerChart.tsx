@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine } from 'recharts';
-import { toast } from 'sonner';
+import { AlertTriangle } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { RoleType } from '@/components/shared/ModernJobList';
 import { useRecruitmentPlan } from '@/context/RecruitmentPlanContext';
 
@@ -21,15 +24,36 @@ function LegendItem({ color, dash, label }: { color: string; dash?: string; labe
   );
 }
 
+function DisabledActionButton({ label, reason }: { label: string; reason: string }) {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            disabled
+            className="px-2.5 py-1 rounded-btn text-[10px] bg-destructive/[0.08] border border-destructive/30 text-destructive opacity-50 cursor-not-allowed"
+          >
+            {label}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          <p>{reason}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 interface PaceTrackerChartProps {
   role: RoleType;
 }
 
 export function PaceTrackerChart({ role }: PaceTrackerChartProps) {
-  const { data } = useRecruitmentPlan();
+  const { data, requestTargetChange, extendTargetDirect } = useRecruitmentPlan();
   const { pace, targetChangeRequest, hiringLeadName } = data;
   const pendingChange = targetChangeRequest?.status === 'pending';
   const proposedDays = targetChangeRequest?.proposedDays ?? data.totalDays + pace.escalationDaysLate;
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   if (role === 'hiring-lead') {
     return (
@@ -44,34 +68,62 @@ export function PaceTrackerChart({ role }: PaceTrackerChartProps) {
     <div className="space-y-3">
       {pace.isEscalation && (
         <div className="rounded-card border border-destructive/30 bg-destructive/10 p-3">
-          <p className="text-destructive font-semibold text-[12px]">
+          <p className="flex items-center gap-1.5 text-destructive font-semibold text-[12px]">
+            <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
             {role === 'ta-leader'
-              ? `⚠ Escalation: Projected to close ${pace.escalationDaysLate} days late`
-              : "⚠ You're behind pace — here are some options"}
+              ? `Escalation: Projected to close ${pace.escalationDaysLate} days late`
+              : "You're behind pace — here are some options"}
           </p>
           <p className="text-[11px] text-destructive/90 mt-1">
             Projected close {pace.projectedCloseDate} vs. target {pace.targetCloseDate}.
             {role === 'ta-leader' && ` ${hiringLeadName} has been notified.`}
           </p>
           <div className="flex flex-wrap gap-2 mt-2.5">
-            <button
-              className="px-2.5 py-1 rounded-btn text-[10px] bg-destructive/[0.08] border border-destructive/30 text-destructive hover:bg-destructive/[0.15] transition-colors"
-              onClick={() => toast.success(`Timeline extended to ${proposedDays} days`)}
-            >
-              Extend to {proposedDays} days
-            </button>
-            <button
-              className="px-2.5 py-1 rounded-btn text-[10px] bg-destructive/[0.08] border border-destructive/30 text-destructive hover:bg-destructive/[0.15] transition-colors"
-              onClick={() => toast.success('Referral channel opened')}
-            >
-              Open referral channel
-            </button>
-            <button
-              className="px-2.5 py-1 rounded-btn text-[10px] bg-destructive/[0.08] border border-destructive/30 text-destructive hover:bg-destructive/[0.15] transition-colors"
-              onClick={() => toast.info('JD criteria sent for review')}
-            >
-              Review JD criteria
-            </button>
+            {!pendingChange && role === 'recruiter' && (
+              <button
+                className="px-2.5 py-1 rounded-btn text-[10px] bg-destructive/[0.08] border border-destructive/30 text-destructive hover:bg-destructive/[0.15] transition-colors"
+                onClick={() => requestTargetChange('Requested from pace tracker escalation', proposedDays)}
+              >
+                Request extension to {proposedDays} days
+              </button>
+            )}
+            {!pendingChange && role === 'ta-leader' && (
+              <>
+                <button
+                  className="px-2.5 py-1 rounded-btn text-[10px] bg-destructive/[0.08] border border-destructive/30 text-destructive hover:bg-destructive/[0.15] transition-colors"
+                  onClick={() => setConfirmOpen(true)}
+                >
+                  Extend target to {proposedDays} days
+                </button>
+                <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+                  <DialogContent className="sm:max-w-sm">
+                    <DialogHeader>
+                      <DialogTitle>Extend timeline?</DialogTitle>
+                    </DialogHeader>
+                    <p className="text-[13px] text-muted-foreground">
+                      This updates the target close date immediately to reflect {proposedDays} total days — no approval step, since you're the approver.
+                    </p>
+                    <div className="flex justify-end gap-2 mt-2">
+                      <Button variant="outline" size="sm" onClick={() => setConfirmOpen(false)}>
+                        Cancel
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="bg-primary text-white hover:bg-primary/90"
+                        onClick={() => {
+                          extendTargetDirect(proposedDays);
+                          setConfirmOpen(false);
+                        }}
+                      >
+                        Confirm extension
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
+            <DisabledActionButton label="Open referral channel" reason="Referral channel integration coming soon" />
+            <DisabledActionButton label="Review JD criteria" reason="No linked JD-edit view for this role yet" />
           </div>
         </div>
       )}

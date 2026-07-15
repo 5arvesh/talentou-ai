@@ -29,6 +29,11 @@ export default {
         "res-1200": { raw: "(min-width: 1200px) and (max-width: 1400px)" },
         "res-1400": { raw: "(min-width: 1400px) and (max-width: 1600px)" },
         "res-1600": { raw: "(min-width: 1600px) and (max-width: 1850px)" },
+        // Named cumulative breakpoint (plain string, not a ranged object) — the res-1200/1400/1600
+        // triplet above are bounded ranges, not "and up" breakpoints, and Tailwind's arbitrary
+        // min-[]/max-[] variants are disabled project-wide once any object-form screen exists.
+        // Use this for real "collapses below X, expands above X" responsive layouts.
+        "desktop-lg": "1200px",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -166,12 +171,47 @@ export default {
           "50%": { transform: "translateX(60%)", width: "55%" },
           "100%": { transform: "translateX(220%)", width: "40%" },
         },
+        "review-pulse": {
+          "0%, 100%": { boxShadow: "0 0 0 0 hsl(var(--primary) / 0.4)" },
+          "50%": { boxShadow: "0 0 0 6px hsl(var(--primary) / 0)" },
+        },
+        "intro-icon-pulse": {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.08)" },
+        },
+        "coachmark-dash-draw": {
+          "0%": { strokeDashoffset: "var(--dash-total, 300)" },
+          "100%": { strokeDashoffset: "0" },
+        },
+        "coachmark-arrow-in": {
+          "0%": { opacity: "0", transform: "translateY(var(--arrow-from, -4px))" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "exit-check-pulse": {
+          "0%": { boxShadow: "0 0 0 0 rgba(34,197,94,0.55)" },
+          "100%": { boxShadow: "0 0 0 18px rgba(34,197,94,0)" },
+        },
+        "credit-ring-pulse-settle": {
+          "0%": { boxShadow: "0 0 0 0 rgba(34,197,94,0.35)" },
+          "100%": { boxShadow: "0 0 0 10px rgba(34,197,94,0)" },
+        },
+        "credit-ring-pulse-danger": {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(239,68,68,0.35)" },
+          "50%": { boxShadow: "0 0 0 8px rgba(239,68,68,0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "focus-pulse": "focus-pulse 1s ease-in-out 3",
         "plan-loading": "plan-loading 1.4s ease-in-out infinite",
+        "review-pulse": "review-pulse 2.5s ease-in-out infinite",
+        "intro-icon-pulse": "intro-icon-pulse 2s ease-in-out infinite",
+        "coachmark-dash-draw": "coachmark-dash-draw 400ms ease-out forwards",
+        "coachmark-arrow-in": "coachmark-arrow-in 150ms ease-out forwards",
+        "exit-check-pulse": "exit-check-pulse 600ms ease-out 1",
+        "credit-ring-pulse-settle": "credit-ring-pulse-settle 900ms ease-out 1",
+        "credit-ring-pulse-danger": "credit-ring-pulse-danger 2.2s ease-in-out infinite",
       },
     },
   },

@@ -16,6 +16,7 @@ import {
   Info,
   Sparkles,
   CheckCircle2,
+  AlertTriangle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { getJobStatusColor } from "@/constants/statuses";
-import { ALL_COLUMNS, DROPDOWN_FIELDS, JobItem, RoleType, getFieldValue, getPriorityColor } from "./ModernJobList";
+import { ALL_COLUMNS, DROPDOWN_FIELDS, JobItem, RoleType, getFieldValue, getPriorityColor, isJobAtRisk } from "./ModernJobList";
 
 interface JobCardProps {
   job: JobItem;
@@ -92,7 +93,7 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
       <div
         className={cn(
           "group relative flex cursor-pointer flex-col gap-3 rounded-card border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-card animate-in fade-in slide-in-from-bottom-1",
-          isStale ? "border-l-[3px] border-l-warning" : hasNew ? "border-l-[3px] border-l-info" : ""
+          isJobAtRisk(job) ? "border-l-[3px] border-l-destructive" : isStale ? "border-l-[3px] border-l-warning" : hasNew ? "border-l-[3px] border-l-info" : ""
         )}
         style={{ animationDelay: `${index * 60}ms` }}
         onClick={() => onAction("view-candidate", job)}
@@ -117,9 +118,15 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
                 {job.priority}
               </Badge>
             )}
-            <Badge variant="outline" className={cn("font-medium px-2 py-0.5 text-xs", getJobStatusColor(job.status))}>
+            <Badge data-tour-id="job-status-badge" variant="outline" className={cn("font-medium px-2 py-0.5 text-xs", getJobStatusColor(job.status))}>
               {job.status}
             </Badge>
+            {isJobAtRisk(job) && (
+              <span data-tour-id="job-at-risk-flag" className="inline-flex items-center gap-1 shrink-0 text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-destructive/10 text-destructive uppercase tracking-wide whitespace-nowrap">
+                <AlertTriangle className="h-2.5 w-2.5" />
+                At risk
+              </span>
+            )}
           </div>
           <div onClick={(e) => e.stopPropagation()}>
             <DropdownMenu>
@@ -284,8 +291,9 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
             <Building className="h-3.5 w-3.5" />
             {getFieldValue(job, "department")}
           </span>
-          <div className="flex items-center gap-2">
+          <div data-tour-id="job-row-actions" className="flex items-center gap-2">
             <Button
+              data-tour-id="job-view-plan-btn"
               variant="outline"
               size="sm"
               className="h-8 gap-1.5 border-primary/30 text-primary hover:bg-primary/5 hover:text-primary"

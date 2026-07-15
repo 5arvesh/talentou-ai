@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CareersPageOverview } from './CareersPageOverview';
 import { CareersPageDesign } from './CareersPageDesign';
-import { useTourStore, TourStep } from '@/store/tour-store';
+import { TourStep } from '@/store/tour-store';
+import { useScreenTour } from '@/hooks/useScreenTour';
 
 const goToOverviewTab = () => {
   (document.querySelector('[data-tour-id="careers-overview-tab"]') as HTMLElement)?.click();
@@ -52,11 +53,7 @@ const CAREERS_TOUR_STEPS: TourStep[] = [
 ];
 
 export function CareersPage() {
-  const { startTour } = useTourStore();
-
-  useEffect(() => {
-    startTour('careers-page', CAREERS_TOUR_STEPS);
-  }, []);
+  useScreenTour('ta-leader', 'careers-page', CAREERS_TOUR_STEPS);
 
   return (
     <div className="space-y-6">

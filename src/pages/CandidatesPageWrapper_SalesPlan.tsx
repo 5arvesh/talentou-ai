@@ -1,36 +1,57 @@
-﻿
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CandidatesPageSalesPlan } from "@/components/sales-plan/CandidatesPageSalesPlan";
-import { useTourStore, TourStep } from "@/store/tour-store";
+import { TourStep } from "@/store/tour-store";
+import { useScreenTour } from "@/hooks/useScreenTour";
+import { RL_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
+import { Layers } from "lucide-react";
 
 const CANDIDATES_TOUR_STEPS: TourStep[] = [
   {
-    title: "Your candidate pipeline",
-    description: "Every candidate sourced for your open roles appears here with their role-fit score, skills, and current status.",
-    targetSelector: '[data-tour-id="candidate-list"]',
+    variant: 'intro',
+    icon: Layers,
+    screenSequence: RL_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'candidate-list',
+    title: "Your candidate pool",
+    description: "Every candidate across all your open roles, in one place. Three ways to look at them.",
   },
   {
-    title: "Customize columns",
-    description: "Click Columns to show or hide fields like CTC, joining date, email, or phone number.",
-    targetSelector: '[data-tour-id="candidate-col-filter-popover"]',
-    onEnter: () => {
-      (document.querySelector('[data-tour-id="candidate-col-filter-btn"]') as HTMLElement)?.click();
-    },
+    variant: 'intro',
+    icon: Layers,
+    screenSequence: RL_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'candidate-list',
+    title: "Cards, list, or pipeline",
+    description: "Switch between card view, list view, or Kanban — each one is useful for different tasks.",
   },
   {
-    title: "Search & filter candidates",
-    description: "Filter by job or status, sort by match score, or search by name, skills, or email to narrow the list.",
-    targetSelector: '[data-tour-id="candidate-filter-bar"]',
+    title: "Three views",
+    description: "Cards for a visual overview with scores and tags. List for compact scanning across many candidates. Kanban for drag-and-drop pipeline management.",
+    targetSelector: '[data-tour-id="candidate-view-toggle"]',
+  },
+  {
+    title: "The pipeline",
+    description: "Five stages: Applied, Shortlisted, Phone Screen, Interview, Offered. Moves into Interview or Offered happen automatically as part of the workflow, not by dragging.",
+    targetSelector: '[data-tour-id="candidate-kanban-board"]',
+  },
+  {
+    title: "Filter by role",
+    description: "Kanban shows one job's pipeline at a time. Switch jobs here to see a different role's candidates.",
+    targetSelector: '[data-tour-id="kanban-job-selector"]',
+  },
+  {
+    title: "Fit score",
+    description: "How well this candidate's skills, experience, and title match the role's requirements. Higher is a stronger fit.",
+    targetSelector: '[data-tour-id="kanban-fit-score"]',
+  },
+  {
+    title: "What you can do",
+    description: "Click a card to view the full profile. Drag it to move between allowed stages — backward moves are always fine, and Applied to Shortlisted or Shortlisted to Phone Screen are draggable forward too.",
+    targetSelector: '[data-tour-id="kanban-candidate-card"]',
   },
 ];
 
 export function CandidatesPageWrapper_SalesPlan() {
-  const { startTour } = useTourStore();
-
-  useEffect(() => {
-    startTour("sales-plan-candidates", CANDIDATES_TOUR_STEPS);
-  }, []);
+  useScreenTour("ta-leader", "candidate-list", CANDIDATES_TOUR_STEPS);
   // Mock job data that would typically come from the Job List table
   const jobs = [
     { id: 1, jobRole: "Software Engineer" },

@@ -273,6 +273,7 @@ interface PositionApprovalContextValue {
   // Actions
   selectNotification: (id: string) => void;
   enterEditMode: () => void;
+  markEditedViaChat: (section: SectionKey) => void;
   discardEditMode: () => void;
   applyPlaybook: (pb: Playbook) => void;
   sendChatMessage: (content: string) => void;
@@ -351,6 +352,12 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
 
   const enterEditMode = useCallback(() => {
     setViewState('edit');
+  }, []);
+
+  // Demo-only: lets the product tour guarantee a section is flagged "Updated via chat"
+  // to point its coach mark at, without driving a real AI chat message.
+  const markEditedViaChat = useCallback((section: SectionKey) => {
+    setEditSourceMap((prev) => (prev[section] === 'chat' ? prev : { ...prev, [section]: 'chat' }));
   }, []);
 
   const discardEditMode = useCallback(() => {
@@ -630,6 +637,7 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
         editDailySourcing,
         selectNotification,
         enterEditMode,
+        markEditedViaChat,
         discardEditMode,
         applyPlaybook,
         sendChatMessage,

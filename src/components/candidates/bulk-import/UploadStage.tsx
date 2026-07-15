@@ -38,6 +38,7 @@ export function UploadStage({ files, onFilesChange, onParse }: UploadStageProps)
     <div className="space-y-4">
       {/* Drop zone */}
       <div
+        data-tour-id="bulk-upload-dropzone"
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
         onDrop={(e) => { e.preventDefault(); setDragOver(false); addFiles(e.dataTransfer.files); }}

@@ -547,6 +547,7 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
             type="single"
             value={viewMode}
             onValueChange={(value) => { if (value) setViewMode(value as "card" | "table" | "kanban"); }}
+            data-tour-id="candidate-view-toggle"
             className="shrink-0 rounded-lg border border-gray-200 bg-white p-0.5 shadow-sm"
           >
             <ToggleGroupItem value="card" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
@@ -564,13 +565,15 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
           </ToggleGroup>
 
           {/* Add Candidate button */}
-          <Button className="bg-primary hover:bg-primary/90 text-white shrink-0" onClick={onAddCandidate}>
-            <Plus className="h-4 w-4 mr-2" /> Add Candidate
-          </Button>
+          {onAddCandidate && (
+            <Button data-tour-id="candidate-add-btn" className="bg-primary hover:bg-primary/90 text-white shrink-0" onClick={onAddCandidate}>
+              <Plus className="h-4 w-4 mr-2" /> Add Candidate
+            </Button>
+          )}
         </div>
 
         {viewMode === "kanban" && (
-          <div className="h-[calc(100vh-220px)] min-h-[520px] -mx-1 rounded-xl border border-gray-100 overflow-hidden">
+          <div data-tour-id="candidate-kanban-board" className="h-[calc(100vh-220px)] min-h-[520px] -mx-1 rounded-xl border border-gray-100 overflow-hidden">
             <KanbanBoard jobId={kanbanJobId} role={role} embedded />
           </div>
         )}

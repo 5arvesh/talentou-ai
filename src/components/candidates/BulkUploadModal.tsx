@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, forwardRef, useImperativeHandle } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { UserPlus, X, ChevronRight, Check } from "lucide-react";
 import { toast } from "sonner";
@@ -16,7 +16,16 @@ interface BulkUploadModalProps {
   onClose: () => void;
 }
 
-type Stage = "upload" | "parsing" | "review" | "complete";
+export type Stage = "upload" | "parsing" | "review" | "complete";
+
+/** Demo-only: lets the product tour jump the modal straight to a later stage with seeded
+ *  mock candidates, instead of waiting for a real upload — the stages are otherwise sequential
+ *  and user-driven. */
+export interface BulkUploadModalHandle {
+  jumpToStage: (stage: Stage) => void;
+}
+
+const MOCK_TOUR_FILE_NAMES = ["Rahul_Sharma_CV.pdf", "Priya_Nair_Resume.pdf", "Anil_Verma_CV.pdf", "Sneha_Kapoor_CV.pdf"];
 
 const STEPS: { key: Stage; label: string }[] = [
   { key: "upload", label: "Upload" },
@@ -66,7 +75,10 @@ function Stepper({ stage }: { stage: Stage }) {
   );
 }
 
-export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
+export const BulkUploadModal = forwardRef<BulkUploadModalHandle, BulkUploadModalProps>(function BulkUploadModal(
+  { open, onClose },
+  ref
+) {
   const [stage, setStage] = useState<Stage>("upload");
   const [files, setFiles] = useState<File[]>([]);
   const [candidates, setCandidates] = useState<ParsedCandidate[]>([]);
@@ -78,6 +90,24 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
   }, []);
 
   const handleClose = () => { reset(); onClose(); };
+
+  useImperativeHandle(ref, () => ({
+    jumpToStage: (target: Stage) => {
+      if (target === "upload") {
+        reset();
+        return;
+      }
+      const mockFiles = MOCK_TOUR_FILE_NAMES.map((name) => new File([], name, { type: "application/pdf" }));
+      const parsed = buildParsedCandidates(mockFiles);
+      setFiles(mockFiles);
+      if (target === "complete") {
+        setCandidates(parsed.map((c, i) => (i < 2 && isConfirmable(c) ? { ...c, status: "confirmed" as const } : c)));
+      } else {
+        setCandidates(parsed);
+      }
+      setStage(target);
+    },
+  }));
 
   const startParse = () => {
     setCandidates(buildParsedCandidates(files));
@@ -161,6 +191,6 @@ export function BulkUploadModal({ open, onClose }: BulkUploadModalProps) {
       </DialogContent>
     </Dialog>
   );
-}
+});
 
 export default BulkUploadModal;

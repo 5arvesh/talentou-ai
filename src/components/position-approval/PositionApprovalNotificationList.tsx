@@ -57,6 +57,7 @@ function NotificationItem({ notification }: { notification: ApprovalNotification
           </p>
           {isNew && (
             <button
+              data-tour-id="pa-ai-review-btn"
               onClick={(e) => { e.stopPropagation(); selectNotification(notification.id); }}
               className="mt-1.5 inline-flex items-center gap-1 bg-primary text-white text-[10px] font-medium px-[10px] py-[5px] rounded-[7px] hover:opacity-90 transition-opacity"
             >

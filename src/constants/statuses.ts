@@ -114,17 +114,18 @@ export function getCandidateStatusColor(status: string): string {
 export function getJobStatusColor(status: string): string {
   const s = status.toLowerCase().trim();
 
-  if (s === 'approved' || s === 'active') return 'bg-green-50 text-green-700 border-green-200';
-  if (s === 'on_hold' || s === 'on hold') return 'bg-amber-50 text-amber-700 border-amber-200';
-  if (s === 'filled')                     return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-  if (s === 'in_review' || s === 'in review' || s === 'pending' || s.includes('pending') || s.includes('hold'))
-                                          return 'bg-amber-50 text-amber-700 border-amber-200';
+  if (s === 'approved' || s === 'active')  return 'bg-[#DCEFC8] text-[#1F4A0A] border-transparent';
+  if (s === 'filled')                      return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+  if (s === 'on_hold' || s === 'on hold' || s === 'in_review' || s === 'in review' || s === 'pending' || s.includes('pending') || s.includes('hold'))
+                                           return 'bg-[#FCEFD7] text-[#7A4F08] border-transparent';
   if (s === 'rejected' || s === 'cancelled' || s === 'canceled')
-                                          return 'bg-red-50 text-red-700 border-red-200';
-  if (s === 'draft' || s === 'closed' || s.includes('closed') || s.includes('cancel') || s.includes('draft'))
-                                          return 'bg-gray-100 text-gray-600 border-gray-200';
+                                           return 'bg-[#FBE0E0] text-[#8E1C1C] border-transparent';
+  if (s === 'closed' || s.includes('closed'))
+                                           return 'bg-[#E2EEFB] text-[#0C5FB3] border-transparent';
+  if (s === 'draft' || s.includes('draft'))
+                                           return 'bg-[#ECEAF0] text-[#6B6478] border-transparent';
 
-  return 'bg-gray-100 text-gray-600 border-gray-200';
+  return 'bg-[#ECEAF0] text-[#6B6478] border-transparent';
 }
 
 // ─── Dropdown option arrays ───────────────────────────────────────────────────

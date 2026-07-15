@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
-import { Sparkles, Check, ClipboardList } from 'lucide-react';
-import { toast } from 'sonner';
+import { Sparkles, Check, ClipboardList, AlertTriangle, Clock, Calendar, Gauge } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { getInitials } from '@/lib/avatar';
 import { RoleType } from '@/components/shared/ModernJobList';
 import { useRecruitmentPlan, YieldLevel } from '@/context/RecruitmentPlanContext';
+
+function DisabledActionButton({ label, reason, className }: { label: string; reason: string; className?: string }) {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="sm" disabled className={cn('h-9 text-[10px] opacity-50 cursor-not-allowed', className)}>
+            {label}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          <p>{reason}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
 
 const YIELD_BADGE: Record<YieldLevel, string> = {
   High: 'bg-success/10 text-success',
@@ -26,7 +43,7 @@ interface RecruitmentPlanPanelProps {
 }
 
 export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
-  const { data, approveTargetChange, rejectTargetChange, requestTargetChange } = useRecruitmentPlan();
+  const { data, approveTargetChange, rejectTargetChange, requestTargetChange, toggleChannel } = useRecruitmentPlan();
   const { recruiter, channels, targets, targetChangeRequest, pastPlan } = data;
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [reason, setReason] = useState('');
@@ -36,7 +53,7 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
 
   if (role === 'hiring-lead') {
     return (
-      <div className="rounded-card border border-border bg-card p-3.5 shadow-card space-y-3">
+      <div className="max-w-2xl rounded-card border border-border bg-card p-3.5 shadow-card space-y-3">
         <div>
           <p className="text-[11px] font-medium text-muted-foreground mb-1">Target close date</p>
           <p className="font-sora text-[18px] font-semibold text-foreground">{targets.targetCloseDate}</p>
@@ -64,8 +81,8 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
   };
 
   return (
-    <div className="space-y-3">
-      <div className="rounded-card border border-border bg-card p-3.5 shadow-card">
+    <div className="max-w-2xl space-y-3">
+      <div data-tour-id="jd-recruiter-card" className="rounded-card border border-border bg-card p-3.5 shadow-card">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-[#EEEDFE] text-[#3C3489] font-sora text-[13px] font-semibold flex items-center justify-center shrink-0">
             {getInitials(recruiter.name)}
@@ -122,7 +139,7 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
                 {channel.yield}
               </span>
               {channel.active ? (
-                <span className="flex items-center gap-1 text-[10px] text-success">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-chip text-[10px] font-medium bg-success/10 text-success">
                   <Check className="h-3 w-3" />
                   Active
                 </span>
@@ -130,8 +147,8 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-6 px-2 text-[10px] border-primary/30 text-primary hover:bg-primary/5"
-                  onClick={() => toast.success(`${channel.name} channel opened`)}
+                  className="h-9 px-2 text-[10px] border-primary/30 text-primary hover:bg-primary/5"
+                  onClick={() => toggleChannel(channel.name)}
                 >
                   Open channel
                 </Button>
@@ -145,45 +162,72 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
         <p className="text-[11px] font-medium text-muted-foreground mb-2">Targets</p>
         <div className="grid grid-cols-2 gap-2">
           <div className="border border-border rounded-btn p-2.5">
+            <Calendar className="h-3 w-3 text-muted-foreground mb-1" />
             <p className="font-sora text-[18px] font-semibold text-foreground">{targets.targetCloseDate}</p>
             <p className="text-[10px] text-muted-foreground">Target close date</p>
           </div>
           <div className="border border-border rounded-btn p-2.5">
+            <Gauge className="h-3 w-3 text-muted-foreground mb-1" />
             <p className="font-sora text-[18px] font-semibold text-foreground">{targets.dailySourcingTarget}/day</p>
             <p className="text-[10px] text-muted-foreground">Daily sourcing target</p>
           </div>
         </div>
 
-        {!pendingChange && targets.approved && <p className="mt-2 text-[10px] text-success">✓ Approved</p>}
+        {!pendingChange && targets.approved && (
+          <p className="mt-2 flex items-center gap-1 text-[10px] text-success">
+            <Check className="h-3 w-3" />
+            Approved
+          </p>
+        )}
 
         {pendingChange && targetChangeRequest && role === 'ta-leader' && (
-          <div className="mt-3 rounded-btn bg-warning/10 text-warning p-2.5">
-            <p className="text-[11px]">
-              ⚠ {targetChangeRequest.requestedBy} has requested a target change ({targetChangeRequest.currentDays} →{' '}
-              {targetChangeRequest.proposedDays} days). Awaiting your approval.
-            </p>
-            <p className="text-[10px] mt-1 italic opacity-80">"{targetChangeRequest.reason}"</p>
-            <div className="flex gap-2 mt-2">
-              <Button size="sm" className="h-7 text-[10px] bg-primary text-white hover:bg-primary/90" onClick={approveTargetChange}>
-                Approve
-              </Button>
-              <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={rejectTargetChange}>
-                Reject
-              </Button>
+          <div data-tour-id="jd-extension-request" className="mt-3 rounded-btn border border-warning/30 bg-warning/5 p-3">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <p className="flex items-center gap-1.5 text-[11px] font-medium text-foreground">
+                <AlertTriangle className="h-3.5 w-3.5 text-warning shrink-0" />
+                {targetChangeRequest.requestedBy} has requested a {targetChangeRequest.proposedDays - targetChangeRequest.currentDays}-day extension
+              </p>
+              <span className="shrink-0 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-warning/15 text-warning uppercase tracking-wide whitespace-nowrap">
+                Pending your review
+              </span>
+            </div>
+            <div className="rounded-btn border border-border bg-card p-2.5">
+              <p className="text-[12px] font-semibold text-foreground">
+                Requested change: extend target close to {targetChangeRequest.proposedDays} days
+              </p>
+              <p className="text-[10px] text-muted-foreground mt-1 italic">"{targetChangeRequest.reason}"</p>
+            </div>
+            <div className="flex items-center justify-between gap-2 mt-2.5 flex-wrap">
+              <div className="flex gap-2">
+                <Button size="sm" className="h-9 text-[10px] bg-success text-white hover:bg-success/90" onClick={approveTargetChange}>
+                  <Check className="h-3.5 w-3.5 mr-1" />
+                  Approve extension
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-9 text-[10px] text-destructive border-destructive/30 hover:bg-destructive/5"
+                  onClick={rejectTargetChange}
+                >
+                  Decline
+                </Button>
+              </div>
+              <span className="text-[9px] text-muted-foreground">Approving updates the target date immediately</span>
             </div>
           </div>
         )}
 
         {pendingChange && targetChangeRequest && role === 'recruiter' && (
-          <div className="mt-3 rounded-btn bg-warning/10 text-warning p-2.5 text-[11px]">
-            ⏳ Your change request is awaiting Recruitment Lead approval. Targets paused — pace tracker shows "pending" state.
+          <div className="mt-3 flex items-center gap-1.5 rounded-btn bg-warning/10 text-warning p-2.5 text-[11px]">
+            <Clock className="h-3.5 w-3.5 shrink-0" />
+            Your change request is awaiting Recruitment Lead approval. Targets paused — pace tracker shows "pending" state.
           </div>
         )}
 
         {!pendingChange && role === 'recruiter' && (
           <div className="mt-3">
             {!showRequestForm ? (
-              <Button variant="ghost" size="sm" className="h-7 text-[10px] text-primary" onClick={() => setShowRequestForm(true)}>
+              <Button variant="ghost" size="sm" className="h-9 text-[10px] text-primary" onClick={() => setShowRequestForm(true)}>
                 Request target change
               </Button>
             ) : (
@@ -199,16 +243,16 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
                     type="number"
                     value={proposedDays}
                     onChange={(e) => setProposedDays(e.target.value)}
-                    className="h-7 text-[11px] w-20"
+                    className="h-9 text-[11px] w-20"
                     min={data.totalDays + 1}
                   />
                   <span className="text-[10px] text-muted-foreground">proposed days</span>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" className="h-7 text-[10px] bg-primary text-white hover:bg-primary/90" onClick={handleRequestSubmit}>
+                  <Button size="sm" className="h-9 text-[10px] bg-primary text-white hover:bg-primary/90" onClick={handleRequestSubmit}>
                     Send request
                   </Button>
-                  <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => setShowRequestForm(false)}>
+                  <Button size="sm" variant="ghost" className="h-9 text-[10px]" onClick={() => setShowRequestForm(false)}>
                     Cancel
                   </Button>
                 </div>
@@ -232,17 +276,14 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
             Sourced via: {pastPlan.sourcedVia.map((s) => `${s.name} ${s.pct}%`).join(', ')}
           </p>
           {pastPlan.staleMonths >= 2 && (
-            <p className="text-[10px] text-warning mt-1.5">
-              ⚠ This plan is {pastPlan.staleMonths} months old — review channel relevance before reuse.
+            <p className="flex items-center gap-1 text-[10px] text-warning mt-1.5">
+              <AlertTriangle className="h-3 w-3 shrink-0" />
+              This plan is {pastPlan.staleMonths} months old — review channel relevance before reuse.
             </p>
           )}
           <div className="flex gap-2 mt-2.5">
-            <Button variant="outline" size="sm" className="h-7 text-[10px]" onClick={() => toast.info('Plan preview coming soon')}>
-              Preview plan
-            </Button>
-            <Button variant="ghost" size="sm" className="h-7 text-[10px]" onClick={() => toast.success('Targets copied from past plan')}>
-              Copy targets from this plan
-            </Button>
+            <DisabledActionButton label="Preview plan" reason="Plan preview coming soon" />
+            <DisabledActionButton label="Copy targets from this plan" reason="Playbook integration coming soon" />
           </div>
         </div>
       )}

@@ -261,6 +261,7 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
           </ScrollArea>
           <div className="px-6 py-4 bg-[#F8F7FF] flex justify-center">
             <Button
+              data-tour-id="jd-review-btn"
               onClick={handleReviewComplete}
               className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
             >
@@ -366,6 +367,7 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
           <div className="px-6 py-4 bg-[#F8F7FF] flex flex-col items-center gap-1.5">
             {screeningQuestions.length > 0 ? (
               <Button
+                data-tour-id="jd-save-questions-btn"
                 onClick={handleSaveQuestions}
                 className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
               >
@@ -400,6 +402,7 @@ export function TAAssociateJDFlowPanel({ jobId }: TAAssociateJDFlowPanelProps) {
                   </p>
                 </div>
                 <Button
+                  data-tour-id="jd-generate-link-btn"
                   onClick={handleGenerateLink}
                   className="px-8 h-11 rounded-full bg-gradient-to-r from-[#7800D3] to-[#5600ad] hover:from-[#6a00bb] hover:to-[#5000a0] text-white font-semibold text-sm border-0"
                 >

@@ -14,6 +14,7 @@ export function CompanyUSPSection() {
 
   return (
     <BriefSection
+      tourId="pa-chat-flag"
       eyebrowIcon={Quote}
       eyebrow="Company pitch"
       isEdited={!!src}

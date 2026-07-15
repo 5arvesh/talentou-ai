@@ -7,6 +7,10 @@ interface KPIStat {
   sub: string;
   subColor: string;
   icon?: LucideIcon;
+  valueColor?: string;
+  labelColor?: string;
+  borderColor?: string;
+  id?: string;
 }
 
 interface KPIStripProps {
@@ -19,9 +23,9 @@ export function KPIStrip({ stats, cols = 4 }: KPIStripProps) {
   return (
     <div className={`grid ${colClass} gap-px bg-border rounded-xl overflow-hidden border border-border`}>
       {stats.map((stat) => (
-        <div key={stat.label} className="bg-card px-5 py-4 flex flex-col gap-0.5">
-          <span className="text-xs text-muted-foreground">{stat.label}</span>
-          <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+        <div key={stat.label} data-tour-id={stat.id} className={`bg-card px-5 py-4 flex flex-col gap-0.5 ${stat.borderColor ?? ''}`}>
+          <span className={`text-xs ${stat.labelColor ?? 'text-muted-foreground'}`}>{stat.label}</span>
+          <span className={`text-2xl font-bold ${stat.valueColor ?? 'text-foreground'}`}>{stat.value}</span>
           <span className={`text-xs font-medium flex items-center gap-1 ${stat.subColor}`}>
             {stat.icon && <stat.icon className="h-3 w-3" />}
             {stat.sub}

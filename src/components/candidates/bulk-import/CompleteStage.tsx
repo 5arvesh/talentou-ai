@@ -33,7 +33,7 @@ export function CompleteStage({ imported, unassigned, merged, onDone }: Complete
       </div>
 
       {unassigned > 0 && (
-        <div className="flex items-start gap-2.5 rounded-[10px] px-3.5 py-3 mt-5 w-full" style={{ background: '#F6F3FC' }}>
+        <div data-tour-id="bulk-unassigned-summary" className="flex items-start gap-2.5 rounded-[10px] px-3.5 py-3 mt-5 w-full" style={{ background: '#F6F3FC' }}>
           <HelpCircle className="h-4 w-4 shrink-0 mt-px" style={{ color: '#A02020' }} />
           <p className="text-[12px] leading-[1.5]" style={{ color: '#5A2A9E' }}>
             {unassigned} {unassigned === 1 ? 'candidate' : 'candidates'} didn't have a clear position match or were missing key details —

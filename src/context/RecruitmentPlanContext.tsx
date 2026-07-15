@@ -188,13 +188,6 @@ const SENIOR_REACT_DEVELOPER: RecruitmentPlanData = {
     dailySourcingTarget: 4,
     approved: true,
   },
-  targetChangeRequest: {
-    requestedBy: 'Rohan Kapoor',
-    reason: 'Lower response rates from LinkedIn outreach than expected — need more runway to build a healthy pipeline.',
-    currentDays: 42,
-    proposedDays: 56,
-    status: 'pending',
-  },
   pastPlan: {
     title: 'Backend Engineer (Node)',
     closedDays: 38,
@@ -392,6 +385,10 @@ interface RecruitmentPlanContextValue {
   approveTargetChange: () => void;
   rejectTargetChange: () => void;
   acceptTargets: () => void;
+  toggleChannel: (name: string) => void;
+  extendTargetDirect: (newDays: number) => void;
+  seedTourExtensionRequest: (reason: string, proposedDays: number) => boolean;
+  clearTourExtensionRequest: () => void;
 }
 
 const RecruitmentPlanContext = createContext<RecruitmentPlanContextValue | undefined>(undefined);
@@ -402,37 +399,77 @@ interface RecruitmentPlanProviderProps {
   children: ReactNode;
 }
 
+interface PersistedExtensionState {
+  targetChangeRequest?: TargetChangeRequest;
+  totalDays: number;
+  targets: RecruitmentPlanData['targets'];
+}
+
+function extensionRequestKey(jobId: string) {
+  return `talentou:extension-request:${jobId}`;
+}
+
+function loadPersistedExtensionState(jobId: string): PersistedExtensionState | null {
+  try {
+    const raw = localStorage.getItem(extensionRequestKey(jobId));
+    return raw ? (JSON.parse(raw) as PersistedExtensionState) : null;
+  } catch {
+    return null;
+  }
+}
+
+function savePersistedExtensionState(jobId: string, data: RecruitmentPlanData) {
+  const slice: PersistedExtensionState = {
+    targetChangeRequest: data.targetChangeRequest,
+    totalDays: data.totalDays,
+    targets: data.targets,
+  };
+  try {
+    localStorage.setItem(extensionRequestKey(jobId), JSON.stringify(slice));
+  } catch {
+    // localStorage unavailable/full — extension state simply won't persist across role switches
+  }
+}
+
 export function RecruitmentPlanProvider({ jobId, jobOverride, children }: RecruitmentPlanProviderProps) {
-  const [data, setData] = useState<RecruitmentPlanData>(
-    () => MOCK_PLANS[jobId] ?? getDefaultPlanData(jobId, jobOverride)
-  );
-  const [activeZone, setActiveZone] = useState<ZoneKey>('today');
+  const [data, setData] = useState<RecruitmentPlanData>(() => {
+    const base = MOCK_PLANS[jobId] ?? getDefaultPlanData(jobId, jobOverride);
+    const persisted = loadPersistedExtensionState(jobId);
+    return persisted ? { ...base, ...persisted } : base;
+  });
+  const [activeZone, setActiveZone] = useState<ZoneKey>('plan');
 
   const planState: PlanState = data.targetChangeRequest?.status === 'pending' ? 'pending_target_change' : 'live';
 
   const requestTargetChange = (reason: string, proposedDays: number) => {
-    setData((prev) => ({
-      ...prev,
-      targetChangeRequest: {
-        requestedBy: prev.recruiter.name,
-        reason,
-        currentDays: prev.totalDays,
-        proposedDays,
-        status: 'pending',
-      },
-    }));
+    setData((prev) => {
+      const next: RecruitmentPlanData = {
+        ...prev,
+        targetChangeRequest: {
+          requestedBy: prev.recruiter.name,
+          reason,
+          currentDays: prev.totalDays,
+          proposedDays,
+          status: 'pending',
+        },
+      };
+      savePersistedExtensionState(jobId, next);
+      return next;
+    });
     toast.success('Target change request sent to Recruitment Lead for approval.');
   };
 
   const approveTargetChange = () => {
     setData((prev) => {
       if (!prev.targetChangeRequest) return prev;
-      return {
+      const next: RecruitmentPlanData = {
         ...prev,
         totalDays: prev.targetChangeRequest.proposedDays,
         targets: { ...prev.targets, approved: true },
         targetChangeRequest: { ...prev.targetChangeRequest, status: 'approved' },
       };
+      savePersistedExtensionState(jobId, next);
+      return next;
     });
     toast.success('Target change approved. Pace tracker resumed.');
   };
@@ -440,10 +477,12 @@ export function RecruitmentPlanProvider({ jobId, jobOverride, children }: Recrui
   const rejectTargetChange = () => {
     setData((prev) => {
       if (!prev.targetChangeRequest) return prev;
-      return {
+      const next: RecruitmentPlanData = {
         ...prev,
         targetChangeRequest: { ...prev.targetChangeRequest, status: 'rejected' },
       };
+      savePersistedExtensionState(jobId, next);
+      return next;
     });
     toast.info('Target change request rejected. Original targets remain in place.');
   };
@@ -451,6 +490,57 @@ export function RecruitmentPlanProvider({ jobId, jobOverride, children }: Recrui
   const acceptTargets = () => {
     setData((prev) => ({ ...prev, targets: { ...prev.targets, approved: true } }));
     toast.success('Targets accepted. Dashboard is now live.');
+  };
+
+  const toggleChannel = (name: string) => {
+    setData((prev) => ({
+      ...prev,
+      channels: prev.channels.map((c) => (c.name === name ? { ...c, active: true } : c)),
+    }));
+    toast.success(`${name} channel opened`);
+  };
+
+  const extendTargetDirect = (newDays: number) => {
+    setData((prev) => {
+      const next: RecruitmentPlanData = {
+        ...prev,
+        totalDays: newDays,
+        targets: { ...prev.targets, approved: true },
+      };
+      savePersistedExtensionState(jobId, next);
+      return next;
+    });
+    toast.success(`Timeline extended to ${newDays} days.`);
+  };
+
+  // Demo-only: lets the product tour guarantee a pending request exists to point the
+  // extension-approval coach mark at, without a toast and without touching real user data.
+  const seedTourExtensionRequest = (reason: string, proposedDays: number): boolean => {
+    if (data.targetChangeRequest?.status === 'pending') return false;
+    setData((prev) => {
+      const next: RecruitmentPlanData = {
+        ...prev,
+        targetChangeRequest: {
+          requestedBy: prev.recruiter.name,
+          reason,
+          currentDays: prev.totalDays,
+          proposedDays,
+          status: 'pending',
+        },
+      };
+      savePersistedExtensionState(jobId, next);
+      return next;
+    });
+    return true;
+  };
+
+  const clearTourExtensionRequest = () => {
+    setData((prev) => {
+      if (!prev.targetChangeRequest) return prev;
+      const next: RecruitmentPlanData = { ...prev, targetChangeRequest: undefined };
+      savePersistedExtensionState(jobId, next);
+      return next;
+    });
   };
 
   return (
@@ -465,6 +555,10 @@ export function RecruitmentPlanProvider({ jobId, jobOverride, children }: Recrui
         approveTargetChange,
         rejectTargetChange,
         acceptTargets,
+        toggleChannel,
+        extendTargetDirect,
+        seedTourExtensionRequest,
+        clearTourExtensionRequest,
       }}
     >
       {children}

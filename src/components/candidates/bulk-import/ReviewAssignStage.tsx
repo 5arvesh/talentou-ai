@@ -46,6 +46,7 @@ export function ReviewAssignStage({
           </div>
           <button
             type="button"
+            data-tour-id="bulk-confirm-all-btn"
             onClick={onConfirmAllHigh}
             className="shrink-0 inline-flex items-center gap-1.5 rounded-[9px] px-3.5 py-2 text-[12px] font-semibold text-white"
             style={{ background: '#7800D3', border: '1px solid #9B5FE0' }}

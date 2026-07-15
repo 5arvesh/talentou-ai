@@ -20,6 +20,8 @@ import {
   Kanban,
   LayoutGrid,
   List,
+  Sparkles,
+  AlertTriangle,
 } from "lucide-react";
 import { RecruiterScreeningDrawer } from "@/components/recruiter/RecruiterScreeningDrawer";
 import { Button } from "@/components/ui/button";
@@ -81,6 +83,15 @@ export interface JobItem {
 
   // Position approval (Screen 1)
   approvalMethod?: 'auto' | 'manual';
+}
+
+// Compound "at risk" check for the job dashboard entry point — deliberately not just a
+// daysOpen threshold: a job stuck with stalled candidates is at risk regardless of age,
+// and an aged job only counts once it's also showing distress (stalledCount >= 1).
+export function isJobAtRisk(job: JobItem): boolean {
+  const stalledCount = job.stalledCount ?? 0;
+  const daysOpen = job.daysOpen ?? 14;
+  return stalledCount >= 2 || (daysOpen >= 21 && stalledCount >= 1);
 }
 
 interface ModernJobListProps {
@@ -420,13 +431,14 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
             type="single"
             value={viewMode}
             onValueChange={(value) => { if (value) setViewMode(value as "card" | "table"); }}
+            data-tour-id="job-view-toggle"
             className="rounded-lg border border-gray-200 bg-white p-0.5 shadow-sm"
           >
             <ToggleGroupItem value="card" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
               <LayoutGrid className="h-3.5 w-3.5" />
               Cards
             </ToggleGroupItem>
-            <ToggleGroupItem value="table" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
+            <ToggleGroupItem data-tour-id="job-view-toggle-list-btn" value="table" size="sm" className="gap-1.5 px-3 data-[state=on]:bg-primary data-[state=on]:text-white">
               <List className="h-3.5 w-3.5" />
               List
             </ToggleGroupItem>
@@ -586,10 +598,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
             ) : (
               processedJobs.map((job) => (
                 <React.Fragment key={job.id}>
-                  <TableRow 
+                  <TableRow
                     className={cn(
                       "group hover:bg-gray-50/60 transition-colors border-b border-gray-50 cursor-pointer",
-                      expandedJobs.has(job.id) ? "bg-gray-50/40" : ""
+                      expandedJobs.has(job.id) ? "bg-gray-50/40" : "",
+                      isJobAtRisk(job) ? "border-l-[3px] border-l-destructive" : ""
                     )}
                     onClick={() => toggleExpand(job.id)}
                   >
@@ -610,9 +623,17 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                           {colId === "id" ? (
                             <span className="font-semibold text-gray-900">#{String(value).replace('JOB-', '').padStart(4, "0")}</span>
                           ) : colId === "jobRole" ? (
-                            <span className="font-medium text-gray-900">{value}</span>
+                            <span className="flex items-center gap-1.5">
+                              <span className="font-medium text-gray-900">{value}</span>
+                              {isJobAtRisk(job) && (
+                                <span data-tour-id="job-at-risk-flag" className="inline-flex items-center gap-1 shrink-0 text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-destructive/10 text-destructive uppercase tracking-wide whitespace-nowrap">
+                                  <AlertTriangle className="h-2.5 w-2.5" />
+                                  At risk
+                                </span>
+                              )}
+                            </span>
                           ) : colId === "status" ? (
-                            <Badge variant="outline" className={cn("font-medium px-2 py-0.5", getStatusColor(value))}>
+                            <Badge data-tour-id="job-status-badge" variant="outline" className={cn("font-medium px-2 py-0.5", getStatusColor(value))}>
                               {value}
                             </Badge>
                           ) : colId === "priority" ? (
@@ -655,11 +676,21 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                       </TableCell>
                     )}
                     <TableCell className="text-right pr-4 py-3" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-end gap-2">
+                      <div data-tour-id="job-row-actions" className="flex items-center justify-end gap-2">
+                      <Button
+                        data-tour-id="job-view-plan-btn"
+                        variant="outline"
+                        size="sm"
+                        className="h-9 gap-1.5 border-primary/30 text-primary hover:bg-primary/5 hover:text-primary"
+                        onClick={() => handleAction("view-dashboard", job)}
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        View Plan
+                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-8 gap-1.5 text-gray-600 border-gray-200 hover:text-primary hover:border-primary/40 hover:bg-primary/5"
+                        className="h-9 gap-1.5 text-gray-600 border-gray-200 hover:text-primary hover:border-primary/40 hover:bg-primary/5"
                         onClick={() => handleAction("view-pipeline", job)}
                       >
                         <Kanban className="h-3.5 w-3.5" />

@@ -74,7 +74,7 @@ export function PlaybookSuggestions() {
   const positionTitle = selected?.position?.jobTitle ?? '';
 
   return (
-    <div className="w-full mt-7">
+    <div data-tour-id="pa-playbook-suggestions" className="w-full mt-7">
       {/* "or" divider */}
       <div className="flex items-center gap-3 mb-5">
         <div className="flex-1 h-px bg-border" />

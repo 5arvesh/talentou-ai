@@ -114,6 +114,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
   return (
     <div ref={setNodeRef} style={style}>
       <Card
+        data-tour-id="kanban-candidate-card"
         className={`mb-2 border shadow-sm hover:shadow-md transition-all cursor-pointer select-none ${isStalled ? 'border-amber-300 ring-1 ring-amber-200' : 'border-border'}`}
         onClick={handleCardClick}
       >
@@ -141,6 +142,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
                 {...attributes}
                 {...listeners}
                 data-action-btn
+                data-tour-id="kanban-drag-handle"
                 className="p-0.5 rounded cursor-grab active:cursor-grabbing hover:bg-muted transition-colors"
                 title="Drag to move"
                 onClick={(e) => e.stopPropagation()}
@@ -157,7 +159,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
           </div>
 
           {/* Fit Score + Fit Label */}
-          <div className="flex items-center justify-between mb-2">
+          <div data-tour-id="kanban-fit-score" className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1">
               <Star className="h-3 w-3 text-amber-500" />
               <span className="text-xs font-semibold">{candidate.fitScore}</span>
@@ -275,7 +277,7 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
         {embedded ? (
           <div className="flex items-center gap-3">
             <Select value={selectedJobId} onValueChange={setSelectedJobId}>
-              <SelectTrigger className="w-[220px] h-9 text-sm font-medium">
+              <SelectTrigger data-tour-id="kanban-job-selector" className="w-[220px] h-9 text-sm font-medium">
                 <SelectValue placeholder="Select a job" />
               </SelectTrigger>
               <SelectContent>
@@ -334,7 +336,7 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
       )}
 
       {/* Kanban columns */}
-      <div className="flex-1 overflow-x-auto p-6">
+      <div data-tour-id="kanban-columns" className="flex-1 overflow-x-auto p-6">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}

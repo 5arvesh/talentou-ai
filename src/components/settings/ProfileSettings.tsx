@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Code2, Briefcase, Users, Plus, ArrowRight, LucideIcon } from 'lucide-react';
+import { Code2, Briefcase, Users, Plus, ArrowRight, LucideIcon, IdCard } from 'lucide-react';
 import { PredictiveSearchInput } from '@/components/onboarding/ui/PredictiveSearchInput';
 import { SeniorityPill } from '@/components/onboarding/ui/SeniorityPill';
 import { ProjectCard } from '@/components/onboarding/ui/ProjectCard';
@@ -10,6 +10,71 @@ import {
   BROAD_REGIONS, REGION_PLACES, EXPERTISE_SUGGESTIONS, TECH_SUBS, NONTECH_SUBS, SENIORITY,
 } from '@/components/onboarding/recruiter/RecruiterProfile';
 import { DEPTS, MOCK_PROJECTS, type Project } from '@/components/onboarding/hl/HLProfile';
+import { TourStep } from '@/store/tour-store';
+import { RECRUITER_TOUR_SCREEN_SEQUENCE, HL_TOUR_SCREEN_SEQUENCE } from '@/constants/tourScreens';
+
+export function buildRecruiterSettingsTourSteps(navigate: (path: string) => void): TourStep[] {
+  return [
+    {
+      variant: 'intro',
+      icon: IdCard,
+      screenSequence: RECRUITER_TOUR_SCREEN_SEQUENCE,
+      screenKey: 'settings',
+      title: "Your recruiter profile",
+      description: "This is where you manage the information you set during onboarding — sourcing regions, expertise sectors, domain, and seniority preferences. Keeping this accurate helps the AI match roles to you.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav"]',
+      title: "Settings",
+      description: "As a recruiter, your main setting is your profile. Other sections like Playbooks and License are managed by your Recruitment Lead.",
+    },
+    {
+      targetSelector: '[data-tour-id="profile-sourcing-regions"]',
+      title: "Where you recruit",
+      description: "The geographic regions you source from, broad to specific. Update this when your focus shifts.",
+      onEnter: () => navigate('/settings/profile'),
+    },
+    {
+      targetSelector: '[data-tour-id="profile-expertise-domain"]',
+      title: "What you know",
+      description: "Your industry sectors and whether you focus on tech, non-tech, or both. This helps the system assign relevant roles to you.",
+    },
+    {
+      targetSelector: '[data-tour-id="profile-seniority"]',
+      title: "Seniority level",
+      description: "The career levels you typically recruit for. Affects which open roles get suggested for your workload.",
+    },
+  ];
+}
+
+export function buildHLSettingsTourSteps(navigate: (path: string) => void): TourStep[] {
+  return [
+    {
+      variant: 'intro',
+      icon: IdCard,
+      screenSequence: HL_TOUR_SCREEN_SEQUENCE,
+      screenKey: 'settings',
+      title: "Your settings",
+      description: "Manage your profile (project and department from onboarding) and the application form candidates see when they apply.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav"]',
+      title: "Two sections for you",
+      description: "Profile and Application Form are the settings relevant to your role. Other sections like License and Playbooks are managed by your Recruitment Lead.",
+    },
+    {
+      targetSelector: '[data-tour-id="hl-profile-fields"]',
+      title: "Your info",
+      description: "The project and department you set during onboarding. Update these when you move teams or take on a new project.",
+      onEnter: () => navigate('/settings/profile'),
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav-application-form"]',
+      title: "What candidates fill out",
+      description: "Toggle fields visible or required, and add custom fields for the form candidates see when they apply to your roles.",
+    },
+  ];
+}
 
 const DEFAULT_USP =
   `We're a team that moves fast, ships impactful work, and genuinely cares about the people we hire. Our culture is built on transparency, ownership, and continuous learning. We believe great talent deserves great opportunities — and we work hard to make sure every new hire feels that from day one.`;
@@ -74,6 +139,7 @@ function toggle(setter: React.Dispatch<React.SetStateAction<string[]>>, label: s
 
 /* ---------------- Recruiter ---------------- */
 function RecruiterProfileEditor() {
+
   const saved = (() => { try { return JSON.parse(localStorage.getItem('recruiterProfile') || '{}'); } catch { return {}; } })();
   const [broadRegions, setBroadRegions] = useState<string[]>(saved.broadRegions ?? []);
   const [specificLocations, setSpecificLocations] = useState<string[]>(saved.specificLocations ?? []);
@@ -117,7 +183,7 @@ function RecruiterProfileEditor() {
       </div>
 
       {/* Regions */}
-      <div>
+      <div data-tour-id="profile-sourcing-regions">
         <SectionLabel>Sourcing regions</SectionLabel>
         <div className="flex flex-wrap gap-2">
           {BROAD_REGIONS.map((r) => (
@@ -137,60 +203,62 @@ function RecruiterProfileEditor() {
         )}
       </div>
 
-      {/* Expertise */}
-      <div>
-        <SectionLabel>Expertise (sectors)</SectionLabel>
-        <PredictiveSearchInput
-          placeholder="Search sectors or type your own..."
-          selected={expertise}
-          suggestions={EXPERTISE_SUGGESTIONS}
-          onAdd={(item) => setExpertise((p) => [...p, item])}
-          onRemove={(item) => setExpertise((p) => p.filter((i) => i !== item))}
-        />
-      </div>
-
-      {/* Domain */}
-      <div>
-        <SectionLabel>Recruitment domain</SectionLabel>
-        <div className="flex gap-3">
-          <DomainCard icon={Code2} label="Tech" sub="Engineering, data, product & design" selected={domainTop.includes('tech')} onClick={() => toggleDomainTop('tech')} />
-          <DomainCard icon={Briefcase} label="Non-tech" sub="Sales, marketing, finance, ops & more" selected={domainTop.includes('non-tech')} onClick={() => toggleDomainTop('non-tech')} />
+      <div data-tour-id="profile-expertise-domain" className="space-y-8">
+        {/* Expertise */}
+        <div>
+          <SectionLabel>Expertise (sectors)</SectionLabel>
+          <PredictiveSearchInput
+            placeholder="Search sectors or type your own..."
+            selected={expertise}
+            suggestions={EXPERTISE_SUGGESTIONS}
+            onAdd={(item) => setExpertise((p) => [...p, item])}
+            onRemove={(item) => setExpertise((p) => p.filter((i) => i !== item))}
+          />
         </div>
-        {domainTop.length > 0 && (
-          <div className="mt-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-gray-400 mb-2">Narrow it down</p>
-            <div className="flex flex-wrap gap-2">
-              {domainTop.includes('tech') && TECH_SUBS.map((s) => <Chip key={s} label={s} selected={domainSub.includes(s)} onClick={() => toggle(setDomainSub, s)} />)}
-              {domainTop.includes('non-tech') && NONTECH_SUBS.map((s) => <Chip key={s} label={s} selected={domainSub.includes(s)} onClick={() => toggle(setDomainSub, s)} />)}
-              {domainSub.filter((s) => !TECH_SUBS.includes(s) && !NONTECH_SUBS.includes(s)).map((s) => (
-                <Chip key={s} label={s} selected onClick={() => toggle(setDomainSub, s)} />
-              ))}
-              <button
-                type="button"
-                onClick={() => setOthersOpen((v) => !v)}
-                className="px-4 py-[8px] rounded-[99px] border-[1.5px] border-dashed border-[#cbb9e8] text-[13px] font-medium text-[#7800D3] bg-white hover:bg-[#faf8ff] transition-colors"
-              >
-                + Others
-              </button>
-            </div>
-            {othersOpen && (
-              <div className="flex gap-2 mt-3">
-                <input
-                  value={otherDraft}
-                  onChange={(e) => setOtherDraft(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addOther(); } }}
-                  placeholder="Type a domain and press Add"
-                  className="w-[260px] px-3 py-[9px] border border-gray-200 rounded-[10px] text-[12px] outline-none focus:border-[#7800D3] transition-colors"
-                />
-                <button type="button" onClick={addOther} disabled={!otherDraft.trim()} className="bg-[#7800D3] text-white rounded-[10px] px-4 py-[9px] text-[13px] font-medium hover:opacity-90 transition-opacity disabled:opacity-40">Add</button>
-              </div>
-            )}
+
+        {/* Domain */}
+        <div>
+          <SectionLabel>Recruitment domain</SectionLabel>
+          <div className="flex gap-3">
+            <DomainCard icon={Code2} label="Tech" sub="Engineering, data, product & design" selected={domainTop.includes('tech')} onClick={() => toggleDomainTop('tech')} />
+            <DomainCard icon={Briefcase} label="Non-tech" sub="Sales, marketing, finance, ops & more" selected={domainTop.includes('non-tech')} onClick={() => toggleDomainTop('non-tech')} />
           </div>
-        )}
+          {domainTop.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-gray-400 mb-2">Narrow it down</p>
+              <div className="flex flex-wrap gap-2">
+                {domainTop.includes('tech') && TECH_SUBS.map((s) => <Chip key={s} label={s} selected={domainSub.includes(s)} onClick={() => toggle(setDomainSub, s)} />)}
+                {domainTop.includes('non-tech') && NONTECH_SUBS.map((s) => <Chip key={s} label={s} selected={domainSub.includes(s)} onClick={() => toggle(setDomainSub, s)} />)}
+                {domainSub.filter((s) => !TECH_SUBS.includes(s) && !NONTECH_SUBS.includes(s)).map((s) => (
+                  <Chip key={s} label={s} selected onClick={() => toggle(setDomainSub, s)} />
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setOthersOpen((v) => !v)}
+                  className="px-4 py-[8px] rounded-[99px] border-[1.5px] border-dashed border-[#cbb9e8] text-[13px] font-medium text-[#7800D3] bg-white hover:bg-[#faf8ff] transition-colors"
+                >
+                  + Others
+                </button>
+              </div>
+              {othersOpen && (
+                <div className="flex gap-2 mt-3">
+                  <input
+                    value={otherDraft}
+                    onChange={(e) => setOtherDraft(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addOther(); } }}
+                    placeholder="Type a domain and press Add"
+                    className="w-[260px] px-3 py-[9px] border border-gray-200 rounded-[10px] text-[12px] outline-none focus:border-[#7800D3] transition-colors"
+                  />
+                  <button type="button" onClick={addOther} disabled={!otherDraft.trim()} className="bg-[#7800D3] text-white rounded-[10px] px-4 py-[9px] text-[13px] font-medium hover:opacity-90 transition-opacity disabled:opacity-40">Add</button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Seniority */}
-      <div>
+      <div data-tour-id="profile-seniority">
         <SectionLabel>Seniority levels</SectionLabel>
         <div className="flex flex-wrap gap-2">
           {SENIORITY.map(({ icon, label, sub }) => (
@@ -233,32 +301,34 @@ function HiringProfileEditor() {
         <p className="text-sm text-gray-500 mt-1">Your project and department. This links positions to a project so the AI can track progress.</p>
       </div>
 
-      <div>
-        <SectionLabel>Your project</SectionLabel>
-        <div className="flex gap-2 mb-3 flex-wrap">
-          <input value={newName} onChange={(e) => setNewName(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addProject(); } }} placeholder="New project name" className="flex-1 min-w-[160px] px-3 py-[10px] border border-gray-200 rounded-[10px] text-[12px] outline-none focus:border-[#7800D3] transition-colors" />
-          <input value={newClient} onChange={(e) => setNewClient(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addProject(); } }} placeholder="Client" className="w-[140px] px-3 py-[10px] border border-gray-200 rounded-[10px] text-[12px] outline-none focus:border-[#7800D3] transition-colors" />
-          <button type="button" onClick={addProject} disabled={!newName.trim()} className="bg-[#7800D3] text-white rounded-[10px] px-4 py-[10px] text-[13px] font-medium inline-flex items-center gap-1 hover:opacity-90 transition-opacity disabled:opacity-40"><Plus className="h-3.5 w-3.5" />Add</button>
+      <div data-tour-id="hl-profile-fields" className="space-y-8">
+        <div>
+          <SectionLabel>Your project</SectionLabel>
+          <div className="flex gap-2 mb-3 flex-wrap">
+            <input value={newName} onChange={(e) => setNewName(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addProject(); } }} placeholder="New project name" className="flex-1 min-w-[160px] px-3 py-[10px] border border-gray-200 rounded-[10px] text-[12px] outline-none focus:border-[#7800D3] transition-colors" />
+            <input value={newClient} onChange={(e) => setNewClient(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addProject(); } }} placeholder="Client" className="w-[140px] px-3 py-[10px] border border-gray-200 rounded-[10px] text-[12px] outline-none focus:border-[#7800D3] transition-colors" />
+            <button type="button" onClick={addProject} disabled={!newName.trim()} className="bg-[#7800D3] text-white rounded-[10px] px-4 py-[10px] text-[13px] font-medium inline-flex items-center gap-1 hover:opacity-90 transition-opacity disabled:opacity-40"><Plus className="h-3.5 w-3.5" />Add</button>
+          </div>
+          <div className="flex flex-col gap-2 max-w-md">
+            {projects.map((p) => (
+              <ProjectCard key={p.name} name={p.name} client={p.client} selected={selectedProject === p.name} onClick={() => setSelectedProject(selectedProject === p.name ? null : p.name)} />
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-2 max-w-md">
-          {projects.map((p) => (
-            <ProjectCard key={p.name} name={p.name} client={p.client} selected={selectedProject === p.name} onClick={() => setSelectedProject(selectedProject === p.name ? null : p.name)} />
-          ))}
-        </div>
-      </div>
 
-      <div>
-        <SectionLabel>Your department</SectionLabel>
-        <div className="grid grid-cols-3 gap-[10px] max-w-md">
-          {DEPTS.map(({ icon: Icon, label }) => {
-            const sel = selectedDept === label;
-            return (
-              <button key={label} type="button" onClick={() => setSelectedDept(sel ? null : label)} className={`border-[1.5px] rounded-[12px] p-[16px_10px] text-center transition-all ${sel ? 'border-[#7800D3] bg-[#EEEDFE]' : 'border-gray-200 bg-white hover:border-[rgba(120,0,211,0.3)] hover:bg-[#faf8ff]'}`}>
-                <Icon className={`h-[20px] w-[20px] mx-auto mb-[6px] ${sel ? 'text-[#7800D3]' : 'text-gray-400'}`} />
-                <div className={`font-sora text-[12px] font-medium ${sel ? 'text-[#7800D3]' : 'text-gray-600'}`}>{label}</div>
-              </button>
-            );
-          })}
+        <div>
+          <SectionLabel>Your department</SectionLabel>
+          <div className="grid grid-cols-3 gap-[10px] max-w-md">
+            {DEPTS.map(({ icon: Icon, label }) => {
+              const sel = selectedDept === label;
+              return (
+                <button key={label} type="button" onClick={() => setSelectedDept(sel ? null : label)} className={`border-[1.5px] rounded-[12px] p-[16px_10px] text-center transition-all ${sel ? 'border-[#7800D3] bg-[#EEEDFE]' : 'border-gray-200 bg-white hover:border-[rgba(120,0,211,0.3)] hover:bg-[#faf8ff]'}`}>
+                  <Icon className={`h-[20px] w-[20px] mx-auto mb-[6px] ${sel ? 'text-[#7800D3]' : 'text-gray-400'}`} />
+                  <div className={`font-sora text-[12px] font-medium ${sel ? 'text-[#7800D3]' : 'text-gray-600'}`}>{label}</div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 

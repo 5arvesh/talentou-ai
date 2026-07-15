@@ -1,35 +1,49 @@
-﻿import React, { useEffect } from 'react';
+import React from 'react';
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TAAssociateJobList } from "@/TAAssociate/Job/TAAssociateJobList";
-import { useTourStore, TourStep } from "@/store/tour-store";
+import { TourStep } from "@/store/tour-store";
+import { useScreenTour } from "@/hooks/useScreenTour";
+import { RECRUITER_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
+import { ListChecks } from "lucide-react";
 
 const JOB_LIST_TOUR_STEPS: TourStep[] = [
   {
-    title: "Your assigned jobs",
-    description: "Each row shows the job title, experience required, status, number of applicants and priority. Click any row to expand its details.",
-    targetSelector: '[data-tour-id="job-list"]',
+    variant: 'intro',
+    icon: ListChecks,
+    screenSequence: RECRUITER_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'job-list',
+    title: "Your assigned roles",
+    description: "This view shows only the jobs assigned to you. Same actions, same views as the full team list — just filtered to your workload.",
   },
   {
-    title: "Customize your columns",
-    description: "Toggle which columns are visible in the table. Check or uncheck any column, then click Apply to save your view.",
-    targetSelector: '[data-tour-id="job-col-filter-popover"]',
-    onEnter: () => {
-      (document.querySelector('[data-tour-id="job-col-filter-btn"]') as HTMLElement)?.click();
-    },
+    title: "Status",
+    description: "Shows where a role sits: Draft, In Review, Active, On Hold, Filled, Closed, or Cancelled.",
+    targetSelector: '[data-tour-id="job-status-badge"]',
   },
   {
-    title: "Search & filter jobs",
-    description: "Type a job name or ID to filter instantly. Click any column header to sort the table ascending or descending.",
-    targetSelector: '[data-tour-id="job-search"]',
+    title: "At risk flag",
+    description: "A role gets flagged when candidates have stalled in two or more stages, or it's been open 21+ days with at least one stall. Check these first.",
+    targetSelector: '[data-tour-id="job-at-risk-flag"]',
+  },
+  {
+    title: "Job actions",
+    description: "View Plan opens the full job dashboard. View Pipeline opens the Kanban board. The menu next to them has View Candidates, View JD, and Generate JD Link.",
+    targetSelector: '[data-tour-id="job-row-actions"]',
+  },
+  {
+    title: "Switching views",
+    description: "Toggle between Cards for a visual summary and List for a compact scannable table.",
+    targetSelector: '[data-tour-id="job-view-toggle"]',
+  },
+  {
+    title: "Dive deeper",
+    description: "Click View Plan on any job for the full job dashboard — your daily sourcing pace, pipeline funnel, and plan details for that role.",
+    targetSelector: '[data-tour-id="job-view-plan-btn"]',
   },
 ];
 
 export function JobListPage_TAAssociate() {
-  const { startTour } = useTourStore();
-
-  useEffect(() => {
-    startTour("job-list-recruiter", JOB_LIST_TOUR_STEPS);
-  }, []);
+  useScreenTour("recruiter", "job-list", JOB_LIST_TOUR_STEPS);
 
   return (
     <AppLayout>

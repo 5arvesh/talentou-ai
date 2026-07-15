@@ -49,7 +49,7 @@ export function ParsingStage({ total, onDone }: ParsingStageProps) {
   }, [active, onDone]);
 
   return (
-    <div className="flex flex-col items-center py-6">
+    <div data-tour-id="bulk-parsing-stage" className="flex flex-col items-center py-6">
       {/* Spinner */}
       <div
         className="w-16 h-16 rounded-full animate-spin"

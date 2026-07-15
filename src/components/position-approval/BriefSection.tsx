@@ -16,6 +16,7 @@ interface BriefSectionProps {
   children: ReactNode;
   editContent: ReactNode;
   animationDelay?: number;
+  tourId?: string;
 }
 
 export function BriefSection({
@@ -31,9 +32,11 @@ export function BriefSection({
   children,
   editContent,
   animationDelay = 0,
+  tourId,
 }: BriefSectionProps) {
   return (
     <div
+      data-tour-id={tourId}
       className="animate-in fade-in slide-in-from-bottom-1 mb-3"
       style={{ animationDelay: `${animationDelay}ms`, animationFillMode: 'both' }}
     >

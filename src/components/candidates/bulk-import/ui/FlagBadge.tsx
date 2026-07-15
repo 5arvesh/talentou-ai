@@ -7,6 +7,7 @@ export function FlagBadge({ flag, missingFields }: { flag: Flag; missingFields?:
     const fields = missingFields && missingFields.length ? missingFields.join(', ') : 'fields';
     return (
       <span
+        data-tour-id="bulk-flag-badge"
         className="inline-flex items-center gap-[3px] rounded-full text-[9px] font-semibold px-[7px] py-[2px]"
         style={{ background: '#FCEFD7', color: '#7A4F08' }}
       >
@@ -17,6 +18,7 @@ export function FlagBadge({ flag, missingFields }: { flag: Flag; missingFields?:
   }
   return (
     <span
+      data-tour-id="bulk-flag-badge"
       className="inline-flex items-center gap-[3px] rounded-full text-[9px] font-semibold px-[7px] py-[2px]"
       style={{ background: '#FBE0E0', color: '#8E1C1C' }}
     >

@@ -12,6 +12,7 @@ export function ConfidenceBadge({ tier, score }: { tier: Tier; score: number | n
   const s = STYLES[tier];
   return (
     <span
+      data-tour-id="bulk-confidence-badge"
       className="inline-flex items-center gap-[3px] rounded-full text-[10px] font-semibold px-[7px] py-[2px]"
       style={{ background: s.bg, color: s.color }}
     >

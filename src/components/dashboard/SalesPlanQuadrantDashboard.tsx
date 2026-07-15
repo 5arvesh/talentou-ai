@@ -6,10 +6,13 @@ import { BarChart, Bar, XAxis, YAxis, Cell } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Timer, TrendingUp, CheckCircle2, Info } from 'lucide-react';
+import { Timer, TrendingUp, CheckCircle2, Info, LayoutDashboard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KPIStrip } from "@/components/shared/KPIStrip";
 import { SampleDataBadge } from "@/components/dashboard/SampleDataBadge";
+import { useScreenTour } from "@/hooks/useScreenTour";
+import { TourStep } from "@/store/tour-store";
+import { RL_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
 
 const recruiters = [
   { name: 'Sarah Chen', initials: 'SC', active: 4, max: 5, closed: 3, avgClose: '3.8w', status: 'on-track' },
@@ -51,7 +54,40 @@ const kpiStats = [
   { label: 'Open > 3 Weeks',       value: 5,      sub: '+2 vs last month',   subColor: 'text-destructive', icon: TrendingUp },
   { label: 'Avg Time-to-Close',    value: '4.2w', sub: 'Below 5w target',    subColor: 'text-success', icon: CheckCircle2 },
   { label: 'Advancement Rate',     value: '37%',  sub: 'Above 30% target',   subColor: 'text-success', icon: CheckCircle2 },
-  { label: 'Offer Acceptance Rate', value: '83%', sub: 'Above 75% target',   subColor: 'text-success', icon: CheckCircle2 },
+  { label: 'Offer Acceptance Rate', value: '83%', sub: 'Above 75% target',   subColor: 'text-success', icon: CheckCircle2, id: 'kpi-offer-acceptance' },
+];
+
+const RL_DASHBOARD_TOUR_STEPS: TourStep[] = [
+  {
+    variant: 'intro',
+    icon: LayoutDashboard,
+    screenSequence: RL_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'dashboard',
+    title: "Welcome to your Recruitment Dashboard",
+    description: "Get a complete view of your team's hiring performance, open positions, and recruitment progress from one place.",
+  },
+  {
+    targetSelector: '[data-tour-id="rl-dash-recruiter-filter"]',
+    title: "Focus on any recruiter's performance",
+    description: "When this is live, you'll be able to drill into one recruiter's roles and performance — for now it shows the full team view.",
+  },
+  {
+    targetSelector: '[data-tour-id="rl-dash-kpi-row"]',
+    title: "Hiring performance at a glance",
+    description: "Track open positions, ageing roles, time-to-close, candidate advancement, and offer acceptance. Green means you're on track, while red highlights areas that need attention.",
+  },
+  {
+    targetSelector: '[data-tour-id="rl-dash-recruiter-performance"]',
+    title: "See how each recruiter is performing",
+    description: "Compare recruiter workload, closures, and average closing time to quickly identify who's on track and where support may be needed.",
+  },
+  {
+    targetSelector: '[data-tour-id="rl-dash-pipeline-health"]',
+    title: "Track progress against hiring targets",
+    description: "See how your team's hiring outcomes compare against targets and quickly spot areas falling behind.",
+    completionTitle: "You're all set",
+    completionDescription: "You now have everything you need to monitor recruitment performance and keep your hiring team on track.",
+  },
 ];
 
 const sourceOfHireData = [
@@ -70,6 +106,8 @@ const SalesPlanQuadrantDashboard = () => {
   const [selectedRecruiter, setSelectedRecruiter] = useState('all');
   const totalHires = sourceOfHireData.reduce((sum, s) => sum + s.count, 0);
 
+  useScreenTour("ta-leader", "dashboard", RL_DASHBOARD_TOUR_STEPS);
+
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Header */}
@@ -82,7 +120,7 @@ const SalesPlanQuadrantDashboard = () => {
           <p className="text-sm text-muted-foreground mt-0.5">Team recruiting activity at a glance</p>
         </div>
         {/* Per-recruiter filter not yet wired to API — shown disabled */}
-        <div className="flex items-center gap-2">
+        <div data-tour-id="rl-dash-recruiter-filter" className="flex items-center gap-2">
           <Select value={selectedRecruiter} onValueChange={setSelectedRecruiter} disabled>
             <SelectTrigger className="w-[160px] h-9 opacity-70 cursor-not-allowed">
               <SelectValue placeholder="All Recruiters" />
@@ -99,12 +137,14 @@ const SalesPlanQuadrantDashboard = () => {
       </div>
 
       {/* KPI Strip */}
-      <KPIStrip stats={kpiStats} cols={5} />
+      <div data-tour-id="rl-dash-kpi-row">
+        <KPIStrip stats={kpiStats} cols={5} />
+      </div>
 
       {/* Quadrant Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div data-tour-id="rl-dash-quadrant-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Recruiter Performance */}
-        <Card className="rounded-card border border-border shadow-card">
+        <Card data-tour-id="rl-dash-recruiter-performance" className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Recruiter Performance</CardTitle>
           </CardHeader>
@@ -149,7 +189,7 @@ const SalesPlanQuadrantDashboard = () => {
         </Card>
 
         {/* Pipeline Health */}
-        <Card className="rounded-card border border-border shadow-card">
+        <Card data-tour-id="rl-dash-pipeline-health" className="rounded-card border border-border shadow-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold">Pipeline Health</CardTitle>
           </CardHeader>
@@ -232,7 +272,7 @@ const SalesPlanQuadrantDashboard = () => {
       </div>
 
       {/* Source of Hire */}
-      <Card className="rounded-card border border-border shadow-card">
+      <Card data-tour-id="rl-dash-source-of-hire" className="rounded-card border border-border shadow-card">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between gap-3">
             <div>

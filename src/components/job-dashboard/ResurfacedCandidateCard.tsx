@@ -1,16 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Sparkles, Info } from 'lucide-react';
-import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { getInitials, getAvatarColor } from '@/lib/avatar';
+import { RoleType } from '@/components/shared/ModernJobList';
 import { ResurfacedCandidate } from '@/context/RecruitmentPlanContext';
+
+function basePathForRole(role: RoleType) {
+  return role === 'ta-leader' ? '/sales-plan' : role === 'recruiter' ? '/ta-associate' : '/hiring-lead';
+}
 
 interface ResurfacedCandidateCardProps {
   candidate: ResurfacedCandidate;
+  role: RoleType;
 }
 
-export function ResurfacedCandidateCard({ candidate }: ResurfacedCandidateCardProps) {
+export function ResurfacedCandidateCard({ candidate, role }: ResurfacedCandidateCardProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-card border border-border bg-card p-3 shadow-card">
       <div className="flex items-center gap-3">
@@ -52,12 +61,26 @@ export function ResurfacedCandidateCard({ candidate }: ResurfacedCandidateCardPr
       </div>
 
       <div className="flex gap-2 mt-2.5">
-        <Button variant="outline" size="sm" className="h-7 text-[10px]" onClick={() => toast.info(`Opening ${candidate.name}'s profile`)}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-9 text-[10px]"
+          onClick={() => navigate(`${basePathForRole(role)}/candidate-profile/${candidate.id}`)}
+        >
           View profile
         </Button>
-        <Button variant="ghost" size="sm" className="h-7 text-[10px]" onClick={() => toast.success(`Outreach drafted for ${candidate.name}`)}>
-          Reach out
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="sm" disabled className="h-9 text-[10px] opacity-50 cursor-not-allowed">
+                Reach out
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Outreach integration coming soon</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );

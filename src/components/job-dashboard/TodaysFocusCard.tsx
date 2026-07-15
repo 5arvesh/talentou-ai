@@ -6,6 +6,7 @@ import { RecruitmentPlanData, useRecruitmentPlan, ZoneKey } from '@/context/Recr
 
 interface TodaysFocusCardProps {
   role: RoleType;
+  variant?: 'full' | 'compact';
 }
 
 interface FocusContent {
@@ -14,24 +15,37 @@ interface FocusContent {
 }
 
 function getFocusContent(data: RecruitmentPlanData, role: RoleType): FocusContent {
-  const { pace, targetChangeRequest, recruiter, targets } = data;
+  const { pace, targetChangeRequest, targets } = data;
 
   if (pace.isEscalation) {
+    const hasPendingRequest = targetChangeRequest?.status === 'pending';
+
     if (role === 'ta-leader') {
-      return {
-        text: `Pace alert: sourcing is behind target. Projected close is ${pace.projectedCloseDate} — ${pace.escalationDaysLate} days later than the ${pace.targetCloseDate} target. ${recruiter.name} has requested a timeline extension.`,
-        cta: { label: 'Review options', zone: 'pace' },
-      };
+      return hasPendingRequest
+        ? {
+            text: `Pace alert: sourcing is behind target. ${targetChangeRequest!.requestedBy} has requested to extend the timeline from ${targetChangeRequest!.currentDays} to ${targetChangeRequest!.proposedDays} days. Review the request to resume pace tracking.`,
+            cta: { label: 'Review request', zone: 'plan' },
+          }
+        : {
+            text: `Pace alert: sourcing is behind target. Projected close is ${pace.projectedCloseDate} — ${pace.escalationDaysLate} days later than the ${pace.targetCloseDate} target.`,
+            cta: { label: 'Review options', zone: 'pace' },
+          };
     }
     if (role === 'recruiter') {
-      return {
-        text: `You're behind pace — sourcing is at ${Math.round((pace.todayActual / pace.dailyTarget) * 100)}% of today's target. Projected close ${pace.projectedCloseDate}, ${pace.escalationDaysLate} days later than planned.`,
-        cta: { label: 'Review options', zone: 'pace' },
-      };
+      return hasPendingRequest
+        ? {
+            text: `Your request to extend the timeline to ${targetChangeRequest!.proposedDays} days is awaiting Recruitment Lead approval. The pace tracker is paused until then.`,
+          }
+        : {
+            text: `You're behind pace — sourcing is at ${Math.round((pace.todayActual / pace.dailyTarget) * 100)}% of today's target. Projected close ${pace.projectedCloseDate}, ${pace.escalationDaysLate} days later than planned.`,
+            cta: { label: 'Review options', zone: 'pace' },
+          };
     }
-    return {
-      text: `Pace alert flagged for this role — projected close ${pace.projectedCloseDate} (${pace.escalationDaysLate} days later than planned). The Recruitment Lead is reviewing options.`,
-    };
+    return hasPendingRequest
+      ? { text: `A timeline change is under review for this role. The recruitment plan will update once it's approved.` }
+      : {
+          text: `Pace alert flagged for this role — projected close ${pace.projectedCloseDate} (${pace.escalationDaysLate} days later than planned). The Recruitment Lead is reviewing options.`,
+        };
   }
 
   if (targetChangeRequest?.status === 'pending') {
@@ -56,7 +70,7 @@ function getFocusContent(data: RecruitmentPlanData, role: RoleType): FocusConten
   };
 }
 
-export function TodaysFocusCard({ role }: TodaysFocusCardProps) {
+export function TodaysFocusCard({ role, variant = 'full' }: TodaysFocusCardProps) {
   const { data, setActiveZone } = useRecruitmentPlan();
   const [pulsing, setPulsing] = useState(true);
 
@@ -69,6 +83,7 @@ export function TodaysFocusCard({ role }: TodaysFocusCardProps) {
 
   return (
     <div
+      data-tour-id="jd-todays-focus"
       className={cn(
         'rounded-card p-3.5 bg-gradient-to-br from-[#0e0020] to-[#1a0040] border border-[rgba(192,132,252,0.2)]',
         pulsing && 'animate-focus-pulse'
@@ -82,12 +97,14 @@ export function TodaysFocusCard({ role }: TodaysFocusCardProps) {
       {content.cta && (
         <button
           onClick={() => setActiveZone(content.cta!.zone)}
-          className="mt-3 px-3 py-1.5 rounded-btn text-[11px] font-medium bg-[rgba(120,0,211,0.6)] border border-[rgba(192,132,252,0.4)] text-[#e9d5ff] hover:bg-[rgba(120,0,211,0.8)] transition-colors"
+          className="mt-3 px-3 py-1.5 rounded-btn text-[11px] font-medium bg-[rgba(120,0,211,0.6)] border border-[rgba(192,132,252,0.4)] text-[#e9d5ff] hover:bg-[rgba(120,0,211,0.8)] transition-colors animate-review-pulse"
         >
           {content.cta.label}
         </button>
       )}
-      <p className="mt-3 text-[10px] text-white/30">Next check-in: Tomorrow · Generated 09:00</p>
+      {variant === 'full' && (
+        <p className="mt-3 text-[10px] text-white/30">Next check-in: Tomorrow · Generated 09:00</p>
+      )}
     </div>
   );
 }

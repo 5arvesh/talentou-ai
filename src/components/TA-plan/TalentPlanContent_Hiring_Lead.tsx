@@ -13,7 +13,7 @@ import { MeasureKPI_Hiring_Lead } from "@/components/measure/MeasureKPI_Hiring_L
 import { MeasureKPIChat_Hiring_Lead } from "@/components/measure/MeasureKPIChat_Hiring_Lead";
 import { AssignSDRs_Hiring_Lead } from "@/components/assign/AssignSDRs_Hiring_Lead";
 import { AssignTATeamChat_Hiring_Lead } from "@/components/assign/AssignTATeamChat_Hiring_Lead";
-import { HiringLeadDashboard } from '../dashboard/HiringLeadDashboard';
+import { HiringLeadCommandDashboard } from '../dashboard/HiringLeadCommandDashboard';
 import TALeaderDashboard from '../dashboard/TALeaderDashboard';
 import CompanyList from '@/TAAssociate/Company/CompanyList';
 import JobList from '@/TAAssociate/Job/JobList';
@@ -24,8 +24,8 @@ export const TalentPlanContent_Hiring_Lead = () => {
   return (
     <div className="w-full overflow-hidden">
       <Routes>
-        <Route path="/home" element={<HiringLeadDashboard />} />
-        <Route path="/dashboard" element={<HiringLeadDashboard />} />
+        <Route path="/home" element={<HiringLeadCommandDashboard />} />
+        <Route path="/dashboard" element={<HiringLeadCommandDashboard />} />
         <Route path="/" element={<Navigate to="/hiring-lead-plan/home" replace />} />
         <Route path="/plan" element={<SalesPlanDashboard_Hiring_Lead />} />
         <Route path="/message" element={<MessageSubmission_Hiring_Lead />} />

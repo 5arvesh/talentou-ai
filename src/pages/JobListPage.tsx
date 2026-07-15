@@ -1,35 +1,39 @@
-﻿import React, { useEffect } from 'react';
+import React from 'react';
 import { AppLayout } from "@/components/layout/AppLayout";
 import { JobList } from "@/components/hiring-lead/JobList";
-import { useTourStore, TourStep } from "@/store/tour-store";
+import { TourStep } from "@/store/tour-store";
+import { useScreenTour } from "@/hooks/useScreenTour";
+import { HL_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
+import { ListChecks } from "lucide-react";
 
 const JOB_LIST_TOUR_STEPS: TourStep[] = [
   {
-    title: "Your job requisitions",
-    description: "Each row shows the job title, experience required, status, number of applicants and openings. Click any row to expand its details.",
-    targetSelector: '[data-tour-id="job-list"]',
+    variant: 'intro',
+    icon: ListChecks,
+    screenSequence: HL_TOUR_SCREEN_SEQUENCE,
+    screenKey: 'job-list',
+    title: "Your positions",
+    description: "Every role you've opened, in one place — as cards or a compact table, whichever you prefer.",
   },
   {
-    title: "Customize your columns",
-    description: "Toggle which columns are visible in the table. Check or uncheck any column, then click Apply to save your view.",
-    targetSelector: '[data-tour-id="job-col-filter-popover"]',
-    onEnter: () => {
-      (document.querySelector('[data-tour-id="job-col-filter-btn"]') as HTMLElement)?.click();
-    },
+    title: "Status",
+    description: "Shows where a role sits: Draft, In Review, Active, On Hold, Filled, Closed, or Cancelled.",
+    targetSelector: '[data-tour-id="job-status-badge"]',
   },
   {
-    title: "Search & filter jobs",
-    description: "Type a job name or ID to filter instantly. Click any column header to sort the table ascending or descending.",
-    targetSelector: '[data-tour-id="job-search"]',
+    title: "Switch views",
+    description: "Card view for a visual overview, list view for compact scanning.",
+    targetSelector: '[data-tour-id="job-view-toggle"]',
+  },
+  {
+    title: "See the pipeline",
+    description: "View Plan opens the full job dashboard for that role. View Pipeline jumps straight to the candidate list.",
+    targetSelector: '[data-tour-id="job-row-actions"]',
   },
 ];
 
 export function JobListPage() {
-  const { startTour } = useTourStore();
-
-  useEffect(() => {
-    startTour("job-list-hl", JOB_LIST_TOUR_STEPS);
-  }, []);
+  useScreenTour("hiring-lead", "job-list", JOB_LIST_TOUR_STEPS);
 
   return (
     <AppLayout>

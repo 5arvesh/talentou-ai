@@ -84,7 +84,7 @@ export function AIPlanPanel() {
       <div className="flex-1 overflow-y-auto flex flex-col items-center px-5 pt-[32px] pb-[28px]">
         <div className="w-full" style={{ maxWidth: '760px' }}>
           {/* AI Plan Summary card */}
-          <div className="w-full rounded-[14px] border-[0.5px] border-[rgba(192,132,252,0.2)] bg-[#0e0020] p-[28px_36px]">
+          <div data-tour-id="pa-plan-summary" className="w-full rounded-[14px] border-[0.5px] border-[rgba(192,132,252,0.2)] bg-[#0e0020] p-[28px_36px]">
             <div className="flex items-center gap-[6px] mb-3">
               <Sparkles className="h-[11px] w-[11px] text-[#c084fc] shrink-0" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#c084fc]">
@@ -120,7 +120,7 @@ export function AIPlanPanel() {
       </div>
 
       {/* Sticky footer — centered buttons */}
-      <div className="shrink-0 border-t border-border bg-background px-[18px] py-[14px] flex items-center justify-center gap-2">
+      <div data-tour-id="pa-footer-actions" className="shrink-0 border-t border-border bg-background px-[18px] py-[14px] flex items-center justify-center gap-2">
         <button
           onClick={() => setJdOpen(true)}
           className="inline-flex items-center gap-1 border border-border text-[12px] text-muted-foreground font-medium px-4 py-[9px] rounded-[9px] hover:bg-muted transition-colors"
@@ -134,6 +134,7 @@ export function AIPlanPanel() {
           Edit the AI plan
         </button>
         <button
+          data-tour-id="pa-approve-btn"
           onClick={confirmSend}
           className="inline-flex items-center gap-1.5 bg-[#7800D3] text-white text-[12px] font-medium px-4 py-[9px] rounded-[9px] hover:opacity-90 transition-opacity"
         >

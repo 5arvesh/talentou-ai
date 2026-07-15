@@ -58,7 +58,7 @@ export function CandidateReviewRow({ candidate, onConfirm, onSkip, onChangePosit
       </div>
 
       {/* Actions */}
-      <div className="flex items-center justify-end gap-1.5">
+      <div data-tour-id="bulk-row-confirm-skip" className="flex items-center justify-end gap-1.5">
         <button
           type="button"
           onClick={onConfirm}

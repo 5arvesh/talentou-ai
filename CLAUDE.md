@@ -86,8 +86,9 @@ src/
 │   ├── market/ / media/ / measure/   # LEGACY — market DB, outreach, KPI (old TA-plan flow)
 │   ├── ta-plan-flow/        # LEGACY — old multi-step TA-plan flow
 │   └── super-admin/         # Tenant management
-├── hooks/                   # use-mobile, use-toast
-└── constants/               # App-wide constants and assets
+├── store/                   # Zustand stores (tour-store, chat-panel-store)
+├── hooks/                   # use-mobile, use-toast, useScreenTour (namespaced/resumable tour wiring)
+└── constants/               # App-wide constants and assets (incl. tourScreens.ts — cross-screen tour sequence)
 ```
 
 ---
@@ -174,8 +175,11 @@ Centered sliding wizards built on `OnboardingShell` (dark `#0e0020` `LeftPanel` 
 
 Finishing routes to the role dashboard. All answers persist in `localStorage` (`recruiterProfile`, `hlProfile`, `companyPitch`) and are **editable later in Settings → Profile**. (Legacy `/onboarding/step1-4`, `/onboarding-ta-associate/*`, `/onboarding-hiring-lead/*` step pages still exist but are superseded.)
 
+### Product Tour (onboarding coach marks)
+An in-app guided-tour engine — `src/store/tour-store.ts` (zustand `useTourStore`) + `src/components/shared/TourGuide.tsx` (portal-rendered overlay), mounted once globally in `Layout.tsx`. Two step types: **coach marks** (spotlight cutout + pointer arrow around a real `[data-tour-id="..."]` element) and **full-bleed intro slides** (`variant: 'intro'` — dark `#0e0020` welcome card with a pulsing icon and a cross-screen progress bar). A "?" icon in `Header.tsx` re-launches the current page's tour at any time. New tours should use the `useScreenTour(role, screen, steps)` hook (`src/hooks/useScreenTour.ts`), which namespaces persistence as `talentou:tour-seen:{role}:{screen}` (resumable — Skip is permanent, Exit (×) saves the current step and resumes on next visit/relaunch). Recruitment Lead has tours on all 6 of its primary screens (dashboard, job list, job dashboard, new-position approval, bulk import, license/credits); see the **Notes for Future Development** caveat on legacy vs. namespaced tour keys before adding more.
+
 ### Settings
-Sub-pages under `/settings/*` (rendered by `Settings.tsx`, listed in `SettingsNav.tsx`): **Profile** (role-aware editor for onboarding answers), **Playbooks**, **Application Form** (form builder), **Approval History**, plus Account, Theme, Members, Careers, Integrations, Billing, etc.
+Sub-pages under `/settings/*` (rendered by `Settings.tsx`, listed in `SettingsNav.tsx`): **Profile** (role-aware editor for onboarding answers), **Playbooks**, **Application Form** (form builder), **Approval History**, plus Account, Theme, Members, Careers, Integrations, Billing, **License** (credit usage, animated usage ring), etc.
 
 ---
 
@@ -242,6 +246,8 @@ Super Admin role (`/super-admin/tenants`) manages tenant organizations. Each use
 - **Visible "TA" → "Recruitment" rename** is text-only: routes, component/context names, and role keys keep `ta-`/`sales-plan` identifiers (see the Terminology note under User Roles). The one intentional exception is `WelcomeRouter`, which still compares `role === 'TA Associate'`.
 - The **standalone TA-plan flow is removed** — bare `/sales-plan` and `/ta-associate-plan` redirect to the role dashboards; `TAPlanContext`/`AlignmentContext`/`ta-plan-flow/` + the `market`/`media`/`measure` components are legacy/unreachable. Recruitment plans are built per-position via `PositionApprovalContext`.
 - **Mock-data caveat:** the new flows (role dashboards, Position Approval, Playbooks, bulk import, onboarding) are front-end only — no parsing/AI/backend wiring; data is hard-coded mock or `localStorage`.
+- **Two tour-persistence conventions coexist, don't assume one covers both:** the ~10 original tours (job list, candidates, careers, new-position chat flow, etc.) use a flat `tour_done_{key}` localStorage flag and always restart from step 0 via the "?" icon. The 6 Recruitment Lead tours added later use the namespaced, resumable `talentou:tour-seen:{role}:{screen}` JSON format (`{step, done}`) via `useScreenTour` — Skip marks it permanently done, Exit (×) saves progress, and the "?" icon resumes at the saved step. New tours should use `useScreenTour`, not call `useTourStore().startTour` with a bare key.
+- **Tour coach-mark copy standard:** explain the insight or action a section gives the user toward their goal — not the UI element itself (avoid "this card"/"this chart"/"these cards" framing). Applied to the RL Dashboard tour (`SalesPlanQuadrantDashboard.tsx`) as the reference example; the other tours still use the older, more literal UI-description style and are due a dedicated copy pass to match. A `TourStep` can also carry optional `completionTitle`/`completionDescription` to override the shared generic "You're all set" completion-card copy for that specific tour.
 - **Deployment is Vercel** (GitHub integration, deploys on push to `main`) — not Lovable.dev.
 
 ---

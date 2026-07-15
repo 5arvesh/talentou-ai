@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
+import { Pencil, Gauge } from "lucide-react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SettingsLayout } from "@/components/settings/SettingsLayout";
@@ -25,8 +25,65 @@ import { CareersPage } from "@/components/settings/CareersPage";
 import { ApplicationFormSettings } from "@/components/settings/ApplicationFormSettings";
 import { ApprovalHistorySettings } from "@/components/settings/ApprovalHistorySettings";
 import { PlaybookSettings } from "@/components/settings/PlaybookSettings";
-import { ProfileSettings } from "@/components/settings/ProfileSettings";
-import { useLocation } from "react-router-dom";
+import { ProfileSettings, buildRecruiterSettingsTourSteps, buildHLSettingsTourSteps } from "@/components/settings/ProfileSettings";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useScreenTour } from "@/hooks/useScreenTour";
+import { TourStep } from "@/store/tour-store";
+import { RL_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
+
+function buildRLSettingsTourSteps(navigate: (path: string) => void): TourStep[] {
+  return [
+    {
+      variant: 'intro',
+      icon: Gauge,
+      screenSequence: RL_TOUR_SCREEN_SEQUENCE,
+      screenKey: 'settings',
+      title: "Your account, your way",
+      description: "Manage your plan's credit usage, saved Playbooks, team access, career page settings, and integrations — all from one place.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav"]',
+      title: "Settings sections",
+      description: "Each tab is a different part of your account. We'll highlight the ones that matter most for your role.",
+    },
+    {
+      targetSelector: '[data-tour-id="license-usage-bar"]',
+      title: "Credit usage",
+      description: "Every AI-powered action — bulk import parsing, AI interviews, plan chat edits — draws from your credit pool. This ring shows what you've used this billing cycle. (Reset cadence to be confirmed.)",
+      onEnter: () => navigate('/settings/license'),
+    },
+    {
+      targetSelector: '[data-tour-id="license-credit-breakdown"]',
+      title: "Where credits are going",
+      description: "See which actions are consuming your credits so you know what to adjust if you're close to the cap.",
+    },
+    {
+      targetSelector: '[data-tour-id="license-upgrade-cta"]',
+      title: "If you're close to the limit",
+      description: "This appears once you're near your cap. Nothing is blocked before then — only the paid AI action itself (bulk parse, AI interview run) is held once you're truly over.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav-playbooks"]',
+      title: "Your Playbook library",
+      description: "All saved Playbooks — built-in and custom. Create your own from scratch, or they're auto-generated from closed roles. Editable here and also suggested during new position approval.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav-members"]',
+      title: "Team access",
+      description: "Invite recruiters, hiring leads, and interviewers. Manage who has access to what.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav-careers"]',
+      title: "Career page",
+      description: "Settings for your public career page integration — job listings that candidates apply to directly.",
+    },
+    {
+      targetSelector: '[data-tour-id="settings-nav-integrations"]',
+      title: "Connected tools",
+      description: "ATS connections and any other external tools wired into Talentou.",
+    },
+  ];
+}
 
 const subPages: Record<string, React.ReactNode> = {
   "/settings/theme": <ThemeSettings />,
@@ -52,7 +109,18 @@ const narrowPages = new Set(["/settings/interview", "/settings/job-fit-score"]);
 const Settings = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
+
+  const userRole = localStorage.getItem('userRole');
+  const tourRole = userRole === 'ta-associate' ? 'recruiter' : userRole === 'hiring-lead' ? 'hiring-lead' : 'ta-leader';
+  const settingsTourSteps = useMemo(() => {
+    if (userRole === 'ta-associate') return buildRecruiterSettingsTourSteps(navigate);
+    if (userRole === 'hiring-lead') return buildHLSettingsTourSteps(navigate);
+    return buildRLSettingsTourSteps(navigate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userRole]);
+  useScreenTour(tourRole, "settings", settingsTourSteps);
 
   const detailsForm = useForm({
     defaultValues: { name: "Roney Soloman", email: "joseph.olassa@ignitho.com" },

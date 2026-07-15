@@ -131,7 +131,7 @@ export function EditModeChatPanel() {
   if (!brief) return null;
 
   return (
-    <div className="flex flex-col overflow-hidden border-r border-border" style={{ flex: 1, maxWidth: '380px' }}>
+    <div data-tour-id="pa-chat-panel" className="flex flex-col overflow-hidden border-r border-border" style={{ flex: 1, maxWidth: '380px' }}>
       <CollapsedPill brief={brief} expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
 
       {/* Chat messages */}
@@ -147,6 +147,7 @@ export function EditModeChatPanel() {
       {/* Chat input */}
       <div className="shrink-0 border-t border-border px-4 py-3 flex gap-2 items-end bg-background">
         <textarea
+          data-tour-id="pa-chat-input"
           ref={textareaRef}
           rows={1}
           value={inputValue}

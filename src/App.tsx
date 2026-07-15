@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { TourGuide } from "@/components/shared/TourGuide";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -57,7 +58,6 @@ import OnboardingStep4_Hiring_Lead from "./pages/onboarding/Step4_Hiring_Lead";
 import { MessageSubmission_Hiring_Lead } from "./components/messages/MessageSubmission_Hiring_Lead";
 import HiringLeadConversationPage from "./pages/HiringLeadConversationPage";
 import { Index } from "./pages/Index";
-import { HiringLeadDashboard } from "./components/dashboard/HiringLeadDashboard";
 import JobListPage from "./pages/JobListPage";
 import JobOpeningsPage from "./pages/JobOpeningsPage";
 import CandidatesPageWrapper from "./pages/CandidatesPageWrapper";
@@ -172,6 +172,7 @@ const App = () => (
                       <div className="flex-1 overflow-y-auto">
                         <TAAssociateDashboard />
                       </div>
+                      <TourGuide />
                     </div>
                   </div>
                 } />
@@ -183,6 +184,7 @@ const App = () => (
                       <div className="flex-1 overflow-y-auto">
                         <HiringLeadCommandDashboard />
                       </div>
+                      <TourGuide />
                     </div>
                   </div>
                 } />
