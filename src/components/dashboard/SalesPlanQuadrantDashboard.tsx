@@ -23,10 +23,10 @@ const recruiters = [
 ];
 
 const pipelineData = [
-  { stage: 'Applied',     count: 18 },
-  { stage: 'Shortlisted', count: 12 },
-  { stage: 'Interview',   count: 9  },
-  { stage: 'Offered',     count: 4  },
+  { stage: 'Applied/Sourced', count: 18 },
+  { stage: 'Shortlisted',     count: 12 },
+  { stage: 'Interview',       count: 9  },
+  { stage: 'Selected',        count: 4  },
 ];
 
 const longRunningPositions = [
@@ -37,10 +37,10 @@ const longRunningPositions = [
 ];
 
 const bottleneckData = [
-  { stage: 'Applied',     stalled: 3 },
-  { stage: 'Shortlisted', stalled: 7 },
-  { stage: 'Interview',   stalled: 2 },
-  { stage: 'Offered',     stalled: 0 },
+  { stage: 'Applied/Sourced', stalled: 3 },
+  { stage: 'Shortlisted',     stalled: 7 },
+  { stage: 'Interview',       stalled: 2 },
+  { stage: 'Selected',        stalled: 0 },
 ];
 
 const statusConfig: Record<string, { label: string; className: string }> = {

@@ -44,7 +44,7 @@ const JOB_LIST_TOUR_STEPS: TourStep[] = [
   },
   {
     title: "Job actions",
-    description: "View Plan opens the full job dashboard. View Pipeline opens the Kanban board. The menu next to them has View Candidates, View JD, and Import Candidates.",
+    description: "View Plan opens the full job dashboard. View Pipeline opens the Kanban board. The menu next to them has View Candidates and View JD.",
     targetSelector: '[data-tour-id="job-row-actions"]',
   },
   {

@@ -42,7 +42,7 @@ export interface PastPlan {
 
 export interface FunnelCounts {
   applied: number;
-  screened: number;
+  shortlisted: number;
   interview: number;
   selected: number;
 }
@@ -56,7 +56,7 @@ export interface ConversionBenchmark {
 export interface SourcingPerformance {
   channel: string;
   progressed: number;
-  screenedOut: number;
+  shortlistedOut: number;
   avgFitScore: number;
 }
 
@@ -198,17 +198,17 @@ const SENIOR_REACT_DEVELOPER: RecruitmentPlanData = {
     ],
     staleMonths: 3,
   },
-  funnel: { applied: 22, screened: 14, interview: 6, selected: 2 },
+  funnel: { applied: 22, shortlisted: 14, interview: 6, selected: 2 },
   conversionBenchmarks: [
-    { stage: 'Applied → Screened', rate: 64, benchmark: 60 },
-    { stage: 'Screened → Interview', rate: 43, benchmark: 45 },
+    { stage: 'Applied/Sourced → Shortlisted', rate: 64, benchmark: 60 },
+    { stage: 'Shortlisted → Interview', rate: 43, benchmark: 45 },
     { stage: 'Interview → Selected', rate: 33, benchmark: 30 },
   ],
   sourcingBySource: [
-    { channel: 'LinkedIn Recruiter', progressed: 6, screenedOut: 3, avgFitScore: 82 },
-    { channel: 'Employee Referrals', progressed: 4, screenedOut: 1, avgFitScore: 88 },
-    { channel: 'Naukri.com', progressed: 3, screenedOut: 3, avgFitScore: 65 },
-    { channel: 'Careers page', progressed: 1, screenedOut: 1, avgFitScore: 58 },
+    { channel: 'LinkedIn Recruiter', progressed: 6, shortlistedOut: 3, avgFitScore: 82 },
+    { channel: 'Employee Referrals', progressed: 4, shortlistedOut: 1, avgFitScore: 88 },
+    { channel: 'Naukri.com', progressed: 3, shortlistedOut: 3, avgFitScore: 65 },
+    { channel: 'Careers page', progressed: 1, shortlistedOut: 1, avgFitScore: 58 },
   ],
   pace: {
     chartData: buildPaceChartData(),
@@ -344,16 +344,16 @@ export function getDefaultPlanData(jobId: string, jobOverride?: JobOverride): Re
       dailySourcingTarget: 3,
       approved: true,
     },
-    funnel: { applied: 12, screened: 7, interview: 3, selected: 1 },
+    funnel: { applied: 12, shortlisted: 7, interview: 3, selected: 1 },
     conversionBenchmarks: [
-      { stage: 'Applied → Screened', rate: 58, benchmark: 60 },
-      { stage: 'Screened → Interview', rate: 43, benchmark: 45 },
+      { stage: 'Applied/Sourced → Shortlisted', rate: 58, benchmark: 60 },
+      { stage: 'Shortlisted → Interview', rate: 43, benchmark: 45 },
       { stage: 'Interview → Selected', rate: 33, benchmark: 30 },
     ],
     sourcingBySource: [
-      { channel: 'LinkedIn Recruiter', progressed: 4, screenedOut: 2, avgFitScore: 76 },
-      { channel: 'Naukri.com', progressed: 2, screenedOut: 2, avgFitScore: 70 },
-      { channel: 'Careers page', progressed: 1, screenedOut: 1, avgFitScore: 64 },
+      { channel: 'LinkedIn Recruiter', progressed: 4, shortlistedOut: 2, avgFitScore: 76 },
+      { channel: 'Naukri.com', progressed: 2, shortlistedOut: 2, avgFitScore: 70 },
+      { channel: 'Careers page', progressed: 1, shortlistedOut: 1, avgFitScore: 64 },
     ],
     pace: {
       chartData: [

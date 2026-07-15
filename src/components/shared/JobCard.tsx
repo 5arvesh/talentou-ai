@@ -10,7 +10,6 @@ import {
   FileText,
   Edit,
   Link as LinkIcon,
-  Users,
   Loader2,
   Globe,
   Info,
@@ -150,13 +149,6 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
                   <DropdownMenuItem onClick={() => onAction("edit-jd", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
                     <Edit className="mr-2 h-4 w-4 opacity-70" />
                     Edit JD
-                  </DropdownMenuItem>
-                )}
-
-                {(role === "ta-leader" || role === "hiring-lead") && (
-                  <DropdownMenuItem onClick={() => onAction("import-candidates", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
-                    <Users className="mr-2 h-4 w-4 opacity-70" />
-                    Import Candidates
                   </DropdownMenuItem>
                 )}
 

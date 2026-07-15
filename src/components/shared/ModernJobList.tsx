@@ -14,7 +14,6 @@ import {
   ListFilter,
   Globe,
   ClipboardList,
-  Users,
   Briefcase,
   Loader2,
   Kanban,
@@ -298,11 +297,6 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
         const link = `${window.location.origin}/jd/${job.id}`;
         navigator.clipboard.writeText(link);
         toast.success("JD link copied to clipboard!");
-        break;
-      case "import-candidates":
-        if (role === "ta-leader") navigate(`/sales-plan/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
-        else if (role === "hiring-lead") navigate(`/hiring-lead/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
-        else if (role === "recruiter") navigate(`/ta-associate/jobs/${job.id}/import-candidates?jobRole=${encodeURIComponent(job.jobRole)}`);
         break;
       case "view-pipeline":
         if (role === "ta-leader") navigate(`/sales-plan/candidates?view=kanban&jobId=${job.id}`);
@@ -722,16 +716,6 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                               <Edit className="mr-2 h-4 w-4 opacity-70" />
                               Edit JD
                             </DropdownMenuItem>
-                          )}
-
-                          {(role === "ta-leader" || role === "hiring-lead") && (
-                            <>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem onClick={() => handleAction("import-candidates", job)} className="cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-primary py-2">
-                                <Users className="mr-2 h-4 w-4 opacity-70" />
-                                Import Candidates
-                              </DropdownMenuItem>
-                            </>
                           )}
 
                           {role === "recruiter" && (

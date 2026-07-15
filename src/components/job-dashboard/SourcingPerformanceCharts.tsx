@@ -6,7 +6,7 @@ import { RoleType } from '@/components/shared/ModernJobList';
 import { useRecruitmentPlan } from '@/context/RecruitmentPlanContext';
 
 const PROGRESSED_COLOR = '#534AB7';
-const SCREENED_OUT_COLOR = '#AFA9EC';
+const SHORTLISTED_OUT_COLOR = '#AFA9EC';
 
 interface SourcingPerformanceChartsProps {
   role: RoleType;
@@ -39,8 +39,8 @@ export function SourcingPerformanceCharts({ role }: SourcingPerformanceChartsPro
         <p className="text-[11px] font-medium text-muted-foreground mb-3">Candidates progressed by source</p>
         <ChartContainer
           config={{
-            progressed: { label: 'Progressed past screen', color: PROGRESSED_COLOR },
-            screenedOut: { label: 'Screened out', color: SCREENED_OUT_COLOR },
+            progressed: { label: 'Progressed past shortlist', color: PROGRESSED_COLOR },
+            shortlistedOut: { label: 'Shortlisted out', color: SHORTLISTED_OUT_COLOR },
           }}
           className="h-[140px] w-full"
         >
@@ -50,17 +50,17 @@ export function SourcingPerformanceCharts({ role }: SourcingPerformanceChartsPro
             <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} width={24} />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Bar dataKey="progressed" stackId="a" fill={PROGRESSED_COLOR} />
-            <Bar dataKey="screenedOut" stackId="a" fill={SCREENED_OUT_COLOR} radius={[4, 4, 0, 0]} />
+            <Bar dataKey="shortlistedOut" stackId="a" fill={SHORTLISTED_OUT_COLOR} radius={[4, 4, 0, 0]} />
           </BarChart>
         </ChartContainer>
         <div className="flex justify-center gap-4 mt-2">
           <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
             <span className="h-2 w-2 rounded-sm" style={{ backgroundColor: PROGRESSED_COLOR }} />
-            Progressed past screen
+            Progressed past shortlist
           </span>
           <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
-            <span className="h-2 w-2 rounded-sm" style={{ backgroundColor: SCREENED_OUT_COLOR }} />
-            Screened out
+            <span className="h-2 w-2 rounded-sm" style={{ backgroundColor: SHORTLISTED_OUT_COLOR }} />
+            Shortlisted out
           </span>
         </div>
       </div>

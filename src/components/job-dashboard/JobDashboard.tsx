@@ -215,7 +215,7 @@ function buildJobDashboardTourSteps(
     {
       targetSelector: '[data-tour-id="jd-pipeline-funnel"]',
       title: "Pipeline funnel",
-      description: "How many candidates are in each stage, from sourced to offer.",
+      description: "How many candidates are in each stage, from Applied/Sourced to Selected.",
     },
     {
       targetSelector: '[data-tour-id="jd-pace-today"]',

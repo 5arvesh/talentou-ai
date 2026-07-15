@@ -53,7 +53,7 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
 
   if (role === 'hiring-lead') {
     return (
-      <div className="max-w-2xl rounded-card border border-border bg-card p-3.5 shadow-card space-y-3">
+      <div className="rounded-card border border-border bg-card p-3.5 shadow-card grid grid-cols-2 gap-6">
         <div>
           <p className="text-[11px] font-medium text-muted-foreground mb-1">Target close date</p>
           <p className="font-sora text-[18px] font-semibold text-foreground">{targets.targetCloseDate}</p>
@@ -81,7 +81,7 @@ export function RecruitmentPlanPanel({ role }: RecruitmentPlanPanelProps) {
   };
 
   return (
-    <div className="max-w-2xl space-y-3">
+    <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3 items-start">
       <div data-tour-id="jd-recruiter-card" className="rounded-card border border-border bg-card p-3.5 shadow-card">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-[#EEEDFE] text-[#3C3489] font-sora text-[13px] font-semibold flex items-center justify-center shrink-0">

@@ -81,7 +81,6 @@ import JobListPage_TALeader from "./pages/JobListPage_TALeader";
 import CandidatesPageWrapper_TALeader from "./pages/CandidatesPageWrapper_TALeader";
 import CandidateCreationPage from "./pages/CandidateCreationPage";
 import CandidatesPageWrapper_SalesPlan from "./pages/CandidatesPageWrapper_SalesPlan";
-import ImportCandidatesPage from "./pages/ImportCandidatesPage";
 import InterviewRecordingPage from "./pages/InterviewRecordingPage";
 import CandidatePipelinePage from "./pages/CandidatePipelinePage";
 import JobDashboardPage from "./pages/JobDashboardPage";
@@ -149,7 +148,6 @@ const App = () => (
                 <Route path="/hiring-lead/jobs" element={<JobListPage />} />
                 <Route path="/hiring-lead/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
                 <Route path="/hiring-lead/jobs/:jobId/dashboard" element={<JobDashboardPage />} />
-                <Route path="/hiring-lead/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="hiring-lead" />} />
                 <Route path="/hiring-lead/job-openings" element={<JobOpeningsPage />} />
                 <Route path="/hiring-lead/candidates" element={<CandidatesPageWrapper />} />
                 <Route path="/hiring-lead/candidates/interview/:id" element={<InterviewRecordingPage />} />
@@ -194,7 +192,6 @@ const App = () => (
                 <Route path="/sales-plan/jobs" element={<JobListPage_TALeader />} />
                 <Route path="/sales-plan/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
                 <Route path="/sales-plan/jobs/:jobId/dashboard" element={<JobDashboardPage />} />
-                <Route path="/sales-plan/jobs/:jobId/import-candidates" element={<ImportCandidatesPage role="ta-leader" />} />
                 <Route path="/sales-plan/candidates" element={<CandidatesPageWrapper_SalesPlan />} />
                 
                 {/* Recruiter specific routes */}

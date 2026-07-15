@@ -17,8 +17,8 @@ export function PipelineFunnelChart({ variant = 'full' }: PipelineFunnelChartPro
   const { funnel, conversionBenchmarks } = data;
 
   const segments = [
-    { label: 'Applied', count: funnel.applied },
-    { label: 'Screened', count: funnel.screened },
+    { label: 'Applied/Sourced', count: funnel.applied },
+    { label: 'Shortlisted', count: funnel.shortlisted },
     { label: 'Interview', count: funnel.interview },
     { label: 'Selected', count: funnel.selected },
   ];

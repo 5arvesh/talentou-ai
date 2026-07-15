@@ -96,12 +96,12 @@ function buildCandidateListTourSteps(role: "hiring-lead" | "ta-leader" | "recrui
       {
         targetSelector: '[data-tour-id="kanban-columns"]',
         title: "Pipeline stages",
-        description: "Five stages: Applied, Shortlisted, Phone Screen, Interview, Offered. Candidates move left to right as they progress.",
+        description: "Five stages: Applied/Sourced, Shortlisted, Interview, Selected. Candidates move left to right as they progress. Rejected is separate — a catch-all exit from any of the first three stages, not a step after Selected.",
       },
       {
         targetSelector: '[data-tour-id="kanban-drag-handle"]',
         title: "Move candidates",
-        description: "Drag a card backward anytime, or forward one step where it's allowed — Applied to Shortlisted and Shortlisted to Phone Screen. Moves into Interview or Offered happen automatically, not by dragging.",
+        description: "Drag a card forward or backward through the pipeline freely. Moving to Selected asks you to confirm; dropping onto Rejected asks for a reason.",
       },
       {
         targetSelector: '[data-tour-id="kanban-job-selector"]',
@@ -116,7 +116,7 @@ function buildCandidateListTourSteps(role: "hiring-lead" | "ta-leader" | "recrui
       {
         targetSelector: '[data-tour-id="kanban-candidate-card"]',
         title: "Quick actions",
-        description: "Click a card to view the full profile. Drag it to move between allowed stages. The footer icons let you copy an email, open LinkedIn, or grab a phone number.",
+        description: "Click a card to view the full profile. Drag it to move between stages. The footer icons let you email, message, or call the candidate directly.",
       },
       {
         targetSelector: '[data-tour-id="candidate-add-btn"]',
@@ -147,7 +147,7 @@ function buildCandidateListTourSteps(role: "hiring-lead" | "ta-leader" | "recrui
     {
       targetSelector: '[data-tour-id="kanban-columns"]',
       title: "Pipeline stages",
-      description: "Each column is a stage. Candidates move left to right from sourced through to offer. Your focus is the later stages — screening, interviewing, deciding.",
+      description: "Each column is a stage. Candidates move left to right from Applied/Sourced through to Selected. Your focus is the later stages — interviewing and deciding. Rejected sits apart — a catch-all exit, not a step after Selected.",
     },
     {
       targetSelector: '[data-tour-id="kanban-job-selector"]',

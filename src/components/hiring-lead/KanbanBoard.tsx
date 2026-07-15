@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
@@ -21,13 +21,32 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Link2, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical, Lock } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from '@/components/ui/alert-dialog';
+import { Mail, MessageSquare, Phone, Clock, Star, Search, ArrowLeft, Info, GripVertical, Ban } from 'lucide-react';
 import { RoleType } from '@/components/shared/ModernJobList';
 import { getAvatarColor, getInitials } from '@/lib/avatar';
 import { cn } from '@/lib/utils';
 
-type Stage = 'Applied' | 'Shortlisted' | 'Phone Screen' | 'Interview' | 'Offered';
+type Stage = 'Applied/Sourced' | 'Shortlisted' | 'Interview' | 'Selected' | 'Rejected';
 
 interface KanbanCandidate {
   id: string;
@@ -43,38 +62,51 @@ interface KanbanCandidate {
   stage: Stage;
 }
 
-const COLUMN_ORDER: Stage[] = ['Applied', 'Shortlisted', 'Phone Screen', 'Interview', 'Offered'];
+// First four columns are the happy-path pipeline; Rejected is a non-sequential exit column,
+// not "the next step" after Selected — reachable from any of the first three stages.
+const PIPELINE_STAGES: Stage[] = ['Applied/Sourced', 'Shortlisted', 'Interview', 'Selected'];
+const COLUMN_ORDER: Stage[] = [...PIPELINE_STAGES, 'Rejected'];
 
 function isTransitionAllowed(from: Stage, to: Stage): { allowed: boolean; reason?: string } {
   if (from === to) return { allowed: true };
-  const fromIdx = COLUMN_ORDER.indexOf(from);
-  const toIdx = COLUMN_ORDER.indexOf(to);
-  if (toIdx < fromIdx) return { allowed: true }; // backward moves always allowed
-  if (from === 'Applied' && to === 'Shortlisted') return { allowed: true };
-  if (from === 'Shortlisted' && to === 'Phone Screen') return { allowed: true };
-  if (to === 'Interview') return { allowed: false, reason: 'Move to Interview happens automatically when an interview is scheduled.' };
-  if (to === 'Offered') return { allowed: false, reason: 'Move to Offered happens when an offer letter is generated through HR.' };
-  return { allowed: false, reason: 'This status change cannot be done manually.' };
+
+  if (to === 'Rejected') {
+    if (from === 'Selected') {
+      return { allowed: false, reason: 'Selected is a terminal stage and cannot be rejected from here.' };
+    }
+    return { allowed: true };
+  }
+  if (from === 'Rejected') {
+    return { allowed: false, reason: 'Rejected is a terminal stage — this candidate cannot be moved back into the pipeline.' };
+  }
+  if (from === 'Selected') {
+    return { allowed: false, reason: 'Selected is a terminal stage.' };
+  }
+
+  // Both forward and backward moves among the happy-path stages are freely allowed.
+  return { allowed: true };
 }
 
 const INITIAL_CANDIDATES: KanbanCandidate[] = [
-  { id: 'c1', name: 'Arun Sharma', title: 'Senior Frontend Dev', company: 'Infosys', experience: '6y', location: 'Bangalore', fitScore: 88, fitLabel: 'Excellent Fit', daysAdded: 12, daysInStage: 2, stage: 'Applied' },
-  { id: 'c2', name: 'Priya Nair', title: 'React Developer', company: 'Wipro', experience: '4y', location: 'Pune', fitScore: 74, fitLabel: 'Strong Fit', daysAdded: 8, daysInStage: 4, stage: 'Applied' },
-  { id: 'c3', name: 'Vikram Patel', title: 'Full Stack Engineer', company: 'TCS', experience: '5y', location: 'Mumbai', fitScore: 61, fitLabel: 'Good Fit', daysAdded: 15, daysInStage: 11, stage: 'Applied' },
+  { id: 'c1', name: 'Arun Sharma', title: 'Senior Frontend Dev', company: 'Infosys', experience: '6y', location: 'Bangalore', fitScore: 88, fitLabel: 'Excellent Fit', daysAdded: 12, daysInStage: 2, stage: 'Applied/Sourced' },
+  { id: 'c2', name: 'Priya Nair', title: 'React Developer', company: 'Wipro', experience: '4y', location: 'Pune', fitScore: 74, fitLabel: 'Strong Fit', daysAdded: 8, daysInStage: 4, stage: 'Applied/Sourced' },
+  { id: 'c3', name: 'Vikram Patel', title: 'Full Stack Engineer', company: 'TCS', experience: '5y', location: 'Mumbai', fitScore: 61, fitLabel: 'Good Fit', daysAdded: 15, daysInStage: 11, stage: 'Applied/Sourced' },
   { id: 'c4', name: 'Sneha Reddy', title: 'Frontend Architect', company: 'HCL', experience: '7y', location: 'Hyderabad', fitScore: 91, fitLabel: 'Excellent Fit', daysAdded: 10, daysInStage: 3, stage: 'Shortlisted' },
   { id: 'c5', name: 'Rahul Verma', title: 'UI Engineer', company: 'Tech Mahindra', experience: '4y', location: 'Chennai', fitScore: 70, fitLabel: 'Strong Fit', daysAdded: 18, daysInStage: 11, stage: 'Shortlisted' },
   { id: 'c6', name: 'Deepa Menon', title: 'React Native Dev', company: 'Capgemini', experience: '5y', location: 'Kochi', fitScore: 65, fitLabel: 'Good Fit', daysAdded: 20, daysInStage: 6, stage: 'Shortlisted' },
   { id: 'c7', name: 'Karan Singh', title: 'Senior Dev', company: 'Accenture', experience: '6y', location: 'Delhi', fitScore: 82, fitLabel: 'Excellent Fit', daysAdded: 7, daysInStage: 2, stage: 'Interview' },
   { id: 'c8', name: 'Meera Joshi', title: 'Tech Lead', company: 'Mindtree', experience: '8y', location: 'Bangalore', fitScore: 77, fitLabel: 'Strong Fit', daysAdded: 9, daysInStage: 1, stage: 'Interview' },
-  { id: 'c9', name: 'Ankit Gupta', title: 'Principal Engineer', company: 'Mphasis', experience: '9y', location: 'Pune', fitScore: 94, fitLabel: 'Excellent Fit', daysAdded: 5, daysInStage: 0, stage: 'Offered' },
+  { id: 'c9', name: 'Ankit Gupta', title: 'Principal Engineer', company: 'Mphasis', experience: '9y', location: 'Pune', fitScore: 94, fitLabel: 'Excellent Fit', daysAdded: 5, daysInStage: 0, stage: 'Selected' },
+  { id: 'c10', name: 'Ritu Desai', title: 'Backend Developer', company: 'Cognizant', experience: '3y', location: 'Ahmedabad', fitScore: 38, fitLabel: 'Good Fit', daysAdded: 22, daysInStage: 14, stage: 'Rejected' },
+  { id: 'c11', name: 'Suresh Iyer', title: 'DevOps Engineer', company: 'L&T Infotech', experience: '4y', location: 'Chennai', fitScore: 29, fitLabel: 'Good Fit', daysAdded: 30, daysInStage: 20, stage: 'Rejected' },
 ];
 
 const COLUMNS: { id: Stage; label: string; color: string; headerColor: string }[] = [
-  { id: 'Applied',      label: 'Applied',      color: 'bg-blue-50',   headerColor: 'bg-blue-100 text-blue-700 border-blue-200' },
-  { id: 'Shortlisted',  label: 'Shortlisted',  color: 'bg-amber-50',  headerColor: 'bg-amber-100 text-amber-700 border-amber-200' },
-  { id: 'Phone Screen', label: 'Phone Screen', color: 'bg-purple-50', headerColor: 'bg-purple-100 text-purple-700 border-purple-200' },
-  { id: 'Interview',    label: 'Interview',    color: 'bg-orange-50', headerColor: 'bg-orange-100 text-orange-700 border-orange-200' },
-  { id: 'Offered',      label: 'Offered',      color: 'bg-green-50',  headerColor: 'bg-green-100 text-green-600 border-green-200' },
+  { id: 'Applied/Sourced', label: 'Applied/Sourced', color: 'bg-blue-50',   headerColor: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { id: 'Shortlisted',     label: 'Shortlisted',     color: 'bg-amber-50',  headerColor: 'bg-amber-100 text-amber-700 border-amber-200' },
+  { id: 'Interview',       label: 'Interview',       color: 'bg-orange-50', headerColor: 'bg-orange-100 text-orange-700 border-orange-200' },
+  { id: 'Selected',        label: 'Selected',        color: 'bg-green-50',  headerColor: 'bg-green-100 text-green-600 border-green-200' },
+  { id: 'Rejected',        label: 'Rejected',        color: 'bg-gray-50',   headerColor: 'bg-gray-100 text-gray-600 border-gray-200' },
 ];
 
 const FIT_LABEL_CONFIG: Record<string, string> = {
@@ -82,6 +114,8 @@ const FIT_LABEL_CONFIG: Record<string, string> = {
   'Strong Fit': 'bg-blue-50 text-blue-700 border-blue-200',
   'Excellent Fit': 'bg-green-50 text-green-600 border-green-200',
 };
+
+const STALLED_THRESHOLD_DAYS = 10;
 
 // Droppable column wrapper — registers the column as a dnd-kit drop target
 function DroppableColumn({ id, children, className }: { id: string; children: React.ReactNode; className: string }) {
@@ -93,7 +127,17 @@ function DroppableColumn({ id, children, className }: { id: string; children: Re
   );
 }
 
-function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandidate; isDragging?: boolean; role: RoleType }) {
+function CandidateCard({
+  candidate,
+  isDragging,
+  role,
+  onRejectClick,
+}: {
+  candidate: KanbanCandidate;
+  isDragging?: boolean;
+  role: RoleType;
+  onRejectClick: (candidate: KanbanCandidate) => void;
+}) {
   const navigate = useNavigate();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: candidate.id });
 
@@ -103,7 +147,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
     opacity: isDragging ? 0.4 : 1,
   };
 
-  const isStalled = candidate.daysInStage > 5;
+  const isStalled = candidate.daysInStage >= STALLED_THRESHOLD_DAYS;
 
   const handleCardClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('[data-action-btn]')) return;
@@ -127,7 +171,7 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold leading-snug truncate">{candidate.name}</p>
               <p className="text-xs text-muted-foreground truncate">{candidate.title} · {candidate.company}</p>
-              <p className={cn("text-[10px] mt-0.5", candidate.daysInStage >= 10 ? "text-warning font-medium" : "text-muted-foreground")}>
+              <p className={cn("text-[10px] mt-0.5", isStalled ? "text-warning font-medium" : "text-muted-foreground")}>
                 {candidate.daysInStage}d in stage
               </p>
             </div>
@@ -176,12 +220,21 @@ function CandidateCard({ candidate, isDragging, role }: { candidate: KanbanCandi
               <button className="p-1 rounded hover:bg-muted transition-colors" onClick={(e) => e.stopPropagation()} title="Email">
                 <Mail className="h-3 w-3 text-muted-foreground" />
               </button>
-              <button className="p-1 rounded hover:bg-muted transition-colors" onClick={(e) => e.stopPropagation()} title="LinkedIn">
-                <Link2 className="h-3 w-3 text-muted-foreground" />
+              <button className="p-1 rounded hover:bg-muted transition-colors" onClick={(e) => e.stopPropagation()} title="Message">
+                <MessageSquare className="h-3 w-3 text-muted-foreground" />
               </button>
-              <button className="p-1 rounded hover:bg-muted transition-colors" onClick={(e) => e.stopPropagation()} title="Phone">
+              <button className="p-1 rounded hover:bg-muted transition-colors" onClick={(e) => e.stopPropagation()} title="Call">
                 <Phone className="h-3 w-3 text-muted-foreground" />
               </button>
+              {candidate.stage !== 'Rejected' && candidate.stage !== 'Selected' && (
+                <button
+                  className="p-1 rounded hover:bg-destructive/10 transition-colors"
+                  onClick={(e) => { e.stopPropagation(); onRejectClick(candidate); }}
+                  title="Reject"
+                >
+                  <Ban className="h-3 w-3 text-destructive/70" />
+                </button>
+              )}
             </div>
           </div>
         </CardContent>
@@ -217,6 +270,10 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
   const [activeId, setActiveId] = useState<string | null>(null);
   const [selectedJobId, setSelectedJobId] = useState(jobId);
 
+  const [pendingSelect, setPendingSelect] = useState<KanbanCandidate | null>(null);
+  const [pendingReject, setPendingReject] = useState<KanbanCandidate | null>(null);
+  const [rejectReason, setRejectReason] = useState('');
+
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
   const jobTitle = JOB_TITLES[selectedJobId] || `Job #${selectedJobId}`;
@@ -234,6 +291,12 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
 
   const totalCandidates = candidates.length;
   const showJdNudge = daysOpen > 14 && totalCandidates < 3;
+
+  const moveCandidate = (candidateId: string, targetStage: Stage) => {
+    setCandidates((prev) =>
+      prev.map((c) => c.id === candidateId ? { ...c, stage: targetStage, daysInStage: 0 } : c)
+    );
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -259,13 +322,36 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
 
     const { allowed, reason } = isTransitionAllowed(dragged.stage, targetStage);
     if (!allowed) {
-      toast.error(reason, { duration: 4000 });
+      if (reason) toast.error(reason, { duration: 4000 });
       return;
     }
 
-    setCandidates((prev) =>
-      prev.map((c) => c.id === draggedId ? { ...c, stage: targetStage!, daysInStage: 0 } : c)
-    );
+    // Selected and Rejected are terminal/exit moves — gate on a confirm/reason dialog
+    // rather than committing immediately; the card only moves once the dialog resolves.
+    if (targetStage === 'Selected') {
+      setPendingSelect(dragged);
+      return;
+    }
+    if (targetStage === 'Rejected') {
+      setPendingReject(dragged);
+      setRejectReason('');
+      return;
+    }
+
+    moveCandidate(draggedId, targetStage);
+  };
+
+  const confirmSelect = () => {
+    if (!pendingSelect) return;
+    moveCandidate(pendingSelect.id, 'Selected');
+    setPendingSelect(null);
+  };
+
+  const confirmReject = () => {
+    if (!pendingReject || !rejectReason.trim()) return;
+    moveCandidate(pendingReject.id, 'Rejected');
+    setPendingReject(null);
+    setRejectReason('');
   };
 
   const activeCandidate = activeId ? candidates.find((c) => c.id === activeId) : null;
@@ -348,32 +434,25 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
               const colCandidates = getColumnCandidates(col.id);
               return (
                 <div key={col.id} className="flex flex-col flex-1 min-w-[220px]">
-                  {/* Column header — shows lock hint for auto-managed columns during drag */}
-                  {(() => {
-                    const isLocked = activeId !== null && (col.id === 'Interview' || col.id === 'Offered');
-                    return (
-                      <div className={`flex flex-col px-3 py-2 rounded-lg border mb-3 transition-opacity ${col.headerColor} ${isLocked ? 'opacity-50' : ''}`}>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold">{col.label}</span>
-                          <Badge className="text-xs h-4 px-1.5 bg-white/60 text-inherit border-0">
-                            {colCandidates.length}
-                          </Badge>
-                        </div>
-                        {isLocked && (
-                          <span className="text-[10px] mt-0.5 opacity-80 flex items-center gap-1">
-                            <Lock className="h-2.5 w-2.5" /> Auto-assigned
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })()}
+                  <div className={`flex items-center justify-between px-3 py-2 rounded-lg border mb-3 ${col.headerColor}`}>
+                    <span className="text-xs font-semibold">{col.label}</span>
+                    <Badge className="text-xs h-4 px-1.5 bg-white/60 text-inherit border-0">
+                      {colCandidates.length}
+                    </Badge>
+                  </div>
 
                   {/* Droppable zone — registered with dnd-kit, works even when empty */}
                   <DroppableColumn id={col.id} className={`flex-1 rounded-lg p-2 min-h-[300px] transition-all ${col.color}`}>
                     <SortableContext items={colCandidates.map((c) => c.id)} strategy={verticalListSortingStrategy}>
                       {colCandidates.length > 0 ? (
                         colCandidates.map((c) => (
-                          <CandidateCard key={c.id} candidate={c} isDragging={c.id === activeId} role={role} />
+                          <CandidateCard
+                            key={c.id}
+                            candidate={c}
+                            isDragging={c.id === activeId}
+                            role={role}
+                            onRejectClick={(candidate) => { setPendingReject(candidate); setRejectReason(''); }}
+                          />
                         ))
                       ) : (
                         <div className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border/40 rounded-lg text-muted-foreground">
@@ -408,6 +487,52 @@ export function KanbanBoard({ jobId, role = 'hiring-lead', embedded = false }: K
           </DragOverlay>
         </DndContext>
       </div>
+
+      {/* Confirm selection — Selected is a terminal positive state */}
+      <AlertDialog open={!!pendingSelect} onOpenChange={(open) => { if (!open) setPendingSelect(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm selection for {pendingSelect?.name}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This moves the candidate to Selected, a terminal stage in the pipeline.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmSelect}>Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Reject reason prompt — required whether triggered by drag or the card's Reject action */}
+      <Dialog open={!!pendingReject} onOpenChange={(open) => { if (!open) { setPendingReject(null); setRejectReason(''); } }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject {pendingReject?.name}?</DialogTitle>
+            <DialogDescription>
+              A reason is required before this candidate is moved to Rejected.
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            placeholder="Reason for rejection..."
+            value={rejectReason}
+            onChange={(e) => setRejectReason(e.target.value)}
+            className="min-h-[80px] text-sm"
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setPendingReject(null); setRejectReason(''); }}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={!rejectReason.trim()}
+              onClick={confirmReject}
+            >
+              Reject candidate
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -30,7 +30,7 @@ const CANDIDATES_TOUR_STEPS: TourStep[] = [
   },
   {
     title: "The pipeline",
-    description: "Five stages: Applied, Shortlisted, Phone Screen, Interview, Offered. Moves into Interview or Offered happen automatically as part of the workflow, not by dragging.",
+    description: "Five stages: Applied/Sourced, Shortlisted, Interview, Selected — plus Rejected, a catch-all exit reachable from any of the first three stages, not a step after Selected.",
     targetSelector: '[data-tour-id="candidate-kanban-board"]',
   },
   {
@@ -45,7 +45,7 @@ const CANDIDATES_TOUR_STEPS: TourStep[] = [
   },
   {
     title: "What you can do",
-    description: "Click a card to view the full profile. Drag it to move between allowed stages — backward moves are always fine, and Applied to Shortlisted or Shortlisted to Phone Screen are draggable forward too.",
+    description: "Click a card to view the full profile. Drag it forward or backward through Applied/Sourced, Shortlisted, Interview, and Selected freely. Selected asks for confirmation; dropping onto Rejected asks for a reason.",
     targetSelector: '[data-tour-id="kanban-candidate-card"]',
   },
 ];
