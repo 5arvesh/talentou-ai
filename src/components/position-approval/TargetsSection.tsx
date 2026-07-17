@@ -114,25 +114,25 @@ export function TargetsSection({ bare }: { bare?: boolean }) {
       }
     >
       <div>
-        <div className="grid grid-cols-2 gap-2 mb-2">
-          <div className="bg-background border border-border rounded-md p-[8px_10px]">
-            <p className="font-sora text-base font-semibold text-foreground">{formatCloseDate(targets.closeDays)}</p>
-            <p className="text-[9px] text-muted-foreground mt-0.5">Close date</p>
-            <span className="mt-1 inline-block bg-[#0e0020] text-[#c084fc] rounded-full text-[9px] px-[5px] py-px">
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="bg-background border border-border rounded-md p-3">
+            <p className="font-sora text-lg font-semibold text-foreground">{formatCloseDate(targets.closeDays)}</p>
+            <p className="text-xs text-muted-foreground mt-1">Close date</p>
+            <span className="mt-1.5 inline-block bg-[#0e0020] text-[#c084fc] rounded-full text-[10px] px-2 py-0.5">
               ✦ {targets.confidence}% conf
             </span>
           </div>
-          <div className="bg-background border border-border rounded-md p-[8px_10px]">
-            <p className="font-sora text-base font-semibold text-foreground">{targets.dailySourcingGoal}/day</p>
-            <p className="text-[9px] text-muted-foreground mt-0.5">Daily goal</p>
-            <span className="mt-1 inline-block bg-[#0e0020] text-[#c084fc] rounded-full text-[9px] px-[5px] py-px">
+          <div className="bg-background border border-border rounded-md p-3">
+            <p className="font-sora text-lg font-semibold text-foreground">{targets.dailySourcingGoal}/day</p>
+            <p className="text-xs text-muted-foreground mt-1">Daily goal</p>
+            <span className="mt-1.5 inline-block bg-[#0e0020] text-[#c084fc] rounded-full text-[10px] px-2 py-0.5">
               ✦ AI suggest
             </span>
           </div>
         </div>
 
-        <div className="flex items-start gap-1 text-[10px] text-muted-foreground">
-          <Info className="h-3 w-3 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
+          <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
           <span>
             {targets.confidence}% confidence — based on 4 past React hires. Recruiter can request changes after reviewing.
           </span>

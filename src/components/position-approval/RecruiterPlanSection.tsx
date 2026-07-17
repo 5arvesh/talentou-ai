@@ -77,60 +77,60 @@ export function RecruiterPlanSection({ bare }: { bare?: boolean }) {
     >
       <div>
         {/* Recruiter block */}
-        <div className="flex gap-2.5 items-start">
-          <div className="w-[30px] h-[30px] rounded-full bg-[#EEEDFE] text-[#3C3489] flex items-center justify-center text-[10px] font-semibold font-sora shrink-0">
+        <div className="flex gap-3 items-start">
+          <div className="w-9 h-9 rounded-full bg-[#EEEDFE] text-[#3C3489] flex items-center justify-center text-xs font-semibold font-sora shrink-0">
             {recruiter.initials}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[11px] font-medium text-foreground">{recruiter.name}</span>
-              <span className="text-[10px] text-muted-foreground">· {recruiter.title}</span>
+              <span className="text-[13px] font-medium text-foreground">{recruiter.name}</span>
+              <span className="text-xs text-muted-foreground">· {recruiter.title}</span>
               {recruiter.aiPick && (
-                <span className="inline-flex items-center gap-1 bg-[#0e0020] text-[#c084fc] text-[9px] rounded-full px-[5px] py-px">
-                  <Sparkles className="h-2 w-2" />
+                <span className="inline-flex items-center gap-1 bg-[#0e0020] text-[#c084fc] text-[10px] rounded-full px-2 py-0.5">
+                  <Sparkles className="h-2.5 w-2.5" />
                   AI pick
                 </span>
               )}
             </div>
-            <p className="text-[10px] text-muted-foreground mt-0.5">
+            <p className="text-xs text-muted-foreground mt-1">
               Bangalore · {recruiter.closesCount} React/Node closes · avg {recruiter.avgCloseDays}d
             </p>
           </div>
         </div>
 
         {/* Bandwidth */}
-        <div className="mt-2">
-          <div className="h-[3px] rounded-full bg-muted w-full overflow-hidden">
+        <div className="mt-3">
+          <div className="h-1 rounded-full bg-muted w-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all"
               style={{ width: `${recruiter.bandwidthPct}%`, backgroundColor: bwColor }}
             />
           </div>
-          <p className="text-[9px] mt-0.5" style={{ color: bwColor }}>
+          <p className="text-xs mt-1" style={{ color: bwColor }}>
             {recruiter.bandwidthPct}% bandwidth · {recruiter.activeReqs} active reqs
           </p>
         </div>
 
         {/* Other active positions */}
         {recruiter.otherActivePositions.length > 0 && (
-          <div className="border-t border-border pt-1.5 mt-2 flex items-start gap-1 text-[10px] text-muted-foreground">
-            <List className="h-3 w-3 shrink-0 mt-0.5" />
+          <div className="border-t border-border pt-2 mt-3 flex items-start gap-1.5 text-xs text-muted-foreground">
+            <List className="h-3.5 w-3.5 shrink-0 mt-0.5" />
             <span>Other active: {recruiter.otherActivePositions.join(' · ')}</span>
           </div>
         )}
 
         {/* Plan steps */}
-        <div className="border-t border-border my-2.5" />
-        <p className="text-[10px] text-muted-foreground mb-1.5">
+        <div className="border-t border-border my-3" />
+        <p className="text-xs text-muted-foreground mb-2">
           AI's suggested approach for {recruiter.name.split(' ')[0]} — accounting for their active positions
         </p>
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {recruiter.planSteps.map((step, i) => (
-            <div key={i} className="flex gap-2">
-              <div className="w-4 h-4 rounded-full bg-[#EEEDFE] text-[#3C3489] text-[9px] font-semibold font-sora flex items-center justify-center shrink-0 mt-0.5">
+            <div key={i} className="flex gap-2.5">
+              <div className="w-5 h-5 rounded-full bg-[#EEEDFE] text-[#3C3489] text-[10px] font-semibold font-sora flex items-center justify-center shrink-0 mt-0.5">
                 {i + 1}
               </div>
-              <p className="text-[11px] text-muted-foreground leading-[1.45]">{step}</p>
+              <p className="text-[12.5px] text-muted-foreground leading-[1.45]">{step}</p>
             </div>
           ))}
         </div>

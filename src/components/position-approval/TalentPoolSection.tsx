@@ -55,33 +55,33 @@ export function TalentPoolSection({ bare }: { bare?: boolean }) {
       }
     >
       <div>
-        <p className="text-[10px] text-muted-foreground mb-1.5">Locations</p>
-        <div className="flex flex-wrap gap-1 mb-3">
+        <p className="text-xs text-muted-foreground mb-2">Locations</p>
+        <div className="flex flex-wrap gap-1.5 mb-3">
           {brief.talentPool.locations.map((loc) => (
             <span
               key={loc}
-              className="inline-flex items-center gap-1 bg-[#E6F1FB] text-[#0C447C] rounded-full text-[10px] font-medium px-[7px] py-[2px]"
+              className="inline-flex items-center gap-1 bg-[#E6F1FB] text-[#0C447C] rounded-full text-xs font-medium px-2.5 py-1"
             >
-              <MapPin className="h-2.5 w-2.5" />
+              <MapPin className="h-3 w-3" />
               {loc}
             </span>
           ))}
         </div>
 
-        <p className="text-[10px] text-muted-foreground mb-1.5">Target industries</p>
-        <div className="flex flex-wrap gap-1 mb-2">
+        <p className="text-xs text-muted-foreground mb-2">Target industries</p>
+        <div className="flex flex-wrap gap-1.5 mb-3">
           {brief.talentPool.industries.map((ind) => (
             <span
               key={ind}
-              className="inline-flex items-center bg-[#EEEDFE] text-[#3C3489] rounded-full text-[10px] font-medium px-[7px] py-[2px]"
+              className="inline-flex items-center bg-[#EEEDFE] text-[#3C3489] rounded-full text-xs font-medium px-2.5 py-1"
             >
               {ind}
             </span>
           ))}
         </div>
 
-        <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-2">
-          <Info className="h-3 w-3 shrink-0" />
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-2">
+          <Info className="h-3.5 w-3.5 shrink-0" />
           <span>Based on role type + team location. Industries from last 6 similar hires.</span>
         </div>
       </div>

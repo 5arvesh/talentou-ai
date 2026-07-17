@@ -23,5 +23,6 @@ export const HL_TOUR_SCREEN_SEQUENCE: TourScreenSequenceItem[] = [
   { key: "dashboard", label: "Dashboard", path: "/hiring-lead/dashboard" },
   { key: "job-list", label: "Job list", path: "/hiring-lead/jobs" },
   { key: "candidate-list", label: "Candidates", path: "/hiring-lead/candidates" },
+  { key: "create-position", label: "Create Position", path: "/hiring-lead/conversation" },
   { key: "settings", label: "Settings", path: "/settings/profile" },
 ];

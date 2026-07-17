@@ -162,7 +162,7 @@ export function HiringLeadCommandDashboard() {
               data-tour-id="hl-dash-create-position-btn"
               size="sm"
               className="h-auto px-4 py-2 text-xs rounded-lg gap-1.5 bg-primary text-white hover:opacity-90 transition-opacity"
-              onClick={() => navigate('/hiring-lead/jobs')}
+              onClick={() => navigate('/hiring-lead/conversation')}
             >
               <Plus className="h-3.5 w-3.5" />
               Create new position

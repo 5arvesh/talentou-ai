@@ -61,7 +61,7 @@ interface AccordionRowProps {
 function AccordionRow({ rowKey, preview, isChatEdited, isExpanded, isFlashing, onToggle, onEditClick, children }: AccordionRowProps) {
   const Icon = ROW_ICONS[rowKey];
   return (
-    <div className="border-b border-border last:border-b-0">
+    <div className="border-b border-border last:border-b-0 last:flex-1">
       <div
         onClick={onToggle}
         className={cn(
@@ -127,14 +127,14 @@ export function RecruitmentBriefAccordion() {
   const toggle = (key: RowKey) => setExpandedRow((cur) => (cur === key ? null : key));
 
   return (
-    <div className="w-full max-w-[480px] bg-card border-[0.5px] border-border rounded-xl overflow-hidden">
-      <div className="px-4 py-3 border-b border-border flex items-center gap-2 flex-wrap">
+    <div className="w-full max-w-[480px] flex-1 min-h-0 flex flex-col bg-card border-[0.5px] border-border rounded-xl overflow-hidden">
+      <div className="shrink-0 px-4 py-3 border-b border-border flex items-center gap-2 flex-wrap">
         <p className="text-[15px] font-medium text-foreground">Recruitment brief</p>
         <span className="text-[12px] text-[#534AB7] bg-[#EEEDFE] rounded px-2 py-0.5">AI-generated</span>
         <span className="text-[12px] text-muted-foreground ml-auto">Click the pencil to edit any section</span>
       </div>
 
-      <div>
+      <div className="flex-1 min-h-0 flex flex-col">
         <AccordionRow
           rowKey="priority"
           preview={brief.priority}

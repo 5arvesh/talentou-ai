@@ -114,7 +114,7 @@ export function HiringLeadConversationPanel() {
                         {section.id === 0 ? 'Generate Skills & Responsibilities' : 'Next: Screening Questions'}
                       </Button>
                     ) : (
-                      <p className="text-xs text-muted-foreground">
+                      <p data-tour-id="hl-required-footer" className="text-xs text-muted-foreground">
                         {section.id === 0 ? 'Fill in all required fields to continue' : 'Add at least one skill and responsibility to continue'}
                       </p>
                     )}

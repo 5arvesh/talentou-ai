@@ -70,6 +70,7 @@ export function HiringLeadConversationProgress({ scrollToStageRef }: HiringLeadC
           return (
             <Card
               key={section.id}
+              data-tour-id={`hl-step-${section.id}`}
               onClick={() => handleSectionClick(section.id)}
               className={`
                 rounded-card transition-all duration-300

@@ -39,7 +39,7 @@ export function CompanyUSPSection({ bare }: { bare?: boolean }) {
         </div>
       }
     >
-      <blockquote className="border-l-2 border-primary pl-[9px] text-[11px] italic text-muted-foreground leading-[1.6]">
+      <blockquote className="border-l-2 border-primary pl-3 text-[13px] italic text-muted-foreground leading-[1.6]">
         {brief.usp}
       </blockquote>
     </BriefSection>
