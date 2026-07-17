@@ -106,7 +106,9 @@ function AccordionRow({ rowKey, preview, isChatEdited, isExpanded, isFlashing, o
 
 export function RecruitmentBriefAccordion() {
   const { brief, editSourceMap, highlightSection, startEditing, setPriority } = usePositionApproval();
-  const [expandedRow, setExpandedRow] = useState<RowKey | null>('priority');
+  // Two sections open on first load only (fills the panel's initial empty interior);
+  // any interaction — click or chat-highlight — collapses back to a true single-open accordion.
+  const [expandedRows, setExpandedRows] = useState<Set<RowKey>>(new Set(['priority', 'channels']));
   const [flashRow, setFlashRow] = useState<RowKey | null>(null);
   const lastHandledNonce = useRef<number | null>(null);
 
@@ -116,7 +118,7 @@ export function RecruitmentBriefAccordion() {
     lastHandledNonce.current = highlightSection.nonce;
 
     const section = highlightSection.section;
-    setExpandedRow(section);
+    setExpandedRows(new Set([section]));
     setFlashRow(section);
     const flashTimer = setTimeout(() => setFlashRow(null), 300);
     return () => clearTimeout(flashTimer);
@@ -124,10 +126,15 @@ export function RecruitmentBriefAccordion() {
 
   if (!brief) return null;
 
-  const toggle = (key: RowKey) => setExpandedRow((cur) => (cur === key ? null : key));
+  const toggle = (key: RowKey) => {
+    setExpandedRows((cur) => {
+      const isOnlyOpen = cur.size === 1 && cur.has(key);
+      return isOnlyOpen ? new Set() : new Set([key]);
+    });
+  };
 
   return (
-    <div className="w-full max-w-[480px] flex-1 min-h-0 flex flex-col bg-card border-[0.5px] border-border rounded-xl overflow-hidden">
+    <div className="w-full flex-1 min-h-0 flex flex-col bg-card border-[0.5px] border-border rounded-xl overflow-hidden">
       <div className="shrink-0 px-4 py-3 border-b border-border flex items-center gap-2 flex-wrap">
         <p className="text-[15px] font-medium text-foreground">Recruitment brief</p>
         <span className="text-[12px] text-[#534AB7] bg-[#EEEDFE] rounded px-2 py-0.5">AI-generated</span>
@@ -139,7 +146,7 @@ export function RecruitmentBriefAccordion() {
           rowKey="priority"
           preview={brief.priority}
           isChatEdited={editSourceMap.priority === 'chat'}
-          isExpanded={expandedRow === 'priority'}
+          isExpanded={expandedRows.has('priority')}
           isFlashing={flashRow === 'priority'}
           onToggle={() => toggle('priority')}
         >
@@ -166,11 +173,11 @@ export function RecruitmentBriefAccordion() {
         <AccordionRow
           rowKey="usp"
           isChatEdited={editSourceMap.usp === 'chat'}
-          isExpanded={expandedRow === 'usp'}
+          isExpanded={expandedRows.has('usp')}
           isFlashing={flashRow === 'usp'}
           onToggle={() => toggle('usp')}
           onEditClick={() => {
-            setExpandedRow('usp');
+            setExpandedRows(new Set(['usp']));
             startEditing('usp');
           }}
         >
@@ -180,11 +187,11 @@ export function RecruitmentBriefAccordion() {
         <AccordionRow
           rowKey="talentPool"
           isChatEdited={editSourceMap.talentPool === 'chat'}
-          isExpanded={expandedRow === 'talentPool'}
+          isExpanded={expandedRows.has('talentPool')}
           isFlashing={flashRow === 'talentPool'}
           onToggle={() => toggle('talentPool')}
           onEditClick={() => {
-            setExpandedRow('talentPool');
+            setExpandedRows(new Set(['talentPool']));
             startEditing('talentPool');
           }}
         >
@@ -194,11 +201,11 @@ export function RecruitmentBriefAccordion() {
         <AccordionRow
           rowKey="channels"
           isChatEdited={editSourceMap.channels === 'chat'}
-          isExpanded={expandedRow === 'channels'}
+          isExpanded={expandedRows.has('channels')}
           isFlashing={flashRow === 'channels'}
           onToggle={() => toggle('channels')}
           onEditClick={() => {
-            setExpandedRow('channels');
+            setExpandedRows(new Set(['channels']));
             startEditing('channels');
           }}
         >
@@ -209,11 +216,11 @@ export function RecruitmentBriefAccordion() {
           rowKey="recruiter"
           preview={brief.recruiter.name}
           isChatEdited={editSourceMap.recruiter === 'chat'}
-          isExpanded={expandedRow === 'recruiter'}
+          isExpanded={expandedRows.has('recruiter')}
           isFlashing={flashRow === 'recruiter'}
           onToggle={() => toggle('recruiter')}
           onEditClick={() => {
-            setExpandedRow('recruiter');
+            setExpandedRows(new Set(['recruiter']));
             startEditing('recruiter');
           }}
         >
@@ -224,11 +231,11 @@ export function RecruitmentBriefAccordion() {
           rowKey="targets"
           preview={`${formatCloseDate(brief.targets.closeDays)} · ${brief.targets.dailySourcingGoal}/day`}
           isChatEdited={editSourceMap.targets === 'chat'}
-          isExpanded={expandedRow === 'targets'}
+          isExpanded={expandedRows.has('targets')}
           isFlashing={flashRow === 'targets'}
           onToggle={() => toggle('targets')}
           onEditClick={() => {
-            setExpandedRow('targets');
+            setExpandedRows(new Set(['targets']));
             startEditing('targets');
           }}
         >

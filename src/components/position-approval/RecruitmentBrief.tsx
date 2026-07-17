@@ -36,10 +36,10 @@ export function RecruitmentBrief() {
   return (
     <div className="flex-1 min-w-0 flex flex-col overflow-hidden animate-in fade-in slide-in-from-right-2 duration-300 ease-out motion-reduce:animate-none">
       {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto p-4 bg-muted/10 flex flex-col items-center">
+      <div className="flex-1 overflow-y-auto py-4 bg-muted/10 flex flex-col items-center">
         <div className="w-full flex-1 min-h-0 flex flex-col items-center">
           {/* Context banner */}
-          <div className="w-full max-w-[480px] bg-[#EEEDFE] rounded-md p-[7px_10px] mb-3 flex items-start gap-[7px] animate-in fade-in slide-in-from-bottom-1">
+          <div className="w-full bg-[#EEEDFE] rounded-md p-[7px_10px] mb-3 flex items-start gap-[7px] animate-in fade-in slide-in-from-bottom-1">
             <Sparkles className="h-[13px] w-[13px] text-primary shrink-0 mt-px" />
             <p className="text-[11px] text-[#3C3489] leading-[1.45]">
               {appliedPlaybookName
