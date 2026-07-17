@@ -48,7 +48,7 @@ export interface JobItem {
   experience?: string;
   status: string;
   applicants?: number;
-  priority?: "High" | "Medium" | "Low" | string;
+  priority?: "Urgent" | "High" | "Medium" | "Low" | string;
   openings?: number;
   
   recruiter?: string;
@@ -169,11 +169,18 @@ export const getFieldValue = (job: JobItem, field: string): string => {
 
 export const getPriorityColor = (priority?: string) => {
   const p = (priority || "").toLowerCase();
-  if (p === "high") return "bg-red-50 text-red-600 border-red-200";
-  if (p === "medium") return "bg-yellow-50 text-yellow-600 border-yellow-200";
-  if (p === "low") return "bg-green-500/10 text-green-600 border-green-500/20";
+  if (p === "urgent") return "bg-[#FCEBEB] text-[#A32D2D] border-transparent";
+  if (p === "high") return "bg-[#FAEEDA] text-[#854F0B] border-transparent";
   return "bg-gray-50 text-gray-600";
 };
+
+// Low/Medium are intentionally quiet — no pill. Only High/Urgent surface a badge.
+export const shouldShowPriorityBadge = (priority?: string) => {
+  const p = (priority || "").toLowerCase();
+  return p === "high" || p === "urgent";
+};
+
+const PRIORITY_RANK: Record<string, number> = { urgent: 4, high: 3, medium: 2, low: 1 };
 
 const JOB_CHIPS: ChipDef<JobItem>[] = [
   { id: "all", label: "All Jobs", filter: () => true },
@@ -233,6 +240,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
       result.sort((a, b) => {
         const valA = getFieldValue(a, sortConfig.key);
         const valB = getFieldValue(b, sortConfig.key);
+        if (sortConfig.key === 'priority') {
+          const rankA = PRIORITY_RANK[valA.toLowerCase()] ?? 0;
+          const rankB = PRIORITY_RANK[valB.toLowerCase()] ?? 0;
+          return sortConfig.direction === 'asc' ? rankA - rankB : rankB - rankA;
+        }
         // numeric sort if possible
         const numA = parseFloat(valA);
         const numB = parseFloat(valB);
@@ -631,11 +643,11 @@ export function ModernJobList({ role, jobs, title = "Job List" }: ModernJobListP
                               {value}
                             </Badge>
                           ) : colId === "priority" ? (
-                            value !== "-" ? (
+                            shouldShowPriorityBadge(value) ? (
                               <Badge variant="outline" className={cn("font-medium px-2 py-0.5", getPriorityColor(value))}>
                                 {value}
                               </Badge>
-                            ) : <span>-</span>
+                            ) : <span className="text-muted-foreground">-</span>
                           ) : colId === "applicants" || colId === "openings" || colId === "daysOpen" || colId === "newApplicants" ? (
                             <span className="font-medium">{value}</span>
                           ) : colId === "experience" ? `${value} Yrs` : value}

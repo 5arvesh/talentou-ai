@@ -109,9 +109,12 @@ export interface ActivityGroup {
   items: ActivityItem[];
 }
 
+export type PriorityLevel = 'Low' | 'Medium' | 'High' | 'Urgent';
+
 export interface RecruitmentPlanData {
   jobTitle: string;
   location: string;
+  priority: PriorityLevel;
   dayOfPlan: number;
   totalDays: number;
   statusPill: StatusPill;
@@ -162,6 +165,7 @@ function buildPaceChartData(): PaceChartPoint[] {
 const SENIOR_REACT_DEVELOPER: RecruitmentPlanData = {
   jobTitle: 'Senior React Developer',
   location: 'Bangalore',
+  priority: 'High',
   dayOfPlan: 9,
   totalDays: 42,
   statusPill: 'at_risk',
@@ -309,16 +313,19 @@ export interface JobOverride {
   jobRole?: string;
   location?: string;
   recruiter?: string;
+  priority?: PriorityLevel;
 }
 
 export function getDefaultPlanData(jobId: string, jobOverride?: JobOverride): RecruitmentPlanData {
   const jobTitle = jobOverride?.jobRole ?? 'This Role';
   const location = jobOverride?.location ?? 'Bangalore';
   const recruiterName = jobOverride?.recruiter ?? 'Unassigned';
+  const priority = jobOverride?.priority ?? 'Medium';
 
   return {
     jobTitle,
     location,
+    priority,
     dayOfPlan: 5,
     totalDays: 30,
     statusPill: 'on_track',

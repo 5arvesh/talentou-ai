@@ -11,7 +11,7 @@ function bandwidthColor(pct: number) {
   return '#E24B4A';
 }
 
-export function RecruiterPlanSection() {
+export function RecruiterPlanSection({ bare }: { bare?: boolean }) {
   const {
     brief, editSourceMap, editingSection,
     recruiterList,
@@ -33,6 +33,7 @@ export function RecruiterPlanSection() {
 
   return (
     <BriefSection
+      bare={bare}
       eyebrowIcon={UserCheck}
       eyebrow="Assigned recruiter & plan"
       editLabel="Reassign"

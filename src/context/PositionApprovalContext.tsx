@@ -4,8 +4,10 @@ import type { Playbook } from '@/components/position-approval/playbooks';
 
 export type NotificationGroup = 'new' | 'earlier';
 export type ViewState = 'default' | 'edit' | 'approved';
-export type SectionKey = 'usp' | 'talentPool' | 'channels' | 'recruiter' | 'targets';
+export type SectionKey = 'priority' | 'usp' | 'talentPool' | 'channels' | 'recruiter' | 'targets';
 export type EditSource = 'none' | 'manual' | 'chat';
+export type PriorityLevel = 'Low' | 'Medium' | 'High' | 'Urgent';
+export type PrioritySource = 'manual' | 'chat' | 'ai-suggested';
 
 export interface ChatMessage {
   id: string;
@@ -25,7 +27,8 @@ export interface PositionDetail {
   requestedBy: string;
   dept: string;
   submittedHoursAgo: number;
-  priority: 'High' | 'Medium' | 'Low';
+  priority: PriorityLevel;
+  prioritySource: PrioritySource;
   status: string;
   location: string;
   experience: string;
@@ -56,6 +59,8 @@ export interface RecruiterOption {
 }
 
 export interface Brief {
+  priority: PriorityLevel;
+  prioritySource: PrioritySource;
   usp: string;
   talentPool: { locations: string[]; industries: string[] };
   channels: BriefChannel[];
@@ -159,6 +164,7 @@ const SENIOR_REACT_DEVELOPER_DETAIL: PositionDetail = {
   dept: 'Engineering',
   submittedHoursAgo: 2,
   priority: 'High',
+  prioritySource: 'manual',
   status: 'Active',
   location: 'Bangalore',
   experience: '4–7 yrs',
@@ -171,6 +177,8 @@ const SENIOR_REACT_DEVELOPER_DETAIL: PositionDetail = {
 };
 
 const SENIOR_REACT_DEVELOPER_BRIEF: Brief = {
+  priority: 'High',
+  prioritySource: 'manual',
   usp: "Talentou is where engineers ship real product from day one — no JIRA backlog theatre, no committee-driven decisions. Our React team owns the full stack and has shipped 4 major product releases in the last 6 months.",
   talentPool: {
     locations: ['Bangalore', 'Pune', 'Hyderabad', 'Chennai'],
@@ -252,6 +260,9 @@ interface PositionApprovalContextValue {
   appliedPlaybookNote: string | null;
   editSourceMap: Partial<Record<SectionKey, EditSource>>;
   chatMessages: ChatMessage[];
+  // Fires whenever a section should briefly expand + flash in the brief accordion
+  // (real chat edits and the demo-only markEditedViaChat both funnel through this).
+  highlightSection: { section: SectionKey; nonce: number } | null;
   editingSection: SectionKey | null;
   recruiterList: RecruiterOption[];
   // USP edit
@@ -270,6 +281,8 @@ interface PositionApprovalContextValue {
   // Targets edit
   editCloseDays: number;
   editDailySourcing: number;
+  // Priority — direct-commit selector, no pencil/save/cancel flow
+  setPriority: (level: PriorityLevel) => void;
   // Actions
   selectNotification: (id: string) => void;
   enterEditMode: () => void;
@@ -312,6 +325,7 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
   );
   const [editSourceMap, setEditSourceMap] = useState<Partial<Record<SectionKey, EditSource>>>({});
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [highlightSection, setHighlightSection] = useState<{ section: SectionKey; nonce: number } | null>(null);
   const [editingSection, setEditingSection] = useState<SectionKey | null>(null);
   const [appliedPlaybookName, setAppliedPlaybookName] = useState<string | null>(null);
   const [appliedPlaybookNote, setAppliedPlaybookNote] = useState<string | null>(null);
@@ -358,6 +372,7 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
   // to point its coach mark at, without driving a real AI chat message.
   const markEditedViaChat = useCallback((section: SectionKey) => {
     setEditSourceMap((prev) => (prev[section] === 'chat' ? prev : { ...prev, [section]: 'chat' }));
+    setHighlightSection({ section, nonce: Date.now() });
   }, []);
 
   const discardEditMode = useCallback(() => {
@@ -396,7 +411,21 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
       let aiContent = '';
       let triggeredSection: SectionKey | undefined;
 
-      if (lower.includes('close') || lower.includes('target') || lower.includes('week') || lower.includes('day')) {
+      if (lower.includes('urgent') || lower.includes('priority')) {
+        const newPriority: PriorityLevel = lower.includes('urgent')
+          ? 'Urgent'
+          : lower.includes('high')
+          ? 'High'
+          : lower.includes('low')
+          ? 'Low'
+          : lower.includes('medium') || lower.includes('lower')
+          ? 'Medium'
+          : 'High';
+        setBrief((prev) => prev ? { ...prev, priority: newPriority, prioritySource: 'chat' } : prev);
+        setEditSourceMap((prev) => ({ ...prev, priority: 'chat' }));
+        triggeredSection = 'priority';
+        aiContent = `Got it — I've set the priority to ${newPriority}. You can adjust it anytime with the selector.`;
+      } else if (lower.includes('close') || lower.includes('target') || lower.includes('week') || lower.includes('day')) {
         const newDays = 56;
         setBrief((prev) => prev ? { ...prev, targets: { ...prev.targets, closeDays: newDays } } : prev);
         setEditSourceMap((prev) => ({ ...prev, targets: 'chat' }));
@@ -448,7 +477,13 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
         triggeredSection,
       };
       setChatMessages((prev) => [...prev, aiMsg]);
+      if (triggeredSection) setHighlightSection({ section: triggeredSection, nonce: Date.now() });
     }, 900);
+  }, []);
+
+  const setPriority = useCallback((level: PriorityLevel) => {
+    setBrief((prev) => (prev ? { ...prev, priority: level, prioritySource: 'manual' } : prev));
+    setEditSourceMap((prev) => ({ ...prev, priority: 'manual' }));
   }, []);
 
   const startEditing = (section: SectionKey) => {
@@ -622,6 +657,7 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
         appliedPlaybookNote,
         editSourceMap,
         chatMessages,
+        highlightSection,
         editingSection,
         recruiterList: RECRUITER_LIST,
         editDraft,
@@ -635,6 +671,7 @@ export function PositionApprovalProvider({ children }: { children: ReactNode }) 
         editPlanStepDraft,
         editCloseDays,
         editDailySourcing,
+        setPriority,
         selectNotification,
         enterEditMode,
         markEditedViaChat,

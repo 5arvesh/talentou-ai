@@ -16,7 +16,7 @@ function formatCloseDate(days: number): string {
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-export function TargetsSection() {
+export function TargetsSection({ bare }: { bare?: boolean }) {
   const {
     brief, editSourceMap, editingSection,
     editCloseDays, editDailySourcing,
@@ -37,6 +37,7 @@ export function TargetsSection() {
 
   return (
     <BriefSection
+      bare={bare}
       eyebrowIcon={Target}
       eyebrow="Targets"
       isEdited={!!src}

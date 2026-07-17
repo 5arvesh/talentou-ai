@@ -16,7 +16,7 @@ import { TourStep } from "@/store/tour-store";
 import { RECRUITER_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
 
 const assignedRoles = [
-  { id: 1, title: 'Senior React Developer', priority: 'High',   daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88, topMatch: { name: 'Arun Sharma',  skills: 'React · TypeScript', exp: '6y', stage: 'Interview' },   stalled: { count: 1, stage: 'Shortlisted', days: 12 } },
+  { id: 1, title: 'Senior React Developer', priority: 'Urgent', daysLeft: 8,  pipeline: { applied: 4, shortlisted: 2, interview: 1 }, topCandidateFit: 88, topMatch: { name: 'Arun Sharma',  skills: 'React · TypeScript', exp: '6y', stage: 'Interview' },   stalled: { count: 1, stage: 'Shortlisted', days: 12 } },
   { id: 2, title: 'Product Manager',        priority: 'Medium', daysLeft: 22, pipeline: { applied: 3, shortlisted: 1, interview: 0 }, topCandidateFit: 64, topMatch: { name: 'Sneha Patel',  skills: 'Roadmapping · SQL',  exp: '4y', stage: 'Shortlisted' }, stalled: null },
   { id: 3, title: 'Data Scientist',         priority: 'High',   daysLeft: 5,  pipeline: { applied: 2, shortlisted: 3, interview: 2 }, topCandidateFit: 92, topMatch: { name: 'Priya Nair',   skills: 'ML · Python',       exp: '5y', stage: 'Interview' },   stalled: null },
   { id: 4, title: 'DevOps Engineer',        priority: 'Low',    daysLeft: 35, pipeline: { applied: 5, shortlisted: 0, interview: 0 }, topCandidateFit: 45, topMatch: { name: 'Kiran Reddy',  skills: 'K8s · Terraform',    exp: '5y', stage: 'Applied' },      stalled: { count: 2, stage: 'Applied', days: 14 } },
@@ -41,10 +41,14 @@ const weeklyActivity = [
 ];
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
-  High:   { label: 'High',   className: 'bg-red-50 text-red-700 border-red-200' },
-  Medium: { label: 'Medium', className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  Low:    { label: 'Low',    className: 'bg-green-50 text-green-600 border-green-200' },
+  Urgent: { label: 'Urgent', className: 'bg-[#FCEBEB] text-[#A32D2D] border-transparent' },
+  High:   { label: 'High',   className: 'bg-[#FAEEDA] text-[#854F0B] border-transparent' },
+  Medium: { label: 'Medium', className: 'bg-muted text-muted-foreground border-transparent' },
+  Low:    { label: 'Low',    className: 'bg-muted text-muted-foreground border-transparent' },
 };
+
+// Low/Medium are intentionally quiet — the badge only surfaces for High/Urgent.
+const shouldShowPriorityBadge = (priority: string) => priority === 'High' || priority === 'Urgent';
 
 const kpiStats = [
   { label: 'Active Roles',        value: 4,      sub: 'Assigned to you',     subColor: 'text-muted-foreground', id: 'kpi-active-roles' },
@@ -153,7 +157,9 @@ const TAAssociateDashboard = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="text-sm font-semibold truncate">{role.title}</p>
-                        <Badge variant="outline" className={`text-xs shrink-0 ${pCfg.className}`}>{pCfg.label}</Badge>
+                        {shouldShowPriorityBadge(role.priority) && (
+                          <Badge variant="outline" className={`text-xs shrink-0 ${pCfg.className}`}>{pCfg.label}</Badge>
+                        )}
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
                         {role.pipeline.applied} Applied · {role.pipeline.shortlisted} Shortlisted · {role.pipeline.interview} Interview

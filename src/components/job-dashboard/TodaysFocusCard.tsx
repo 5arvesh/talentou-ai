@@ -85,7 +85,12 @@ export function TodaysFocusCard({ role, variant = 'full' }: TodaysFocusCardProps
     <div
       data-tour-id="jd-todays-focus"
       className={cn(
-        'rounded-card p-3.5 bg-gradient-to-br from-[#0e0020] to-[#1a0040] border border-[rgba(192,132,252,0.2)]',
+        'rounded-card p-3.5 bg-gradient-to-br from-[#0e0020] to-[#1a0040] border-r border-b border-l border-r-[rgba(192,132,252,0.2)] border-b-[rgba(192,132,252,0.2)] border-l-[rgba(192,132,252,0.2)]',
+        data.priority === 'Urgent'
+          ? 'border-t-[3px] border-t-[#A32D2D]'
+          : data.priority === 'High'
+          ? 'border-t-[3px] border-t-[#EF9F27]'
+          : 'border-t border-t-[rgba(192,132,252,0.2)]',
         pulsing && 'animate-focus-pulse'
       )}
     >

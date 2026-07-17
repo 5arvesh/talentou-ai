@@ -3,7 +3,7 @@ import { Quote } from 'lucide-react';
 import { BriefSection } from './BriefSection';
 import { usePositionApproval } from '@/context/PositionApprovalContext';
 
-export function CompanyUSPSection() {
+export function CompanyUSPSection({ bare }: { bare?: boolean }) {
   const { brief, editSourceMap, editingSection, editDraft, setEditDraft, startEditing, saveEdit, cancelEdit } =
     usePositionApproval();
 
@@ -14,6 +14,7 @@ export function CompanyUSPSection() {
 
   return (
     <BriefSection
+      bare={bare}
       tourId="pa-chat-flag"
       eyebrowIcon={Quote}
       eyebrow="Company pitch"

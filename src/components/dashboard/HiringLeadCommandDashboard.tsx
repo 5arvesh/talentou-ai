@@ -14,13 +14,18 @@ import { TourStep } from "@/store/tour-store";
 import { HL_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
 
 const jobOpenings = [
-  { id: 1, jobRole: 'Senior React Developer', project: 'Platform Core',     requiredSkills: 'React, TypeScript, Node.js',        status: 'Active',    recruiter: 'Sarah Johnson',  interviewer: 'Mike Chen',     totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14, stalledCount: 2 },
-  { id: 2, jobRole: 'Product Manager',        project: 'Growth Squad',      requiredSkills: 'Strategy, Analytics, Agile',        status: 'In Review',  recruiter: 'David Wilson',   interviewer: 'Lisa Zhang',    totalCandidates: 8,  stages: { interview: 2, selected: 0 }, daysOpen: 21, stalledCount: 0 },
-  { id: 3, jobRole: 'Data Scientist',         project: 'ML Platform',       requiredSkills: 'Python, TensorFlow, Statistics',    status: 'Active',    recruiter: 'Priya Sharma',   interviewer: 'David Kim',     totalCandidates: 15, stages: { interview: 4, selected: 2 }, daysOpen: 9,  stalledCount: 1 },
-  { id: 4, jobRole: 'DevOps Engineer',        project: 'Infrastructure',    requiredSkills: 'Kubernetes, CI/CD, Terraform',      status: 'Active',    recruiter: 'Rachel Kim',     interviewer: 'Robert Taylor', totalCandidates: 6,  stages: { interview: 1, selected: 0 }, daysOpen: 30, stalledCount: 3 },
-  { id: 5, jobRole: 'UX Designer',            project: 'Design System',     requiredSkills: 'Figma, User Research, Prototyping', status: 'On Hold',    recruiter: 'Alex Thompson',  interviewer: 'Maria Garcia',  totalCandidates: 9,  stages: { interview: 2, selected: 0 }, daysOpen: 18, stalledCount: 0 },
-  { id: 6, jobRole: 'QA Engineer',            project: 'Testing Framework', requiredSkills: 'Selenium, Testing, Automation',     status: 'Closed',     recruiter: 'Nina Patel',     interviewer: 'Chris Wilson',  totalCandidates: 11, stages: { interview: 3, selected: 0 }, daysOpen: 7,  stalledCount: 0 },
+  { id: 1, jobRole: 'Senior React Developer', project: 'Platform Core',     requiredSkills: 'React, TypeScript, Node.js',        status: 'Active',    recruiter: 'Sarah Johnson',  interviewer: 'Mike Chen',     totalCandidates: 12, stages: { interview: 3, selected: 1 }, daysOpen: 14, stalledCount: 2, priority: 'Urgent' },
+  { id: 2, jobRole: 'Product Manager',        project: 'Growth Squad',      requiredSkills: 'Strategy, Analytics, Agile',        status: 'In Review',  recruiter: 'David Wilson',   interviewer: 'Lisa Zhang',    totalCandidates: 8,  stages: { interview: 2, selected: 0 }, daysOpen: 21, stalledCount: 0, priority: 'Medium' },
+  { id: 3, jobRole: 'Data Scientist',         project: 'ML Platform',       requiredSkills: 'Python, TensorFlow, Statistics',    status: 'Active',    recruiter: 'Priya Sharma',   interviewer: 'David Kim',     totalCandidates: 15, stages: { interview: 4, selected: 2 }, daysOpen: 9,  stalledCount: 1, priority: 'High' },
+  { id: 4, jobRole: 'DevOps Engineer',        project: 'Infrastructure',    requiredSkills: 'Kubernetes, CI/CD, Terraform',      status: 'Active',    recruiter: 'Rachel Kim',     interviewer: 'Robert Taylor', totalCandidates: 6,  stages: { interview: 1, selected: 0 }, daysOpen: 30, stalledCount: 3, priority: 'High' },
+  { id: 5, jobRole: 'UX Designer',            project: 'Design System',     requiredSkills: 'Figma, User Research, Prototyping', status: 'On Hold',    recruiter: 'Alex Thompson',  interviewer: 'Maria Garcia',  totalCandidates: 9,  stages: { interview: 2, selected: 0 }, daysOpen: 18, stalledCount: 0, priority: 'Low' },
+  { id: 6, jobRole: 'QA Engineer',            project: 'Testing Framework', requiredSkills: 'Selenium, Testing, Automation',     status: 'Closed',     recruiter: 'Nina Patel',     interviewer: 'Chris Wilson',  totalCandidates: 11, stages: { interview: 3, selected: 0 }, daysOpen: 7,  stalledCount: 0, priority: 'Medium' },
 ];
+
+const HL_PRIORITY_PILL: Record<string, string> = {
+  Urgent: 'bg-[#FCEBEB] text-[#A32D2D] border-transparent',
+  High: 'bg-[#FAEEDA] text-[#854F0B] border-transparent',
+};
 
 const upcomingInterviews = [
   { candidate: 'Arun Sharma',  role: 'Senior React Developer', type: 'Technical',   date: 'Today',        time: '3:00 PM',  exp: '6y', fitScore: 88, action: 'Score' as const, aiSummary: 'Strong React and TypeScript depth; led a design-system migration. Probe system-design tradeoffs at scale.' },
@@ -218,9 +223,16 @@ export function HiringLeadCommandDashboard() {
                       {job.requiredSkills}
                     </TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center text-[10px] font-semibold px-[9px] py-[3px] rounded-full border ${getJobStatusColor(job.status)}`}>
-                        {job.status}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        {HL_PRIORITY_PILL[job.priority] && (
+                          <span className={`inline-flex items-center text-[10px] font-semibold px-[9px] py-[3px] rounded-full border ${HL_PRIORITY_PILL[job.priority]}`}>
+                            {job.priority}
+                          </span>
+                        )}
+                        <span className={`inline-flex items-center text-[10px] font-semibold px-[9px] py-[3px] rounded-full border ${getJobStatusColor(job.status)}`}>
+                          {job.status}
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell className={`font-medium whitespace-nowrap ${daysColor}`}>
                       {job.daysOpen}

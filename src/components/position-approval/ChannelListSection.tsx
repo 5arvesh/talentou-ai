@@ -17,7 +17,7 @@ function yieldLabel(yld: BriefChannel['yield']) {
   return 'Low yield';
 }
 
-export function ChannelListSection() {
+export function ChannelListSection({ bare }: { bare?: boolean }) {
   const {
     brief, editSourceMap, editingSection,
     editChannels, editCustomChannels,
@@ -32,6 +32,7 @@ export function ChannelListSection() {
 
   return (
     <BriefSection
+      bare={bare}
       eyebrowIcon={Radio}
       eyebrow="Recruitment channels"
       isEdited={!!src}

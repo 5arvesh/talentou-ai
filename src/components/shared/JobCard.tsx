@@ -31,7 +31,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { getJobStatusColor } from "@/constants/statuses";
-import { ALL_COLUMNS, DROPDOWN_FIELDS, JobItem, RoleType, getFieldValue, getPriorityColor, isJobAtRisk } from "./ModernJobList";
+import { ALL_COLUMNS, DROPDOWN_FIELDS, JobItem, RoleType, getFieldValue, getPriorityColor, shouldShowPriorityBadge, isJobAtRisk } from "./ModernJobList";
 
 interface JobCardProps {
   job: JobItem;
@@ -112,7 +112,7 @@ export function JobCard({ job, role, index, onAction, isCareerEnabled, onToggleC
                 Manually approved
               </span>
             )}
-            {job.priority && (
+            {shouldShowPriorityBadge(job.priority) && (
               <Badge variant="outline" className={cn("font-medium px-2 py-0.5 text-xs", getPriorityColor(job.priority))}>
                 {job.priority}
               </Badge>

@@ -84,20 +84,20 @@ export function AIPlanPanel() {
       <div className="flex-1 overflow-y-auto flex flex-col items-center px-5 pt-[32px] pb-[28px]">
         <div className="w-full" style={{ maxWidth: '760px' }}>
           {/* AI Plan Summary card */}
-          <div data-tour-id="pa-plan-summary" className="w-full rounded-[14px] border-[0.5px] border-[rgba(192,132,252,0.2)] bg-[#0e0020] p-[28px_36px]">
+          <div data-tour-id="pa-plan-summary" className="w-full rounded-none bg-[#EEEDFE] border-l-[3px] border-l-[#7800D3] p-[16px_16px_16px_20px]">
             <div className="flex items-center gap-[6px] mb-3">
-              <Sparkles className="h-[11px] w-[11px] text-[#c084fc] shrink-0" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#c084fc]">
+              <Sparkles className="h-4 w-4 text-[#534AB7] shrink-0" />
+              <span className="font-sora text-[13px] font-medium uppercase tracking-[0.04em] text-[#534AB7]">
                 AI Plan Summary
               </span>
             </div>
             <div className="flex flex-col gap-[12px]">
               {planRows.map(({ Icon, lead, text }, i) => (
                 <div key={i} className="flex gap-[7px]">
-                  <Icon className="h-4 w-4 text-[#c084fc] shrink-0 mt-[2px]" />
-                  <span className="text-[14px] text-white/80 leading-[1.6]">
-                    {lead && <span className="text-white font-semibold">{lead}</span>}
-                    {text}
+                  <Icon className="h-4 w-4 text-[#534AB7] shrink-0 mt-[2px]" />
+                  <span className="text-[14px] leading-[1.6]">
+                    {lead && <span className="font-medium text-[#3C3489]">{lead}</span>}
+                    <span className="text-[#534AB7]">{text}</span>
                   </span>
                 </div>
               ))}
@@ -110,7 +110,7 @@ export function AIPlanPanel() {
               Happy with this plan, or want to make any changes?
             </p>
             <p className="text-[12px] text-muted-foreground leading-[1.5]">
-              Talentou's AI agent drafted this based on the position requirements.
+              Talentou's AI drafted this based on the position requirements.
             </p>
           </div>
 

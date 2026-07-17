@@ -4,7 +4,7 @@ import { BriefSection } from './BriefSection';
 import { PredictiveSearchInput, LOCATION_SUGGESTIONS, INDUSTRY_SUGGESTIONS } from './PredictiveSearchInput';
 import { usePositionApproval } from '@/context/PositionApprovalContext';
 
-export function TalentPoolSection() {
+export function TalentPoolSection({ bare }: { bare?: boolean }) {
   const {
     brief, editSourceMap, editingSection,
     editLocations, editIndustries,
@@ -19,6 +19,7 @@ export function TalentPoolSection() {
 
   return (
     <BriefSection
+      bare={bare}
       eyebrowIcon={MapPin}
       eyebrow="Talent pool"
       isEdited={!!src}

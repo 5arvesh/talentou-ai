@@ -3,24 +3,11 @@ import { ArrowRight, Check, CheckCircle2, Sparkles, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { usePositionApproval } from '@/context/PositionApprovalContext';
-import type { SectionKey } from '@/context/PositionApprovalContext';
-import { CompanyUSPSection } from './CompanyUSPSection';
-import { TalentPoolSection } from './TalentPoolSection';
-import { ChannelListSection } from './ChannelListSection';
-import { RecruiterPlanSection } from './RecruiterPlanSection';
-import { TargetsSection } from './TargetsSection';
-
-const SECTION_LABELS: Record<SectionKey, string> = {
-  usp: 'Company pitch',
-  talentPool: 'Talent pool',
-  channels: 'Channels',
-  recruiter: 'Recruiter & plan',
-  targets: 'Targets',
-};
+import { RecruitmentBriefAccordion } from './RecruitmentBriefAccordion';
 
 export function RecruitmentBrief() {
   const navigate = useNavigate();
-  const { viewState, brief, selected, editSourceMap, appliedPlaybookName, discardEditMode, confirmSend } = usePositionApproval();
+  const { viewState, brief, selected, appliedPlaybookName, discardEditMode, confirmSend } = usePositionApproval();
   const [jdOpen, setJdOpen] = useState(false);
 
   if (viewState === 'approved' && brief && selected?.position) {
@@ -46,34 +33,13 @@ export function RecruitmentBrief() {
     );
   }
 
-  const editedKeys = (Object.keys(editSourceMap) as SectionKey[]).filter((k) => !!editSourceMap[k]);
-
   return (
     <div className="flex-1 min-w-0 flex flex-col overflow-hidden animate-in fade-in slide-in-from-right-2 duration-300 ease-out motion-reduce:animate-none">
-      {/* Sticky header */}
-      <div className="shrink-0 border-b border-border bg-background px-4 py-2.5 flex items-center justify-between">
-        <div>
-          <p className="font-sora text-[13px] font-medium text-foreground">Recruitment brief</p>
-          <p className="text-[10px] text-muted-foreground">AI-generated · click the pencil to edit any section</p>
-        </div>
-        {editedKeys.length > 0 && (
-          <div className="flex items-center gap-1.5">
-            {editedKeys.map((key) => (
-              <span
-                key={key}
-                className="w-[5px] h-[5px] rounded-full bg-[#639922] block"
-                title={`${SECTION_LABELS[key]} edited`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
       {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto p-4 bg-muted/10">
-        <div className="w-full">
+      <div className="flex-1 overflow-y-auto p-4 bg-muted/10 flex flex-col items-center">
+        <div className="w-full flex flex-col items-center">
           {/* Context banner */}
-          <div className="bg-[#EEEDFE] rounded-md p-[7px_10px] mb-3 flex items-start gap-[7px] animate-in fade-in slide-in-from-bottom-1">
+          <div className="w-full max-w-[480px] bg-[#EEEDFE] rounded-md p-[7px_10px] mb-3 flex items-start gap-[7px] animate-in fade-in slide-in-from-bottom-1">
             <Sparkles className="h-[13px] w-[13px] text-primary shrink-0 mt-px" />
             <p className="text-[11px] text-[#3C3489] leading-[1.45]">
               {appliedPlaybookName
@@ -82,16 +48,7 @@ export function RecruitmentBrief() {
             </p>
           </div>
 
-          {/* 2-column brief grid */}
-          <div className="grid grid-cols-2 gap-3 items-start res-1200:grid-cols-1">
-            <CompanyUSPSection />
-            <TalentPoolSection />
-            <ChannelListSection />
-            <RecruiterPlanSection />
-            <div className="col-span-2 res-1200:col-span-1">
-              <TargetsSection />
-            </div>
-          </div>
+          <RecruitmentBriefAccordion />
         </div>
       </div>
 

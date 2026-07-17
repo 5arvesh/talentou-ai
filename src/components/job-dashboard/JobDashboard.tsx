@@ -24,6 +24,8 @@ interface JobDashboardProps {
   jobOverride?: JobItem;
 }
 
+const PRIORITY_LEVELS = ['Low', 'Medium', 'High', 'Urgent'] as const;
+
 const ZONE_META: Record<ZoneKey, { title: string; subtitle: string }> = {
   today: { title: "Today's focus", subtitle: 'AI-curated priorities for this role, refreshed daily' },
   plan: { title: 'Recruitment plan', subtitle: 'Assigned recruiter, sourcing channels & targets' },
@@ -289,7 +291,12 @@ function DashboardContent({ role }: { role: RoleType }) {
 
 export function JobDashboard({ jobId, role, jobOverride }: JobDashboardProps) {
   const override: JobOverride | undefined = jobOverride
-    ? { jobRole: jobOverride.jobRole, location: jobOverride.location, recruiter: jobOverride.recruiter }
+    ? {
+        jobRole: jobOverride.jobRole,
+        location: jobOverride.location,
+        recruiter: jobOverride.recruiter,
+        priority: PRIORITY_LEVELS.find((p) => p === jobOverride.priority),
+      }
     : undefined;
 
   return (

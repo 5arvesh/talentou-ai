@@ -17,6 +17,9 @@ interface BriefSectionProps {
   editContent: ReactNode;
   animationDelay?: number;
   tourId?: string;
+  /** When true, renders just the content + edit footer — no eyebrow, border, or pencil.
+   *  Used inside the recruitment brief accordion, which supplies its own row chrome. */
+  bare?: boolean;
 }
 
 export function BriefSection({
@@ -33,7 +36,35 @@ export function BriefSection({
   editContent,
   animationDelay = 0,
   tourId,
+  bare = false,
 }: BriefSectionProps) {
+  if (bare) {
+    return (
+      <div data-tour-id={tourId}>
+        {!editMode && children}
+        {editMode && (
+          <div>
+            {editContent}
+            <div className="flex justify-end gap-1.5 mt-2.5">
+              <button
+                onClick={onCancel}
+                className="text-[11px] border border-border rounded-md px-3 py-1 text-muted-foreground hover:bg-muted transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onSave}
+                className="text-[11px] bg-primary text-white rounded-md px-3 py-1 hover:bg-primary/90 transition-colors"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       data-tour-id={tourId}
