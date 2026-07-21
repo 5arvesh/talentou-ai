@@ -76,6 +76,14 @@
     /* Always-dark floating surface (toasts, bulk-action bars) — matches #1e1e2e */
     --surface-inverse: 240 21% 15%;
     --surface-inverse-foreground: 0 0% 100%;
+
+    /* Neutral section surfaces + text ramp (bulk-import full-screen layout, CDS-token-aware) */
+    --surface-1: 260 20% 98%;
+    --surface-2: 0 0% 100%;
+    --text-primary: 273 45% 12%;
+    --text-secondary: 258 20% 40%;
+    --text-muted: 220 9% 55%;
+    --text-success: 110 49% 46%;
   }
 
   .dark {
@@ -128,6 +136,13 @@
 
     --surface-inverse: 240 21% 15%;
     --surface-inverse-foreground: 0 0% 100%;
+
+    --surface-1: 260 20% 98%;
+    --surface-2: 0 0% 100%;
+    --text-primary: 273 45% 12%;
+    --text-secondary: 258 20% 40%;
+    --text-muted: 220 9% 55%;
+    --text-success: 110 49% 46%;
   }
 }
 

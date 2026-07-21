@@ -114,6 +114,19 @@ export const ALL_COLUMNS: ColumnDef[] = [
 
 const DEFAULT_COLUMNS = ["name", "currentTitle", "yearsOfExperience", "skills", "roleFitScore", "status", "source", "dateAdded"];
 
+// Recruiter-sourced channel taken at import time — no "Direct" catch-all anymore (see resolveCandidateSource).
+const RECRUITER_SOURCE_CHANNELS = ["LinkedIn", "Referral", "Job Board", "Direct Sourcing"];
+
+/** Self-applied candidates (public job posting) show "Applied"; recruiter-sourced candidates show
+ *  their real channel if captured, or a stable per-candidate fallback for pre-existing mock rows
+ *  that predate this field. */
+function resolveCandidateSource(candidate: CandidateItem): string {
+  if (candidate.source) return candidate.source;
+  if (candidate.status?.toLowerCase() === "applied") return "Applied";
+  const hash = String(candidate.id).split("").reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+  return RECRUITER_SOURCE_CHANNELS[hash % RECRUITER_SOURCE_CHANNELS.length];
+}
+
 export const getFieldValue = (candidate: CandidateItem, field: string): string => {
   if (field === 'name') return candidate.name;
   if (field === 'yearsOfExperience') return String(candidate.yearsOfExperience ?? "3");
@@ -127,7 +140,7 @@ export const getFieldValue = (candidate: CandidateItem, field: string): string =
   if (field === 'earliestJoiningDate') return candidate.earliestJoiningDate || "Immediate";
   if (field === 'dateAdded') return candidate.dateAdded || "-";
   if (field === 'skills') return candidate.skills.join(", ");
-  if (field === 'source') return candidate.source || "Direct";
+  if (field === 'source') return resolveCandidateSource(candidate);
   if (field === 'currentTitle') return candidate.currentTitle || "-";
   if (field === 'currentCompany') return candidate.currentCompany || "-";
   if (field === 'recruiterAssigned') return candidate.recruiterAssigned || "-";
@@ -735,13 +748,14 @@ export function ModernCandidateList({ role, candidates, title = "Candidate List"
 
                         if (colId === "source") {
                           const sourceColors: Record<string, string> = {
+                            Applied: "bg-emerald-100 text-emerald-700",
                             LinkedIn: "bg-blue-100 text-blue-700",
                             Referral: "bg-purple-100 text-purple-700",
                             Indeed: "bg-indigo-100 text-indigo-700",
                             "Job Board": "bg-orange-100 text-orange-700",
+                            "Direct Sourcing": "bg-slate-100 text-slate-700",
                             Agency: "bg-amber-100 text-amber-700",
                             Campus: "bg-teal-100 text-teal-700",
-                            Direct: "bg-gray-100 text-gray-600",
                           };
                           const colorClass = sourceColors[value] || "bg-gray-100 text-gray-600";
                           return (

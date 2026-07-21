@@ -1,73 +1,13 @@
-﻿import React, { useState, useRef, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Calendar, Users, Layers, UploadCloud } from "lucide-react";
+import { Calendar, Users, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModernCandidateList, CandidateItem } from "../shared/ModernCandidateList";
 import { RecruiterScheduleDrawer } from "../recruiter/RecruiterScheduleDrawer";
-import { BulkUploadModal, BulkUploadModalHandle } from "../candidates/BulkUploadModal";
-import { TourStep, useTourStore } from "@/store/tour-store";
+import { TourStep } from "@/store/tour-store";
 import { useScreenTour } from "@/hooks/useScreenTour";
 import { RECRUITER_TOUR_SCREEN_SEQUENCE, HL_TOUR_SCREEN_SEQUENCE } from "@/constants/tourScreens";
-
-function buildRecruiterBulkImportTourSteps(modalRef: React.RefObject<BulkUploadModalHandle>): TourStep[] {
-  return [
-    {
-      variant: 'intro',
-      icon: UploadCloud,
-      screenSequence: RECRUITER_TOUR_SCREEN_SEQUENCE,
-      screenKey: 'bulk-import',
-      title: "Batch source, not one-by-one",
-      description: "Upload a folder of resumes and let the AI match each candidate to the best-fitting open role. This is how you source at scale.",
-    },
-    {
-      variant: 'intro',
-      icon: UploadCloud,
-      screenSequence: RECRUITER_TOUR_SCREEN_SEQUENCE,
-      screenKey: 'bulk-import',
-      title: "Four stages, one review",
-      description: "Upload, parsing, review, done. The AI does the matching — you just confirm or reassign during review.",
-      onEnter: () => modalRef.current?.jumpToStage('upload'),
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-upload-dropzone"]',
-      title: "What you can upload",
-      description: "PDF, DOC, or DOCX, up to 50 at once. No template needed, no job pre-selection — the AI figures out the best match.",
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-parsing-stage"]',
-      title: "Matching in progress",
-      description: "The AI reads each resume and compares it against your open roles — skills, title, experience — to find the best fit.",
-      onEnter: () => modalRef.current?.jumpToStage('parsing'),
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-confidence-badge"]',
-      title: "How sure is the AI?",
-      description: "Higher confidence means a stronger match. Low-confidence candidates are worth a manual review before confirming.",
-      onEnter: () => modalRef.current?.jumpToStage('review'),
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-flag-badge"]',
-      title: "Watch for flags",
-      description: "Incomplete: the resume is missing key fields. Possible duplicate: the email or phone already exists in the system.",
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-row-confirm-skip"]',
-      title: "Your call on each one",
-      description: "Confirm to assign the candidate to the suggested role, skip to send them to the unassigned pool for later. Nothing is auto-committed.",
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-confirm-all-btn"]',
-      title: "Bulk confirm",
-      description: "One click to confirm every candidate the AI is highly confident about. Saves time when the matches look solid.",
-    },
-    {
-      targetSelector: '[data-tour-id="bulk-unassigned-summary"]',
-      title: "Nothing gets lost",
-      description: "Skipped or low-confidence candidates land here — never silently dropped. Come back and assign them later.",
-      onEnter: () => modalRef.current?.jumpToStage('complete'),
-    },
-  ];
-}
 
 function buildCandidateListTourSteps(role: "hiring-lead" | "ta-leader" | "recruiter"): TourStep[] {
   if (role === "recruiter") {
@@ -227,21 +167,13 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
   const [drawerCandidates, setDrawerCandidates] = useState<Array<{ id: string | number; name: string; jobTitle?: string }>>([]);
 
   const isRecruiter = role === "recruiter";
-  const { startTour } = useTourStore();
-  const bulkModalRef = useRef<BulkUploadModalHandle>(null);
+  const navigate = useNavigate();
 
   const candidateListTourSteps = useMemo(() => buildCandidateListTourSteps(role), [role]);
   useScreenTour(role, "candidate-list", candidateListTourSteps);
 
-  const [bulkModalOpen, setBulkModalOpen] = useState(false);
-
   const handleAddCandidate = () => {
-    setBulkModalOpen(true);
-    if (isRecruiter) {
-      startTour('recruiter:bulk-import', buildRecruiterBulkImportTourSteps(bulkModalRef), {
-        storageKey: 'talentou:tour-seen:recruiter:bulk-import',
-      });
-    }
+    navigate('/ta-associate/candidates/bulk-import');
   };
 
   const formattedCandidates = allCandidates.map((c) => ({
@@ -343,14 +275,6 @@ export function CandidatesPage({ role = "hiring-lead" }: CandidatesPageProps = {
         onSelectAll={isRecruiter ? handleSelectAll : undefined}
       />
       </div>
-
-      {isRecruiter && (
-        <BulkUploadModal
-          ref={bulkModalRef}
-          open={bulkModalOpen}
-          onClose={() => setBulkModalOpen(false)}
-        />
-      )}
 
       {isRecruiter && (
         <RecruiterScheduleDrawer

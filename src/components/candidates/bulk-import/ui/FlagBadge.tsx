@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, Copy } from 'lucide-react';
+import { AlertTriangle, Copy, Sparkles } from 'lucide-react';
 import type { Flag } from '../data';
 
 export function FlagBadge({ flag, missingFields }: { flag: Flag; missingFields?: string[] }) {
@@ -9,10 +9,22 @@ export function FlagBadge({ flag, missingFields }: { flag: Flag; missingFields?:
       <span
         data-tour-id="bulk-flag-badge"
         className="inline-flex items-center gap-[3px] rounded-full text-[9px] font-semibold px-[7px] py-[2px]"
-        style={{ background: '#FCEFD7', color: '#7A4F08' }}
+        style={{ background: '#FCEBEB', color: '#A32D2D' }}
       >
         <AlertTriangle className="h-[9px] w-[9px]" />
         Missing: {fields}
+      </span>
+    );
+  }
+  if (flag === 'duplicate') {
+    return (
+      <span
+        data-tour-id="bulk-flag-badge"
+        className="inline-flex items-center gap-[3px] rounded-full text-[9px] font-semibold px-[7px] py-[2px]"
+        style={{ background: '#FCEBEB', color: '#A32D2D' }}
+      >
+        <Copy className="h-[9px] w-[9px]" />
+        Possible duplicate
       </span>
     );
   }
@@ -20,10 +32,10 @@ export function FlagBadge({ flag, missingFields }: { flag: Flag; missingFields?:
     <span
       data-tour-id="bulk-flag-badge"
       className="inline-flex items-center gap-[3px] rounded-full text-[9px] font-semibold px-[7px] py-[2px]"
-      style={{ background: '#FBE0E0', color: '#8E1C1C' }}
+      style={{ background: '#EEEDFE', color: '#3C3489' }}
     >
-      <Copy className="h-[9px] w-[9px]" />
-      Possible duplicate
+      <Sparkles className="h-[9px] w-[9px]" />
+      AI-refined
     </span>
   );
 }

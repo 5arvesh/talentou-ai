@@ -3,9 +3,9 @@ import { Sparkles } from 'lucide-react';
 import type { Tier } from '../data';
 
 const STYLES: Record<Tier, { bg: string; color: string; label: (s: number | null) => string; showSpark: boolean }> = {
-  high: { bg: '#DCEFC8', color: '#1F4A0A', label: (s) => `${s}% match`, showSpark: true },
-  medium: { bg: '#FBEEDA', color: '#9A6A0A', label: (s) => `${s}% match`, showSpark: true },
-  none: { bg: '#ECEAF0', color: '#6B6B6B', label: () => 'Low confidence', showSpark: false },
+  high: { bg: '#E1F5EE', color: '#085041', label: (s) => `${s}% match`, showSpark: true },
+  medium: { bg: '#FAEEDA', color: '#854F0B', label: (s) => `${s}% match`, showSpark: true },
+  none: { bg: 'hsl(var(--surface-1))', color: 'hsl(var(--text-muted))', label: () => 'Low confidence', showSpark: false },
 };
 
 export function ConfidenceBadge({ tier, score }: { tier: Tier; score: number | null }) {

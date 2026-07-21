@@ -16,6 +16,7 @@ import { CreditUsageSettings } from "@/components/settings/CreditUsageSettings";
 import { ReferralsSettings } from "@/components/settings/ReferralsSettings";
 import { InterviewSettings } from "@/components/settings/InterviewSettings";
 import { JobFitScoreSettings } from "@/components/settings/JobFitScoreSettings";
+import { MatchingSettings } from "@/components/settings/MatchingSettings";
 import { EmailTemplatesSettings } from "@/components/settings/EmailTemplatesSettings";
 import { ATSIntegrationSettings } from "@/components/settings/ATSIntegrationSettings";
 import { AuthenticationSettings } from "@/components/settings/AuthenticationSettings";
@@ -154,6 +155,9 @@ const Settings = () => {
   }
   if (currentPath === "/settings/job-fit-score") {
     return <SettingsLayout maxWidth="max-w-3xl"><JobFitScoreSettings /></SettingsLayout>;
+  }
+  if (currentPath === "/settings/matching") {
+    return <SettingsLayout maxWidth="max-w-3xl"><MatchingSettings /></SettingsLayout>;
   }
 
   // Standard-width sub-pages

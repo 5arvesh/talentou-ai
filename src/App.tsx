@@ -76,6 +76,7 @@ import JobListPage_TAAssociate from "./pages/JobListPage_TAAssociate";
 import JDViewPage from "./pages/JDViewPage";
 import TAAssociateJDFlowPage from "./pages/TAAssociateJDFlowPage";
 import CandidatesPageWrapper_TAAssociate from "./pages/CandidatesPageWrapper_TAAssociate";
+import BulkImportPage_TAAssociate from "./pages/BulkImportPage_TAAssociate";
 import ProjectListPage_TALeader from "./pages/ProjectListPage_TALeader";
 import JobListPage_TALeader from "./pages/JobListPage_TALeader";
 import CandidatesPageWrapper_TALeader from "./pages/CandidatesPageWrapper_TALeader";
@@ -161,6 +162,7 @@ const App = () => (
                 <Route path="/ta-associate/jobs/:jobId/pipeline" element={<CandidatePipelinePage />} />
                 <Route path="/ta-associate/jobs/:jobId/dashboard" element={<JobDashboardPage />} />
                 <Route path="/ta-associate/candidates" element={<CandidatesPageWrapper_TAAssociate />} />
+                <Route path="/ta-associate/candidates/bulk-import" element={<BulkImportPage_TAAssociate />} />
                 <Route path="/ta-associate/jd/:jobId" element={<TAAssociateJDFlowPage />} />
                 <Route path="/ta-associate/dashboard" element={
                   <div className="flex h-screen">
@@ -277,6 +279,7 @@ const App = () => (
                 <Route path="/settings/policy" element={<Settings />} />
                 <Route path="/settings/license" element={<Settings />} />
                 <Route path="/settings/job-fit-score" element={<Settings />} />
+                <Route path="/settings/matching" element={<Settings />} />
                 <Route path="/settings/careers" element={<Settings />} />
                 <Route path="/settings/application-form" element={<Settings />} />
                 <Route path="/settings/approval-history" element={<Settings />} />

@@ -14,7 +14,7 @@ export const RECRUITER_TOUR_SCREEN_SEQUENCE: TourScreenSequenceItem[] = [
   { key: "dashboard", label: "Dashboard", path: "/ta-associate/dashboard" },
   { key: "job-list", label: "Job list", path: "/ta-associate/jobs" },
   { key: "candidate-list", label: "Candidates", path: "/ta-associate/candidates" },
-  { key: "bulk-import", label: "Bulk import", path: "/ta-associate/candidates" },
+  { key: "bulk-import", label: "Bulk import", path: "/ta-associate/candidates/bulk-import" },
   { key: "settings", label: "Settings", path: "/settings/profile" },
 ];
 

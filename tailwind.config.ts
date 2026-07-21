@@ -69,6 +69,12 @@ export default {
           DEFAULT: "hsl(var(--surface-inverse))",
           foreground: "hsl(var(--surface-inverse-foreground))",
         },
+        "surface-1": "hsl(var(--surface-1))",
+        "surface-2": "hsl(var(--surface-2))",
+        "text-primary": "hsl(var(--text-primary))",
+        "text-secondary": "hsl(var(--text-secondary))",
+        "text-muted": "hsl(var(--text-muted))",
+        "text-success": "hsl(var(--text-success))",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

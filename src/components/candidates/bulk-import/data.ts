@@ -1,10 +1,13 @@
 import { getInitials } from '@/lib/avatar';
 
-export type Flag = 'incomplete' | 'duplicate';
+export type Flag = 'incomplete' | 'duplicate' | 'ai-refined';
 export type Tier = 'high' | 'medium' | 'none';
 export type RowStatus = 'pending' | 'confirmed' | 'skipped';
+export type SourceChannel = 'LinkedIn' | 'Referral' | 'Job Board' | 'Direct Sourcing';
 
 export const NO_MATCH = 'No clear match (Unassigned)';
+
+export const SOURCE_CHANNELS: SourceChannel[] = ['LinkedIn', 'Referral', 'Job Board', 'Direct Sourcing'];
 
 export const OPEN_POSITIONS: string[] = [
   'Senior React Developer',
@@ -17,12 +20,10 @@ export const OPEN_POSITIONS: string[] = [
   'DevOps Engineer',
 ];
 
-// Configurable cutoff for "high-confidence, eligible for bulk-confirm" (spec §10.1).
-export const HIGH_CONFIDENCE_THRESHOLD = 80;
-
-export function confidenceTier(score: number | null): Tier {
-  if (score === null || score < 50) return 'none';
-  if (score >= HIGH_CONFIDENCE_THRESHOLD) return 'high';
+/** Tiers are driven by the configurable thresholds in matching-settings-store, not a fixed constant. */
+export function confidenceTier(score: number | null, highThreshold: number, lowThreshold: number): Tier {
+  if (score === null || score < lowThreshold) return 'none';
+  if (score >= highThreshold) return 'high';
   return 'medium';
 }
 
@@ -37,6 +38,7 @@ export interface ParsedCandidate {
   score: number | null;
   assignedTitle: string; // editable; NO_MATCH sentinel when no usable position
   status: RowStatus;
+  source: SourceChannel; // captured at import time — batch default, overridable per row
 }
 
 interface PoolEntry {
@@ -55,7 +57,7 @@ const POOL: PoolEntry[] = [
   { fallbackName: 'Anil Verma', summary: 'Backend Engineer · Java, Spring', suggestedTitle: null, score: null, flags: ['incomplete'], missingFields: ['phone', 'experience'] },
   { fallbackName: 'Sneha Kapoor', summary: '5y exp · SQL, Power BI, Python · Hyderabad', suggestedTitle: 'Data Analyst', score: 67, flags: [] },
   { fallbackName: 'Vikram Patel', summary: '6y exp · Python, Django · Remote', suggestedTitle: 'Backend Engineer', score: 84, flags: [] },
-  { fallbackName: 'Deepa Menon', summary: '2y exp · Manual & automation QA · Chennai', suggestedTitle: 'QA Engineer', score: 71, flags: ['duplicate'] },
+  { fallbackName: 'Deepa Menon', summary: '2y exp · Manual & automation QA · Chennai', suggestedTitle: 'QA Engineer', score: 71, flags: ['duplicate', 'ai-refined'] },
   { fallbackName: 'Karan Singh', summary: '8y exp · Product strategy, roadmaps · Bangalore', suggestedTitle: 'Product Manager', score: 90, flags: [] },
   { fallbackName: 'Meera Joshi', summary: 'Mobile dev · React Native', suggestedTitle: null, score: null, flags: ['incomplete'], missingFields: ['email'] },
 ];
@@ -74,7 +76,7 @@ export function prettifyName(filename: string): string {
     .join(' ');
 }
 
-export function buildParsedCandidates(files: File[]): ParsedCandidate[] {
+export function buildParsedCandidates(files: File[], batchSource: SourceChannel = 'LinkedIn'): ParsedCandidate[] {
   return files.map((file, i) => {
     const p = POOL[i % POOL.length];
     const derived = prettifyName(file.name);
@@ -90,6 +92,7 @@ export function buildParsedCandidates(files: File[]): ParsedCandidate[] {
       score: p.score,
       assignedTitle: p.suggestedTitle ?? NO_MATCH,
       status: 'pending',
+      source: batchSource,
     };
   });
 }

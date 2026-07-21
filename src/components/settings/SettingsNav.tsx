@@ -20,7 +20,8 @@ import {
   ClipboardList,
   History,
   BookMarked,
-  IdCard
+  IdCard,
+  SlidersHorizontal
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTourStore } from "@/store/tour-store";
@@ -29,8 +30,8 @@ import { useTourStore } from "@/store/tour-store";
  *  drives a tour-scoped dimming treatment only. Settings nav itself stays fully unfiltered/routable
  *  for everyone at all other times; this never changes actual navigation. */
 const SETTINGS_RELEVANT_PATHS: Record<string, string[]> = {
-  "ta-leader": ["/settings/license", "/settings/playbooks", "/settings/members", "/settings/careers", "/settings/integrations"],
-  "recruiter": ["/settings/profile"],
+  "ta-leader": ["/settings/license", "/settings/playbooks", "/settings/members", "/settings/careers", "/settings/integrations", "/settings/matching"],
+  "recruiter": ["/settings/profile", "/settings/matching"],
   "hiring-lead": ["/settings/profile", "/settings/application-form"],
 };
 
@@ -94,6 +95,11 @@ const navItems = [
     icon: Target,
     label: "Job Fit Score",
     path: "/settings/job-fit-score"
+  },
+  {
+    icon: SlidersHorizontal,
+    label: "Matching",
+    path: "/settings/matching"
   },
   {
     icon: Mail,
